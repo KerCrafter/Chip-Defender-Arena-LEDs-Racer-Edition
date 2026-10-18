@@ -4373,7 +4373,15 @@ function vehPhysics(dt) {
   const cur = MP.veh, v = vehAt(cur.i); if (!v) return;
   const kd = VK[v.k];
   if (cur.seat === 0 && v.k !== "lift") {
-    if (!MP.vpose) { const k0 = slabAt(v.y + 0.05); MP.vpose = { x: v.x, y: slabBase(k0, v.k), z: v.z, w: v.w, lv: k0, tr: null, tun: 0, boost: 0, bcd: 0, hint: null, hintT: 0 }; }
+    // course : à chaque nouvelle manche, retour sur la grille de départ (position de garage du véhicule)
+    const race = gMode() === "race", reset = race && MP.vpose && MP.vposeR !== undefined && MP.vposeR !== MP.G.r;
+    if (reset) MP.vpose = null;
+    if (!MP.vpose) {
+      const grid = race && (reset || MP.G.ph === "freeze") && typeof v.gx === "number", k0 = grid ? 0 : slabAt(v.y + 0.05);
+      MP.vpose = { x: grid ? v.gx : v.x, y: slabBase(k0, v.k), z: grid ? -v.gy : v.z, w: grid ? v.gw : v.w, lv: k0, tr: null, tun: 0, boost: 0, bcd: 0, hint: null, hintT: 0 };
+      if (grid) { yaw = v.gw; MP.lastRc = 0; }
+    }
+    MP.vposeR = MP.G.r;
     const p = MP.vpose;
     let f = (keys.KeyW || keys.ArrowUp ? 1 : 0) - (keys.KeyS || keys.ArrowDown ? 1 : 0) + mv.y, s = (keys.KeyD || keys.ArrowRight ? 1 : 0) - (keys.KeyA || keys.ArrowLeft ? 1 : 0) + mv.x;
     if (MP.frozen) { f = 0; s = 0; }
