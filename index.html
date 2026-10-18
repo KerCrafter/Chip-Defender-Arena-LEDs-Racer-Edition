@@ -2305,8 +2305,9 @@ const addMat = (hex, op) => new THREE.MeshBasicMaterial({ color: hex, transparen
 const gooMat = hex => new THREE.MeshStandardMaterial({ map: FXG.tex, color: new THREE.Color(hex).lerp(new THREE.Color("#ffffff"), 0.35), roughness: 0.2, metalness: 0, emissive: new THREE.Color(hex).multiplyScalar(0.25), transparent: true, opacity: 1 });
 const isGooHex = hex => ["#a8f05a", "#d27bff", TEAMHEX.M].includes(String(hex).toLowerCase()) || hex === TEAMHEX.M;
 // a, b : départ et arrivée ; hex : couleur ; hitId : joueur, bot ou véhicule touché (facultatif) ; mine : c'est mon tir
-function tracer(a, b, hex, hitId, mine, dmg) {
+function tracer(a, b, hex, hitId, mine, dmg, sp) {
   const A = new THREE.Vector3(+a[0], +a[1], +a[2]), B = new THREE.Vector3(+b[0], +b[1], +b[2]);
+  if (sp) blast(B, hex, sp, isGooHex(hex) ? Math.max(0.08, Math.min(0.3, A.distanceTo(B) / 24)) : 0);
   if (hex === "#7dffcf") return beam(A, B, hex, 0.5, null);   // rayon de réparation, plus fin
   if (isGooHex(hex)) return gooShot(A, B, hex, hitId, mine, dmg);
   beam(A, B, hex === TEAMHEX.D ? "#2f9bff" : hex, 1, { hitId, mine, dmg });
@@ -2328,6 +2329,14 @@ function gooShot(A, B, hex, hitId, mine, dmg) {
   const L = A.distanceTo(B), m = new THREE.Mesh(FXG.blob, gooMat(hex));
   m.position.copy(A); m.scale.setScalar(0.065); scene.add(m);
   tracers.push({ k: "goo", objs: [m], m, A, B, hex, hitId, mine, dmg, t: 0, dur: Math.max(0.08, Math.min(0.3, L / 24)), dropT: 0 });
+}
+// onde de choc : sphère et anneau au sol qui s'étendent jusqu'au rayon de la zone (après le vol de la boule)
+function blast(p, hex, sp, delay) {
+  const sh = new THREE.Mesh(FXG.sph, addMat(hex, 0)), ring = new THREE.Mesh(new THREE.RingGeometry(0.8, 1, 40), addMat(hex, 0));
+  ring.material.side = THREE.DoubleSide; ring.rotation.x = -Math.PI / 2;
+  sh.position.copy(p); ring.position.set(p.x, p.y + 0.03, p.z); sh.scale.setScalar(0.01); ring.scale.setScalar(0.01);
+  scene.add(sh, ring);
+  tracers.push({ k: "blast", objs: [sh, ring], sh, ring, sp, life: 0.45 + delay, max: 0.45, delay });
 }
 function drop(p, hex, v, size, life) {
   const m = new THREE.Mesh(FXG.blob, gooMat(hex)); m.position.copy(p); m.scale.setScalar(size); scene.add(m);
@@ -2377,6 +2386,7 @@ function tickTracers(dt) {
       if (t.k === "beam") { t.parts.forEach((m, k) => { m.scale.x = m.scale.z = t.r[k] * (0.35 + 0.65 * f); m.material.opacity = [1, 0.6, 0.22][k] * f; }); t.fl.material.opacity = 0.8 * f; t.im.material.opacity = 0.9 * f; t.im.scale.setScalar(0.09 * t.w * (1 + (1 - f) * 1.5)); }
       else if (t.k === "drop") { t.v.y -= 9 * dt; t.m.position.addScaledVector(t.v, dt); t.m.material.opacity = f; }
       else if (t.k === "splat") { t.m.material.opacity = f; t.m.scale.x = t.m.scale.z = 0.11 + (1 - f) * 0.05; }
+      else if (t.k === "blast") { if (t.life > t.max) { done = false; continue; } const g = 1 - f; t.sh.scale.setScalar(Math.max(0.01, t.sp * (0.25 + 0.75 * g))); t.sh.material.opacity = 0.35 * f; t.ring.scale.setScalar(Math.max(0.01, t.sp * g)); t.ring.material.opacity = 0.75 * f; }
       else if (t.k === "flash") { t.m.scale.setScalar(0.05 + (1 - f) * 0.32); t.m.material.opacity = 0.95 * f; }
       else if (t.k === "shell") { t.m.scale.setScalar(0.3 + (1 - f) * 0.12); t.m.material.opacity = 0.55 * f; }
       else if (t.k === "num") { t.m.position.y += dt * 0.55; t.m.material.opacity = Math.min(1, f * 1.6); }
@@ -2542,7 +2552,8 @@ function fire() {
   NRG.mag--; if (NRG.mag <= 0 && NRG.res > 0) nrgReload();
 }
 // un tir : parois, joueurs, bots et véhicules ; dmg = 0 pour les dégâts normaux
-function shootRay(rng, dmg, col, snd, wallMult, ownVeh) {
+function shootRay(rng, dmg, col, snd, wallMult, ownVeh, gun) {
+  const aimR = gun && gun.aim ? gun.aim : 0.17, sp = gun && gun.sp ? gun.sp : 0;   // canon de véhicule : visée large, dégâts de zone
   const o = camera.position.clone(), d = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
   let from = o, a0 = o.clone().add((MP.team === "M" ? new THREE.Vector3(0.15, -0.2, -0.3) : new THREE.Vector3(0.115, -0.125, -0.3)).applyQuaternion(camera.quaternion));   // bout de l'arme à l'écran
   if (MP.veh && MP.veh.seat === 0) {   // vue de derrière : le tir part du véhicule vers ce que vise la caméra
@@ -2554,7 +2565,7 @@ function shootRay(rng, dmg, col, snd, wallMult, ownVeh) {
   for (const p of MP.peers) {
     if (p.sameTab || !isPlayer(p) || p.presence.team === MP.team || p.presence.al === false) continue;
     const a = MP.avatars.get(p.peer); if (!a || !a.g.visible) continue;
-    for (const hy of [0.16, 0.34]) { const t = raySphere(from, d, a.pos.x, a.pos.y + hy, a.pos.z, 0.17); if (t > 0 && t < tg) { tg = t; hit = p.peer; } }
+    for (const hy of [0.16, 0.34]) { const t = raySphere(from, d, a.pos.x, a.pos.y + hy, a.pos.z, aimR); if (t > 0 && t < tg) { tg = t; hit = p.peer; } }
   }
   for (const v of vehList()) {
     if (!v.a || v.i === ownVeh || !VK[v.k].hp) continue;
@@ -2569,14 +2580,47 @@ function shootRay(rng, dmg, col, snd, wallMult, ownVeh) {
   MP.shot = { n: MP.shotN, a: [r3(a0.x), r3(a0.y), r3(a0.z)], b: [r3(b.x), r3(b.y), r3(b.z)], h: hit, bx, rg: rng };
   if (dmg) MP.shot.dm = dmg;
   if (wallMult !== WALL_MULT[MP.team]) MP.shot.wm = wallMult;
+  if (sp) MP.shot.sp = sp;
   if (bx >= 0) { sparks(b, MP.team === "M" ? "#a8f05a" : "#ffb46a"); if (MP.host && gMode() === "bomb" && wallMult) hostDamage(bx, shotDmg(bx) * wallMult); }
-  tracer(MP.shot.a, MP.shot.b, col, hit, true, dmg || DMG);
+  tracer(MP.shot.a, MP.shot.b, col, hit, true, dmg || DMG, sp);
+  if (sp) splashFeedback(b, sp, dmg || DMG, hit);
   SFX.play(snd, { v: 0.55, wet: 0.12 });
   const me = MP.me ? MP.me.peer : "";
   if (hit && MP.host && hit.startsWith("bot:")) { const vb = botById(hit); if (vb) botDamage(vb, dmg || DMG, me); }
   if (hit && MP.host && hit.startsWith("veh:")) vehDamage(vehAt(+hit.slice(4)), dmg || DMG, me);
+  if (sp && MP.host) splashHost(b, sp, dmg || DMG, MP.team, me, hit, ownVeh);
   if (hit) { SFX.play("hitmark", { v: 0.9, wet: 0.02, at: 0.04 }); $("cross").classList.add("hit"); setTimeout(() => $("cross").classList.remove("hit"), 140); }
   publish(true);
+}
+
+/* ---- dégâts de zone des armes de véhicule ----
+   Plein effet au centre, 30 % au bord ; il faut une ligne libre entre le point d'impact et la cible. */
+const splashMul = (d, sp) => 0.8 - 0.5 * Math.min(1, d / sp);
+const splashSeen = (b, x, y, z) => !acBlocked(b, [x, y, z]);
+function splashHost(b, sp, dm, team, by, skip, ownVeh) {
+  const B = Array.isArray(b) ? b : [b.x, b.y, b.z];
+  for (const vb of MP.bots) {
+    if (!vb.al || vb.t === team || "bot:" + vb.i === skip) continue;
+    const d = Math.hypot(vb.x - B[0], vb.y + 0.25 - B[1], vb.z - B[2]);
+    if (d < sp && splashSeen(B, vb.x, vb.y + 0.25, vb.z)) botDamage(vb, dm * splashMul(d, sp), by);
+  }
+  for (const v of vehList()) {
+    if (!v.a || v.i === ownVeh || !VK[v.k].hp || "veh:" + v.i === skip) continue;
+    const side = vehSide(v); if (side === team || side === "N") continue;
+    const d = Math.max(0, Math.hypot(v.x - B[0], v.y + 0.3 - B[1], v.z - B[2]) - VK[v.k].r);
+    if (d < sp) vehDamage(v, dm * splashMul(d, sp), by);
+  }
+}
+// pour le tireur : marqueur et dégâts estimés sur les adversaires pris dans la zone
+function splashFeedback(b, sp, dm, skip) {
+  let any = false;
+  for (const p of MP.peers) {
+    if (p.sameTab || p.peer === skip || !isPlayer(p) || p.presence.team === MP.team || p.presence.al === false) continue;
+    const a = MP.avatars.get(p.peer); if (!a || !a.g.visible) continue;
+    const d = Math.hypot(a.pos.x - b.x, a.pos.y + 0.25 - b.y, a.pos.z - b.z);
+    if (d < sp && splashSeen([b.x, b.y, b.z], a.pos.x, a.pos.y + 0.25, a.pos.z)) { any = true; dmgNum(new THREE.Vector3(a.pos.x, a.pos.y + 0.62, a.pos.z), dm * splashMul(d, sp)); }
+  }
+  if (any && !skip) hitMark();
 }
 
 /* ---- salle hors claude.ai : version auto-hébergée ----
@@ -2678,7 +2722,7 @@ const AC_LIMIT = 8;
 function acWeapon(pr) {
   if (pr.vh && pr.vh.s === 0 && typeof pr.vh.i === "number") {
     const v = vehAt(pr.vh.i), g = v && VK[v.k] && VK[v.k].gun;
-    if (g) return { dmg: g.dmg, rg: g.range, cd: g.charge ? g.charge : g.rate, wall: g.wall || (g.mag ? 1 : 0) };
+    if (g) return { dmg: g.dmg, rg: g.range, cd: g.charge ? g.charge : g.rate, wall: g.wall || (g.mag ? 1 : 0), sp: g.sp || 0 };
   }
   const short = gMode() === "bomb" || gMode() === "inf";
   return { dmg: DMG, rg: short ? (RANGE_T[pr.team] || RANGE) : RANGE, cd: FIRE_CD, wall: WALL_MULT[pr.team] || 1 };
@@ -2712,6 +2756,7 @@ function acShot(p, s, tgt) {
   if (shotDm(s) > w.dmg + 0.5) return "dmg";
   if (len > w.rg + 0.8) return "rng";
   if (typeof s.wm === "number" && s.wm > w.wall + 0.01) return "wall";
+  if (typeof s.sp === "number" && s.sp > (w.sp || 0) + 0.01) return "dmg";
   const lt = ACH.last.get(p.peer); ACH.last.set(p.peer, now);
   if (lt !== undefined && now - lt < w.cd * 0.45) return "rate";
   if (typeof pr.x === "number" && Math.hypot(a[0] - pr.x, a[1] - (pr.y + 0.3), a[2] - pr.z) > 2.6) return "from";
@@ -2782,7 +2827,7 @@ function acKicked() {
   try { MP.user = await c.use("user"); } catch (e) { MP.user = null; }
   try { const saved = localStorage.getItem("ledsracer-nick"); if (saved) $("nick").value = saved; } catch (e) {}
   if (!$("nick").value && MP.user) { try { const n = await MP.user.name(); if (n) $("nick").value = n.split(" ")[0].slice(0, 16); } catch (e) {} }
-  room.onPeers(ch => { MP.peers = ch.peers.filter(p => p.sameTab || !acBanned(p.peer)); for (const p of ch.left) dropAvatar(p.peer); updateLobby(); },
+  room.onPeers(ch => { MP.peers = ch.peers.filter(p => p.sameTab || !acBanned(p.peer)); try { if (MP.on) MP.peers = MP.peers.concat(botPeers()); } catch (e) {}   /* les bots restent visibles entre deux images */ for (const p of ch.left) dropAvatar(p.peer); updateLobby(); },
     e => { $("mpStatus").textContent = (EN ? "Room unreachable" : "Salle inaccessible"); diagnoseRoom(e && e.code); });
   room.onConnection(ok => { if (MP.room) $("mpStatus").textContent = ok ? (EN ? "Connected to the room" : "Connecté à la salle") : (EN ? "Connecting to the room…" : "Connexion à la salle…"); updateLobby(); });
   $("tM").disabled = $("tD").disabled = false;
@@ -3223,7 +3268,8 @@ function readShots(pl) {
           MP.seenShot[p.peer] = s.n;
           let acv = null;   // anti-triche : le tir n'est vérifié que s'il a un effet, une seule fois
           const acOk = tg => { if (acv === null) { acv = acShot(p, s, tg); if (acv) acFlag(p, acv); } return !acv; };
-          tracer(s.a.map(Number), s.b.map(Number), TEAMHEX[pr.team], typeof s.h === "string" ? s.h : null, false);
+          const ssp = typeof s.sp === "number" ? Math.max(0, Math.min(2.5, s.sp)) : 0;
+          tracer(s.a.map(Number), s.b.map(Number), TEAMHEX[pr.team], typeof s.h === "string" ? s.h : null, false, 0, ssp);
           if (p.peer === SPEC.id) VM.kick();
           if (Number.isInteger(s.bx) && s.bx >= 0 && s.bx < N) {
             const bp = new THREE.Vector3(+s.b[0], +s.b[1], +s.b[2]);
@@ -3242,6 +3288,15 @@ function readShots(pl) {
             if (MP.act) { MP.actT = 0; toast(MP.act.k === "plant" ? (EN ? "Hit: planting interrupted" : "Touché : la pose est interrompue") : (EN ? "Hit: neutralizing interrupted" : "Touché : la neutralisation est interrompue")); }
             if (MP.hp <= 0) die(p.peer);
           }
+          else if (ssp && me && s.h !== me && MP.on && MP.alive && pr.team !== MP.team && pr.al !== false && MP.G.ph !== "freeze") {   // pris dans la zone d'un canon
+            const B = s.b.map(Number), d = Math.hypot(P.x - B[0], P.y + 0.25 - B[1], P.z - B[2]);
+            if (d < ssp && splashSeen(B, P.x, P.y + 0.25, P.z) && acOk(null)) {
+              MP.hp -= shotDm(s) * splashMul(d, ssp) * (gMode() === "inf" && MP.team === "M" ? INF_ARMOR : 1); hurt();
+              if (MP.act) { MP.actT = 0; toast(MP.act.k === "plant" ? (EN ? "Hit: planting interrupted" : "Touché : la pose est interrompue") : (EN ? "Hit: neutralizing interrupted" : "Touché : la neutralisation est interrompue")); }
+              if (MP.hp <= 0) die(p.peer);
+            }
+          }
+          if (ssp && MP.host && !p.bot && pr.al !== false && MP.G.ph !== "freeze" && acOk(null)) splashHost(s.b.map(Number), ssp, shotDm(s), pr.team, p.peer, typeof s.h === "string" ? s.h : null, pr.vh && typeof pr.vh.i === "number" ? pr.vh.i : -1);
         }
       }
     }
@@ -4193,15 +4248,15 @@ function buildLift() {
    et la publie dans l'état de manche. Le pilote conduit depuis sa propre page, pour que la conduite
    reste réactive, et publie la position du véhicule ; l'hôte la recopie. F pour monter ou descendre. */
 const VK = {
-  bus:      { team: "D", seats: 3, hp: 300, spd: 7,   r: 0.32, h: 0.62, encl: [0], gun: { rate: 0.12, dmg: 18, range: 18, mag: 8, reload: 2.5, col: "#38c6f0", snd: "blaster" },
+  bus:      { team: "D", seats: 3, hp: 300, spd: 7,   r: 0.32, h: 0.62, encl: [0], gun: { rate: 0.12, dmg: 18, range: 18, mag: 8, reload: 2.5, col: "#38c6f0", snd: "blaster", aim: 0.32, sp: 0.9 },
               seat: [[0.12, 0.3, 0], [-0.05, 0.42, 0.24], [-0.3, 0.6, 0]] },
   electron: { team: "N", seats: 2, hp: 120, spd: 9,   r: 0.24, h: 0.6,  encl: [], gun: null,
               seat: [[0.02, 0.55, 0], [-0.16, 0.5, 0]] },
-  spore:    { team: "M", seats: 1, hp: 170, spd: 7.5, r: 0.3,  h: 0.5,  encl: [0], gun: { rate: 0.35, dmg: 30, range: 6, wall: 1, col: "#a8f05a", snd: "acid" },
+  spore:    { team: "M", seats: 1, hp: 170, spd: 7.5, r: 0.3,  h: 0.5,  encl: [0], gun: { rate: 0.35, dmg: 30, range: 6, wall: 1, col: "#a8f05a", snd: "acid", aim: 0.35, sp: 1.0 },
               seat: [[0.08, 0.28, 0]] },
-  phage:    { team: "M", seats: 1, hp: 160, spd: 5,   r: 0.24, h: 0.95, encl: [0], fly: true, gun: { rate: 0.6, dmg: 45, range: 5, wall: 2, col: "#d27bff", snd: "acid" },
+  phage:    { team: "M", seats: 1, hp: 160, spd: 5,   r: 0.24, h: 0.95, encl: [0], fly: true, gun: { rate: 0.6, dmg: 45, range: 5, wall: 2, col: "#d27bff", snd: "acid", aim: 0.35, sp: 1.1 },
               seat: [[0, 0.7, 0]] },
-  capa:     { team: "D", seats: 2, hp: 600, spd: 3.2, r: 0.42, h: 0.62, encl: [0], gun: { charge: 1.5, dmg: 110, range: 12, col: "#7fe6ff", snd: "zap" },
+  capa:     { team: "D", seats: 2, hp: 600, spd: 3.2, r: 0.42, h: 0.62, encl: [0], gun: { charge: 1.5, dmg: 110, range: 12, col: "#7fe6ff", snd: "zap", aim: 0.45, sp: 1.8 },
               seat: [[0, 0.3, 0], [-0.04, 0.6, 0]] },
   lift:     { team: "N", seats: 4, hp: 0, spd: 0, r: 0.3, h: 0.5, encl: [], gun: null,
               seat: [[0.18, 0.03, 0], [-0.18, 0.03, 0], [0, 0.03, 0.18], [0, 0.03, -0.18]] },
@@ -4713,7 +4768,7 @@ function vehFire() {
   if (gun.charge) { if (gs.ch < gun.charge) return true; gs.ch = 0; }
   else if (now - gs.last < gun.rate) return true;
   gs.last = now; if (gun.mag) { gs.ammo--; if (gs.ammo <= 0) { gs.rel = now + gun.reload; gs.ammo = gun.mag; } }
-  shootRay(gun.range, gun.dmg, gun.col, gun.snd, gun.wall || (gun.mag ? 1 : 0), cur.i);
+  shootRay(gun.range, gun.dmg, gun.col, gun.snd, gun.wall || (gun.mag ? 1 : 0), cur.i, gun);
   return true;
 }
 function vehTickClient(dt) {
@@ -5554,7 +5609,7 @@ $("qn").textContent = visited.size;
 initLoseSelect();
 applyQuality();
 requestAnimationFrame(frame);
-window.__game = { nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, TRACK, ARCHES, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
+window.__game = { splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, TRACK, ARCHES, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
 })();
 </script>
 
