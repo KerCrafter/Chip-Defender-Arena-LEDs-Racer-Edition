@@ -518,6 +518,19 @@ body.st-watch #gl{filter:grayscale(.3) brightness(.9)}
 .jfx.go{animation:jfxIn 3.2s cubic-bezier(.2,.9,.25,1.1) both}
 @keyframes jfxIn{0%{opacity:0;transform:translateX(-50%) translateY(-18px) scale(.9)}10%{opacity:1;transform:translateX(-50%) scale(1.04)}16%{transform:translateX(-50%) scale(1)}85%{opacity:1;transform:translateX(-50%)}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}
 @media (prefers-reduced-motion:reduce){.jfx.go{animation:none}}
+
+/* marqueur de touche : croix qui claque autour du viseur, rouge et plus grande pour une élimination */
+#hitm{position:fixed;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;pointer-events:none;z-index:6}
+#hitm i{position:absolute;left:50%;top:50%;width:11px;height:3px;background:#fff;box-shadow:0 0 0 1px #000;border-radius:1px}
+#hitm i:nth-child(1){transform:translate(-50%,-50%) rotate(45deg) translateX(-12px)}
+#hitm i:nth-child(2){transform:translate(-50%,-50%) rotate(-45deg) translateX(-12px)}
+#hitm i:nth-child(3){transform:translate(-50%,-50%) rotate(45deg) translateX(12px)}
+#hitm i:nth-child(4){transform:translate(-50%,-50%) rotate(-45deg) translateX(12px)}
+#hitm.kill i{background:#ff3b3b;width:15px;height:4px}
+#hitm.go{animation:hitPop .28s ease-out both}
+#hitm.kill.go{animation:hitPop .5s ease-out both}
+@keyframes hitPop{0%{transform:scale(1.6);opacity:1}35%{transform:scale(1)}100%{transform:scale(1.05);opacity:0}}
+@media (prefers-reduced-motion:reduce){#hitm.go,#hitm.kill.go{animation:none}}
 /* salle privée, dans le panneau « Jouer en ligne » */
 .roomrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#000;padding:10px 12px;font:500 13px var(--f-kmono);color:var(--k-sky)}
 .roomrow b{color:#fff;font-weight:700}
@@ -527,6 +540,7 @@ body.st-watch #gl{filter:grayscale(.3) brightness(.9)}
 
 <canvas id="gl" tabindex="0"></canvas>
 <div id="cross" hidden></div>
+<div id="hitm" hidden><i></i><i></i><i></i><i></i></div>
 
 <div id="hud" class="panel">
   <div class="t">Chip Defender Arena</div>
@@ -2245,15 +2259,104 @@ let beepT = 0;
 
 /* ---- traceurs de tir ---- */
 const tracers = [];
-function tracer(a, b, hex) {
-  const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(a[0], a[1], a[2]), new THREE.Vector3(b[0], b[1], b[2])]);
-  const l = new THREE.Line(g, new THREE.LineBasicMaterial({ color: hex, transparent: true, opacity: 1 }));
-  scene.add(l); tracers.push({ l, life: 0.18 });
+/* ---- projectiles visibles ----
+   Défenseurs : un gros rayon laser bleu (cœur blanc, halo bleu), éclair au départ et à l'arrivée.
+   Microbes : une boule de germes gluante, texturée, qui file vers la cible, laisse des gouttes et s'écrase en éclaboussure.
+   Impact sur un joueur : éclat lumineux, bulle rouge autour de la cible ; pour le tireur, marqueur de touche et dégâts chiffrés. */
+const FXG = (() => {
+  const blob = new THREE.IcosahedronGeometry(1, 2), p = blob.attributes.position, v = new THREE.Vector3();
+  for (let i = 0; i < p.count; i++) { v.fromBufferAttribute(p, i); const n = 1 + 0.22 * Math.sin(v.x * 5.1 + v.y * 3.3) * Math.cos(v.z * 4.7) + 0.1 * Math.sin(v.y * 9 + v.x * 2); v.multiplyScalar(n); p.setXYZ(i, v.x, v.y, v.z); }
+  blob.computeVertexNormals();
+  const c = document.createElement("canvas"); c.width = c.height = 128; const g = c.getContext("2d");
+  g.fillStyle = "#4f7a12"; g.fillRect(0, 0, 128, 128);
+  const R = (() => { let x = 11; return () => (x = (x * 16807) % 2147483647) / 2147483647; })();
+  for (let k = 0; k < 60; k++) { g.fillStyle = ["#9bd42a", "#6b4a1a", "#2f4d08", "#c9e04a", "#7a3f6e", "#a8f05a"][k % 6]; g.globalAlpha = 0.35 + R() * 0.5; g.beginPath(); g.ellipse(R() * 128, R() * 128, 3 + R() * 14, 2 + R() * 9, R() * 3, 0, 7); g.fill(); }
+  g.globalAlpha = 1; for (let k = 0; k < 160; k++) { g.fillStyle = R() < 0.5 ? "#e8ff9a" : "#1d2a05"; g.fillRect(R() * 128, R() * 128, 1.5, 1.5); }
+  const tex = new THREE.CanvasTexture(c); tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  return { cyl: new THREE.CylinderGeometry(1, 0.22, 1, 12, 1, true), sph: new THREE.SphereGeometry(1, 14, 10), blob, tex, up: new THREE.Vector3(0, 1, 0) };
+})();
+const addMat = (hex, op) => new THREE.MeshBasicMaterial({ color: hex, transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false });
+const gooMat = hex => new THREE.MeshStandardMaterial({ map: FXG.tex, color: new THREE.Color(hex).lerp(new THREE.Color("#ffffff"), 0.35), roughness: 0.2, metalness: 0, emissive: new THREE.Color(hex).multiplyScalar(0.25), transparent: true, opacity: 1 });
+const isGooHex = hex => ["#a8f05a", "#d27bff", TEAMHEX.M].includes(String(hex).toLowerCase()) || hex === TEAMHEX.M;
+// a, b : départ et arrivée ; hex : couleur ; hitId : joueur, bot ou véhicule touché (facultatif) ; mine : c'est mon tir
+function tracer(a, b, hex, hitId, mine, dmg) {
+  const A = new THREE.Vector3(+a[0], +a[1], +a[2]), B = new THREE.Vector3(+b[0], +b[1], +b[2]);
+  if (hex === "#7dffcf") return beam(A, B, hex, 0.5, null);   // rayon de réparation, plus fin
+  if (isGooHex(hex)) return gooShot(A, B, hex, hitId, mine, dmg);
+  beam(A, B, hex === TEAMHEX.D ? "#2f9bff" : hex, 1, { hitId, mine, dmg });
+}
+function beam(A, B, hex, w, hit) {
+  const d = B.clone().sub(A), L = d.length(); if (L < 0.02) return;
+  const g = new THREE.Group(); g.position.copy(A).add(B).multiplyScalar(0.5); g.quaternion.setFromUnitVectors(FXG.up, d.normalize());
+  const core = new THREE.Mesh(FXG.cyl, addMat("#ffffff", 1)), glow = new THREE.Mesh(FXG.cyl, addMat(hex, 0.6)), halo = new THREE.Mesh(FXG.cyl, addMat(hex, 0.22));
+  const r = [0.016 * w, 0.05 * w, 0.1 * w];
+  [core, glow, halo].forEach((m, i) => { m.scale.set(r[i], L, r[i]); m.renderOrder = 5; g.add(m); });
+  const fl = new THREE.Mesh(FXG.sph, addMat(hex, 0.8)); fl.position.copy(A); fl.scale.setScalar(0.025 * w);
+  const im = new THREE.Mesh(FXG.sph, addMat("#dff3ff", 0.9)); im.position.copy(B); im.scale.setScalar(0.09 * w);
+  scene.add(g, fl, im);
+  tracers.push({ k: "beam", objs: [g, fl, im], parts: [core, glow, halo], r, fl, im, w, life: 0.24, max: 0.24 });
+  if (hit) impact(B, hex, hit.hitId, hit.mine, hit.dmg);
+}
+function gooShot(A, B, hex, hitId, mine, dmg) {
+  const L0 = A.distanceTo(B); A = A.clone().lerp(B, Math.min(0.35, 0.5 / Math.max(L0, 0.5)));   // la boule part un peu devant l'arme
+  const L = A.distanceTo(B), m = new THREE.Mesh(FXG.blob, gooMat(hex));
+  m.position.copy(A); m.scale.setScalar(0.065); scene.add(m);
+  tracers.push({ k: "goo", objs: [m], m, A, B, hex, hitId, mine, dmg, t: 0, dur: Math.max(0.08, Math.min(0.3, L / 24)), dropT: 0 });
+}
+function drop(p, hex, v, size, life) {
+  const m = new THREE.Mesh(FXG.blob, gooMat(hex)); m.position.copy(p); m.scale.setScalar(size); scene.add(m);
+  tracers.push({ k: "drop", objs: [m], m, v, life, max: life, size });
+}
+function splat(p, hex, big) {
+  for (let k = 0; k < (big ? 14 : 8); k++) drop(p, hex, new THREE.Vector3(Math.random() - 0.5, Math.random() * 0.9, Math.random() - 0.5).multiplyScalar(big ? 3.2 : 2.2), 0.012 + Math.random() * 0.018, 0.5 + Math.random() * 0.3);
+  const m = new THREE.Mesh(FXG.blob, gooMat(hex)); m.position.copy(p); m.scale.set(0.11, 0.03, 0.11); m.rotation.y = Math.random() * 6; scene.add(m);
+  tracers.push({ k: "splat", objs: [m], m, life: 0.9, max: 0.9 });
+}
+// impact sur quelqu'un : éclat, bulle rouge autour de la cible, et pour moi, marqueur et dégâts
+function impact(p, hex, hitId, mine, dmg) {
+  if (!hitId) return;
+  const fl = new THREE.Mesh(FXG.sph, addMat("#ffffff", 0.95)); fl.position.copy(p); fl.scale.setScalar(0.05); scene.add(fl);
+  tracers.push({ k: "flash", objs: [fl], m: fl, life: 0.2, max: 0.2 });
+  sparks(p, hex, 18);
+  const a = MP.avatars.get(hitId);
+  if (a && a.g.visible) {
+    const sh = new THREE.Mesh(FXG.sph, addMat("#ff3040", 0.55)); sh.position.set(a.pos.x, a.pos.y + 0.26, a.pos.z); sh.scale.setScalar(0.3); scene.add(sh);
+    tracers.push({ k: "shell", objs: [sh], m: sh, life: 0.22, max: 0.22 });
+  }
+  if (mine) { hitMark(); dmgNum(a ? new THREE.Vector3(a.pos.x, a.pos.y + 0.62, a.pos.z) : p.clone(), dmg || DMG); }
+}
+function dmgNum(p, n) {
+  const c = document.createElement("canvas"); c.width = 160; c.height = 80; const g = c.getContext("2d");
+  g.font = "900 56px Archivo, Arial, sans-serif"; g.textAlign = "center"; g.lineWidth = 9; g.strokeStyle = "#000"; g.strokeText("-" + Math.round(n), 80, 60); g.fillStyle = "#ffe14a"; g.fillText("-" + Math.round(n), 80, 60);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthTest: false, depthWrite: false, transparent: true }));
+  sp.renderOrder = 30; sp.position.copy(p); sp.position.x += (Math.random() - 0.5) * 0.12; sp.scale.set(0.36, 0.18, 1); scene.add(sp);
+  tracers.push({ k: "num", objs: [sp], m: sp, life: 0.9, max: 0.9 });
+}
+function hitMark(kill) {
+  const el = $("hitm"); el.hidden = false; el.classList.toggle("kill", !!kill); el.classList.remove("go"); void el.offsetWidth; el.classList.add("go");
+  clearTimeout(hitMark.t); hitMark.t = setTimeout(() => el.hidden = true, kill ? 520 : 280);
 }
 function tickTracers(dt) {
+  if (window.__fxFreeze) return;   // captures de test
   for (let i = tracers.length - 1; i >= 0; i--) {
-    const t = tracers[i]; t.life -= dt; t.l.material.opacity = Math.max(0, t.life / 0.18);
-    if (t.life <= 0) { scene.remove(t.l); t.l.geometry.dispose(); t.l.material.dispose(); tracers.splice(i, 1); }
+    const t = tracers[i]; let done = false;
+    if (t.k === "goo") {
+      t.t += dt; const f = Math.min(1, t.t / t.dur);
+      t.m.position.lerpVectors(t.A, t.B, f); t.m.position.y += Math.sin(Math.PI * f) * Math.min(0.25, t.A.distanceTo(t.B) * 0.03);
+      const wob = 1 + 0.25 * Math.sin(t.t * 48); t.m.scale.set(0.065 * wob, 0.065 / wob, 0.065 * (1.25 + 0.2 * Math.cos(t.t * 40))); t.m.rotation.x += dt * 9; t.m.rotation.z += dt * 6;
+      t.dropT -= dt; if (t.dropT <= 0) { t.dropT = 0.025; drop(t.m.position, t.hex, new THREE.Vector3((Math.random() - 0.5) * 0.4, -0.3, (Math.random() - 0.5) * 0.4), 0.012 + Math.random() * 0.01, 0.35); }
+      if (f >= 1) { done = true; splat(t.B, t.hex, !!t.hitId); impact(t.B, t.hex, t.hitId, t.mine, t.dmg); }
+    } else {
+      t.life -= dt; const f = Math.max(0, t.life / t.max);
+      if (t.k === "beam") { t.parts.forEach((m, k) => { m.scale.x = m.scale.z = t.r[k] * (0.35 + 0.65 * f); m.material.opacity = [1, 0.6, 0.22][k] * f; }); t.fl.material.opacity = 0.8 * f; t.im.material.opacity = 0.9 * f; t.im.scale.setScalar(0.09 * t.w * (1 + (1 - f) * 1.5)); }
+      else if (t.k === "drop") { t.v.y -= 9 * dt; t.m.position.addScaledVector(t.v, dt); t.m.material.opacity = f; }
+      else if (t.k === "splat") { t.m.material.opacity = f; t.m.scale.x = t.m.scale.z = 0.11 + (1 - f) * 0.05; }
+      else if (t.k === "flash") { t.m.scale.setScalar(0.05 + (1 - f) * 0.32); t.m.material.opacity = 0.95 * f; }
+      else if (t.k === "shell") { t.m.scale.setScalar(0.3 + (1 - f) * 0.12); t.m.material.opacity = 0.55 * f; }
+      else if (t.k === "num") { t.m.position.y += dt * 0.55; t.m.material.opacity = Math.min(1, f * 1.6); }
+      done = t.life <= 0;
+    }
+    if (done) { for (const o of t.objs) { scene.remove(o); o.traverse(c => { if (c.material) { if (c.material.map && c.material.map !== FXG.tex) c.material.map.dispose(); c.material.dispose(); } }); } tracers.splice(i, 1); }
   }
 }
 
@@ -2411,7 +2514,7 @@ function fire() {
 // un tir : parois, joueurs, bots et véhicules ; dmg = 0 pour les dégâts normaux
 function shootRay(rng, dmg, col, snd, wallMult, ownVeh) {
   const o = camera.position.clone(), d = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
-  let from = o, a0 = o.clone().add(new THREE.Vector3(0.06, -0.08, 0).applyQuaternion(camera.quaternion));
+  let from = o, a0 = o.clone().add((MP.team === "M" ? new THREE.Vector3(0.15, -0.2, -0.3) : new THREE.Vector3(0.115, -0.125, -0.3)).applyQuaternion(camera.quaternion));   // bout de l'arme à l'écran
   if (MP.veh && MP.veh.seat === 0) {   // vue de derrière : le tir part du véhicule vers ce que vise la caméra
     const aim = o.clone().addScaledVector(d, rayBox(o, d, rng + 6).t);
     from = new THREE.Vector3(P.x, P.y + 0.3, P.z); d.copy(aim.sub(from).normalize()); a0 = from.clone();
@@ -2437,7 +2540,7 @@ function shootRay(rng, dmg, col, snd, wallMult, ownVeh) {
   if (dmg) MP.shot.dm = dmg;
   if (wallMult !== WALL_MULT[MP.team]) MP.shot.wm = wallMult;
   if (bx >= 0) { sparks(b, MP.team === "M" ? "#a8f05a" : "#ffb46a"); if (MP.host && gMode() === "bomb" && wallMult) hostDamage(bx, shotDmg(bx) * wallMult); }
-  tracer(MP.shot.a, MP.shot.b, col);
+  tracer(MP.shot.a, MP.shot.b, col, hit, true, dmg || DMG);
   SFX.play(snd, { v: 0.55, wet: 0.12 });
   const me = MP.me ? MP.me.peer : "";
   if (hit && MP.host && hit.startsWith("bot:")) { const vb = botById(hit); if (vb) botDamage(vb, dmg || DMG, me); }
@@ -3089,7 +3192,7 @@ function readShots(pl) {
           MP.seenShot[p.peer] = s.n;
           let acv = null;   // anti-triche : le tir n'est vérifié que s'il a un effet, une seule fois
           const acOk = tg => { if (acv === null) { acv = acShot(p, s, tg); if (acv) acFlag(p, acv); } return !acv; };
-          tracer(s.a.map(Number), s.b.map(Number), TEAMHEX[pr.team]);
+          tracer(s.a.map(Number), s.b.map(Number), TEAMHEX[pr.team], typeof s.h === "string" ? s.h : null, false);
           if (p.peer === SPEC.id) VM.kick();
           if (Number.isInteger(s.bx) && s.bx >= 0 && s.bx < N) {
             const bp = new THREE.Vector3(+s.b[0], +s.b[1], +s.b[2]);
@@ -3168,7 +3271,7 @@ function feed(killer, victim) {
   const meK = killer && killer !== "courant" && MP.me && killer.peer === MP.me.peer, meV = MP.me && victim.peer === MP.me.peer;
   if (killer === "courant") logEvent([{ icon: "volt" }, { t: (EN ? "The current" : "Le courant"), c: "#ffd84a", b: true }, { t: (EN ? " electrocutes " : " électrocute ") }, who(victim)], { me: meV });
   else logEvent([who(killer), { icon: killer && killer.presence.team === "M" ? "acid" : "blaster" }, who(victim)], { me: meK || meV });
-  if (meK) kfx((EN ? `You eliminated ${nameOf(victim)}` : `Tu as éliminé ${nameOf(victim)}`));
+  if (meK) { kfx((EN ? `You eliminated ${nameOf(victim)}` : `Tu as éliminé ${nameOf(victim)}`)); hitMark(true); }
 }
 // petit message sous le viseur quand c'est toi qui élimines
 function kfx(t) { const el = $("kfx"); el.textContent = t; el.hidden = false; el.classList.remove("go"); void el.offsetWidth; el.classList.add("go"); clearTimeout(kfx.t); kfx.t = setTimeout(() => el.hidden = true, 1800); }
@@ -5290,7 +5393,7 @@ $("qn").textContent = visited.size;
 initLoseSelect();
 applyQuality();
 requestAnimationFrame(frame);
-window.__game = { ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, TRACK, ARCHES, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
+window.__game = { fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, TRACK, ARCHES, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
 })();
 </script>
 
