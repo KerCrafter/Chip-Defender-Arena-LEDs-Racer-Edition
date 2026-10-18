@@ -351,8 +351,8 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 #landing h2{font:900 clamp(28px,4.4vw,48px)/1.02 var(--f-brand);text-transform:uppercase;letter-spacing:-.01em;margin:0 0 12px}
 #landing h3{font:900 20px/1.1 var(--f-brand);text-transform:uppercase;margin:0}
 #landing p{margin:0}
-.lp-nav{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:20px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));background:#000;border-bottom:3px solid var(--k-blue)}
-.lp-brand{display:block;background:#fff;padding:5px 9px}.lp-brand img{height:26px;width:auto}
+.lp-nav{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:20px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));background:#000;border-bottom:3px solid var(--k-blue)}
+.lp-brand{display:flex;align-items:center;align-self:stretch;background:var(--k-blue);margin:-10px 0 -10px calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:8px 16px 8px max(16px,env(safe-area-inset-left,0px))}.lp-brand img{height:40px;width:auto}
 .lp-links{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
 .lp-links a{color:#fff;text-decoration:none;font:700 13px var(--f-kmono);text-transform:uppercase;letter-spacing:.06em}
 .lp-links a:hover,.lp-links a:focus-visible{color:var(--k-sky);text-decoration:underline}
@@ -432,6 +432,38 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
   .lp-sec{padding:52px 16px}
 }
 @media (prefers-reduced-motion:reduce){#landing{scroll-behavior:auto}.lp-btn{transition:none}}
+
+/* animations de la page de présentation */
+.lp-hero-bg{animation:lpDrift 26s ease-in-out infinite alternate}
+@keyframes lpDrift{from{transform:scale(1.06) translate(0,0)}to{transform:scale(1.16) translate(-3%,-2%)}}
+.lp-traces{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:.9;-webkit-mask-image:linear-gradient(90deg,transparent 0,transparent 30%,#000 62%);mask-image:linear-gradient(90deg,transparent 0,transparent 30%,#000 62%)}
+@media (max-width:700px){.lp-traces{-webkit-mask-image:linear-gradient(180deg,#000 0,transparent 22%,transparent 80%,#000 100%);mask-image:linear-gradient(180deg,#000 0,transparent 22%,transparent 80%,#000 100%)}}
+.lp-hero-in{z-index:2}
+.lp-logo img{animation:lpLogo .9s cubic-bezier(.2,.9,.25,1.15) both}
+@keyframes lpLogo{from{transform:translateY(18px) scale(.94)}to{transform:none}}
+.lp-edition{animation:lpEd 1.2s .25s ease-out both}
+@keyframes lpEd{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.lp-main{animation:lpPulse 2.4s ease-in-out infinite}
+@keyframes lpPulse{0%,100%{box-shadow:6px 6px 0 #fff}50%{box-shadow:6px 6px 0 #fff,0 0 0 8px rgba(200,223,247,.25)}}
+.lp-main:hover,.lp-main:focus-visible{animation:none}
+.lp-modes article{overflow:hidden;transition:transform .18s ease,box-shadow .18s ease}
+.lp-modes article:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--k-blue)}
+.lp-modes .lp-shot{animation:lpKen 14s ease-in-out infinite alternate;transform-origin:50% 60%}
+.lp-modes article:nth-child(2n) .lp-shot{animation-duration:17s;transform-origin:30% 40%}
+.lp-modes article:nth-child(3n) .lp-shot{animation-duration:12s;transform-origin:70% 50%}
+@keyframes lpKen{from{transform:scale(1)}to{transform:scale(1.12)}}
+.lp-shotw{overflow:hidden;border-bottom:3px solid #fff}
+.lp-shotw .lp-shot{border-bottom:0}
+.lp-3dbox{position:relative;width:100%;aspect-ratio:1}
+.lp-3dbox img{width:100%;height:100%;object-fit:contain}
+.lp-3dbox.live img{visibility:hidden}
+.lp-chars .lp-3dbox{max-width:260px;justify-self:center}
+.lp-vehs article{transition:transform .18s ease}
+.lp-vehs article:hover{transform:translateY(-6px)}
+.lp-3d{position:fixed;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.rv{transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s ease}
+.rv.out{transform:translateY(28px);opacity:.15}
+@media (prefers-reduced-motion:reduce){.lp-hero-bg,.lp-logo img,.lp-edition,.lp-main,.lp-modes .lp-shot{animation:none}.rv,.rv.out{transition:none;transform:none;opacity:1}}
 /* salle privée, dans le panneau « Jouer en ligne » */
 .roomrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#000;padding:10px 12px;font:500 13px var(--f-kmono);color:var(--k-sky)}
 .roomrow b{color:#fff;font-weight:700}
@@ -528,6 +560,7 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 
   <section class="lp-hero" id="lp-top">
     <div class="lp-hero-bg" data-lbg="hero"></div>
+    <canvas class="lp-traces" aria-hidden="true"></canvas>
     <div class="lp-hero-in">
       <p class="lp-kick">KerCrafter Lab Studio présente</p>
       <h1 class="lp-logo"><img data-limg="logo" alt="Chip Defender Arena"></h1>
@@ -543,9 +576,9 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
   </section>
 
   <section class="lp-facts" aria-label="En bref">
-    <div><b>14</b><span>couches, du silicium au met4</span></div>
-    <div><b>6</b><span>modes de jeu en ligne</span></div>
-    <div><b>6</b><span>véhicules nano-capsules</span></div>
+    <div><b data-count="14">14</b><span>couches, du silicium au met4</span></div>
+    <div><b data-count="6">6</b><span>modes de jeu en ligne</span></div>
+    <div><b data-count="6">6</b><span>véhicules nano-capsules</span></div>
     <div><b>0 €</b><span>gratuit, dans le navigateur</span></div>
   </section>
 
@@ -565,17 +598,17 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
   <section class="lp-sec lp-dark" id="lp-roster">
     <h2>Deux camps</h2>
     <div class="lp-chars">
-      <article class="lp-m"><img data-limg="pm" alt="Le Microbe"><div><h3>Microbe</h3><p>Une bactérie à pics, gros yeux et crocs. Elle crache son acide à 2,5 µm et ronge les parois de la puce.</p></div></article>
-      <article class="lp-d"><img data-limg="pd" alt="Le Défenseur"><div><h3>Défenseur</h3><p>Un nanorobot à visière cyan, monté sur deux réacteurs. Son blaster porte à 18 µm, et il répare ce que l'acide abîme.</p></div></article>
+      <article class="lp-m"><div class="lp-3dbox" data-l3d="M"><img data-limg="pm" alt="Le Microbe"></div><div><h3>Microbe</h3><p>Une bactérie à pics, gros yeux et crocs. Elle crache son acide à 2,5 µm et ronge les parois de la puce.</p></div></article>
+      <article class="lp-d"><div class="lp-3dbox" data-l3d="D"><img data-limg="pd" alt="Le Défenseur"></div><div><h3>Défenseur</h3><p>Un nanorobot à visière cyan, monté sur deux réacteurs. Son blaster porte à 18 µm, et il répare ce que l'acide abîme.</p></div></article>
     </div>
     <h2 class="lp-h2b">Six nano-capsules</h2>
     <div class="lp-vehs">
-      <article><img data-limg="bus" alt=""><span class="lp-tD">Défenseurs</span><h3>Navette BUS</h3><p>3 places et une tourelle de 8 tirs.</p></article>
-      <article><img data-limg="capa" alt=""><span class="lp-tD">Défenseurs</span><h3>CAPA</h3><p>Condensateur blindé, tir chargé.</p></article>
-      <article><img data-limg="spore" alt=""><span class="lp-tM">Microbes</span><h3>Spore</h3><p>Planeur à acide, ronge les parois.</p></article>
-      <article><img data-limg="phage" alt=""><span class="lp-tM">Microbes</span><h3>Phage</h3><p>Vole d'une couche à l'autre, tir d'injection.</p></article>
-      <article><img data-limg="electron" alt=""><span class="lp-tN">Tous</span><h3>Électron</h3><p>Le plus rapide, bondit par effet tunnel.</p></article>
-      <article><img data-limg="lift" alt=""><span class="lp-tN">Tous</span><h3>Ascenseur via</h3><p>Monte du silicium jusqu'au met4.</p></article>
+      <article><div class="lp-3dbox" data-l3d="bus"><img data-limg="bus" alt=""></div><span class="lp-tD">Défenseurs</span><h3>Navette BUS</h3><p>3 places et une tourelle de 8 tirs.</p></article>
+      <article><div class="lp-3dbox" data-l3d="capa"><img data-limg="capa" alt=""></div><span class="lp-tD">Défenseurs</span><h3>CAPA</h3><p>Condensateur blindé, tir chargé.</p></article>
+      <article><div class="lp-3dbox" data-l3d="spore"><img data-limg="spore" alt=""></div><span class="lp-tM">Microbes</span><h3>Spore</h3><p>Planeur à acide, ronge les parois.</p></article>
+      <article><div class="lp-3dbox" data-l3d="phage"><img data-limg="phage" alt=""></div><span class="lp-tM">Microbes</span><h3>Phage</h3><p>Vole d'une couche à l'autre, tir d'injection.</p></article>
+      <article><div class="lp-3dbox" data-l3d="electron"><img data-limg="electron" alt=""></div><span class="lp-tN">Tous</span><h3>Électron</h3><p>Le plus rapide, bondit par effet tunnel.</p></article>
+      <article><div class="lp-3dbox" data-l3d="lift"><img data-limg="lift" alt=""></div><span class="lp-tN">Tous</span><h3>Ascenseur via</h3><p>Monte du silicium jusqu'au met4.</p></article>
     </div>
   </section>
 
@@ -1211,7 +1244,53 @@ document.documentElement.lang = LANG;
     L.querySelectorAll("[data-lsrc=kl]").forEach(i => { if (kl) i.src = kl.src; });
     L.querySelectorAll("[data-limg]").forEach(i => { const v = LIMG[i.dataset.limg]; if (v) i.src = v; else i.hidden = true; });
     L.querySelectorAll("[data-lbg]").forEach(d => { const v = LIMG[d.dataset.lbg]; if (v) d.style.backgroundImage = 'url("' + v + '")'; });
-    L.querySelectorAll("[data-lmode]").forEach(a => { const im = document.querySelector('.mcard[data-mode="' + a.dataset.lmode + '"] img'); if (im) { const c = document.createElement("img"); c.className = "lp-shot"; c.src = im.src; c.alt = ""; c.loading = "lazy"; a.prepend(c); } });
+    L.querySelectorAll("[data-lmode]").forEach(a => { const im = document.querySelector('.mcard[data-mode="' + a.dataset.lmode + '"] img'); if (im) { const w = document.createElement("div"), c = document.createElement("img"); w.className = "lp-shotw"; c.className = "lp-shot"; c.src = im.src; c.alt = ""; c.loading = "lazy"; w.appendChild(c); a.prepend(w); } });
+
+    /* animations : signaux qui courent sur des pistes, compteurs, apparition au défilement */
+    const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    (() => {
+      const cv = L.querySelector(".lp-traces"), cx = cv.getContext("2d"), host = cv.parentElement;
+      let W = 0, H = 0, tracks = [], dots = [], raf = 0;
+      const COL = ["#c8dff7", "#8fdc3a", "#38c6f0", "#ffd166", "#ffffff"];
+      function build() {
+        const dpr = Math.min(devicePixelRatio || 1, 2); W = host.clientWidth; H = host.clientHeight;
+        cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        tracks = []; const g = 28, n = Math.round(W * H / 26000);
+        for (let k = 0; k < n; k++) {   // pistes en équerre, comme le routage d'une puce
+          let x = Math.round(Math.random() * W / g) * g, y = Math.round(Math.random() * H / g) * g; const pts = [[x, y]];
+          for (let s = 0; s < 4; s++) { if (s % 2 === 0) x += (Math.random() < 0.5 ? -1 : 1) * g * (2 + Math.floor(Math.random() * 7)); else y += (Math.random() < 0.5 ? -1 : 1) * g * (1 + Math.floor(Math.random() * 4)); pts.push([x, y]); }
+          let len = 0; for (let s = 1; s < pts.length; s++) len += Math.abs(pts[s][0] - pts[s - 1][0]) + Math.abs(pts[s][1] - pts[s - 1][1]);
+          tracks.push({ pts, len });
+        }
+        dots = tracks.map((t, i) => ({ t, d: Math.random() * t.len, v: 40 + Math.random() * 90, c: COL[i % COL.length] }));
+      }
+      const at = (t, d) => { for (let s = 1; s < t.pts.length; s++) { const a = t.pts[s - 1], b = t.pts[s], l = Math.abs(b[0] - a[0]) + Math.abs(b[1] - a[1]); if (d <= l) { const f = l ? d / l : 0; return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]; } d -= l; } return t.pts[t.pts.length - 1]; };
+      function draw(dt) {
+        cx.clearRect(0, 0, W, H);
+        cx.lineWidth = 1.5; cx.strokeStyle = "rgba(200,223,247,.16)";
+        for (const t of tracks) { cx.beginPath(); t.pts.forEach((p, i) => i ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1])); cx.stroke(); for (const p of [t.pts[0], t.pts[t.pts.length - 1]]) { cx.fillStyle = "rgba(200,223,247,.28)"; cx.fillRect(p[0] - 3, p[1] - 3, 6, 6); } }
+        for (const o of dots) {
+          o.d += o.v * dt; if (o.d > o.t.len) o.d -= o.t.len;
+          for (let k = 0; k < 7; k++) { const p = at(o.t, Math.max(0, o.d - k * 5)); cx.globalAlpha = (1 - k / 7) * 0.9; cx.fillStyle = o.c; cx.beginPath(); cx.arc(p[0], p[1], k ? 2.2 : 3.2, 0, 7); cx.fill(); }
+        }
+        cx.globalAlpha = 1;
+      }
+      let last = performance.now();
+      const loop = now => { const dt = Math.min(0.05, (now - last) / 1000); last = now; if (L.hidden) return; if (host.getBoundingClientRect().bottom > 0) draw(dt); raf = requestAnimationFrame(loop); };
+      build(); addEventListener("resize", () => { if (!L.hidden) build(); });
+      if (RM) draw(0); else raf = requestAnimationFrame(loop);
+    })();
+    if (!RM && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return; io.unobserve(e.target);
+        const el = e.target;
+        if (el.dataset.count) { const end = +el.dataset.count, t0 = performance.now(); const step = now => { const f = Math.min(1, (now - t0) / 1100); el.textContent = Math.round(end * (1 - Math.pow(1 - f, 3))); if (f < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+        else { const sib = [...el.parentElement.children].indexOf(el); el.style.transitionDelay = (sib % 6) * 70 + "ms"; el.classList.remove("out"); }
+      }), { rootMargin: "0px 0px -8% 0px", root: L });
+      L.querySelectorAll("[data-count]").forEach(el => io.observe(el));
+      const vh = L.clientHeight;
+      L.querySelectorAll(".lp-modes article, .lp-chars article, .lp-vehs article, .lp-chip > *, .lp-sec h2").forEach(el => { if (el.getBoundingClientRect().top > vh) { el.classList.add("rv", "out"); io.observe(el); } });
+    }
     $("lpRoom").textContent = cdaRoom();
     $("lpInvite").onclick = () => { const u = cdaRoomUrl(cdaRoom()); (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { $("lpInvite").textContent = EN ? "Link copied" : "Lien copié"; }, () => prompt(EN ? "Invite link" : (EN ? "Invite link" : "Lien d'invitation"), u)); };
     $("lpLang").textContent = EN ? "FR" : "EN";
@@ -4511,6 +4590,64 @@ const SHOW = (() => {
       r.render(sc, cam);
     },
   };
+})();
+
+
+/* ---------- page de présentation : les vrais modèles du jeu, en 3D, dans les cartes ---------- */
+(() => {
+  const L = $("landing"); if (!L || L.hidden) return;
+  const boxes = [...L.querySelectorAll("[data-l3d]")].filter(b => b.dataset.l3d !== "lift");   // l'ascenseur, très haut, reste en image if (!boxes.length) return;
+  let r;
+  try { const cv = document.createElement("canvas"); cv.className = "lp-3d"; cv.setAttribute("aria-hidden", "true"); L.appendChild(cv); r = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); } catch (e) { return; }
+  r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.setClearColor(0x000000, 0); r.setScissorTest(true);
+  const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const items = [];
+  for (const el of boxes) {
+    const k = el.dataset.l3d, sc = new THREE.Scene();
+    sc.add(new THREE.HemisphereLight("#ffffff", "#0b3f80", 0.95));
+    const key = new THREE.DirectionalLight("#ffffff", 1.15); key.position.set(1.5, 2, 2); sc.add(key);
+    const rim = new THREE.DirectionalLight("#c8dff7", 0.7); rim.position.set(-2, 1, -2); sc.add(rim);
+    let obj, av = null, va = null;
+    try {
+      if (k === "M" || k === "D") { av = makeAvatar(k); obj = av.g; }
+      else if (VBUILD[k]) { const vb = VBUILD[k](); obj = vb.g; va = vb.anim || []; va.forEach(f => f(0)); }
+    } catch (e) { obj = null; }
+    if (!obj) continue;
+    const pivot = new THREE.Group(); pivot.add(obj); sc.add(pivot);
+    const bb = new THREE.Box3().setFromObject(obj), c = bb.getCenter(new THREE.Vector3()), sz = bb.getSize(new THREE.Vector3());
+    obj.position.sub(c);
+    const rad = Math.max(sz.x, sz.y, sz.z) * 0.62 || 0.5;
+    const cam = new THREE.PerspectiveCamera(30, 1, 0.01, 50);
+    const dist = rad / Math.sin(THREE.MathUtils.degToRad(15)) * (av ? 0.95 : 0.9);
+    cam.position.set(0, rad * 0.35, dist); cam.lookAt(0, av ? -rad * 0.05 : 0, 0);
+    items.push({ el, sc, cam, pivot, av, va, ph: Math.random() * 6, k });
+    el.classList.add("live");
+  }
+  if (!items.length) return;
+  function frame(now) {
+    if (L.hidden) { r.dispose(); r.domElement.remove(); return; }
+    const w = L.clientWidth, h = L.clientHeight, cv = r.domElement;
+    if (cv.width !== Math.floor(w * r.getPixelRatio()) || cv.height !== Math.floor(h * r.getPixelRatio())) r.setSize(w, h, false);
+    r.setScissor(0, 0, w, h); r.clear();
+    const t = RM ? 0 : now / 1000, navB = L.querySelector(".lp-nav").getBoundingClientRect().bottom;
+    for (const it of items) {
+      const b = it.el.getBoundingClientRect();
+      if (b.bottom < navB || b.top > h || b.width < 4) continue;
+      const top = Math.max(b.top, navB), hh = b.bottom - top;
+      it.cam.aspect = b.width / b.height; it.cam.updateProjectionMatrix();
+      const hov = it.el.closest("article") && it.el.closest("article").matches(":hover");
+      it.pivot.rotation.y = it.av ? Math.PI + Math.sin(t * 0.7 + it.ph) * 0.9 : t * (hov ? 1.6 : 0.55) + it.ph;
+      it.pivot.position.y = Math.sin(t * 2.1 + it.ph) * 0.03 * (it.av ? 1 : 2);
+      if (it.va) it.va.forEach(f => f(t));
+      if (it.av) { it.av.anim(t, 0.6 + 0.4 * Math.sin(t + it.ph)); it.av.body.position.y = 0.26 + Math.sin(t * 3 + it.ph) * 0.015; }
+      // découpe sous la barre de navigation : la vue reste celle de la carte entière
+      r.setViewport(b.left, h - b.bottom, b.width, b.height);
+      r.setScissor(b.left, h - b.bottom, b.width, hh);
+      r.render(it.sc, it.cam);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 
 /* ---------- boucle ---------- */
