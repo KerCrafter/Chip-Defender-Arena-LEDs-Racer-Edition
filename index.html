@@ -4845,7 +4845,7 @@ const VM = (() => {
       const dy = camera.rotation.y - lastYaw; lastYaw = camera.rotation.y; sway += (Math.max(-0.08, Math.min(0.08, -Math.atan2(Math.sin(dy), Math.cos(dy)) * 2)) - sway) * Math.min(1, dt * 8);
       kick = Math.max(0, kick - dt * 6);
       const bob = Math.min(1, sp / 5), g = D.visible ? D : M;
-      const gx = D.visible ? 0.17 : 0.2, gy = D.visible ? -0.15 : -0.17, gz = D.visible ? -0.5 : -0.58;
+      const gx = D.visible ? 0.19 : 0.21, gy = D.visible ? -0.215 : -0.29, gz = D.visible ? -0.5 : -0.58;   // collée au bord bas de l'écran
       g.position.set(gx + Math.cos(bobT) * 0.01 * bob + sway * 0.4, gy + Math.abs(Math.sin(bobT)) * 0.012 * bob - kick * 0.01, gz + kick * 0.06);
       g.scale.setScalar(D.visible ? 0.62 : 0.42);
       g.rotation.set(kick * 0.25 + 0.04, 0.12 + sway, sway * 0.6);
