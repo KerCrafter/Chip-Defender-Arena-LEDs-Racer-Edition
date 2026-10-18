@@ -464,6 +464,33 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 .rv{transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s ease}
 .rv.out{transform:translateY(28px);opacity:.15}
 @media (prefers-reduced-motion:reduce){.lp-hero-bg,.lp-logo img,.lp-edition,.lp-main,.lp-modes .lp-shot{animation:none}.rv,.rv.out{transition:none;transform:none;opacity:1}}
+
+/* état du joueur : éliminé (spectateur) et fin de manche, bien distincts du jeu */
+#gl{transition:filter .5s ease}
+body.st-dead #gl{filter:grayscale(.92) brightness(.62) contrast(1.08)}
+body.st-lose #gl{filter:grayscale(.75) brightness(.45) sepia(.35) hue-rotate(-28deg) saturate(1.6)}
+body.st-win #gl{filter:brightness(.55) saturate(1.25)}
+body.st-draw #gl{filter:grayscale(.6) brightness(.5)}
+body.st-dead #cross,body.st-end #cross,body.st-end #banner{display:none!important}
+#deadFx,#endFx{position:fixed;inset:0;z-index:30;pointer-events:none;display:grid;place-items:center}
+#deadFx{background:radial-gradient(ellipse at center,transparent 38%,rgba(110,0,10,.55) 100%);animation:fxIn .35s ease-out both}
+#deadFx .fx-card{display:grid;justify-items:center;gap:6px;transform:translateY(-14vh);text-align:center}
+#deadFx b{font:900 clamp(40px,8vw,88px)/.9 var(--f-brand,Arial);letter-spacing:.04em;text-transform:uppercase;color:#fff;background:#b3121d;padding:6px 22px 10px;box-shadow:8px 8px 0 #000}
+#deadFx span{font:700 clamp(14px,2vw,18px) var(--mono);color:#ffd9d9;background:rgba(0,0,0,.6);padding:4px 10px}
+#deadFx em{font:900 clamp(18px,2.6vw,26px) var(--f-brand,Arial);font-style:normal;color:#fff;background:#000;padding:6px 14px;font-variant-numeric:tabular-nums}
+#deadFx{box-shadow:inset 0 0 0 6px #b3121d}
+#deadFx .fx-bar{margin-top:4px;padding:6px 14px;background:repeating-linear-gradient(-45deg,#b3121d 0 18px,#8a0d16 18px 36px);color:#fff;font:700 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;text-align:center}
+#endFx{animation:fxIn .45s ease-out both}
+#endFx .fx-card{display:grid;justify-items:center;gap:10px;text-align:center;padding:0 16px}
+#endFx small{font:700 13px var(--mono);letter-spacing:.3em;text-transform:uppercase;color:#fff;background:#000;padding:4px 10px}
+#endFx b{font:900 clamp(56px,13vw,150px)/.85 var(--f-brand,Arial);text-transform:uppercase;letter-spacing:.02em;padding:8px 28px 14px;box-shadow:10px 10px 0 #000;color:#000;background:#fff}
+#endFx.win b{background:#7dff9a}
+#endFx.lose b{background:#ff4b55;color:#fff}
+#endFx.draw b{background:#c9d3e2}
+#endFx span{font:600 clamp(14px,1.9vw,18px)/1.5 var(--mono);color:#fff;background:rgba(0,0,0,.7);padding:6px 12px;max-width:min(760px,calc(100vw - 32px))}
+#endFx em{font:700 12px var(--mono);font-style:normal;color:#c9d3e2;letter-spacing:.08em}
+@keyframes fxIn{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#deadFx,#endFx{animation:none}#gl{transition:none}}
 /* salle privée, dans le panneau « Jouer en ligne » */
 .roomrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#000;padding:10px 12px;font:500 13px var(--f-kmono);color:var(--k-sky)}
 .roomrow b{color:#fff;font-weight:700}
@@ -535,6 +562,8 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 <div id="vehHud" class="panel" hidden></div>
 <div id="prompt" class="panel" hidden><span id="promptTxt"></span><div id="prog"><i></i></div></div>
 <div id="banner" class="panel" hidden><span id="banT"></span><span id="banS"></span></div>
+<div id="deadFx" hidden aria-live="polite"><div class="fx-card"><b id="deadT"></b><span id="deadS" hidden></span><em id="deadC"></em><div class="fx-bar" id="deadBar"></div></div></div>
+<div id="endFx" hidden aria-live="polite"><div class="fx-card"><small id="endK"></small><b id="endT"></b><span id="endS"></span><em id="endN"></em></div></div>
 <div id="feed" aria-live="polite"></div>
 <div id="kfx" hidden></div>
 <div id="board" class="panel" hidden></div>
@@ -2752,7 +2781,7 @@ function die(byPeer) {
   MP.hp = 0; MP.kb = { p: byPeer, r: MP.G.r };
   SFX.play("death", { v: 0.8, wet: 0.3 });
   const kp = byPeer !== "courant" && MP.peers.find(p => p.peer === byPeer);
-  banner(byPeer === "courant" ? (EN ? "Electrocuted" : "Électrocuté") : (EN ? "Eliminated" : "Éliminé"), (kp ? (EN ? `by ${nameOf(kp)} · ` : `par ${nameOf(kp)} · `) : "") + (gMode() === "ctf" ? (EN ? `back at your pin in ${CTF_RESPAWN} s` : `retour à ta broche dans ${CTF_RESPAWN} s`) : RESPAWN_T[gMode()] ? (EN ? `back in the game in ${RESPAWN_T[gMode()]} s` : `retour en jeu dans ${RESPAWN_T[gMode()]} s`) : (EN ? "you spectate in flight until the next round" : "tu observes en vol jusqu'à la prochaine manche")), 2.8);
+  MP.death = { t: byPeer === "courant" ? (EN ? "Electrocuted" : "Électrocuté") : (EN ? "Eliminated" : "Éliminé"), by: kp ? nameOf(kp) : "" };
   spectate(); publish(true);
 }
 
@@ -2999,9 +3028,9 @@ function react() {
       const st = G.st || { k: 0, rc: 0, top: "", tn: 0 };
       const topP = st.top && MP.peers.find(p => p.peer === st.top);
       const best = st.tn > 0 ? (EN ? ` · best repairer: ${topP ? nameOf(topP) : "a defender"} (${st.tn})` : ` · meilleur réparateur : ${topP ? nameOf(topP) : "un défenseur"} (${st.tn})`) : "";
-      if (G.mode !== "bomb" && G.mode !== "ctf") banner(!G.win ? (EN ? "Draw" : "Égalité") : won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), whyTxt() + (G.mode === "tdm" ? (EN ? ` — counters ${b4(G.kc.M)} · ${b4(G.kc.D)}` : ` — compteurs ${b4(G.kc.M)} · ${b4(G.kc.D)}`) : G.mode === "dom" ? (EN ? ` — points: Microbes ${G.ds.M} · ${G.ds.D} Defenders` : ` — points : Microbes ${G.ds.M} · ${G.ds.D} Défenseurs`) : ""), ENDT - 1);
-      else if (G.mode === "ctf") { const cp = G.cap || { M: 0, D: 0 }; banner(!G.win ? (EN ? "Draw" : "Égalité") : won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), (EN ? `${whyTxt()} — captures: Microbes ${cp.M} · ${cp.D} Defenders` : `${whyTxt()} — captures : Microbes ${cp.M} · ${cp.D} Défenseurs`), ENDT - 1); }
-      else banner(won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), (EN ? `${whyTxt()} — integrity ${fmtPct(integrity(lastDmgSeen), 3)} · ${st.k} destroyed · ${st.rc} rebuilt${best}` : `${whyTxt()} — intégrité ${fmtPct(integrity(lastDmgSeen), 3)} · ${st.k} détruit${st.k > 1 ? "s" : ""} · ${st.rc} reconstitué${st.rc > 1 ? "s" : ""}${best}`), ENDT - 1);
+      if (G.mode !== "bomb" && G.mode !== "ctf") endScreen(!G.win ? (EN ? "Draw" : "Égalité") : won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), whyTxt() + (G.mode === "tdm" ? (EN ? ` — counters ${b4(G.kc.M)} · ${b4(G.kc.D)}` : ` — compteurs ${b4(G.kc.M)} · ${b4(G.kc.D)}`) : G.mode === "dom" ? (EN ? ` — points: Microbes ${G.ds.M} · ${G.ds.D} Defenders` : ` — points : Microbes ${G.ds.M} · ${G.ds.D} Défenseurs`) : ""), ENDT - 1);
+      else if (G.mode === "ctf") { const cp = G.cap || { M: 0, D: 0 }; endScreen(!G.win ? (EN ? "Draw" : "Égalité") : won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), (EN ? `${whyTxt()} — captures: Microbes ${cp.M} · ${cp.D} Defenders` : `${whyTxt()} — captures : Microbes ${cp.M} · ${cp.D} Défenseurs`), ENDT - 1); }
+      else endScreen(won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), (EN ? `${whyTxt()} — integrity ${fmtPct(integrity(lastDmgSeen), 3)} · ${st.k} destroyed · ${st.rc} rebuilt${best}` : `${whyTxt()} — intégrité ${fmtPct(integrity(lastDmgSeen), 3)} · ${st.k} détruit${st.k > 1 ? "s" : ""} · ${st.rc} reconstitué${st.rc > 1 ? "s" : ""}${best}`), ENDT - 1);
       SFX.play(won ? "win" : "lose", { v: 0.9, wet: 0.35 });
     }
     else if (G.ph === "wait" && prev) toast((EN ? "Waiting for at least one player on each team" : "En attente d'au moins un joueur dans chaque équipe"));
@@ -3134,6 +3163,38 @@ function trackJoins(pl) {
 function banner(t, s, dur) {
   $("banT").textContent = t; $("banS").textContent = s || ""; $("banner").hidden = false;
   clearTimeout(banner.t); banner.t = setTimeout(() => $("banner").hidden = true, dur * 1000);
+}
+
+
+/* ---- écrans d'état : éliminé (spectateur) et fin de manche ---- */
+let endInfo = null;
+function endScreen(t, sub) { endInfo = { t, sub, r: MP.G.r }; }
+function stateFx() {
+  const G = MP.G, inGame = MP.on && (MP.team === "M" || MP.team === "D");
+  const end = inGame && G.ph === "end", dead = inGame && !end && !MP.alive && G.ph !== "wait";
+  const b = document.body;
+  b.classList.toggle("st-dead", dead); b.classList.toggle("st-end", end);
+  const res = end ? (!G.win ? "draw" : G.win === MP.team ? "win" : "lose") : "";
+  for (const k of ["win", "lose", "draw"]) b.classList.toggle("st-" + k, res === k);
+  const dEl = $("deadFx"), eEl = $("endFx");
+  if (dead) {
+    const d = MP.death || { t: (EN ? "Eliminated" : "Éliminé"), by: "" }, mode = gMode(), rsp = mode === "ctf" ? CTF_RESPAWN : RESPAWN_T[mode];
+    $("deadT").textContent = d.t;
+    $("deadS").hidden = !d.by; if (d.by) $("deadS").textContent = (EN ? `by ${d.by}` : `par ${d.by}`);
+    const left = rsp && G.ph === "live" ? Math.max(0, Math.ceil(rsp - (performance.now() - MP.deadAt) / 1000)) : -1;
+    $("deadC").textContent = left >= 0 ? (mode === "ctf" ? (EN ? `Back at your pin in ${left} s` : `Retour à ta broche dans ${left} s`) : (EN ? `Back in the game in ${left} s` : `Retour en jeu dans ${left} s`)) : (EN ? "You return next round" : "Tu reviens à la prochaine manche");
+    $("deadBar").textContent = (EN ? "Spectator mode · free flying camera" : "Mode spectateur · vue libre en vol");
+    dEl.hidden = false;
+  } else dEl.hidden = true;
+  if (end) {
+    const lim = ENDT, left = Math.max(0, Math.ceil(lim - (hostNow() - G.t0) / 1000));
+    eEl.className = res;
+    $("endK").textContent = (EN ? `End of round ${G.r}` : `Fin de la manche ${G.r}`);
+    $("endT").textContent = res === "win" ? (EN ? "Victory" : "Victoire") : res === "lose" ? (EN ? "Defeat" : "Défaite") : (EN ? "Draw" : "Égalité");
+    $("endS").textContent = endInfo && endInfo.r === G.r ? endInfo.sub : whyTxt();
+    $("endN").textContent = (EN ? `Next round in ${left} s` : `Manche suivante dans ${left} s`);
+    eEl.hidden = false;
+  } else eEl.hidden = true;
 }
 
 /* ---- poser / neutraliser ---- */
@@ -4541,6 +4602,7 @@ function mpTick(dt) {
   ctfEvents();
   readShots(pl);
   acMoves(pl); acTick(dt);
+  stateFx();
   updateAvatars(pl, dt);
   actions(dt);
   if (MP.fireHeld) fire();
