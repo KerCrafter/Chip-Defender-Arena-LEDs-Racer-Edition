@@ -157,7 +157,7 @@ body.in-menu #jetBig{visibility:hidden}
 #raceBoard{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 10px);padding:8px 10px 7px;min-width:210px;max-width:min(280px,calc(100vw - 24px));pointer-events:none;font-variant-numeric:tabular-nums;font-size:12px}
 #raceBoard h4{margin:0 0 5px;font:700 11px var(--mono,monospace);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 #raceBoard ol{margin:0;padding:0;list-style:none;display:grid;gap:3px}
-#raceBoard li{display:grid;grid-template-columns:1.6em 12px minmax(0,1fr) auto;align-items:center;gap:6px;padding:2px 4px;border-radius:3px}
+#raceBoard li{display:grid;grid-template-columns:1.6em 12px minmax(0,1fr) auto auto;align-items:center;gap:6px;padding:2px 4px;border-radius:3px}
 #raceBoard li.me{background:rgba(125,255,154,.16);outline:1px solid rgba(125,255,154,.5)}
 #raceBoard .pos{font-weight:700;color:var(--fg)}
 #raceBoard .dot{width:11px;height:11px;border-radius:50%;box-shadow:0 0 0 1.5px rgba(0,0,0,.6)}
@@ -553,6 +553,32 @@ body.st-watch #gl{filter:grayscale(.3) brightness(.9)}
 body.touch #ammo{right:auto;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 6px);min-width:160px;padding:5px 10px 7px}
 body.touch #ammo b{font-size:32px}
 @media (prefers-reduced-motion:reduce){#ammo.rel b{animation:none}}
+
+/* course : choix de couleur, classement aux couleurs des pilotes, podium */
+.raceJoin{display:grid;gap:10px}
+.raceJoin .rj-l{font:700 12px var(--f-kmono);color:var(--k-sky);text-transform:uppercase;letter-spacing:.08em}
+.swatches{display:flex;flex-wrap:wrap;gap:8px}
+.swatches button{width:38px;height:38px;border:3px solid #000;border-radius:0;cursor:pointer;position:relative;padding:0}
+.swatches button[aria-checked="true"]{outline:3px solid #fff;outline-offset:2px}
+.swatches button:disabled{cursor:not-allowed;filter:grayscale(1) brightness(.45)}
+.swatches button:disabled::after{content:"✕";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font:900 16px var(--f-brand)}
+.pnl .team.r{border-left-color:#ffd24a}
+body.race #mpTop .sc,body.race #mpTop .tn{display:none}
+#raceBoard .dot{box-shadow:0 0 0 1px rgba(0,0,0,.6)}
+#raceBoard .lvt{font-size:10px;color:var(--muted);min-width:2.6em;text-align:right}
+body.race #myTeam{visibility:hidden}
+#raceBoard li.done .nm::after{content:" ✔";color:#7dff9a}
+#podium{position:fixed;inset:0;z-index:31;display:grid;grid-template-rows:minmax(0,1fr) auto;background:radial-gradient(ellipse at 50% 35%,#123a6e 0,#071426 70%);animation:fxIn .45s ease-out both}
+#podCv{width:100%;height:100%;display:block;min-height:0}
+#podium .pod-in{display:grid;justify-items:center;gap:8px;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 18px)}
+#podium small{font:700 13px var(--mono);letter-spacing:.3em;text-transform:uppercase;color:#fff;background:#000;padding:4px 10px}
+#podium h2{margin:0;font:900 clamp(30px,5vw,54px)/1 var(--f-brand,Arial);text-transform:uppercase;color:#ffd24a;text-shadow:4px 4px 0 #000}
+#podium ol{list-style:none;margin:0;padding:0;display:grid;gap:4px;width:min(520px,calc(100vw - 32px));max-height:28vh;overflow:auto}
+#podium li{display:grid;grid-template-columns:2.2em 14px 1fr auto;gap:8px;align-items:center;background:rgba(0,0,0,.55);padding:5px 10px;font:600 14px var(--mono);color:#fff;font-variant-numeric:tabular-nums}
+#podium li i{width:12px;height:12px;border-radius:50%}
+#podium li .t{color:#c9d3e2}
+#podium li.me{outline:2px solid #ffd24a}
+#podium em{font:700 12px var(--mono);font-style:normal;color:#c9d3e2;letter-spacing:.08em}
 /* salle privée, dans le panneau « Jouer en ligne » */
 .roomrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#000;padding:10px 12px;font:500 13px var(--f-kmono);color:var(--k-sky)}
 .roomrow b{color:#fff;font-weight:700}
@@ -627,6 +653,7 @@ body.touch #ammo b{font-size:32px}
 <div id="prompt" class="panel" hidden><span id="promptTxt"></span><div id="prog"><i></i></div></div>
 <div id="banner" class="panel" hidden><span id="banT"></span><span id="banS"></span></div>
 <div id="joinFx" class="jfx" hidden aria-live="polite"><small>Nouveau joueur</small><b id="joinN"></b><span id="joinS"></span></div>
+<div id="podium" hidden aria-live="polite"><canvas id="podCv" aria-label="Podium de la course"></canvas><div class="pod-in"><small id="podK"></small><h2 id="podT">Arrivée</h2><ol id="podRest"></ol><em id="podN"></em></div></div>
 <div id="deadFx" hidden aria-live="polite"><div class="fx-card"><b id="deadT"></b><span id="deadS" hidden></span><em id="deadC"></em><div class="fx-bar" id="deadBar"></div></div><div class="fx-watch" id="watch" hidden><small id="watchK"></small><b id="watchN"></b><span id="watchH"></span></div></div>
 <div id="endFx" hidden aria-live="polite"><div class="fx-card"><small id="endK"></small><b id="endT"></b><span id="endS"></span><em id="endN"></em></div></div>
 <div id="feed" aria-live="polite"></div>
@@ -792,6 +819,7 @@ body.touch #ammo b{font-size:32px}
           <button class="team m" id="tM" disabled><b>Microbes</b><small>Attaquants · acide à 2,5 µm</small><em id="nM">personne</em></button>
           <button class="team d" id="tD" disabled><b>Défenseurs</b><small>Protègent et réparent</small><em id="nD">personne</em></button>
         </div>
+        <div class="raceJoin" id="raceJoin" hidden><span class="rj-l">Ta couleur</span><div class="swatches" id="swatches" role="radiogroup" aria-label="Couleur de ton Électron"></div><button class="team r" id="tR" disabled><b>Rejoindre la course</b><small>Un Électron chacun, pas d'équipes</small></button></div>
         <label class="field" for="nick"><span>Pseudo</span><input id="nick" maxlength="16" autocomplete="off" placeholder="ton nom en jeu"></label>
         <div class="field"><span id="gmodeLbl">Mode de jeu</span><select id="gmode" hidden><option value="bomb">Corrosion · sites A et B</option><option value="ctf">Capture de broche · vole le signal adverse</option><option value="tdm">Débordement · compteur 4 bits d'éliminations</option><option value="dom">Bascules D · tiens les registres</option><option value="inf">Contamination · un patient zéro</option><option value="race">Course · des entrées à la sortie</option></select>
           <div class="modes" role="radiogroup" aria-labelledby="gmodeLbl">
@@ -803,6 +831,7 @@ body.touch #ammo b{font-size:32px}
             <button class="mcard" data-mode="race" role="radio" aria-checked="false"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/2wBDAQcICAsJCxULCxUsHRkdLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCz/wAARCADhAWgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD59ooorYgKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoopD0oAM0tbGl6ZZ32jzsoM2pBn8uAXAjOwIG3BSp3854yOlYy9KzjNSbXYpxs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" alt=""><span class="mk">Course</span><b>Course de capsules</b></button>
           </div></div>
         <div class="field" id="botField"><label for="gbots">Bots : compléter chaque équipe jusqu'à</label><div class="row"><select id="gbots"><option value="0">aucun bot</option><option value="1">1 joueur</option><option value="2">2 joueurs</option><option value="3" selected>3 joueurs</option><option value="4">4 joueurs</option><option value="5">5 joueurs</option></select><span id="botNote">un joueur qui arrive prend la place d'un bot</span></div></div>
+        <div class="field" id="bdField"><label for="gbd">Niveau des bots</label><div class="row"><input type="range" id="gbd" min="1" max="5" step="1" value="3"><output id="gbdOut" for="gbd">Normal</output></div></div>
         <div class="field" id="loseField"><label for="lose">Les Microbes gagnent si la puce perd</label><div class="row"><select id="lose"></select><span id="loseNote"></span></div></div>
         <ul class="rules" id="rulesCtf" hidden>
           <li><b class="cM">Microbes</b> : gardent l'<b>entrée VPWR</b>, l'alimentation, sur le flanc gauche de la puce.</li>
@@ -826,9 +855,9 @@ body.touch #ammo b{font-size:32px}
           <li>Les Défenseurs gagnent si l'un d'eux tient 3 minutes ; les Microbes s'ils contaminent toute la puce. Le choix d'équipe est ignoré dans ce mode.</li>
         </ul>
         <ul class="rules" id="rulesRace" hidden>
-          <li>Chaque joueur reçoit un <b>Électron</b> sur la grille de départ, devant les entrées ui_in. Tout le monde part au même signal.</li>
-          <li>Passe les arches dans l'ordre jusqu'à la sortie uo_out[0] : le tracé file au sol, sur les rails du met1 puis sur les rails dorés du met4. On change d'étage uniquement dans les puits (colonnes vertes).</li>
-          <li>Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Le premier à la sortie gagne (4 min max).</li>
+          <li>Pas d'équipes : choisis ta <b>couleur</b> (une couleur prise est grisée) et reçois un <b>Électron</b> sur la grille, devant les entrées ui_in. Tout le monde part au même signal.</li>
+          <li>Passe les arches dans l'ordre jusqu'à la sortie uo_out[0]. Le parcours est tiré au hasard à chaque manche : 2 ou 3 arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage uniquement dans les puits (colonnes vertes).</li>
+          <li>Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Tout le monde va au bout (40 s après le premier arrivé au plus), puis podium.</li>
         </ul>
         <ul class="rules" id="rulesBomb">
           <li><b class="cM">Microbes</b> : déposer la corrosion 6 s sur le site A (racine d'horloge) ou B (pilote de puissance), ou détruire assez de parois.</li>
@@ -853,7 +882,7 @@ body.touch #ammo b{font-size:32px}
         <h3>Véhicules</h3>
         <p>Six nano-capsules attendent dans les garages (sauf en Contamination). Défenseurs : la <b>Navette BUS</b>, 3 places et une tourelle de 8 tirs, et la <b>CAPA</b>, condensateur blindé à tir chargé. Microbes : la <b>Spore</b>, planeur à acide, et le <b>Phage</b>, au tir d'injection. Pour tous : deux <b>Électrons</b> très rapides qui bondissent en avant par effet tunnel (Maj), et l'<b>Ascenseur via</b> qui monte du silicium au met4. Tous les véhicules planent entre deux couches. F pour monter ou descendre, clic gauche pour l'arme du véhicule ; les passagers tirent avec leur arme. Les véhicules changent d'étage uniquement dans les puits, les colonnes vertes : Espace pour monter, C pour descendre. Un véhicule détruit éjecte ses occupants et revient au garage 45 s plus tard.</p>
         <h3>Course</h3>
-        <p>Un Électron chacun, départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Les arches se passent dans l'ordre, au sol puis sur les rails du met1 et du met4. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage.</p>
+        <p>Pas d'équipes : chacun choisit sa couleur et reçoit un Électron. Départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Le parcours change à chaque manche : deux à trois arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage. Tout le monde va au bout, puis podium.</p>
         <h3>Bots</h3>
         <p>S'il manque du monde, l'hôte de la partie complète chaque équipe avec des bots (réglable dans le salon, 3 par défaut). Ils suivent l'objectif du mode, tirent moins vite et moins juste qu'un joueur, et cèdent leur place dès qu'un joueur rejoint leur équipe. On peut donc jouer seul contre des bots.</p>
         <h3>Commandes</h3>
@@ -936,7 +965,7 @@ function cdaRoom() { let r = ""; try { r = new URLSearchParams(location.search).
 function cdaRoomUrl(c) { const u = location.origin + location.pathname; return c && c !== "public" ? u + "?salle=" + encodeURIComponent(c) : u; }
 document.documentElement.lang = LANG;
 (function () {
-  const H = {"html": {"sol": "ground", "substrat": "substrate", "à pied": "on foot", "Bascules trouvées": "Flip-flops found", "Couches": "Layers", "Vol": "Fly", "Carte": "Map", "Joueurs": "Players", "Touche la carte pour t'y téléporter": "Tap the map to teleport there", "Fermer": "Close", "SAUT": "JUMP", "BAS": "DOWN", "TIR": "FIRE", "RÉPARER": "REPAIR", "ÉCHELLE": "LADDER", "RAYON X": "X-RAY", "échauffement": "warm-up", "Intégrité 100 %": "Integrity 100 %", "Défenseurs": "Defenders", "100 PV": "100 HP", "<i><\/i>Rayon X · vias masqués <kbd>V<\/kbd>": "<i><\/i>X-ray · vias hidden <kbd>V<\/kbd>", "présente": "presents", "Une vraie puce. Des dizaines de milliers de parois. Deux camps.": "A real chip. Tens of thousands of walls. Two sides.", "Clique ou appuie sur une touche": "Click or press any key", "Passer": "Skip", "Reprendre": "Resume", "Retour dans la puce": "Back into the chip", "Jouer en ligne": "Play online", "Microbes contre Défenseurs": "Microbes vs Defenders", "Chargement de la puce…": "Loading the chip…", "Comment jouer": "How to play", "Règles et commandes": "Rules and controls", "Personnages": "Characters", "Microbes et Défenseurs": "Microbes and Defenders", "Souris, son, graphismes": "Mouse, sound, graphics", "Crédits": "Credits", "Un jeu produit par": "A game produced by", "← Retour": "← Back", "Connexion à la salle…": "Connecting to the room…", "Attaquants · acide à 2,5 µm": "Attackers · acid at 2.5 µm", "personne": "nobody", "Protègent et réparent": "Protect and repair", "Pseudo": "Nickname", "Mode de jeu": "Game mode", "Corrosion · sites A et B": "Corrosion · sites A and B", "Capture de broche · vole le signal adverse": "Pin Capture · steal the enemy signal", "Débordement · compteur 4 bits d'éliminations": "Overflow · 4-bit elimination counter", "Bascules D · tiens les registres": "D Flip-Flops · hold the registers", "Contamination · un patient zéro": "Contamination · one patient zero", "Les Microbes gagnent si la puce perd": "The Microbes win if the chip loses", "<b class=\"cM\">Microbes<\/b> : gardent l'<b>entrée VPWR<\/b>, l'alimentation, sur le flanc gauche de la puce.": "<b class=\"cM\">Microbes<\/b>: guard the <b>VPWR input<\/b>, the power supply, on the left side of the chip.", "<b class=\"cD\">Défenseurs<\/b> : gardent la <b>sortie uo_out[0]<\/b>, LEDS_LINE, qui pilote les LEDs, sur le bord haut.": "<b class=\"cD\">Defenders<\/b>: guard the <b>uo_out[0] output<\/b>, LEDS_LINE, which drives the LEDs, on the top edge.", "Touche le signal de la broche adverse pour le voler, ramène-le sur ta broche pendant que la tienne est en place : 1 capture. 3 captures gagnent la manche (8 min max).": "Touch the enemy pin's signal to steal it, bring it back to your pin while yours is in place: 1 capture. 3 captures win the round (8 min max).", "Porteur abattu : le signal tombe au sol. Un allié le remet en place en le touchant, sinon il revient seul en 20 s. Pas de jetpack quand on porte le signal ; on réapparaît 5 s après une élimination.": "Carrier down: the signal drops to the ground. A teammate puts it back by touching it, otherwise it returns on its own after 20 s. No jetpack while carrying the signal; you respawn 5 s after being eliminated.", "Match à mort par équipe. Chaque élimination incrémente le <b>compteur 4 bits<\/b> de ton équipe, affiché en binaire.": "Team deathmatch. Each elimination increments your team's <b>4-bit counter<\/b>, shown in binary.", "Le premier compteur qui déborde, de 1111 à 1 0000, soit 16 éliminations, gagne la manche (10 min max).": "The first counter to overflow, from 1111 to 1 0000, that is 16 eliminations, wins the round (10 min max).", "On réapparaît 4 s après une élimination. Le courant compte aussi : un électrocuté donne un point à l'adversaire.": "You respawn 4 s after being eliminated. The current counts too: an electrocuted player gives the enemy a point.", "Trois vraies <b>bascules D<\/b> (dfxtp) de LEDs Racer servent de points à tenir : A, B et C.": "Three real <b>D flip-flops<\/b> (dfxtp) from LEDs Racer are the points to hold: A, B and C.", "À chaque front d'horloge (1 s), si ton équipe est seule dans la zone, la bascule avance d'un cran : au 3<sup>e<\/sup> front, Q prend la valeur de ton équipe.": "On every clock edge (1 s), if your team is alone in the zone, the flip-flop moves one step: on the 3<sup>rd<\/sup> edge, Q takes your team's value.", "Chaque front, chaque bascule tenue rapporte 1 point. 150 points gagnent la manche (8 min max). Réapparition en 4 s.": "On every edge, each flip-flop held scores 1 point. 150 points win the round (8 min max). Respawn in 4 s.", "Tout le monde commence <b class=\"cD\">Défenseur<\/b>, sauf un <b class=\"cM\">patient zéro<\/b> tiré au hasard.": "Everyone starts as a <b class=\"cD\">Defender<\/b>, except one random <b class=\"cM\">patient zero<\/b>.", "Un défenseur éliminé est contaminé : il réapparaît en Microbe 3 s plus tard. Les Microbes sont plus rapides et encaissent deux fois mieux, mais n'ont que leur acide à 2,5 µm.": "An eliminated defender is infected: they respawn as a Microbe 3 s later. Microbes are faster and twice as tough, but only have their acid at 2.5 µm.", "Les Défenseurs gagnent si l'un d'eux tient 3 minutes ; les Microbes s'ils contaminent toute la puce. Le choix d'équipe est ignoré dans ce mode.": "The Defenders win if one of them holds out for 3 minutes; the Microbes if they infect the whole chip. Team choice is ignored in this mode.", "<b class=\"cM\">Microbes<\/b> : déposer la corrosion 6 s sur le site A (racine d'horloge) ou B (pilote de puissance), ou détruire assez de parois.": "<b class=\"cM\">Microbes<\/b>: plant the corrosion for 6 s on site A (clock root) or B (power driver), or destroy enough walls.", "<b class=\"cD\">Défenseurs<\/b> : les éliminer, neutraliser la corrosion en 5 s, réparer la puce au clic droit.": "<b class=\"cD\">Defenders<\/b>: eliminate them, neutralize the corrosion in 5 s, repair the chip with right-click.", "Toutes les 5 à 10 min, la puce est mise sous tension : 15 s d'alerte, puis le métal électrocute pendant 20 s.": "Every 5 to 10 min, the chip is powered on: 15 s of warning, then the metal electrocutes for 20 s.", "Pour jouer à plusieurs, invite tes amis depuis le menu Partager de la page : ils doivent être connectés à claude.ai.": "To play together, invite your friends from the page's Share menu: they must be signed in to claude.ai.", "Tu mesures un demi-micron. Le sol est le silicium, les murets rouges sont les grilles en polysilicium, et au-dessus s'empilent les couches de métal jusqu'aux rails d'alimentation dorés du met4.": "You are half a micron tall. The floor is silicon, the red low walls are polysilicon gates, and above them the metal layers stack up to the golden met4 power rails.", "Explore librement la puce LEDs Racer (<b id=\"sCells\">1 361<\/b> cellules logiques, 161 × 226 µm) et trouve à pied les <b id=\"sDff\">234<\/b> bascules D qui retiennent l'état du jeu.": "Freely explore the LEDs Racer chip (<b id=\"sCells\">1 361<\/b> logic cells, 161 × 226 µm) and find on foot the <b id=\"sDff\">234<\/b> D flip-flops that hold the game state.", "En ligne": "Online", "Les Microbes attaquent la puce, les Défenseurs la protègent. Une manche se gagne en posant ou en neutralisant la corrosion, en éliminant l'équipe adverse, ou, pour les Microbes, en détruisant assez de parois. Les Défenseurs voient à travers les murs où les Microbes attaquent.": "The Microbes attack the chip, the Defenders protect it. A round is won by planting or neutralizing the corrosion, by eliminating the other team, or, for the Microbes, by destroying enough walls. The Defenders see through walls where the Microbes are attacking.", "Capture de broche": "Pin Capture", "Chaque équipe garde une vraie broche de la puce : l'entrée d'alimentation VPWR pour les Microbes, la sortie uo_out[0] (LEDS_LINE) pour les Défenseurs. Vole le signal adverse, ramène-le sur ta broche : trois captures gagnent la manche.": "Each team guards a real pin of the chip: the VPWR power input for the Microbes, the uo_out[0] output (LEDS_LINE) for the Defenders. Steal the enemy signal, bring it back to your pin: three captures win the round.", "Débordement, Bascules D, Contamination": "Overflow, D Flip-Flops, Contamination", "<b>Débordement<\/b> : match à mort par équipe, chaque élimination incrémente un compteur 4 bits ; le premier qui déborde gagne. <b>Bascules D<\/b> : tiens les trois bascules dfxtp de la puce, elles basculent au front d'horloge et rapportent des points. <b>Contamination<\/b> : un patient zéro contamine les défenseurs, qui doivent tenir 3 minutes.": "<b>Overflow<\/b>: team deathmatch, each elimination increments a 4-bit counter; the first one to overflow wins. <b>D Flip-Flops<\/b>: hold the chip's three dfxtp flip-flops, they flip on the clock edge and score points. <b>Contamination<\/b>: a patient zero infects the defenders, who must hold out for 3 minutes.", "Commandes": "Controls", "ZQSD / WASD": "WASD / ZQSD", "se déplacer (Maj pour courir)": "move (Shift to run)", "Souris": "Mouse", "regarder": "look", "Espace": "Space", "sauter, maintenir pour le jetpack": "jump, hold for the jetpack", "Clic gauche": "Left click", "tirer, abîme aussi la puce": "fire, also damages the chip", "Clic droit": "Right click", "réparer ou reconstituer (Défenseurs)": "repair or rebuild (Defenders)", "poser ou neutraliser la corrosion": "plant or neutralize the corrosion", "construire une échelle vers la couche au-dessus": "build a ladder to the layer above", "vision rayon X : masquer ou montrer les vias": "X-ray vision: hide or show the vias", "carte": "map", "vol et couches (solo seulement)": "fly and layers (solo only)", "tableau des joueurs (en ligne)": "player list (online)", "Échap": "Esc", "menu": "menu", "Pouce gauche": "Left thumb", "se déplacer": "move", "Glisser à droite": "Drag on the right", "maintenir pour le jetpack": "hold for the jetpack", "TIR · ACTION": "FIRE · ACTION", "tirer · poser ou neutraliser": "fire · plant or neutralize", "Défenseurs : maintenir sur un élément abîmé": "Defenders: hold on a damaged element", "apparaît près d'une couche plus haute": "appears near a higher layer", "masquer ou montrer les vias": "hide or show the vias", "Aide": "Help", "Défenseur": "Defender", "Une bactérie à pics de 0,5 µm, gros yeux et crocs, avec un sac d'acide qui luit sous le ventre et trois flagelles pour avancer. Elle crache son acide à 2,5 µm : elle doit se coller aux parois pour les ronger.": "A spiky 0.5 µm bacterium with big eyes and fangs, a glowing acid sac under its belly and three flagella to move. It spits acid at 2.5 µm: it has to hug the walls to eat through them.", "Un nanorobot blanc à visière cyan, monté sur deux petits réacteurs. Son blaster porte à 18 µm, son outil de réparation à 4 µm. L'antenne rouge clignote : on le repère de loin.": "A white nanorobot with a cyan visor, riding on two small thrusters. Its blaster reaches 18 µm, its repair tool 4 µm. The red antenna blinks: you can spot it from afar.", "Sensibilité de la visée <output id=\"optSensV\">1,0<\/output>": "Aim sensitivity <output id=\"optSensV\">1,0<\/output>", "Inverser l'axe vertical": "Invert vertical axis", "Volume <output id=\"optVolV\">80 %<\/output>": "Volume <output id=\"optVolV\">80 %<\/output>", "Qualité graphique": "Graphics quality", "Automatique (s'adapte à l'appareil)": "Automatic (adapts to the device)", "Haute": "High", "Basse (téléphones modestes)": "Low (modest phones)", "Style graphique": "Graphics style", "Sombre : ambiance de puce, arêtes adoucies": "Dark: chip mood, softened edges", "Clair : couleurs pastel, ciel bleu": "Light: pastel colors, blue sky", "Technique : arêtes nettes, sans arrondi": "Technical: sharp edges, no rounding", "Jouer l'intro au lancement": "Play the intro at launch", "Conception de la puce": "Chip design", "Fabrication": "Fabrication", "Tiny Tapeout SKY25b · procédé SkyWater SKY130": "Tiny Tapeout SKY25b · SkyWater SKY130 process", "Monde du jeu": "Game world", "Le layout réel de la puce, sur 14 couches du silicium au met4": "The real chip layout, on 14 layers from silicon to met4", "Moteur": "Engine", "three.js, développé avec Claude": "three.js, built with Claude", "Puce LEDs Racer · SKY130 · Tiny Tapeout SKY25b": "LEDs Racer chip · SKY130 · Tiny Tapeout SKY25b", "Bots : compléter chaque équipe jusqu'à": "Bots: fill each team up to", "aucun bot": "no bots", "1 joueur": "1 player", "2 joueurs": "2 players", "3 joueurs": "3 players", "4 joueurs": "4 players", "5 joueurs": "5 players", "un joueur qui arrive prend la place d'un bot": "a player who joins takes a bot's place", "S'il manque du monde, l'hôte de la partie complète chaque équipe avec des bots (réglable dans le salon, 3 par défaut). Ils suivent l'objectif du mode, tirent moins vite et moins juste qu'un joueur, et cèdent leur place dès qu'un joueur rejoint leur équipe. On peut donc jouer seul contre des bots.": "If players are missing, the match host fills each team with bots (set in the lobby, 3 by default). They follow the mode's objective, fire slower and less accurately than a player, and give up their place as soon as a player joins their team. So you can play alone against bots.", "Recherche et destruction": "Search and destroy", "Capture du drapeau": "Capture the flag", "Match à mort par équipe": "Team deathmatch", "Domination": "Domination", "Infection": "Infection", "Débordement": "Overflow", "Bascules D": "D Flip-Flops", "VÉHICULE": "VEHICLE", "Véhicules": "Vehicles", "monter dans un véhicule ou en descendre (en ligne)": "get in or out of a vehicle (online)", "Course · des entrées à la sortie": "Race · from the inputs to the output", "Course": "Race", "Course de capsules": "Capsule race", "Chaque joueur reçoit un <b>Électron<\/b> sur la grille de départ, devant les entrées ui_in. Tout le monde part au même signal.": "Each player gets an <b>Electron<\/b> on the starting grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0] : le tracé file au sol, sur les rails du met1 puis sur les rails dorés du met4. On change d'étage uniquement dans les puits (colonnes vertes).": "Pass the arches in order up to the uo_out[0] output: the track runs along the ground, on the met1 rails then on the golden met4 rails. You change level only in the shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Le premier à la sortie gagne (4 min max).": "Outside a shaft, if you leave the metal you fall to the level below and carry on from there. No shooting during the race. First to the output wins (4 min max).", "Un Électron chacun, départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Les arches se passent dans l'ordre, au sol puis sur les rails du met1 et du met4. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage.": "One Electron each, a mass start in front of the ui_in inputs, finish at the uo_out[0] output. Arches are passed in order, on the ground then on the met1 and met4 rails. You change level in the shafts; leaving the metal drops you one level.", "Six nano-capsules attendent dans les garages (sauf en Contamination). Défenseurs : la <b>Navette BUS<\/b>, 3 places et une tourelle de 8 tirs, et la <b>CAPA<\/b>, condensateur blindé à tir chargé. Microbes : la <b>Spore<\/b>, planeur à acide, et le <b>Phage<\/b>, au tir d'injection. Pour tous : deux <b>Électrons<\/b> très rapides qui bondissent en avant par effet tunnel (Maj), et l'<b>Ascenseur via<\/b> qui monte du silicium au met4. Tous les véhicules planent entre deux couches. F pour monter ou descendre, clic gauche pour l'arme du véhicule ; les passagers tirent avec leur arme. Les véhicules changent d'étage uniquement dans les puits, les colonnes vertes : Espace pour monter, C pour descendre. Un véhicule détruit éjecte ses occupants et revient au garage 45 s plus tard.": "Six nano-capsules wait in the garages (except in Contamination). Defenders: the <b>BUS Shuttle<\/b>, 3 seats and an 8-shot turret, and the <b>CAPA<\/b>, an armored capacitor with a charged shot. Microbes: the <b>Spore<\/b>, an acid glider, and the <b>Phage<\/b>, with its injection shot. For everyone: two very fast <b>Electrons<\/b> that leap forward by tunnel effect (Shift), and the <b>Via Lift<\/b> that rises from silicon to met4. All vehicles hover between two layers. F to get in or out, left click for the vehicle's weapon; passengers fire their own weapon. Vehicles change level only in the shafts, the green columns: Space to go up, C to go down. A destroyed vehicle throws out its occupants and returns to the garage 45 s later.", "Plein écran en jouant": "Fullscreen when playing", "La puce": "The chip", "KerCrafter Lab Studio présente": "KerCrafter Lab Studio presents", "Un FPS multijoueur dans le layout réel d'une puce Tiny Tapeout.": "A multiplayer FPS inside the real layout of a Tiny Tapeout chip.", "Lancer en plein écran": "Play fullscreen", "Jouer dans la fenêtre": "Play in the window", "Salle": "Room", "Copier le lien d'invitation": "Copy invite link", "couches, du silicium au met4": "layers, from silicon to met4", "modes de jeu en ligne": "online game modes", "véhicules nano-capsules": "nano-capsule vehicles", "gratuit, dans le navigateur": "free, in your browser", "Six modes de jeu": "Six game modes", "Les grands classiques du FPS, revus à l'échelle du demi-micron et de l'électronique numérique.": "The great FPS classics, rebuilt at half-micron scale and around digital electronics.", "Corrosion": "Corrosion", "Les Microbes posent la corrosion sur un site, les Défenseurs la neutralisent. Chaque paroi détruite le reste.": "Microbes plant corrosion on a site, Defenders neutralise it. Every wall destroyed stays destroyed.", "Vole le signal sur la broche adverse, VPWR ou uo_out[0], et ramène-le sur la tienne.": "Steal the signal from the enemy pin, VPWR or uo_out[0], and bring it back to yours.", "Chaque élimination incrémente un compteur 4 bits. Le premier qui déborde gagne.": "Every kill increments a 4-bit counter. First to overflow wins.", "Tiens les trois bascules dfxtp de la puce. Elles ne changent de camp qu'au front d'horloge.": "Hold the chip's three dfxtp flip-flops. They only change sides on the clock edge.", "Contamination": "Contamination", "Un patient zéro, et des Défenseurs de moins en moins nombreux. Tiens jusqu'au bout du chrono.": "One patient zero, and fewer and fewer Defenders. Hold out until the clock runs down.", "Des entrées ui_in à la sortie uo_out[0], arche par arche, d'un étage de métal à l'autre.": "From the ui_in inputs to the uo_out[0] output, arch by arch, from one metal deck to the next.", "Deux camps": "Two sides", "Une bactérie à pics, gros yeux et crocs. Elle crache son acide à 2,5 µm et ronge les parois de la puce.": "A spiky bacterium with big eyes and fangs. It spits acid at 2.5 µm and eats through the chip walls.", "Un nanorobot à visière cyan, monté sur deux réacteurs. Son blaster porte à 18 µm, et il répare ce que l'acide abîme.": "A cyan-visored nanorobot on two small thrusters. Its blaster reaches 18 µm, and it repairs what the acid damages.", "Six nano-capsules": "Six nano-capsules", "Navette BUS": "BUS shuttle", "3 places et une tourelle de 8 tirs.": "3 seats and an 8-shot turret.", "Condensateur blindé, tir chargé.": "Armoured capacitor, charged shot.", "Planeur à acide, ronge les parois.": "Acid glider, eats through walls.", "Vole d'une couche à l'autre, tir d'injection.": "Flies between layers, injection shot.", "Tous": "Everyone", "Électron": "Electron", "Le plus rapide, bondit par effet tunnel.": "The fastest, leaps ahead by tunnelling.", "Ascenseur via": "Via lift", "Monte du silicium jusqu'au met4.": "Rises from silicon up to met4.", "Une vraie puce": "A real chip", "Tu mesures un demi-micron. Bonne visite.": "You are half a micron tall. Enjoy the tour.", "se déplacer, Maj pour courir": "move, Shift to run", "viser, clic gauche pour tirer": "aim, left click to shoot", "sauter, jetpack": "jump, jetpack", "monter dans un véhicule": "get in a vehicle", "tableau des joueurs": "scoreboard", "menu et sortie du plein écran": "menu and exit fullscreen", "Prêt à rétrécir ?": "Ready to shrink?", "Un jeu KerCrafter Lab · développé avec Claude": "A KerCrafter Lab game · built with Claude", "Code source sur GitHub": "Source code on GitHub", "Nouvelle salle privée": "New private room", "Rejoindre": "Join", "Microbes contre Défenseurs, six modes de jeu, des nano-capsules à piloter. Directement dans le navigateur, sans installation, sans compte.": "Microbes vs Defenders, six game modes, nano-capsules to pilot. Right in your browser: no install, no account.", "Le terrain de jeu, c'est le dessin réel de la puce LEDs Racer, conçue par Clément Kerneur et fabriquée sur la navette Tiny Tapeout SKY25b, en procédé SkyWater SKY130.": "The playing field is the real layout of the LEDs Racer chip, designed by Clément Kerneur and fabricated on the Tiny Tapeout SKY25b shuttle, in the SkyWater SKY130 process.", "Chaque muret, chaque rail doré, chaque via est un vrai rectangle du layout : le polysilicium des grilles, les couches de métal li1 à met4, les rails d'alimentation VPWR et VGND, les bascules D qui retiennent l'état du jeu.": "Every low wall, every golden rail, every via is a real rectangle from the layout: polysilicon gates, metal layers li1 to met4, the VPWR and VGND power rails, the D flip-flops that hold the game state.", "Vision rayon X activée": "X-ray vision on", "Les vias, les petits piliers qui relient deux couches de métal, deviennent invisibles.": "Vias, the small pillars linking two metal layers, become invisible.", "Ils ne bloquent plus ni tes déplacements ni tes tirs. Les couches de métal, elles, restent solides.": "They no longer block your movement or your shots. The metal layers stay solid.", "Touche <kbd>V<\/kbd> (bouton RAYON X sur mobile) pour réafficher les vias à tout moment.": "Press <kbd>V<\/kbd> (X-RAY button on mobile) to show the vias again at any time.", "Appuie sur une touche ou clique pour continuer": "Press any key or click to continue", "Ce réglage est permanent : tu n'as rien à faire.": "This setting is permanent: there is nothing to do.", "vision rayon X : masquer ou montrer les vias (solo seulement, toujours active en ligne)": "X-ray vision: hide or show the vias (solo only, always on online)", "Nouveau joueur": "New player", "recharger l'arme ; la réserve d'énergie se refait aux condensateurs de découplage (colonnes jaunes)": "reload your weapon; the energy reserve refills at decoupling capacitors (yellow columns)"}, "attr": {"Carte (M)": "Map (M)", "Part de la casse tolérée déjà atteinte": "Share of the tolerated damage already reached", "Introduction": "Introduction", "Menu": "Menu", "ton nom en jeu": "your in-game name", "Le Microbe et le Défenseur en 3D, qui tournent sur leur socle": "The Microbe and the Defender in 3D, spinning on their stands", "Menu principal": "Main menu", "Haut de page": "Top of page", "Sections": "Sections", "Changer de langue": "Change language", "En bref": "At a glance", "Code de salle": "Room code", "Le Microbe": "The Microbe", "Le Défenseur": "The Defender"}};
+  const H = {"html": {"sol": "ground", "substrat": "substrate", "à pied": "on foot", "Bascules trouvées": "Flip-flops found", "Couches": "Layers", "Vol": "Fly", "Carte": "Map", "Joueurs": "Players", "Touche la carte pour t'y téléporter": "Tap the map to teleport there", "Fermer": "Close", "SAUT": "JUMP", "BAS": "DOWN", "TIR": "FIRE", "RÉPARER": "REPAIR", "ÉCHELLE": "LADDER", "RAYON X": "X-RAY", "échauffement": "warm-up", "Intégrité 100 %": "Integrity 100 %", "Défenseurs": "Defenders", "100 PV": "100 HP", "<i><\/i>Rayon X · vias masqués <kbd>V<\/kbd>": "<i><\/i>X-ray · vias hidden <kbd>V<\/kbd>", "présente": "presents", "Une vraie puce. Des dizaines de milliers de parois. Deux camps.": "A real chip. Tens of thousands of walls. Two sides.", "Clique ou appuie sur une touche": "Click or press any key", "Passer": "Skip", "Reprendre": "Resume", "Retour dans la puce": "Back into the chip", "Jouer en ligne": "Play online", "Microbes contre Défenseurs": "Microbes vs Defenders", "Chargement de la puce…": "Loading the chip…", "Comment jouer": "How to play", "Règles et commandes": "Rules and controls", "Personnages": "Characters", "Microbes et Défenseurs": "Microbes and Defenders", "Souris, son, graphismes": "Mouse, sound, graphics", "Crédits": "Credits", "Un jeu produit par": "A game produced by", "← Retour": "← Back", "Connexion à la salle…": "Connecting to the room…", "Attaquants · acide à 2,5 µm": "Attackers · acid at 2.5 µm", "personne": "nobody", "Protègent et réparent": "Protect and repair", "Pseudo": "Nickname", "Mode de jeu": "Game mode", "Corrosion · sites A et B": "Corrosion · sites A and B", "Capture de broche · vole le signal adverse": "Pin Capture · steal the enemy signal", "Débordement · compteur 4 bits d'éliminations": "Overflow · 4-bit elimination counter", "Bascules D · tiens les registres": "D Flip-Flops · hold the registers", "Contamination · un patient zéro": "Contamination · one patient zero", "Les Microbes gagnent si la puce perd": "The Microbes win if the chip loses", "<b class=\"cM\">Microbes<\/b> : gardent l'<b>entrée VPWR<\/b>, l'alimentation, sur le flanc gauche de la puce.": "<b class=\"cM\">Microbes<\/b>: guard the <b>VPWR input<\/b>, the power supply, on the left side of the chip.", "<b class=\"cD\">Défenseurs<\/b> : gardent la <b>sortie uo_out[0]<\/b>, LEDS_LINE, qui pilote les LEDs, sur le bord haut.": "<b class=\"cD\">Defenders<\/b>: guard the <b>uo_out[0] output<\/b>, LEDS_LINE, which drives the LEDs, on the top edge.", "Touche le signal de la broche adverse pour le voler, ramène-le sur ta broche pendant que la tienne est en place : 1 capture. 3 captures gagnent la manche (8 min max).": "Touch the enemy pin's signal to steal it, bring it back to your pin while yours is in place: 1 capture. 3 captures win the round (8 min max).", "Porteur abattu : le signal tombe au sol. Un allié le remet en place en le touchant, sinon il revient seul en 20 s. Pas de jetpack quand on porte le signal ; on réapparaît 5 s après une élimination.": "Carrier down: the signal drops to the ground. A teammate puts it back by touching it, otherwise it returns on its own after 20 s. No jetpack while carrying the signal; you respawn 5 s after being eliminated.", "Match à mort par équipe. Chaque élimination incrémente le <b>compteur 4 bits<\/b> de ton équipe, affiché en binaire.": "Team deathmatch. Each elimination increments your team's <b>4-bit counter<\/b>, shown in binary.", "Le premier compteur qui déborde, de 1111 à 1 0000, soit 16 éliminations, gagne la manche (10 min max).": "The first counter to overflow, from 1111 to 1 0000, that is 16 eliminations, wins the round (10 min max).", "On réapparaît 4 s après une élimination. Le courant compte aussi : un électrocuté donne un point à l'adversaire.": "You respawn 4 s after being eliminated. The current counts too: an electrocuted player gives the enemy a point.", "Trois vraies <b>bascules D<\/b> (dfxtp) de LEDs Racer servent de points à tenir : A, B et C.": "Three real <b>D flip-flops<\/b> (dfxtp) from LEDs Racer are the points to hold: A, B and C.", "À chaque front d'horloge (1 s), si ton équipe est seule dans la zone, la bascule avance d'un cran : au 3<sup>e<\/sup> front, Q prend la valeur de ton équipe.": "On every clock edge (1 s), if your team is alone in the zone, the flip-flop moves one step: on the 3<sup>rd<\/sup> edge, Q takes your team's value.", "Chaque front, chaque bascule tenue rapporte 1 point. 150 points gagnent la manche (8 min max). Réapparition en 4 s.": "On every edge, each flip-flop held scores 1 point. 150 points win the round (8 min max). Respawn in 4 s.", "Tout le monde commence <b class=\"cD\">Défenseur<\/b>, sauf un <b class=\"cM\">patient zéro<\/b> tiré au hasard.": "Everyone starts as a <b class=\"cD\">Defender<\/b>, except one random <b class=\"cM\">patient zero<\/b>.", "Un défenseur éliminé est contaminé : il réapparaît en Microbe 3 s plus tard. Les Microbes sont plus rapides et encaissent deux fois mieux, mais n'ont que leur acide à 2,5 µm.": "An eliminated defender is infected: they respawn as a Microbe 3 s later. Microbes are faster and twice as tough, but only have their acid at 2.5 µm.", "Les Défenseurs gagnent si l'un d'eux tient 3 minutes ; les Microbes s'ils contaminent toute la puce. Le choix d'équipe est ignoré dans ce mode.": "The Defenders win if one of them holds out for 3 minutes; the Microbes if they infect the whole chip. Team choice is ignored in this mode.", "<b class=\"cM\">Microbes<\/b> : déposer la corrosion 6 s sur le site A (racine d'horloge) ou B (pilote de puissance), ou détruire assez de parois.": "<b class=\"cM\">Microbes<\/b>: plant the corrosion for 6 s on site A (clock root) or B (power driver), or destroy enough walls.", "<b class=\"cD\">Défenseurs<\/b> : les éliminer, neutraliser la corrosion en 5 s, réparer la puce au clic droit.": "<b class=\"cD\">Defenders<\/b>: eliminate them, neutralize the corrosion in 5 s, repair the chip with right-click.", "Toutes les 5 à 10 min, la puce est mise sous tension : 15 s d'alerte, puis le métal électrocute pendant 20 s.": "Every 5 to 10 min, the chip is powered on: 15 s of warning, then the metal electrocutes for 20 s.", "Pour jouer à plusieurs, invite tes amis depuis le menu Partager de la page : ils doivent être connectés à claude.ai.": "To play together, invite your friends from the page's Share menu: they must be signed in to claude.ai.", "Tu mesures un demi-micron. Le sol est le silicium, les murets rouges sont les grilles en polysilicium, et au-dessus s'empilent les couches de métal jusqu'aux rails d'alimentation dorés du met4.": "You are half a micron tall. The floor is silicon, the red low walls are polysilicon gates, and above them the metal layers stack up to the golden met4 power rails.", "Explore librement la puce LEDs Racer (<b id=\"sCells\">1 361<\/b> cellules logiques, 161 × 226 µm) et trouve à pied les <b id=\"sDff\">234<\/b> bascules D qui retiennent l'état du jeu.": "Freely explore the LEDs Racer chip (<b id=\"sCells\">1 361<\/b> logic cells, 161 × 226 µm) and find on foot the <b id=\"sDff\">234<\/b> D flip-flops that hold the game state.", "En ligne": "Online", "Les Microbes attaquent la puce, les Défenseurs la protègent. Une manche se gagne en posant ou en neutralisant la corrosion, en éliminant l'équipe adverse, ou, pour les Microbes, en détruisant assez de parois. Les Défenseurs voient à travers les murs où les Microbes attaquent.": "The Microbes attack the chip, the Defenders protect it. A round is won by planting or neutralizing the corrosion, by eliminating the other team, or, for the Microbes, by destroying enough walls. The Defenders see through walls where the Microbes are attacking.", "Capture de broche": "Pin Capture", "Chaque équipe garde une vraie broche de la puce : l'entrée d'alimentation VPWR pour les Microbes, la sortie uo_out[0] (LEDS_LINE) pour les Défenseurs. Vole le signal adverse, ramène-le sur ta broche : trois captures gagnent la manche.": "Each team guards a real pin of the chip: the VPWR power input for the Microbes, the uo_out[0] output (LEDS_LINE) for the Defenders. Steal the enemy signal, bring it back to your pin: three captures win the round.", "Débordement, Bascules D, Contamination": "Overflow, D Flip-Flops, Contamination", "<b>Débordement<\/b> : match à mort par équipe, chaque élimination incrémente un compteur 4 bits ; le premier qui déborde gagne. <b>Bascules D<\/b> : tiens les trois bascules dfxtp de la puce, elles basculent au front d'horloge et rapportent des points. <b>Contamination<\/b> : un patient zéro contamine les défenseurs, qui doivent tenir 3 minutes.": "<b>Overflow<\/b>: team deathmatch, each elimination increments a 4-bit counter; the first one to overflow wins. <b>D Flip-Flops<\/b>: hold the chip's three dfxtp flip-flops, they flip on the clock edge and score points. <b>Contamination<\/b>: a patient zero infects the defenders, who must hold out for 3 minutes.", "Commandes": "Controls", "ZQSD / WASD": "WASD / ZQSD", "se déplacer (Maj pour courir)": "move (Shift to run)", "Souris": "Mouse", "regarder": "look", "Espace": "Space", "sauter, maintenir pour le jetpack": "jump, hold for the jetpack", "Clic gauche": "Left click", "tirer, abîme aussi la puce": "fire, also damages the chip", "Clic droit": "Right click", "réparer ou reconstituer (Défenseurs)": "repair or rebuild (Defenders)", "poser ou neutraliser la corrosion": "plant or neutralize the corrosion", "construire une échelle vers la couche au-dessus": "build a ladder to the layer above", "vision rayon X : masquer ou montrer les vias": "X-ray vision: hide or show the vias", "carte": "map", "vol et couches (solo seulement)": "fly and layers (solo only)", "tableau des joueurs (en ligne)": "player list (online)", "Échap": "Esc", "menu": "menu", "Pouce gauche": "Left thumb", "se déplacer": "move", "Glisser à droite": "Drag on the right", "maintenir pour le jetpack": "hold for the jetpack", "TIR · ACTION": "FIRE · ACTION", "tirer · poser ou neutraliser": "fire · plant or neutralize", "Défenseurs : maintenir sur un élément abîmé": "Defenders: hold on a damaged element", "apparaît près d'une couche plus haute": "appears near a higher layer", "masquer ou montrer les vias": "hide or show the vias", "Aide": "Help", "Défenseur": "Defender", "Une bactérie à pics de 0,5 µm, gros yeux et crocs, avec un sac d'acide qui luit sous le ventre et trois flagelles pour avancer. Elle crache son acide à 2,5 µm : elle doit se coller aux parois pour les ronger.": "A spiky 0.5 µm bacterium with big eyes and fangs, a glowing acid sac under its belly and three flagella to move. It spits acid at 2.5 µm: it has to hug the walls to eat through them.", "Un nanorobot blanc à visière cyan, monté sur deux petits réacteurs. Son blaster porte à 18 µm, son outil de réparation à 4 µm. L'antenne rouge clignote : on le repère de loin.": "A white nanorobot with a cyan visor, riding on two small thrusters. Its blaster reaches 18 µm, its repair tool 4 µm. The red antenna blinks: you can spot it from afar.", "Sensibilité de la visée <output id=\"optSensV\">1,0<\/output>": "Aim sensitivity <output id=\"optSensV\">1,0<\/output>", "Inverser l'axe vertical": "Invert vertical axis", "Volume <output id=\"optVolV\">80 %<\/output>": "Volume <output id=\"optVolV\">80 %<\/output>", "Qualité graphique": "Graphics quality", "Automatique (s'adapte à l'appareil)": "Automatic (adapts to the device)", "Haute": "High", "Basse (téléphones modestes)": "Low (modest phones)", "Style graphique": "Graphics style", "Sombre : ambiance de puce, arêtes adoucies": "Dark: chip mood, softened edges", "Clair : couleurs pastel, ciel bleu": "Light: pastel colors, blue sky", "Technique : arêtes nettes, sans arrondi": "Technical: sharp edges, no rounding", "Jouer l'intro au lancement": "Play the intro at launch", "Conception de la puce": "Chip design", "Fabrication": "Fabrication", "Tiny Tapeout SKY25b · procédé SkyWater SKY130": "Tiny Tapeout SKY25b · SkyWater SKY130 process", "Monde du jeu": "Game world", "Le layout réel de la puce, sur 14 couches du silicium au met4": "The real chip layout, on 14 layers from silicon to met4", "Moteur": "Engine", "three.js, développé avec Claude": "three.js, built with Claude", "Puce LEDs Racer · SKY130 · Tiny Tapeout SKY25b": "LEDs Racer chip · SKY130 · Tiny Tapeout SKY25b", "Bots : compléter chaque équipe jusqu'à": "Bots: fill each team up to", "aucun bot": "no bots", "1 joueur": "1 player", "2 joueurs": "2 players", "3 joueurs": "3 players", "4 joueurs": "4 players", "5 joueurs": "5 players", "un joueur qui arrive prend la place d'un bot": "a player who joins takes a bot's place", "S'il manque du monde, l'hôte de la partie complète chaque équipe avec des bots (réglable dans le salon, 3 par défaut). Ils suivent l'objectif du mode, tirent moins vite et moins juste qu'un joueur, et cèdent leur place dès qu'un joueur rejoint leur équipe. On peut donc jouer seul contre des bots.": "If players are missing, the match host fills each team with bots (set in the lobby, 3 by default). They follow the mode's objective, fire slower and less accurately than a player, and give up their place as soon as a player joins their team. So you can play alone against bots.", "Recherche et destruction": "Search and destroy", "Capture du drapeau": "Capture the flag", "Match à mort par équipe": "Team deathmatch", "Domination": "Domination", "Infection": "Infection", "Débordement": "Overflow", "Bascules D": "D Flip-Flops", "VÉHICULE": "VEHICLE", "Véhicules": "Vehicles", "monter dans un véhicule ou en descendre (en ligne)": "get in or out of a vehicle (online)", "Course · des entrées à la sortie": "Race · from the inputs to the output", "Course": "Race", "Course de capsules": "Capsule race", "Chaque joueur reçoit un <b>Électron<\/b> sur la grille de départ, devant les entrées ui_in. Tout le monde part au même signal.": "Each player gets an <b>Electron<\/b> on the starting grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0] : le tracé file au sol, sur les rails du met1 puis sur les rails dorés du met4. On change d'étage uniquement dans les puits (colonnes vertes).": "Pass the arches in order up to the uo_out[0] output: the track runs along the ground, on the met1 rails then on the golden met4 rails. You change level only in the shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Le premier à la sortie gagne (4 min max).": "Outside a shaft, if you leave the metal you fall to the level below and carry on from there. No shooting during the race. First to the output wins (4 min max).", "Un Électron chacun, départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Les arches se passent dans l'ordre, au sol puis sur les rails du met1 et du met4. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage.": "One Electron each, a mass start in front of the ui_in inputs, finish at the uo_out[0] output. Arches are passed in order, on the ground then on the met1 and met4 rails. You change level in the shafts; leaving the metal drops you one level.", "Six nano-capsules attendent dans les garages (sauf en Contamination). Défenseurs : la <b>Navette BUS<\/b>, 3 places et une tourelle de 8 tirs, et la <b>CAPA<\/b>, condensateur blindé à tir chargé. Microbes : la <b>Spore<\/b>, planeur à acide, et le <b>Phage<\/b>, au tir d'injection. Pour tous : deux <b>Électrons<\/b> très rapides qui bondissent en avant par effet tunnel (Maj), et l'<b>Ascenseur via<\/b> qui monte du silicium au met4. Tous les véhicules planent entre deux couches. F pour monter ou descendre, clic gauche pour l'arme du véhicule ; les passagers tirent avec leur arme. Les véhicules changent d'étage uniquement dans les puits, les colonnes vertes : Espace pour monter, C pour descendre. Un véhicule détruit éjecte ses occupants et revient au garage 45 s plus tard.": "Six nano-capsules wait in the garages (except in Contamination). Defenders: the <b>BUS Shuttle<\/b>, 3 seats and an 8-shot turret, and the <b>CAPA<\/b>, an armored capacitor with a charged shot. Microbes: the <b>Spore<\/b>, an acid glider, and the <b>Phage<\/b>, with its injection shot. For everyone: two very fast <b>Electrons<\/b> that leap forward by tunnel effect (Shift), and the <b>Via Lift<\/b> that rises from silicon to met4. All vehicles hover between two layers. F to get in or out, left click for the vehicle's weapon; passengers fire their own weapon. Vehicles change level only in the shafts, the green columns: Space to go up, C to go down. A destroyed vehicle throws out its occupants and returns to the garage 45 s later.", "Plein écran en jouant": "Fullscreen when playing", "La puce": "The chip", "KerCrafter Lab Studio présente": "KerCrafter Lab Studio presents", "Un FPS multijoueur dans le layout réel d'une puce Tiny Tapeout.": "A multiplayer FPS inside the real layout of a Tiny Tapeout chip.", "Lancer en plein écran": "Play fullscreen", "Jouer dans la fenêtre": "Play in the window", "Salle": "Room", "Copier le lien d'invitation": "Copy invite link", "couches, du silicium au met4": "layers, from silicon to met4", "modes de jeu en ligne": "online game modes", "véhicules nano-capsules": "nano-capsule vehicles", "gratuit, dans le navigateur": "free, in your browser", "Six modes de jeu": "Six game modes", "Les grands classiques du FPS, revus à l'échelle du demi-micron et de l'électronique numérique.": "The great FPS classics, rebuilt at half-micron scale and around digital electronics.", "Corrosion": "Corrosion", "Les Microbes posent la corrosion sur un site, les Défenseurs la neutralisent. Chaque paroi détruite le reste.": "Microbes plant corrosion on a site, Defenders neutralise it. Every wall destroyed stays destroyed.", "Vole le signal sur la broche adverse, VPWR ou uo_out[0], et ramène-le sur la tienne.": "Steal the signal from the enemy pin, VPWR or uo_out[0], and bring it back to yours.", "Chaque élimination incrémente un compteur 4 bits. Le premier qui déborde gagne.": "Every kill increments a 4-bit counter. First to overflow wins.", "Tiens les trois bascules dfxtp de la puce. Elles ne changent de camp qu'au front d'horloge.": "Hold the chip's three dfxtp flip-flops. They only change sides on the clock edge.", "Contamination": "Contamination", "Un patient zéro, et des Défenseurs de moins en moins nombreux. Tiens jusqu'au bout du chrono.": "One patient zero, and fewer and fewer Defenders. Hold out until the clock runs down.", "Des entrées ui_in à la sortie uo_out[0], arche par arche, d'un étage de métal à l'autre.": "From the ui_in inputs to the uo_out[0] output, arch by arch, from one metal deck to the next.", "Deux camps": "Two sides", "Une bactérie à pics, gros yeux et crocs. Elle crache son acide à 2,5 µm et ronge les parois de la puce.": "A spiky bacterium with big eyes and fangs. It spits acid at 2.5 µm and eats through the chip walls.", "Un nanorobot à visière cyan, monté sur deux réacteurs. Son blaster porte à 18 µm, et il répare ce que l'acide abîme.": "A cyan-visored nanorobot on two small thrusters. Its blaster reaches 18 µm, and it repairs what the acid damages.", "Six nano-capsules": "Six nano-capsules", "Navette BUS": "BUS shuttle", "3 places et une tourelle de 8 tirs.": "3 seats and an 8-shot turret.", "Condensateur blindé, tir chargé.": "Armoured capacitor, charged shot.", "Planeur à acide, ronge les parois.": "Acid glider, eats through walls.", "Vole d'une couche à l'autre, tir d'injection.": "Flies between layers, injection shot.", "Tous": "Everyone", "Électron": "Electron", "Le plus rapide, bondit par effet tunnel.": "The fastest, leaps ahead by tunnelling.", "Ascenseur via": "Via lift", "Monte du silicium jusqu'au met4.": "Rises from silicon up to met4.", "Une vraie puce": "A real chip", "Tu mesures un demi-micron. Bonne visite.": "You are half a micron tall. Enjoy the tour.", "se déplacer, Maj pour courir": "move, Shift to run", "viser, clic gauche pour tirer": "aim, left click to shoot", "sauter, jetpack": "jump, jetpack", "monter dans un véhicule": "get in a vehicle", "tableau des joueurs": "scoreboard", "menu et sortie du plein écran": "menu and exit fullscreen", "Prêt à rétrécir ?": "Ready to shrink?", "Un jeu KerCrafter Lab · développé avec Claude": "A KerCrafter Lab game · built with Claude", "Code source sur GitHub": "Source code on GitHub", "Nouvelle salle privée": "New private room", "Rejoindre": "Join", "Microbes contre Défenseurs, six modes de jeu, des nano-capsules à piloter. Directement dans le navigateur, sans installation, sans compte.": "Microbes vs Defenders, six game modes, nano-capsules to pilot. Right in your browser: no install, no account.", "Le terrain de jeu, c'est le dessin réel de la puce LEDs Racer, conçue par Clément Kerneur et fabriquée sur la navette Tiny Tapeout SKY25b, en procédé SkyWater SKY130.": "The playing field is the real layout of the LEDs Racer chip, designed by Clément Kerneur and fabricated on the Tiny Tapeout SKY25b shuttle, in the SkyWater SKY130 process.", "Chaque muret, chaque rail doré, chaque via est un vrai rectangle du layout : le polysilicium des grilles, les couches de métal li1 à met4, les rails d'alimentation VPWR et VGND, les bascules D qui retiennent l'état du jeu.": "Every low wall, every golden rail, every via is a real rectangle from the layout: polysilicon gates, metal layers li1 to met4, the VPWR and VGND power rails, the D flip-flops that hold the game state.", "Vision rayon X activée": "X-ray vision on", "Les vias, les petits piliers qui relient deux couches de métal, deviennent invisibles.": "Vias, the small pillars linking two metal layers, become invisible.", "Ils ne bloquent plus ni tes déplacements ni tes tirs. Les couches de métal, elles, restent solides.": "They no longer block your movement or your shots. The metal layers stay solid.", "Touche <kbd>V<\/kbd> (bouton RAYON X sur mobile) pour réafficher les vias à tout moment.": "Press <kbd>V<\/kbd> (X-RAY button on mobile) to show the vias again at any time.", "Appuie sur une touche ou clique pour continuer": "Press any key or click to continue", "Ce réglage est permanent : tu n'as rien à faire.": "This setting is permanent: there is nothing to do.", "vision rayon X : masquer ou montrer les vias (solo seulement, toujours active en ligne)": "X-ray vision: hide or show the vias (solo only, always on online)", "Nouveau joueur": "New player", "recharger l'arme ; la réserve d'énergie se refait aux condensateurs de découplage (colonnes jaunes)": "reload your weapon; the energy reserve refills at decoupling capacitors (yellow columns)", "Niveau des bots": "Bot level", "Ta couleur": "Your colour", "Rejoindre la course": "Join the race", "Un Électron chacun, pas d'équipes": "One Electron each, no teams", "Arrivée": "Finish", "Pas d'équipes : chacun choisit sa couleur et reçoit un Électron. Départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Le parcours change à chaque manche : deux à trois arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage. Tout le monde va au bout, puis podium.": "No teams: everyone picks a colour and gets an Electron. Grouped start in front of the ui_in inputs, finish at the uo_out[0] output. The track changes every round: two to three arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts; leaving the metal drops you one deck. Everyone gets to finish, then the podium.", "Pas d'équipes : choisis ta <b>couleur<\/b> (une couleur prise est grisée) et reçois un <b>Électron<\/b> sur la grille, devant les entrées ui_in. Tout le monde part au même signal.": "No teams: pick your <b>colour<\/b> (a taken colour is greyed out) and get an <b>Electron<\/b> on the grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0]. Le parcours est tiré au hasard à chaque manche : 2 ou 3 arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage uniquement dans les puits (colonnes vertes).": "Go through the arches in order to the uo_out[0] output. The track is drawn at random each round: 2 or 3 arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Tout le monde va au bout (40 s après le premier arrivé au plus), puis podium.": "Outside a shaft, if you leave the metal you drop to the deck below and carry on from there. No shooting during the race. Everyone gets to finish (at most 40 s after the first finisher), then the podium."}, "attr": {"Carte (M)": "Map (M)", "Part de la casse tolérée déjà atteinte": "Share of the tolerated damage already reached", "Introduction": "Introduction", "Menu": "Menu", "ton nom en jeu": "your in-game name", "Le Microbe et le Défenseur en 3D, qui tournent sur leur socle": "The Microbe and the Defender in 3D, spinning on their stands", "Menu principal": "Main menu", "Haut de page": "Top of page", "Sections": "Sections", "Changer de langue": "Change language", "En bref": "At a glance", "Code de salle": "Room code", "Le Microbe": "The Microbe", "Le Défenseur": "The Defender", "Couleur de ton Électron": "Your Electron colour", "Podium de la course": "Race podium"}};
   const sel = document.getElementById("optLang");
   if (sel) { sel.value = LANG; sel.addEventListener("change", () => { try { localStorage.setItem("cda-lang", sel.value); } catch (e) {} location.reload(); }); }
   if (!EN) return;
@@ -2027,7 +2056,8 @@ const SITES = [
   { id: "A", name: (EN ? "Clock root" : "Racine d'horloge"), sub: "clkbuf_16", x: 84.6, y: 118.3 - OY },
   { id: "B", name: (EN ? "Power driver" : "Pilote de puissance"), sub: "bufinv_16", x: 33.6, y: 96.6 - OY },
 ];
-const SITE_R = 3.2, PLANT_T = 6, DEFUSE_T = 5, FREEZE = 6, LIVE = 105, FUSE = 40, ENDT = 7;
+const SITE_R = 3.2, PLANT_T = 6, DEFUSE_T = 5, FREEZE = 6, LIVE = 105, FUSE = 40, ENDT = 7, RACE_END = 16, RACE_GRACE = 40;
+const endDur = () => MP.G && MP.G.mode === "race" ? RACE_END : ENDT;   // en course : le temps du podium
 const DMG = 34, FIRE_CD = 0.28, RANGE = 18, PLANT_MAXY = 2.5;
 // armes : les Microbes crachent de l'acide à courte portée et abîment moins les parois
 const RANGE_T = { M: 2.5, D: 18 }, WALL_MULT = { M: 0.6, D: 1 };
@@ -2830,7 +2860,7 @@ function acKicked() {
   room.onPeers(ch => { MP.peers = ch.peers.filter(p => p.sameTab || !acBanned(p.peer)); try { if (MP.on) MP.peers = MP.peers.concat(botPeers()); } catch (e) {}   /* les bots restent visibles entre deux images */ for (const p of ch.left) dropAvatar(p.peer); updateLobby(); },
     e => { $("mpStatus").textContent = (EN ? "Room unreachable" : "Salle inaccessible"); diagnoseRoom(e && e.code); });
   room.onConnection(ok => { if (MP.room) $("mpStatus").textContent = ok ? (EN ? "Connected to the room" : "Connecté à la salle") : (EN ? "Connecting to the room…" : "Connexion à la salle…"); updateLobby(); });
-  $("tM").disabled = $("tD").disabled = false;
+  $("tM").disabled = $("tD").disabled = $("tR").disabled = false;
   updateLobby();
 })();
 /* ---- pourquoi la salle ne répond pas : explication claire + bouton d'autorisation ---- */
@@ -2940,7 +2970,9 @@ function cfgTick() {
   const first = !MP.lastCfgAt; MP.lastCfgAt = c.at;
   const modeChanged = MP.lastMode && MP.lastMode !== c.mode; MP.lastMode = c.mode;
   const botsChanged = MP.lastBots !== undefined && MP.lastBots !== c.bots; MP.lastBots = c.bots;
-  $("lose").value = c.lose; $("gmode").value = c.mode; $("gbots").value = vBots(c.bots); applyModeUI(c.mode);
+  const bdChanged = MP.lastBd !== undefined && MP.lastBd !== vBd(c.bd); MP.lastBd = vBd(c.bd);
+  $("lose").value = c.lose; $("gmode").value = c.mode; $("gbots").value = vBots(c.bots); $("gbd").value = vBd(c.bd); $("gbdOut").textContent = BD_NAMES[vBd(c.bd)]; applyModeUI(c.mode);
+  if (bdChanged && !botsChanged && !modeChanged && !first && !(MP.cfg && MP.cfg.at === c.at)) { const who = MP.peers.find(p => p.peer === c.by); toast((EN ? `${who ? nameOf(who) : "A player"} set the bot level: ${BD_NAMES[vBd(c.bd)]}` : `${who ? nameOf(who) : "Un joueur"} a réglé le niveau des bots : ${BD_NAMES[vBd(c.bd)]}`)); return; }
   if (!first && !(MP.cfg && MP.cfg.at === c.at)) {
     const who = MP.peers.find(p => p.peer === c.by), nm = who ? nameOf(who) : (EN ? "A player" : "Un joueur");
     toast(botsChanged && !modeChanged ? (vBots(c.bots) ? (EN ? `${nm} set the bots: teams filled up to ${vBots(c.bots)}` : `${nm} a réglé les bots : équipes complétées jusqu'à ${vBots(c.bots)}`) : (EN ? `${nm} removed the bots` : `${nm} a retiré les bots`)) : modeChanged ? (EN ? `${nm} started ${MODE_NAME[vMode(c.mode)]} mode` : `${nm} a lancé le mode ${MODE_NAME[vMode(c.mode)]}`) : (EN ? `${nm} set the threshold: ${fmtPct(c.lose, 2)} of walls destroyed` : `${nm} a réglé le seuil : ${fmtPct(c.lose, 2)} de parois détruites`));
@@ -2950,7 +2982,23 @@ document.querySelectorAll(".mcard").forEach(c => c.addEventListener("click", () 
   const sel = $("gmode"); if (sel.value === c.dataset.mode) return;
   sel.value = c.dataset.mode; sel.dispatchEvent(new Event("change"));
 }));
-function curCfg(at) { return { lose: +$("lose").value, mode: vMode($("gmode").value), bots: vBots($("gbots").value), at }; }
+// niveau des bots, de 1 (débutant) à 5 (expert) : cadence, précision, réflexes et vitesse
+const BD_NAMES = { get 1() { return (EN ? "Beginner" : "Débutant"); }, get 2() { return (EN ? "Easy" : "Facile"); }, get 3() { return "Normal"; }, get 4() { return (EN ? "Hard" : "Difficile"); }, get 5() { return "Expert"; } };
+const vBd = v => [1, 2, 3, 4, 5].includes(Math.round(+v)) ? Math.round(+v) : 3;
+const botLvl = () => vBd(MP.G && MP.G.cfg ? MP.G.cfg.bd : 3) - 1;
+const BD_FIRE = [1.8, 1.35, 1, 0.8, 0.62], BD_AIM = [0.45, 0.7, 1, 1.2, 1.38], BD_REACT = [2, 1.5, 1, 0.75, 0.5], BD_WALK = [0.75, 0.88, 1, 1.08, 1.15], BD_RACE = [0.5, 0.62, 0.74, 0.86, 0.97];
+function curCfg(at) { return { lose: +$("lose").value, mode: vMode($("gmode").value), bots: vBots($("gbots").value), bd: vBd($("gbd").value), at }; }
+{
+  const r = $("gbd"), out = () => { $("gbdOut").textContent = BD_NAMES[vBd(r.value)]; };
+  try { const sv = localStorage.getItem("cda-bd"); if (sv !== null) r.value = vBd(sv); } catch (e) {}
+  out(); r.addEventListener("input", out);
+  r.addEventListener("change", () => {
+    out(); MP.cfg = curCfg(Date.now());
+    try { localStorage.setItem("cda-bd", r.value); } catch (e) {}
+    publish(true);
+    if (MP.on) toast((EN ? `Bot level: ${BD_NAMES[vBd(r.value)]}` : `Niveau des bots : ${BD_NAMES[vBd(r.value)]}`));
+  });
+}
 {
   const sel = $("gbots");
   try { const sv = localStorage.getItem("cda-bots"); if (sv !== null && [0, 1, 2, 3, 4, 5].includes(+sv)) sel.value = sv; } catch (e) {}
@@ -2966,6 +3014,7 @@ function applyModeUI(m) {
   document.querySelectorAll(".mcard").forEach(c => c.setAttribute("aria-checked", c.dataset.mode === m ? "true" : "false"));
   for (const [k, id] of [["bomb", "rulesBomb"], ["ctf", "rulesCtf"], ["tdm", "rulesTdm"], ["dom", "rulesDom"], ["inf", "rulesInf"], ["race", "rulesRace"]]) $(id).hidden = k !== m;
   $("loseField").hidden = m !== "bomb";
+  { const tm = document.querySelector(".pnl .teams"); if (tm) tm.hidden = m === "race"; $("raceJoin").hidden = m !== "race"; }
   const TXT = { bomb: [(EN ? "Attackers · acid at 2.5 µm" : "Attaquants · acide à 2,5 µm"), (EN ? "Protect and repair" : "Protègent et réparent")], ctf: [(EN ? "Guard the VPWR input" : "Gardent l'entrée VPWR"), (EN ? "Guard the uo_out[0] output" : "Gardent la sortie uo_out[0]")],
     tdm: [(EN ? "Green counter" : "Compteur vert"), (EN ? "Blue counter" : "Compteur bleu")], dom: [(EN ? "Start at the bottom of the chip" : "Partent du bas de la puce"), (EN ? "Start at the top of the chip" : "Partent du haut de la puce")], inf: [(EN ? "Random patient zero" : "Patient zéro tiré au hasard"), (EN ? "Everyone starts here" : "Tout le monde commence ici")], race: [(EN ? "One Electron each" : "Un Électron chacun"), (EN ? "One Electron each" : "Un Électron chacun")] }[m];
   $("tM").querySelector("small").textContent = TXT[0]; $("tD").querySelector("small").textContent = TXT[1];
@@ -3002,7 +3051,7 @@ function publish(force) {
   MP.pubT = 1 / 15;
   const pr = {
     v: 1, team: MP.team, nick: MP.nick, x: r3(P.x), y: r3(P.y), z: r3(P.z), yaw: r3(yaw), pt: r3(pitch),
-    ks: [MP.kills, MP.deaths, MP.recon], ld: myLadders.map(l => [l.id, l.a]), cf: MP.cfg, rep: MP.rep, al: MP.alive, hp: Math.max(0, Math.round(MP.hp)), r: MP.myR, act: MP.act, pl: MP.plant, df: MP.defuse, sh: MP.shot, kb: MP.kb, vr: MP.vr || null, pq: MP.pq || null,
+    ks: [MP.kills, MP.deaths, MP.recon], ld: myLadders.map(l => [l.id, l.a]), cf: MP.cfg, rep: MP.rep, al: MP.alive, hp: Math.max(0, Math.round(MP.hp)), r: MP.myR, act: MP.act, pl: MP.plant, df: MP.defuse, sh: MP.shot, kb: MP.kb, vr: MP.vr || null, pq: MP.pq || null, col: Number.isInteger(MP.rcol) ? MP.rcol : null,
     vh: MP.veh ? Object.assign({ i: MP.veh.i, s: MP.veh.seat }, MP.veh.seat === 0 && MP.vpose ? { vx: r3(MP.vpose.x), vy: r3(MP.vpose.y), vz: r3(MP.vpose.z), vw: r3(MP.vpose.w) } : {}) : null,
     now: Date.now(), g: MP.host ? MP.G : null,
   };
@@ -3027,7 +3076,7 @@ function cleanG(g) {
   const b = g.bomb && typeof g.bomb === "object" && typeof g.bomb.x === "number" ? { s: String(g.bomb.s).slice(0, 1), x: g.bomb.x, y: +g.bomb.y || 0, z: +g.bomb.z || 0, by: String(g.bomb.by || "") } : null;
   const sc = g.sc && typeof g.sc === "object" ? { M: +g.sc.M || 0, D: +g.sc.D || 0 } : { M: 0, D: 0 };
   const d = typeof g.d === "string" && /^[0-9a-z]*$/.test(g.d) ? g.d.slice(0, DMG_CAP * 6) : "";
-  const cfg = g.cfg && typeof g.cfg === "object" && LOSE_OPTS.includes(+g.cfg.lose) ? { lose: +g.cfg.lose, mode: vMode(g.cfg.mode), bots: vBots(g.cfg.bots), at: +g.cfg.at || 0, by: typeof g.cfg.by === "string" ? g.cfg.by.slice(0, 64) : "" } : { lose: LOSE_DEF, mode: "bomb", bots: BOT_DEF, at: 0 };
+  const cfg = g.cfg && typeof g.cfg === "object" && LOSE_OPTS.includes(+g.cfg.lose) ? { lose: +g.cfg.lose, mode: vMode(g.cfg.mode), bots: vBots(g.cfg.bots), bd: vBd(g.cfg.bd), at: +g.cfg.at || 0, by: typeof g.cfg.by === "string" ? g.cfg.by.slice(0, 64) : "" } : { lose: LOSE_DEF, mode: "bomb", bots: BOT_DEF, bd: 3, at: 0 };
   const cf1 = f => f && typeof f === "object" && ["home", "held", "drop"].includes(f.s) ? { s: f.s, by: String(f.by || "").slice(0, 64), x: +f.x || 0, y: +f.y || 0, z: +f.z || 0, t: +f.t || 0 } : { s: "home", by: "", x: 0, y: 0, z: 0, t: 0 };
   const fl = g.fl && typeof g.fl === "object" ? { M: cf1(g.fl.M), D: cf1(g.fl.D) } : freshFlags();
   const cap = g.cap && typeof g.cap === "object" ? { M: +g.cap.M || 0, D: +g.cap.D || 0 } : { M: 0, D: 0 };
@@ -3049,20 +3098,21 @@ function cleanG(g) {
     i: v.i, k: v.k, x: +v.x, y: +v.y || 0, z: +v.z, w: +v.w || 0, hp: +v.hp || 0, a: v.a ? 1 : 0,
     s: (Array.isArray(v.s) ? v.s : []).slice(0, VK[v.k].seats).map(x => typeof x === "string" ? x.slice(0, 64) : "").concat(Array(VK[v.k].seats).fill("")).slice(0, VK[v.k].seats),
     gx: +v.gx || 0, gy: +v.gy || 0, gw: +v.gw || 0, dt: +v.dt || 0, kb: typeof v.kb === "string" ? v.kb.slice(0, 64) : "", boom: +v.boom || 0 })) : undefined;
-  const rc = {}; if (g.rc && typeof g.rc === "object") for (const k of Object.keys(g.rc).slice(0, 24)) { const n = +g.rc[k]; if (Number.isInteger(n) && n >= 0 && n <= ARCHES.length) rc[k.slice(0, 64)] = n; }
+  const fin = Array.isArray(g.fin) ? g.fin.slice(0, 24).filter(f => Array.isArray(f) && typeof f[0] === "string").map(f => [f[0].slice(0, 64), +f[1] || 0]) : [];
+  const rc = {}; if (g.rc && typeof g.rc === "object") for (const k of Object.keys(g.rc).slice(0, 24)) { const n = +g.rc[k]; if (Number.isInteger(n) && n >= 0 && n <= 40) rc[k.slice(0, 64)] = n; }
   const pk = Array.isArray(g.pk) ? g.pk.slice(0, 12).map(q => q && typeof q === "object" ? { t: +q.t || 0, by: typeof q.by === "string" ? q.by.slice(0, 64) : "", n: +q.n || 0 } : { t: 0, by: "", n: 0 }) : [];
-  return { pk, ban: Array.isArray(g.ban) ? g.ban.slice(0, 8).filter(x => typeof x === "string").map(x => x.slice(0, 64)) : [], rc, veh, bots, kc, ds, pts, edge: +g.edge || 0, pz: typeof g.pz === "string" ? g.pz.slice(0, 64) : "", pzn: +g.pzn || 0, mode: vMode(g.mode), fl, cap, evs, evn: +g.evn || 0, dfBy: typeof g.dfBy === "string" ? g.dfBy.slice(0, 64) : "", cfg, st, d, pw, r: g.r, ph, t0: g.t0, bomb: b, win: g.win === "M" || g.win === "D" ? g.win : null, why: typeof g.why === "string" ? g.why.slice(0, 80) : "", whyEn: typeof g.whyEn === "string" ? g.whyEn.slice(0, 80) : "", sc };
+  return { fin, seed: Number.isInteger(+g.seed) ? +g.seed : 0, pk, ban: Array.isArray(g.ban) ? g.ban.slice(0, 8).filter(x => typeof x === "string").map(x => x.slice(0, 64)) : [], rc, veh, bots, kc, ds, pts, edge: +g.edge || 0, pz: typeof g.pz === "string" ? g.pz.slice(0, 64) : "", pzn: +g.pzn || 0, mode: vMode(g.mode), fl, cap, evs, evn: +g.evn || 0, dfBy: typeof g.dfBy === "string" ? g.dfBy.slice(0, 64) : "", cfg, st, d, pw, r: g.r, ph, t0: g.t0, bomb: b, win: g.win === "M" || g.win === "D" ? g.win : null, why: typeof g.why === "string" ? g.why.slice(0, 80) : "", whyEn: typeof g.whyEn === "string" ? g.whyEn.slice(0, 80) : "", sc };
 }
 function hostLogic(pl) {
   const G = MP.G, now = Date.now(), el = (now - G.t0) / 1000;
   const Ms = pl.filter(p => p.presence.team === "M"), Ds = pl.filter(p => p.presence.team === "D");
-  if (!G.cfg) G.cfg = { lose: LOSE_DEF, mode: "bomb", bots: BOT_DEF, at: 0 };
-  for (const p of pl) { const cf = p.sameTab ? MP.cfg : p.presence.cf; if (cf && LOSE_OPTS.includes(+cf.lose) && +cf.at > G.cfg.at) G.cfg = { lose: +cf.lose, mode: vMode(cf.mode), bots: vBots(cf.bots), at: +cf.at, by: p.peer }; }
+  if (!G.cfg) G.cfg = { lose: LOSE_DEF, mode: "bomb", bots: BOT_DEF, bd: 3, at: 0 };
+  for (const p of pl) { const cf = p.sameTab ? MP.cfg : p.presence.cf; if (cf && LOSE_OPTS.includes(+cf.lose) && +cf.at > G.cfg.at) G.cfg = { lose: +cf.lose, mode: vMode(cf.mode), bots: vBots(cf.bots), bd: vBd(cf.bd), at: +cf.at, by: p.peer }; }
   const inR = p => p.presence.al === true && p.presence.r === G.r;
   const setPh = ph => { G.ph = ph; G.t0 = now; };
   if (!G.pw || now > G.pw.e) { const s0 = now + (PW_MIN + Math.random() * (PW_MAX - PW_MIN)) * 1000; G.pw = { s: s0, e: s0 + PW_ON * 1000 }; }
   const endR = (w, whyF) => { const e0 = EN; EN = false; const fr = whyF(); EN = true; const en = whyF(); EN = e0; G.ph = "end"; G.t0 = now; G.win = w || null; G.why = fr; G.whyEn = en; if (w) G.sc[w] = (G.sc[w] || 0) + 1; };
-  const newRound = () => { G.r += 1; G.ph = "freeze"; G.t0 = now; G.bomb = null; G.win = null; G.why = ""; hostDmg.clear(); hostRepairs.clear(); G.d = ""; G.dfBy = ""; G.st = { k: 0, rc: 0, top: "", tn: 0 }; G.fl = freshFlags(); G.cap = { M: 0, D: 0 }; G.rc = {}; G.pk = []; G.kc = { M: 0, D: 0 }; G.ds = { M: 0, D: 0 }; G.pts = freshPts(); G.edge = -1;
+  const newRound = () => { G.r += 1; G.ph = "freeze"; G.t0 = now; G.bomb = null; G.win = null; G.why = ""; hostDmg.clear(); hostRepairs.clear(); G.d = ""; G.dfBy = ""; G.st = { k: 0, rc: 0, top: "", tn: 0 }; G.fl = freshFlags(); G.cap = { M: 0, D: 0 }; G.rc = {}; G.fin = []; G.seed = G.mode === "race" ? 1 + Math.floor(Math.random() * 2e9) : 0; G.pk = []; G.kc = { M: 0, D: 0 }; G.ds = { M: 0, D: 0 }; G.pts = freshPts(); G.edge = -1;
     if (G.mode === "inf" && pl.length) { G.pz = pl[Math.floor(Math.random() * pl.length)].peer; G.pzn = (G.pzn || 0) + 1; } };
   const enough = G.mode === "inf" ? pl.length >= 2 : Ms.length && Ds.length;
   // changement de mode : on repart d'un score vierge
@@ -3089,7 +3139,7 @@ function hostLogic(pl) {
       else if (el > FUSE) endR("M", () => (EN ? `The corrosion ate through site ${G.bomb ? G.bomb.s : ""}` : `La corrosion a rongé le site ${G.bomb ? G.bomb.s : ""}`));
       else if (!Ds.some(inR)) endR("M", () => (EN ? "No defender left to neutralize the corrosion" : "Plus aucun défenseur pour neutraliser la corrosion"));
       break;
-    case "end": if (el > ENDT) newRound(); break;
+    case "end": if (el > endDur()) newRound(); break;
   }
 }
 
@@ -3121,20 +3171,20 @@ function altHost(pl, Ms, Ds, now, el, endR) {
     else if (el > lim) timeUp(sc.M, sc.D, () => "points");
     return;
   }
-  if (m === "race") {   // progression de chacun, d'arche en arche ; le premier à la sortie gagne
-    const rc = G.rc || (G.rc = {});
+  if (m === "race") {   // progression de chacun, d'arche en arche ; tout le monde va au bout, dans l'ordre d'arrivée
+    const rc = G.rc || (G.rc = {}), fin = G.fin || (G.fin = []);
     for (const v of G.veh || []) {
-      const d = v.s && v.s[0]; if (!d) continue;
+      const d = v.s && v.s[0]; if (!d || fin.some(f => f[0] === d)) continue;
       const i = rc[d] || 0, a = ARCHES[i]; if (!a) continue;
       if (Math.hypot(v.x - a.x, v.z + a.gy) < 1.3 && slabAt(v.y + 0.05) === a.lv) {
         rc[d] = i + 1;
-        if (i + 1 >= ARCHES.length) { const p = pl.find(q => q.peer === d); endR(p ? p.presence.team : null, () => (EN ? `${p ? nameOf(p) : "?"} wins the race` : `${p ? nameOf(p) : "?"} remporte la course`)); return; }
+        if (i + 1 >= ARCHES.length) fin.push([d, Math.round(el * 10) / 10]);
       }
     }
-    if (el > lim) {
-      let best = null, bi = -1; for (const p of pl) { const i = rc[p.peer] || 0; if (i > bi) { bi = i; best = p; } }
-      endR(best ? best.presence.team : null, () => (EN ? `Time's up: ${best ? nameOf(best) : "?"} in the lead (${bi} arch${bi > 1 ? "es" : ""})` : `Temps écoulé : ${best ? nameOf(best) : "?"} en tête (${bi} arche${bi > 1 ? "s" : ""})`));
-    }
+    const racers = (G.veh || []).filter(v => v.s && v.s[0]).map(v => v.s[0]);
+    const allIn = racers.length > 0 && racers.every(d => fin.some(f => f[0] === d));
+    if (allIn || (fin.length && el - fin[0][1] > RACE_GRACE) || el > lim)
+      endR(null, () => fin.length ? (EN ? `${racerName(fin[0][0])} wins the race` : `${racerName(fin[0][0])} remporte la course`) : (EN ? "Time's up: nobody finished" : "Temps écoulé : personne n'est arrivé"));
     return;
   }
   if (m === "inf") {
@@ -3234,12 +3284,14 @@ function react() {
       banner((EN ? "Corrosion planted" : "Corrosion déposée"), (EN ? `Site ${G.bomb ? G.bomb.s : "?"} · ${FUSE} s to neutralize it` : `Site ${G.bomb ? G.bomb.s : "?"} · ${FUSE} s pour la neutraliser`), 2.6); beepT = 0; }
     else if (G.ph === "end") {
       if (G.dfBy) { const by = MP.peers.find(p => p.peer === G.dfBy); logEvent([{ icon: "shield" }, who(by), { t: (EN ? " neutralized the corrosion" : " a neutralisé la corrosion") }], { big: true, me: by && MP.me && by.peer === MP.me.peer }); }
+      else if (G.mode === "race") logEvent([{ icon: "flag" }, { t: whyTxt(), c: "#ffd24a", b: true }], { big: true });
       else logEvent([{ t: G.win === "M" ? (EN ? "Microbes win" : "Victoire des Microbes") : G.win === "D" ? (EN ? "Defenders win" : "Victoire des Défenseurs") : (EN ? "Draw" : "Égalité"), c: TEAMHEX[G.win] || "#c9d3e2", b: true }, { t: " · " + whyTxt() }], { big: true });
       const won = G.win === MP.team;
       const st = G.st || { k: 0, rc: 0, top: "", tn: 0 };
       const topP = st.top && MP.peers.find(p => p.peer === st.top);
       const best = st.tn > 0 ? (EN ? ` · best repairer: ${topP ? nameOf(topP) : "a defender"} (${st.tn})` : ` · meilleur réparateur : ${topP ? nameOf(topP) : "un défenseur"} (${st.tn})`) : "";
-      if (G.mode !== "bomb" && G.mode !== "ctf") endScreen(!G.win ? (EN ? "Draw" : "Égalité") : won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), whyTxt() + (G.mode === "tdm" ? (EN ? ` — counters ${b4(G.kc.M)} · ${b4(G.kc.D)}` : ` — compteurs ${b4(G.kc.M)} · ${b4(G.kc.D)}`) : G.mode === "dom" ? (EN ? ` — points: Microbes ${G.ds.M} · ${G.ds.D} Defenders` : ` — points : Microbes ${G.ds.M} · ${G.ds.D} Défenseurs`) : ""), ENDT - 1);
+      if (G.mode === "race") { /* le podium prend le relais */ }
+      else if (G.mode !== "bomb" && G.mode !== "ctf") endScreen(!G.win ? (EN ? "Draw" : "Égalité") : won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), whyTxt() + (G.mode === "tdm" ? (EN ? ` — counters ${b4(G.kc.M)} · ${b4(G.kc.D)}` : ` — compteurs ${b4(G.kc.M)} · ${b4(G.kc.D)}`) : G.mode === "dom" ? (EN ? ` — points: Microbes ${G.ds.M} · ${G.ds.D} Defenders` : ` — points : Microbes ${G.ds.M} · ${G.ds.D} Défenseurs`) : ""), ENDT - 1);
       else if (G.mode === "ctf") { const cp = G.cap || { M: 0, D: 0 }; endScreen(!G.win ? (EN ? "Draw" : "Égalité") : won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), (EN ? `${whyTxt()} — captures: Microbes ${cp.M} · ${cp.D} Defenders` : `${whyTxt()} — captures : Microbes ${cp.M} · ${cp.D} Défenseurs`), ENDT - 1); }
       else endScreen(won ? (EN ? "Round won" : "Manche gagnée") : (EN ? "Round lost" : "Manche perdue"), (EN ? `${whyTxt()} — integrity ${fmtPct(integrity(lastDmgSeen), 3)} · ${st.k} destroyed · ${st.rc} rebuilt${best}` : `${whyTxt()} — intégrité ${fmtPct(integrity(lastDmgSeen), 3)} · ${st.k} détruit${st.k > 1 ? "s" : ""} · ${st.rc} reconstitué${st.rc > 1 ? "s" : ""}${best}`), ENDT - 1);
       SFX.play(won ? "win" : "lose", { v: 0.9, wet: 0.35 });
@@ -3434,7 +3486,7 @@ function stateFx() {
     dEl.hidden = false;
   } else { dEl.hidden = true; b.classList.remove("st-watch"); }
   if (end) {
-    const lim = ENDT, left = Math.max(0, Math.ceil(lim - (hostNow() - G.t0) / 1000));
+    const lim = endDur(), left = Math.max(0, Math.ceil(lim - (hostNow() - G.t0) / 1000));
     eEl.className = res;
     $("endK").textContent = (EN ? `End of round ${G.r}` : `Fin de la manche ${G.r}`);
     $("endT").textContent = res === "win" ? (EN ? "Victory" : "Victoire") : res === "lose" ? (EN ? "Defeat" : "Défaite") : (EN ? "Draw" : "Égalité");
@@ -3502,7 +3554,7 @@ function hudMP() {
       : G.mode === "dom" ? [fmt(LIVE_T.dom - el), (EN ? `points ${G.ds.M}–${G.ds.D} · to ${DOM_GOAL}` : `points ${G.ds.M}–${G.ds.D} · en ${DOM_GOAL}`)]
       : G.mode === "race" ? [fmt(LIVE_T.race - el), (EN ? `arch ${((G.rc || {})[MP.me ? MP.me.peer : ""] || 0)} / ${ARCHES.length}` : `arche ${((G.rc || {})[MP.me ? MP.me.peer : ""] || 0)} / ${ARCHES.length}`)]
       : G.mode === "inf" ? [fmt(LIVE_T.inf - el), (n => (EN ? `${n} healthy defender${n > 1 ? "s" : ""}` : `${n} défenseur${n > 1 ? "s" : ""} sain${n > 1 ? "s" : ""}`))(MP.peers.filter(p => isPlayer(p) && p.presence.team === "D").length)]
-      : [fmt(LIVE - el), (EN ? `round ${G.r}` : `manche ${G.r}`)], planted: [fmt(FUSE - el), (EN ? "corrosion!" : "corrosion !")], end: [fmt(ENDT - el), (EN ? "end of round" : "fin de manche")] }[G.ph];
+      : [fmt(LIVE - el), (EN ? `round ${G.r}` : `manche ${G.r}`)], planted: [fmt(FUSE - el), (EN ? "corrosion!" : "corrosion !")], end: [fmt(endDur() - el), (EN ? "end of round" : "fin de manche")] }[G.ph];
   $("mpTime").textContent = T[0]; $("mpPhase").textContent = T[1];
   $("mpTime").classList.toggle("alarm", G.ph === "planted");
   $("myTeam").textContent = TEAMN[MP.team] || ""; $("myTeam").style.color = TEAMHEX[MP.team] || "";
@@ -3940,6 +3992,12 @@ function dropBot(list) {
 }
 function botBalance(humans) {
   const G = MP.G, n = vBots(G.cfg ? G.cfg.bots : BOT_DEF);
+  if (G.mode === "race") {   // pas d'équipes en course : on complète la grille, camps répartis pour le moteur
+    const need = Math.max(0, n * 2 - humans.length);
+    while (MP.bots.length > need) dropBot(MP.bots);
+    while (MP.bots.length < need) { const m = MP.bots.filter(b => b.t === "M").length + humans.filter(p => p.presence.team === "M").length, d = MP.bots.filter(b => b.t === "D").length + humans.filter(p => p.presence.team === "D").length; newBot(m <= d ? "M" : "D"); }
+    return;
+  }
   if (G.mode === "inf") {
     const need = Math.max(0, n * 2 - humans.length);
     while (MP.bots.length > need) dropBot(MP.bots);
@@ -4002,14 +4060,15 @@ function botLos(b, e, d) {
 const yawTo = (b, x, z) => Math.atan2(-(x - b.x), -(z - b.z));
 function botFire(b, e, d) {
   const vg = b.veh >= 0 && vehAt(b.veh) ? VK[vehAt(b.veh).k].gun : null;
-  b.fireT = 0.7 + Math.random() * 0.5;
+  const lv = botLvl();
+  b.fireT = (0.7 + Math.random() * 0.5) * BD_FIRE[lv];
   const melee = (gMode() === "bomb" || gMode() === "inf") && b.t === "M";
-  const hit = Math.random() < Math.max(0.15, (melee ? 0.75 : 0.6) - d * 0.022);
+  const hit = Math.random() < Math.min(0.95, Math.max(0.08, ((melee ? 0.75 : 0.6) - d * 0.022) * BD_AIM[lv]));
   const jit = () => (Math.random() - 0.5) * 0.9;
   b.sn++;
   b.s = { n: b.sn, dm: vg ? vg.dmg : undefined, a: [rr(b.x), rr(b.y + 0.42), rr(b.z)], b: [rr(e.x + (hit ? 0 : jit())), rr(e.y + 0.25 + (hit ? 0 : jit() * 0.6)), rr(e.z + (hit ? 0 : jit()))], h: hit ? e.id : null, bx: -1 };
   b.sT = performance.now();
-  if (vg) b.fireT = vg.mag ? 0.35 : vg.rate + 0.3;
+  if (vg) b.fireT = (vg.mag ? 0.35 : vg.rate + 0.3) * BD_FIRE[lv];
   if (hit && e.ref) botDamage(e.ref, vg ? vg.dmg : DMG, botId(b.i));
   if (hit && e.id.startsWith("veh:")) vehDamage(vehAt(+e.id.slice(4)), vg ? vg.dmg : DMG, botId(b.i));
 }
@@ -4083,7 +4142,7 @@ function botThink(b, dt, foes) {
   const myV = b.veh >= 0 ? vehAt(b.veh) : null, vg = myV ? VK[myV.k].gun : null;
   const rng = vg ? vg.range : gm === "bomb" || gm === "inf" ? (RANGE_T[b.t] || RANGE) : RANGE;
   b.seeT -= dt; b.fireT -= dt; b.rgT -= dt;
-  if (near && nd < rng + 0.4) { if (b.seeT <= 0) { b.seeT = 0.25; const was = b.los; b.los = botLos(b, near, nd); if (b.los && !was) b.fireT = Math.max(b.fireT, 0.45); } }
+  if (near && nd < rng + 0.4) { if (b.seeT <= 0) { b.seeT = 0.25; const was = b.los; b.los = botLos(b, near, nd); if (b.los && !was) b.fireT = Math.max(b.fireT, 0.45 * BD_REACT[botLvl()]); } }
   else b.los = false;
   const engage = !!(near && nd < rng + 0.4 && b.los);
   if (engage) { b.w = yawTo(b, near.x, near.z); if (b.fireT <= 0) botFire(b, near, nd); }
@@ -4105,7 +4164,7 @@ function botThink(b, dt, foes) {
   if (engage && d < 4 && !((gm === "bomb" || gm === "inf") && b.t === "M")) return;   // à portée : il se poste et tire
   let ang = Math.atan2(dz, dx);
   if (b.det > 0) { b.det -= dt; ang += b.detA; }
-  const sp = (myV ? (myV.k === "bus" && powerState().k === "on" ? 0 : VK[myV.k].spd * 0.9) : BOT_SPEED * (gm === "inf" && b.t === "M" ? INF_SPEED : 1)) * dt;
+  const sp = (myV ? (myV.k === "bus" && powerState().k === "on" ? 0 : VK[myV.k].spd * 0.9) : BOT_SPEED * BD_WALK[botLvl()] * (gm === "inf" && b.t === "M" ? INF_SPEED : 1)) * dt;
   botStep(b, b.x + Math.cos(ang) * sp, b.z); botStep(b, b.x, b.z + Math.sin(ang) * sp);
   if (!engage) b.w = Math.atan2(-Math.cos(ang), -Math.sin(ang));
   if (myV) { myV.x = rr(b.x); myV.y = rr(slabBase(0, myV.k)); myV.z = rr(b.z); myV.w = rr(b.w); }
@@ -4170,6 +4229,13 @@ function buildElectron() {
   const ring0 = ringMat.color.clone(), ringE0 = ringMat.emissive ? ringMat.emissive.clone() : null, ringMeshes = [rings[0], rings[2]];
   let cur = "N";
   const tint = side => {   // agit sur les matériaux portés par les maillages (ils peuvent avoir été clonés pour la transparence)
+    if (typeof side === "string" && side[0] === "#") {   // couleur libre (course)
+      if (side === cur) return; cur = side;
+      const c = new THREE.Color(side), lt = c.clone().lerp(new THREE.Color("#ffffff"), 0.55);
+      shell.material.color.copy(lt); core.material.color.copy(c); if (core.material.emissive) core.material.emissive.copy(c);
+      for (const r of ringMeshes) { r.material.color.copy(c); if (r.material.emissive) r.material.emissive.copy(c); }
+      return;
+    }
     side = TINT[side] ? side : "N"; if (side === cur) return; cur = side;
     const [sh, co, rg] = TINT[side];
     shell.material.color.set(sh); core.material.color.set(co); if (core.material.emissive) core.material.emissive.set(co);
@@ -4373,10 +4439,108 @@ function buildTrack() {
   for (const n of T) if (n.kind === "shaft" && !SHAFTS.some(q => Math.hypot(q.x - n.x, q.gy - n.gy) < 0.5)) SHAFTS.push({ x: n.x, gy: n.gy });
   return T;
 }
-const TRACK = buildTrack() || [
+/* ---- parcours aléatoire : 2 à 3 arches par étage, des entrées ui_in jusqu'à la sortie uo_out[0] ----
+   Tiré à partir d'une graine (la même sur toutes les pages) : sol, puis un étage de métal, puis un autre,
+   puis retour au sol pour l'arrivée. Sur les étages de métal, chaque tronçon suit un rail en ligne droite
+   (au-dessus du métal de bout en bout) ; on change d'étage uniquement dans les puits. */
+function genTrack(seed) {
+  let x = (seed >>> 0) % 2147483646 + 1; const R = () => (x = (x * 16807) % 2147483647) / 2147483647;
+  const pick = a => a[Math.floor(R() * a.length)];
+  const T = [], add = (kind, px, gy, lv, extra) => T.push(Object.assign({ kind, x: px, gy, lv }, extra || {}));
+  const inMap = (px, gy) => px > 4 && px < W - 4 && gy > 4 && gy < HH - 4;
+  const START = [131, 161], FIN = [94.3, 166.6];
+  add("start", START[0], START[1], 0);
+  // un tronçon droit au-dessus du métal de l'étage k (on s'arrête à 1,3 µm du centre d'un puits, qui est un trou)
+  const run = (ax, ay, bx, by, k, fromShaft, toShaft) => {
+    if (k === 0) return true;
+    const L = Math.hypot(bx - ax, by - ay); if (L < 0.1) return true;
+    const ux = (bx - ax) / L, uy = (by - ay) / L, s0 = fromShaft ? 1.3 : 0, s1 = toShaft ? 1.3 : 0;
+    if (L - s0 - s1 < 0.5) return false;
+    return supportedRun(ax + ux * s0, ay + uy * s0, bx - ux * s1, by - uy * s1, k);
+  };
+  // arches au sol : librement, en avançant vers une cible
+  const groundArches = (from, to, n) => {
+    const pts = [];
+    for (let i = 1; i <= n; i++) {
+      const f = i / (n + 1) + (R() - 0.5) * 0.12, px = from[0] + (to[0] - from[0]) * f, gy = from[1] + (to[1] - from[1]) * f;
+      const L = Math.hypot(to[0] - from[0], to[1] - from[1]) || 1, nx = -(to[1] - from[1]) / L, ny = (to[0] - from[0]) / L, off = (R() - 0.5) * Math.min(14, L * 0.5);
+      let ax = px + nx * off, ay = gy + ny * off; ax = Math.max(6, Math.min(W - 6, ax)); ay = Math.max(6, Math.min(HH - 6, ay));
+      pts.push([ax, ay]);
+    }
+    return pts;
+  };
+  // sur un étage de métal : marche aléatoire le long des rails, puis sortie vers un autre puits (en ligne droite ou en L)
+  const deckWalk = (k, sh, n) => {
+    const offs = []; for (let o = 0; o <= 1.0001; o += 0.1) { offs.push(o); if (o) offs.push(-o); }
+    for (let attempt = 0; attempt < 24; attempt++) {
+      // départ : un rail qui passe à moins d'1 µm du puits, dans un axe tiré au hasard
+      const ax0 = R() < 0.5, sg0 = R() < 0.5 ? 1 : -1, len0 = 5 + R() * 10; let start = null, first = null;
+      for (const o of offs) {
+        const st = ax0 ? [sh.x + sg0 * 1.3, sh.gy + o] : [sh.x + o, sh.gy + sg0 * 1.3];
+        const q = ax0 ? [st[0] + sg0 * len0, st[1]] : [st[0], st[1] + sg0 * len0];
+        if (inMap(q[0], q[1]) && run(st[0], st[1], q[0], q[1], k)) { start = st; first = q; break; }
+      }
+      if (!start) continue;
+      const pts = [first]; let p = first, ok = true;
+      for (let i = 1; i < n && ok; i++) {
+        let found = null;
+        for (let tr = 0; tr < 50 && !found; tr++) {
+          const ax = R() < 0.5, sg = R() < 0.5 ? 1 : -1, len = 5 + R() * 12;
+          const q = ax ? [p[0] + sg * len, p[1]] : [p[0], p[1] + sg * len];
+          if (!inMap(q[0], q[1]) || SHAFTS.some(s => Math.hypot(s.x - q[0], s.gy - q[1]) < 2.5)) continue;
+          if (pts.some(r => Math.hypot(r[0] - q[0], r[1] - q[1]) < 3) || Math.hypot(sh.x - q[0], sh.gy - q[1]) < 3) continue;
+          if (run(p[0], p[1], q[0], q[1], k)) found = q;
+        }
+        if (!found) ok = false; else { pts.push(found); p = found; }
+      }
+      if (!ok) continue;
+      // sortie : un autre puits, en ligne droite ou avec un coude, en arrivant à 1,3 µm de son centre
+      const exits = SHAFTS.filter(s => s !== sh && Math.hypot(s.x - p[0], s.gy - p[1]) < 50).sort(() => R() - 0.5);
+      for (const s2 of exits) {
+        // tout droit : même rangée (ou colonne) à 1 µm près
+        if (Math.abs(s2.gy - p[1]) <= 1.0 && Math.abs(s2.x - p[0]) > 2) { const e = [s2.x - Math.sign(s2.x - p[0]) * 1.3, p[1]]; if (run(p[0], p[1], e[0], e[1], k)) return { start, pts, ways: [e], exit: s2 }; }
+        if (Math.abs(s2.x - p[0]) <= 1.0 && Math.abs(s2.gy - p[1]) > 2) { const e = [p[0], s2.gy - Math.sign(s2.gy - p[1]) * 1.3]; if (run(p[0], p[1], e[0], e[1], k)) return { start, pts, ways: [e], exit: s2 }; }
+        // avec un coude : on longe un rail, puis un autre qui passe à 1 µm du puits
+        for (const o of offs) {
+          const c1 = [s2.x + o, p[1]], e1 = [s2.x + o, s2.gy - Math.sign(s2.gy - p[1]) * 1.3];
+          if (Math.abs(c1[0] - p[0]) > 1 && Math.abs(e1[1] - c1[1]) > 1 && run(p[0], p[1], c1[0], c1[1], k) && run(c1[0], c1[1], e1[0], e1[1], k)) return { start, pts, ways: [c1, e1], exit: s2 };
+          const c2 = [p[0], s2.gy + o], e2 = [s2.x - Math.sign(s2.x - p[0]) * 1.3, s2.gy + o];
+          if (Math.abs(c2[1] - p[1]) > 1 && Math.abs(e2[0] - c2[0]) > 1 && run(p[0], p[1], c2[0], c2[1], k) && run(c2[0], c2[1], e2[0], e2[1], k)) return { start, pts, ways: [c2, e2], exit: s2 };
+        }
+      }
+    }
+    return null;
+  };
+  const near = (px, gy, maxD) => SHAFTS.filter(s => Math.hypot(s.x - px, s.gy - gy) < maxD).sort(() => R() - 0.5);
+  for (let g = 0; g < 40; g++) {
+    T.length = 1;
+    // 1) au sol, jusqu'à un premier puits
+    const sh1 = pick(near(START[0], START[1], 70)) || pick(SHAFTS);
+    for (const pt of groundArches(START, [sh1.x, sh1.gy], 2 + (R() < 0.5 ? 1 : 0))) add("arch", pt[0], pt[1], 0);
+    // 2) deux étages de métal (li1, met1 ou met2, puis met4 ou met2), chacun avec 2 ou 3 arches
+    const A = pick([1, 2, 3]), B = pick([5, 5, 3].filter(k => k !== A));
+    let sh = sh1, lvNow = 0, ok = true;
+    for (const k of [A, B]) {
+      const w = deckWalk(k, sh, 2 + (R() < 0.5 ? 1 : 0)); if (!w) { ok = false; break; }
+      add("shaft", sh.x, sh.gy, lvNow, { to: k });
+      add("way", w.start[0], w.start[1], k);
+      for (const pt of w.pts) add("arch", pt[0], pt[1], k);
+      for (const c of w.ways) add("way", c[0], c[1], k);
+      sh = w.exit; lvNow = k;
+    }
+    if (!ok) continue;
+    // 3) redescente au sol et arrivée
+    add("shaft", sh.x, sh.gy, lvNow, { to: 0 });
+    for (const pt of groundArches([sh.x, sh.gy], FIN, 1 + (R() < 0.5 ? 1 : 0))) add("arch", pt[0], pt[1], 0);
+    add("finish", FIN[0], FIN[1], 0);
+    return T;
+  }
+  return null;
+}
+const BASE_TRACK = buildTrack() || [
   { kind: "start", x: 131, gy: 161, lv: 0 }, { kind: "arch", x: 128, gy: 136, lv: 0 }, { kind: "arch", x: 110, gy: 110, lv: 0 }, { kind: "arch", x: 85, gy: 92, lv: 0 },
   { kind: "arch", x: 60, gy: 100, lv: 0 }, { kind: "arch", x: 58, gy: 140, lv: 0 }, { kind: "arch", x: 80, gy: 159, lv: 0 }, { kind: "finish", x: 94.3, gy: 166.6, lv: 0 }];
-const ARCHES = TRACK.filter(n => n.kind === "arch" || n.kind === "finish");
+let TRACK = BASE_TRACK, ARCHES = TRACK.filter(n => n.kind === "arch" || n.kind === "finish"), trackSeed = 0;
 console.log(`course : ${ARCHES.length} arches, ${TRACK.filter(n => n.kind === "shaft").length} puits sur le tracé, ${SHAFTS.length} puits sur la carte`);
 
 /* ---- décor : colonnes des puits, arches du circuit ---- */
@@ -4391,7 +4555,7 @@ const shaftGroup = new THREE.Group(); shaftGroup.visible = false; scene.add(shaf
   }
 }
 const raceGroup = new THREE.Group(); raceGroup.visible = false; scene.add(raceGroup);
-const ARCH3D = ARCHES.map((a, i) => {
+function makeArch(a, i) {
   const k = TRACK.indexOf(a), prev = TRACK[k - 1] || a;
   const h = SLAB[a.lv][1] - SLAB[a.lv][0], rad = Math.max(0.22, Math.min(0.85, (Math.min(h, 2) - 0.1) / 2));
   const mat = new THREE.MeshBasicMaterial({ color: "#e2a83a", transparent: true, opacity: 0.9 });
@@ -4402,11 +4566,21 @@ const ARCH3D = ARCHES.map((a, i) => {
   const lab = textSprite(a.kind === "finish" ? (EN ? "OUTPUT uo_out[0]" : "SORTIE uo_out[0]") : `${i + 1}`, "#e2a83a"); lab.scale.multiplyScalar(a.kind === "finish" ? 0.5 : 0.4); lab.position.y = rad + 0.25; lab.material.depthTest = false; lab.renderOrder = 12; g.add(lab);
   raceGroup.add(g);
   return { g, mat, rad };
-});
+}
+let ARCH3D = ARCHES.map(makeArch);
+// nouvelle graine : nouveau parcours, reconstruit à l'identique sur chaque page
+function setTrack(seed) {
+  const T = (seed && genTrack(seed)) || BASE_TRACK;
+  trackSeed = seed; TRACK = T; ARCHES = T.filter(n => n.kind === "arch" || n.kind === "finish");
+  for (const o of ARCH3D) { raceGroup.remove(o.g); o.g.traverse(m => { if (m.geometry) m.geometry.dispose(); if (m.material) { if (m.material.map) m.material.map.dispose(); m.material.dispose(); } }); }
+  ARCH3D = ARCHES.map(makeArch);
+}
 let startLabel = null;
 { const st = TRACK[0], lab = textSprite((EN ? "START · ui_in INPUTS" : "DÉPART · ENTRÉES ui_in"), "#7dff9a"); startLabel = lab; lab.scale.multiplyScalar(0.28); lab.position.set(st.x, 1.75, -st.gy - 1.2); lab.material.depthTest = false; lab.renderOrder = 12; raceGroup.add(lab); }
 function raceTick() {
   const on = MP.on && gMode() === "race"; raceGroup.visible = on; shaftGroup.visible = MP.on && vehOn();
+  if (gMode() === "race" && (MP.G.seed || 0) !== trackSeed) setTrack(MP.G.seed || 0);
+  if (gMode() === "race") raceColorsTick();
   if (!on) return;
   const me = MP.me ? MP.me.peer : null, idx = (MP.G.rc && me && MP.G.rc[me]) || 0, t = performance.now() / 1000;
   startLabel.visible = MP.G.ph !== "live";   // le panneau de départ ne gêne plus une fois la course lancée
@@ -4422,15 +4596,15 @@ function raceBoard(dt) {
   el.hidden = !on; if (!on) return;
   raceBoardT -= dt; if (raceBoardT > 0) return; raceBoardT = 0.2;
   const rc = MP.G.rc || {}, me = MP.me ? MP.me.peer : null;
+  const fin = MP.G.fin || [];
   const rows = vehList().filter(v => v.s[0]).map(v => {
-    const q = v.s[0], i = rc[q] || 0, a = ARCHES[i];
+    const q = v.s[0], i = rc[q] || 0, a = ARCHES[i], fk = fin.findIndex(f => f[0] === q);
     const lv = q === me && MP.vpose ? (MP.vpose.tr ? MP.vpose.tr.to : MP.vpose.lv) : slabAt(v.y + 0.05);
     const p = MP.peers.find(x => x.peer === q), name = q.startsWith("bot:") ? botNick(+q.slice(4)) : p ? nameOf(p) : "?";
-    return { q, i, lv, name, score: i * 1000 - (a ? Math.hypot(v.x - a.x, v.z + a.gy) : 0) };
+    return { q, i, lv, name, fk, ft: fk >= 0 ? fin[fk][1] : 0, score: fk >= 0 ? 1e9 - fk : i * 1000 - (a ? Math.hypot(v.x - a.x, v.z + a.gy) : 0) };
   }).sort((a, b) => b.score - a.score);
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  el.innerHTML = `<h4>${(EN ? "Standings" : "Classement")}</h4><ol>${rows.map((r, k) => `<li class="${r.q === me ? "me" : ""}"><span class="pos">${k + 1}</span><span class="dot" style="background:${SLAB_COL[r.lv]}" title="${SLAB_SHORT[r.lv]}"></span><span class="nm">${esc(r.name)}${r.q === me ? (EN ? " (you)" : " (toi)") : ""}</span><span class="ar">${r.i >= ARCHES.length ? (EN ? "finished" : "arrivé") : `${r.i}/${ARCHES.length}`}</span></li>`).join("")}</ol>` +
-    `<div class="lg">${SLAB_SHORT.map((n, k) => `<span><i style="background:${SLAB_COL[k]}"></i>${n}</span>`).join("")}</div>`;
+  el.innerHTML = `<h4>${(EN ? "Standings" : "Classement")}</h4><ol>${rows.map((r, k) => `<li class="${r.q === me ? "me" : ""}${r.fk >= 0 ? " done" : ""}"><span class="pos">${k + 1}</span><span class="dot" style="background:${RCOL[r.q] || "#c9d3e2"}"></span><span class="nm">${esc(r.name)}${r.q === me ? (EN ? " (you)" : " (toi)") : ""}</span><span class="ar">${r.fk >= 0 ? fmtRace(r.ft) : `${r.i}/${ARCHES.length}`}</span><span class="lvt">${r.fk >= 0 ? "" : SLAB_SHORT[r.lv]}</span></li>`).join("")}</ol>`;
 }
 // flèche de guidage, en haut de l'écran, comme dans un jeu de course
 const raceArrowG = new THREE.Group(); raceArrowG.visible = false; scene.add(raceArrowG);
@@ -4469,6 +4643,7 @@ function raceTarget(lv) {
 function botRace(b, dt) {
   const G = MP.G, v = vehList().find(v => v.s[0] === botId(b.i)); if (!v) return;
   b.veh = v.i;
+  if (raceDone(botId(b.i))) { b.x = v.x; b.y = v.y; b.z = v.z; b.w = v.w; return; }
   if (b.wpR !== G.r) { b.wpR = G.r; b.wp = 1; b.lvB = 0; b.tr = null; }
   if (G.ph === "live") {
     const n = TRACK[b.wp];
@@ -4477,7 +4652,7 @@ function botRace(b, dt) {
       const dx = n.x - v.x, dz = -n.gy - v.z, d = Math.hypot(dx, dz);
       if (n.kind === "shaft" && d < 0.35) { if (b.lvB !== n.to) { const dir = n.to > b.lvB ? 1 : -1; b.tr = { y0: v.y, y1: slabBase(b.lvB + dir, v.k), to: b.lvB + dir, t: 0 }; } else b.wp++; }
       else if (n.kind !== "shaft" && d < (n.kind === "way" ? 0.3 : 0.8)) b.wp++;
-      else { const sp = VK[v.k].spd * (0.72 + (b.i % 3) * 0.06) * dt, k = Math.min(1, sp / d); v.x = rr(v.x + dx * k); v.z = rr(v.z + dz * k); v.w = rr(Math.atan2(-dx, -dz)); v.y = rr(slabBase(b.lvB, v.k)); }
+      else { const sp = VK[v.k].spd * BD_RACE[botLvl()] * (1 + ((b.i % 3) - 1) * 0.04) * dt, k = Math.min(1, sp / d); v.x = rr(v.x + dx * k); v.z = rr(v.z + dz * k); v.w = rr(Math.atan2(-dx, -dz)); v.y = rr(slabBase(b.lvB, v.k)); }
     }
   }
   b.x = v.x; b.y = v.y; b.z = v.z; b.w = v.w;
@@ -4621,12 +4796,13 @@ function vehRender(dt) {
     if (v.k === "lift") { o.root.position.set(o.px, 0, o.pz); o.b.cab.position.y = o.py; }
     else { o.root.position.set(o.px, o.py, o.pz); o.root.rotation.y = o.pw + Math.PI / 2; const sc = vehScale(slabAt(o.py + 0.05), v.k); o.b.g.scale.setScalar(sc); }
     o.b.anim.forEach(f => f(tt));
-    if (o.b.tint) { const sd = vehSide(v); if (sd !== o.tintSide) { o.tintSide = sd; o.b.tint(sd); } }
+    if (o.b.tint) { const sd = gMode() === "race" && v.s[0] && RCOL[v.s[0]] ? RCOL[v.s[0]] : vehSide(v); if (sd !== o.tintSide) { o.tintSide = sd; o.b.tint(sd); } }
     vehFade(o, MP.veh && MP.veh.i === v.i ? MP.veh.seat : -1);
     // étiquette : nom, camp, places libres
     const free = v.s.filter(x => !x).length, side = vehSide(v);
-    const txt = `${VNAME[v.k]}${VK[v.k].hp ? ` · ${Math.max(0, Math.round(v.hp))}` : ""}${free ? "" : (EN ? " · full" : " · complet")}`;
-    if (txt !== o.lt) { if (o.label) o.root.remove(o.label); o.label = nameSprite(txt, side === "N" ? "#e2a83a" : TEAMHEX[side], false); o.root.add(o.label); o.lt = txt; }
+    const rcN = gMode() === "race" && v.s[0] ? racerName(v.s[0]) : null, rcC = rcN ? (RCOL[v.s[0]] || "#ffffff") : null;
+    const txt = rcN || `${VNAME[v.k]}${VK[v.k].hp ? ` · ${Math.max(0, Math.round(v.hp))}` : ""}${free ? "" : (EN ? " · full" : " · complet")}`;
+    if (txt + rcC !== o.lt) { if (o.label) o.root.remove(o.label); o.label = nameSprite(txt, rcC || (side === "N" ? "#e2a83a" : TEAMHEX[side]), false); o.root.add(o.label); o.lt = txt + rcC; }
     o.label.position.y = v.k === "lift" ? o.py + VK.lift.h + 0.3 : vehBox(v.k).hi * vehScale(slabAt(o.py + 0.05), v.k) + 0.22;
     o.label.visible = !mine && Math.hypot(o.px - P.x, o.pz - P.z) < 9;
   }
@@ -4704,7 +4880,8 @@ function vehPhysics(dt) {
     MP.vposeR = MP.G.r;
     const p = MP.vpose;
     let f = (keys.KeyW || keys.ArrowUp ? 1 : 0) - (keys.KeyS || keys.ArrowDown ? 1 : 0) + mv.y, s = (keys.KeyD || keys.ArrowRight ? 1 : 0) - (keys.KeyA || keys.ArrowLeft ? 1 : 0) + mv.x;
-    if (MP.frozen) { f = 0; s = 0; }
+    const done = raceDone(MP.me && MP.me.peer);
+    if (MP.frozen || done) { f = 0; s = 0; }
     const l = Math.hypot(f, s); if (l > 1) { f /= l; s /= l; }
     const sy = Math.sin(yaw), cy = Math.cos(yaw);
     const stalled = v.k === "bus" && powerState().k === "on";
@@ -4724,7 +4901,7 @@ function vehPhysics(dt) {
       p.x = Math.max(0.35, Math.min(W - 0.35, p.x + dx)); p.z = Math.max(-HH + 0.35, Math.min(-0.35, p.z + dz));
       p.y = slabBase(p.lv, v.k);
       // Espace : monter, C : descendre
-      const up = keys.Space || jetHeld, down = keys.KeyC || keys.ControlLeft || downHeld;
+      const up = !done && (keys.Space || jetHeld), down = !done && (keys.KeyC || keys.ControlLeft || downHeld);
       const dir = MP.frozen ? 0 : up && p.lv < SLAB.length - 1 ? 1 : down && p.lv > 0 ? -1 : 0;
       const sh = nearShaft(p.x, p.z); p.inShaft = !!(sh && sh.d < SHAFT_R);
       if (dir && !stalled) {
@@ -4952,12 +5129,140 @@ function nrgHud() {
   if (!isTouch) { const m = $("mini").getBoundingClientRect(); el.style.right = Math.round(innerWidth - m.left + 10) + "px"; }
 }
 
+
+/* ---- course : une couleur par pilote (palette commune, une couleur déjà prise est grisée) ---- */
+const RACE_COLS = ["#ff4b55", "#ff9f1c", "#ffd23f", "#7dff9a", "#2ec4b6", "#38c6f0", "#3a74d0", "#9b5de5", "#f15bb5", "#ffffff"];
+let RCOL = {}, rcolT = 0;
+try { const v = +localStorage.getItem("cda-rcol"); if (Number.isInteger(v) && v >= 0 && v < RACE_COLS.length && localStorage.getItem("cda-rcol") !== null) MP.rcol = v; } catch (e) {}
+const racerName = id => !id ? "?" : id.startsWith("bot:") ? botNick(+id.slice(4)) : (p => p ? nameOf(p) : (MP.names && MP.names[id]) || (EN ? "A player" : "Un joueur"))(MP.peers.find(q => q.peer === id));
+const raceDone = id => !!(id && gMode() === "race" && (MP.G.fin || []).some(f => f[0] === id));
+function raceColors() {
+  const out = {}, used = new Set(), peers = MP.peers || [];
+  const hum = peers.filter(p => !p.bot && isPlayer(p)).sort((a, b) => a.peer < b.peer ? -1 : 1);
+  for (const p of hum) {
+    let c = p.sameTab ? MP.rcol : p.presence.col;
+    if (!Number.isInteger(c) || c < 0 || c >= RACE_COLS.length || used.has(c)) c = RACE_COLS.findIndex((_, k) => !used.has(k));
+    if (c >= 0) { used.add(c); out[p.peer] = RACE_COLS[c]; }
+  }
+  for (const p of peers.filter(p => p.bot).sort((a, b) => +a.peer.slice(4) - +b.peer.slice(4))) {
+    let c = RACE_COLS.findIndex((_, k) => !used.has(k)); if (c < 0) c = (+p.peer.slice(4)) % RACE_COLS.length;
+    used.add(c); out[p.peer] = RACE_COLS[c];
+  }
+  return out;
+}
+function raceColorsTick() { const t = performance.now(); if (t < rcolT) return; rcolT = t + 250; RCOL = raceColors(); }
+// couleurs déjà prises par les autres joueurs humains
+function takenCols() {
+  const me = MP.me ? MP.me.peer : null, t = new Set();
+  for (const p of (MP.room ? MP.room.peers() : [])) if (!p.sameTab && p.peer !== me && p.presence && Number.isInteger(p.presence.col) && (p.presence.team === "M" || p.presence.team === "D")) t.add(p.presence.col);
+  return t;
+}
+function swatchUI() {
+  const box = $("swatches"), taken = takenCols();
+  if (!Number.isInteger(MP.rcol) || taken.has(MP.rcol)) MP.rcol = RACE_COLS.findIndex((_, k) => !taken.has(k));
+  const sig = RACE_COLS.map((_, k) => (taken.has(k) ? "x" : k === MP.rcol ? "o" : "-")).join("");
+  if (box.dataset.sig !== sig) {
+    box.dataset.sig = sig;
+    box.innerHTML = RACE_COLS.map((c, k) => `<button role="radio" aria-checked="${k === MP.rcol}" ${taken.has(k) ? "disabled" : ""} data-c="${k}" style="background:${c}" aria-label="${(EN ? "Colour " : "Couleur ")}${k + 1}${taken.has(k) ? (EN ? " (taken)" : " (déjà prise)") : ""}"></button>`).join("");
+    box.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+      MP.rcol = +b.dataset.c; try { localStorage.setItem("cda-rcol", b.dataset.c); } catch (e) {}
+      UI.click && UI.click(); swatchUI(); publish(true);
+    }));
+  }
+  $("tR").querySelector("b").textContent = MP.on ? (EN ? "Back to the race" : "Retour à la course") : (EN ? "Join the race" : "Rejoindre la course");
+}
+$("tR").addEventListener("click", () => {
+  if (MP.on && MP.team) { UI.onResume && UI.onResume(); return; }
+  const ps = MP.room ? MP.room.peers().filter(isPlayer) : [];
+  const nM = ps.filter(p => p.presence.team === "M").length, nD = ps.filter(p => p.presence.team === "D").length;
+  joinTeam(nM < nD ? "M" : "D");   // les camps n'ont pas de sens en course : on équilibre en silence
+});
+
+/* ---- podium d'arrivée : trois marches, les Électrons des trois premiers, les autres en dessous ---- */
+function raceStandings() {
+  const G = MP.G, fin = G.fin || [], rc = G.rc || {}, vl = vehList();
+  const ids = [...new Set(fin.map(f => f[0]).concat(vl.filter(v => v.s[0]).map(v => v.s[0])))];
+  return ids.map(id => {
+    const f = fin.findIndex(q => q[0] === id), v = vl.find(v => v.s[0] === id), i = rc[id] || 0, a = ARCHES[i];
+    return { id, name: racerName(id), col: RCOL[id] || "#c9d3e2", fin: f, time: f >= 0 ? fin[f][1] : null, arches: Math.min(i, ARCHES.length), score: f >= 0 ? 1e9 - f : i * 1000 - (v && a ? Math.hypot(v.x - a.x, v.z + a.gy) : 999) };
+  }).sort((a, b) => b.score - a.score);
+}
+const fmtRace = t => { const m = Math.floor(t / 60), s2 = t - m * 60; return `${m}:${s2 < 10 ? "0" : ""}${s2.toFixed(1)}`; };
+const POD = { r: null, sc: null, cam: null, key: "", items: [], conf: [], t0: 0 };
+function podiumBuild(top) {
+  if (!POD.r) { POD.r = new THREE.WebGLRenderer({ canvas: $("podCv"), antialias: true, alpha: true }); POD.r.setClearColor(0x000000, 0); POD.r.setPixelRatio(Math.min(devicePixelRatio, 2)); }
+  if (POD.sc) POD.sc.traverse(m => { if (m.geometry) m.geometry.dispose(); if (m.material) { if (m.material.map) m.material.map.dispose(); m.material.dispose(); } });
+  const sc = new THREE.Scene(); POD.sc = sc; POD.items = []; POD.conf = []; POD.t0 = performance.now() / 1000;
+  sc.add(new THREE.HemisphereLight("#ffffff", "#203a66", 1.0));
+  const key = new THREE.DirectionalLight("#ffffff", 1.1); key.position.set(2, 4, 3); sc.add(key);
+  const rim = new THREE.DirectionalLight("#7fe6ff", 0.6); rim.position.set(-3, 2, -2); sc.add(rim);
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(4, 48), new THREE.MeshStandardMaterial({ color: "#0b1a33", roughness: 0.8 })); floor.rotation.x = -Math.PI / 2; sc.add(floor);
+  const STEP = [{ h: 1.0, x: 0, c: "#e2a83a", n: "1" }, { h: 0.68, x: -1.25, c: "#c9d3e2", n: "2" }, { h: 0.46, x: 1.25, c: "#c27c3e", n: "3" }];
+  STEP.forEach((st, k) => {
+    const box = new THREE.Mesh(new THREE.BoxGeometry(1.15, st.h, 1.0), new THREE.MeshStandardMaterial({ color: st.c, roughness: 0.35, metalness: 0.45 })); box.position.set(st.x, st.h / 2, 0); sc.add(box);
+    const num = textSprite(st.n, "#000"); num.material.depthTest = true; num.scale.multiplyScalar(0.5); num.position.set(st.x, st.h * 0.5, 0.52); sc.add(num);
+    const e = top[k]; if (!e) return;
+    const el = buildElectron(); el.tint(e.col); el.g.scale.setScalar(1.7); el.g.position.set(st.x, st.h, 0); sc.add(el.g);
+    const nm = nameSprite(e.name, e.col, false); nm.scale.multiplyScalar(1.15); nm.position.set(st.x, st.h + 1.62, 0); sc.add(nm);
+    if (e.time !== null) { const tm = textSprite(fmtRace(e.time), "#ffffff"); tm.scale.multiplyScalar(0.28); tm.position.set(st.x, st.h + 1.3, 0); sc.add(tm); }
+    POD.items.push({ el, k, base: st.h });
+  });
+  // confettis aux couleurs des pilotes
+  const cg = new THREE.PlaneGeometry(0.06, 0.1);
+  for (let i = 0; i < 140; i++) {
+    const col = (top[i % Math.max(1, top.length)] || {}).col || RACE_COLS[i % RACE_COLS.length];
+    const m = new THREE.Mesh(cg, new THREE.MeshBasicMaterial({ color: i % 3 ? col : "#ffffff", side: THREE.DoubleSide }));
+    m.position.set((Math.random() - 0.5) * 6, 1 + Math.random() * 4, (Math.random() - 0.5) * 3); m.userData = { v: 0.4 + Math.random() * 0.6, w: Math.random() * 6, ph: Math.random() * 6 };
+    sc.add(m); POD.conf.push(m);
+  }
+  POD.cam = new THREE.PerspectiveCamera(38, 1, 0.05, 60);
+}
+function podiumTick(dt) {
+  const el = $("podium"), G = MP.G, on = MP.on && gMode() === "race" && G.ph === "end";
+  el.hidden = !on; if (!on) { POD.key = ""; return; }
+  const rows = raceStandings(), me = MP.me ? MP.me.peer : null;
+  const top = rows.slice(0, 3).map(r => ({ name: r.name, col: r.col, time: r.time }));
+  const key = JSON.stringify(top) + G.r;
+  if (key !== POD.key) {
+    POD.key = key; podiumBuild(top);
+    $("podK").textContent = (EN ? `Race · round ${G.r}` : `Course · manche ${G.r}`);
+    $("podT").textContent = whyTxt();
+    const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    $("podRest").innerHTML = rows.slice(3).map((r, k) => `<li class="${r.id === me ? "me" : ""}"><span>${k + 4}</span><i style="background:${r.col}"></i><span>${esc(r.name)}</span><span class="t">${r.time !== null ? fmtRace(r.time) : `${r.arches} / ${ARCHES.length} ${EN ? "arches" : "arches"}`}</span></li>`).join("");
+    $("podRest").hidden = rows.length <= 3;
+  }
+  $("podN").textContent = (EN ? `Next round in ${Math.max(0, Math.ceil(endDur() - (hostNow() - G.t0) / 1000))} s` : `Manche suivante dans ${Math.max(0, Math.ceil(endDur() - (hostNow() - G.t0) / 1000))} s`);
+  // rendu
+  const cv = $("podCv"), w = cv.clientWidth, h = cv.clientHeight; if (w < 4 || h < 4) return;
+  const pr = POD.r.getPixelRatio(); if (cv.width !== Math.floor(w * pr) || cv.height !== Math.floor(h * pr)) POD.r.setSize(w, h, false);
+  const t = performance.now() / 1000, a = Math.sin((t - POD.t0) * 0.35) * 0.45;
+  POD.cam.aspect = w / h; POD.cam.fov = w / h < 1 ? 55 : 38; POD.cam.updateProjectionMatrix();
+  POD.cam.position.set(Math.sin(a) * 5.2, 2.1, Math.cos(a) * 5.2); POD.cam.lookAt(0, 1.05, 0);
+  for (const it of POD.items) { it.el.anim.forEach(f => f(t)); it.el.g.position.y = it.base + 0.05 + Math.sin(t * 2 + it.k) * 0.04; it.el.g.rotation.y = t * 0.8 + it.k; }
+  for (const m of POD.conf) { const u = m.userData; m.position.y -= u.v * dt; m.position.x += Math.sin(t * 2 + u.ph) * 0.004; m.rotation.x += u.w * dt; m.rotation.y += u.w * 0.7 * dt; if (m.position.y < 0) m.position.y = 4.5; }
+  POD.r.render(POD.sc, POD.cam);
+}
+
+
+// mon arrivée : annonce de la place et du temps
+let myFinSeen = -1;
+function raceFinishFx() {
+  if (!MP.on || gMode() !== "race") { myFinSeen = -1; return; }
+  const me = MP.me ? MP.me.peer : null, fin = MP.G.fin || [], k = fin.findIndex(f => f[0] === me);
+  if (k < 0) { if (MP.G.ph !== "live") myFinSeen = -1; return; }
+  if (myFinSeen === MP.G.r) return; myFinSeen = MP.G.r;
+  const place = k + 1;
+  banner(place === 1 ? (EN ? "Winner!" : "Vainqueur !") : (EN ? `Finished · ${place}${place === 1 ? "st" : place === 2 ? "nd" : place === 3 ? "rd" : "th"}` : `Arrivé · ${place}${place === 1 ? "er" : "e"}`), (EN ? `Time ${fmtRace(fin[k][1])} · wait for the other drivers` : `Temps ${fmtRace(fin[k][1])} · attends les autres pilotes`), 3.2);
+  SFX.play(place <= 3 ? "win" : "relay", { v: 0.8, wet: 0.3 });
+}
+
 /* ---- boucle multijoueur ---- */
 function mpTick(dt) {
   tickTracers(dt);
   if (!MP.room) return;
   const peers = MP.room.peers().filter(p => p.sameTab || !acBanned(p.peer)); MP.peers = peers;
   MP.me = peers.find(p => p.sameTab) || MP.me;
+  if (!$("raceJoin").hidden && !$("start").hidden) swatchUI();   // palette de couleurs de la course, dans le salon
   if (!MP.on) {   // pas encore en jeu : on suit quand même l'état de la partie, pour la reprendre si on devient l'hôte
     if (vehMesh.size) vehRender(dt);
     if (shaftGroup.visible || raceGroup.visible) { shaftGroup.visible = false; raceGroup.visible = false; }
@@ -4992,7 +5297,8 @@ function mpTick(dt) {
   acMoves(pl); acTick(dt);
   specTick();
   stateFx();
-  nrgTick(); padClient(); nrgHud();
+  nrgTick(); padClient(); nrgHud(); podiumTick(dt);
+  raceFinishFx();
   updateAvatars(pl, dt);
   actions(dt);
   if (MP.fireHeld) fire();
@@ -5621,7 +5927,7 @@ $("qn").textContent = visited.size;
 initLoseSelect();
 applyQuality();
 requestAnimationFrame(frame);
-window.__game = { splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, TRACK, ARCHES, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
+window.__game = { sup: (x, gy, k) => supportedAt(x, -gy, k), srun: (a, b, c, d, k) => supportedRun(a, b, c, d, k), genTrack: sd => { const t0 = performance.now(), T = genTrack(sd); return T ? { ms: Math.round(performance.now() - t0), n: T.length, arches: T.filter(n => n.kind === "arch").map(n => n.lv).join(""), T } : { ms: Math.round(performance.now() - t0), fail: true }; }, splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, get TRACK() { return TRACK; }, get ARCHES() { return ARCHES; }, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
 })();
 </script>
 
