@@ -17,7 +17,7 @@
 <meta name="apple-mobile-web-app-title" content="Chip Defender">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
-<script>window.CDA_BUILD="0d506cd1568f";</script>
+<script>window.CDA_BUILD="df6f4f038ba1";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -1714,14 +1714,14 @@ document.documentElement.lang = LANG;
   };
   document.querySelectorAll("[data-beta]").forEach(e => e.dataset.beta = EN ? "BETA" : "BÊTA");
   /* site hébergé : dons Ko-fi, affichés seulement si dons.json donne une adresse ko-fi.com valide */
-  if (window.NET_CFG) fetch("dons.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(d => {
+  if (window.NET_CFG) fetch("dons.json?t=" + Date.now(), { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(d => {
     const u = d && typeof d.kofi === "string" ? d.kofi.trim() : "";
     if (!/^https:\/\/ko-fi\.com\/[A-Za-z0-9_]{2,40}\/?$/.test(u)) return;
     document.querySelectorAll("[data-don]").forEach(a => a.href = u);
     document.querySelectorAll("[data-don-box]").forEach(e => e.hidden = false);
   }).catch(() => {});
   /* site hébergé : nombre de puces et de tuiles jouables, d'après maps/shuttles.json (mis à jour à chaque navette publiée) */
-  if (window.NET_CFG) fetch("maps/shuttles.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(sh => {
+  if (window.NET_CFG) fetch("maps/shuttles.json?t=" + Math.floor(Date.now() / 6e5), { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(sh => {
     if (!Array.isArray(sh) || !sh.length) return;
     const nc = sh.length, nt = sh.reduce((a, x) => a + (+x.maps || 0), 0), set = (id, v) => { const e = document.getElementById(id); if (e) { e.textContent = v; if (e.dataset.count) e.dataset.count = v; } };
     set("lpNChips", nc); set("lpNTiles", nt); set("lpChipsT", nc); set("lpTilesT", nt);
