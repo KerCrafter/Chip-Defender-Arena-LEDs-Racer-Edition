@@ -10,7 +10,7 @@
 
    node publier-r2.mjs --maps <dossier maps> --state <fichier d'état> [--jobs 8] */
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, readdirSync, statSync, appendFileSync } from "node:fs";
 import { join, dirname, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
@@ -20,6 +20,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const arg = (k, d) => { const i = process.argv.indexOf("--" + k); return i > 0 ? process.argv[i + 1] : d; };
 const MAPS = arg("maps", join(HERE, "..", "..", "maps"));
 const STATE_F = arg("state", join(HERE, ".publier-r2.json"));
+const ERRLOG = join(dirname(STATE_F), "publier-r2-erreurs.log");
 const JOBS = Math.max(1, Math.min(16, +arg("jobs", 8)));
 const BUCKET = "cda-maps", DOMAIN = "maps-cda.kercrafter.live", ZONE = "kercrafter.live";
 const ORIGINS = ["https://chip-defender-arena.kercrafter.live", "https://kercrafter.github.io"];
@@ -48,15 +49,25 @@ function wrAsync(args) {
   });
 }
 
+/* Connexion Cloudflare de wrangler : jeton valable 1 h, renouvelé par le premier wrangler qui le trouve expiré.
+   Huit envois en parallèle le renouvelleraient en même temps (le jeton de renouvellement ne sert qu'une fois)
+   et se déconnecteraient mutuellement : on le renouvelle donc ici, seul, avant qu'il expire. */
+const CFG = process.env.APPDATA ? join(process.env.APPDATA, "xdg.config", ".wrangler", "config", "default.toml") : join(process.env.HOME || "", ".config", ".wrangler", "config", "default.toml");
+function tokenLeft() { try { const m = readFileSync(CFG, "utf8").match(/expiration_time\s*=\s*"([^"]+)"/); return m ? Date.parse(m[1]) - Date.now() : Infinity; } catch (e) { return Infinity; } }
+const NOT_LOGGED = /not (logged in|authenticated)|You are not|login|Authentication error|code: 10000|invalid_grant/i;
+function ensureLogin() {
+  let w = wr(["whoami"]);
+  if (w.status !== 0 || NOT_LOGGED.test(out(w)) && !/You are logged in/i.test(out(w))) {
+    say("\n  Connexion à Cloudflare (une page s'ouvre dans le navigateur, accepte l'accès)…");
+    rl && rl.pause(); spawnSync(process.execPath, [WRANGLER, "login"], { cwd: SERVEUR, stdio: "inherit" }); rl && rl.resume();
+    w = wr(["whoami"]);
+    if (!/You are logged in/i.test(out(w))) throw new Error("connexion à Cloudflare impossible");
+  }
+}
 async function setup(S) {
   title("Préparation (une seule fois)");
   if (!existsSync(WRANGLER)) throw new Error("wrangler introuvable : lance d'abord installer-serveur.bat (il l'installe)");
-  let w = wr(["whoami"]);
-  if (/not authenticated|You are not/i.test(out(w))) {
-    say("  Connexion à Cloudflare (une page s'ouvre dans le navigateur)…");
-    rl && rl.pause(); spawnSync(process.execPath, [WRANGLER, "login"], { cwd: SERVEUR, stdio: "inherit" }); rl && rl.resume();
-    w = wr(["whoami"]);
-  }
+  ensureLogin();
   ok("connecté à Cloudflare");
   // 1. bucket
   if (!S.bucket) {
@@ -107,24 +118,51 @@ async function upload(S) {
   if (!todo.length) { ok("tout est déjà en ligne"); return 0; }
   const mo = todo.reduce((a, f) => a + statSync(f.p).size, 0) / 1e6;
   say(`  ${todo.length} fichier(s) à envoyer (${mo.toFixed(0)} Mo), ${JOBS} à la fois. Tu peux fermer et relancer : ce qui est envoyé n'est pas renvoyé.`);
-  let done = 0, errs = 0, lastSave = Date.now();
+  ensureLogin();
+  let done = 0, errs = 0, lastSave = Date.now(), busy = 0, gate = null, stop = false;
+  // une seule reconnexion pour tous les envois qui échouent en même temps
+  let relog = null;
+  const relogin = () => relog || (relog = (async () => {
+    while (gate) await gate;
+    let open; gate = new Promise(r => open = r);
+    while (busy > 0) await new Promise(r => setTimeout(r, 200));
+    try { ensureLogin(); } finally { const g = open; gate = null; g(); setTimeout(() => relog = null, 1000); }
+  })());
+  // renouvellement du jeton : on attend que les envois en cours finissent, un seul wrangler le renouvelle
+  async function checkToken() {
+    while (gate) await gate;
+    if (tokenLeft() > 5 * 60e3) return;
+    let open; gate = new Promise(r => open = r);
+    while (busy > 0) await new Promise(r => setTimeout(r, 200));
+    try { ensureLogin(); } finally { const g = open; gate = null; g(); }
+  }
   const t0 = Date.now();
   // par étapes : toutes les cartes, puis les index, puis la liste des navettes
   for (const r of [0, 1, 2]) {
     const q = todo.filter(f => rank(f.key) === r);
     const worker = async () => {
-      for (let f; (f = q.shift());) {
+      for (let f; !stop && (f = q.shift());) {
+        await checkToken();
+        busy++;
         const json = f.key.endsWith(".json");
         let res;
-        for (let tr = 0; tr < 3; tr++) {
+        for (let tr = 0; tr < 3 && !stop; tr++) {
           res = await wrAsync(["r2", "object", "put", BUCKET + "/" + f.key, "--file", f.p, "--remote",
             "--content-type", json ? "application/json; charset=utf-8" : "application/octet-stream",
             "--cache-control", json ? "public, max-age=300" : "public, max-age=86400"]);
           if (res.code === 0) break;
+          if (NOT_LOGGED.test(res.out) && !stop) { busy--; await relogin(); busy++; }
         }
+        busy--;
         done++;
         if (res.code === 0) { S.files[f.key] = f.h; if (Date.now() - lastSave > 5000) { save(S); lastSave = Date.now(); } }
-        else { errs++; fail(f.key + " : " + res.out.trim().split("\n").slice(-2).join(" ")); }
+        else {
+          errs++;
+          try { appendFileSync(ERRLOG, `\n===== ${new Date().toISOString()} ${f.key}\n${res.out}\n`); } catch (e) {}
+          const why = res.out.split("\n").map(l => l.trim()).filter(l => l && !/Logs were written|fallback value|Writing logs|^─+$|^⛅|wrangler \d/.test(l)).slice(-3).join(" ");
+          fail(f.key + " : " + (why || "erreur inconnue"));
+          if (errs >= 10 && errs >= done / 2) { stop = true; fail("trop d'erreurs : arrêt. Le détail est dans publier-r2-erreurs.log, dis-le à Claude."); }
+        }
         if (tty) { const s = (Date.now() - t0) / 1000, eta = s / done * (todo.length - done); process.stdout.write(`\r  ${done}/${todo.length} · ${Math.floor(eta / 60)} min restantes        `); }
       }
     };
