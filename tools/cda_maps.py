@@ -347,6 +347,7 @@ def main():
     lst = os.path.join(args.out, "maps", "shuttles.json")
     old = json.load(open(lst, encoding="utf-8")) if os.path.exists(lst) else []
     merged = {s["id"]: s for s in old}; merged.update({s["id"]: s for s in res})
+    merged = {k: v for k, v in merged.items() if v.get("maps")}   # navette sans aucune carte (layouts non publiés, ex. ttgf0p1) : pas dans la liste
     order = {s: i for i, s in enumerate(SKY130 + IHP + GF)}
     json.dump(sorted(merged.values(), key=lambda s: order.get(s["id"], 99)), open(lst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     log("terminé :", ", ".join(f"{s['id']} {s['maps']}/{s['projects']}" for s in res))
