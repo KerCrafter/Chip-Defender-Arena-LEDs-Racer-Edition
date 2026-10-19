@@ -6,6 +6,7 @@ Télécharge les layouts (GDS/OASIS) des projets Tiny Tapeout et les convertit e
 
     python3 cda_maps.py                       # toutes les navettes SKY130 connues
     python3 cda_maps.py --shuttles tt06,tt07  # seulement celles-ci
+    python3 cda_maps.py --shuttles ttihp25a   # navette IHP (procédé SG13G2), même fonctionnement
     python3 cda_maps.py --out ../site --jobs 4
 
 Sortie (dans --out, par défaut le dossier courant) :
@@ -20,7 +21,13 @@ import argparse, collections, gzip, json, os, re, struct, subprocess, sys, tempf
 from multiprocessing import Pool
 
 SKY130 = ["tt03p5", "tt04", "tt05", "tt06", "tt07", "tt08", "tt09", "ttsky25a", "ttsky25b"]
+IHP = ["ttihp0p2", "ttihp0p3", "ttihp0p4", "ttihp25a", "ttihp25b", "ttihp26a"]
 GRID = 0.005
+def pdk_of(sid): return "ihp" if sid.startswith("ttihp") else "sky130"
+# Les 5 niveaux de routage IHP (Metal1..Metal5) occupent les 5 étages du jeu (li1, met1..met4), contact pour contact :
+# la carte garde les noms d'étage du jeu et porte "pdk": "ihp", le jeu affiche alors les vrais noms IHP.
+LAYERS_IHP = [((31, 0), "nwell"), ((1, 0), "diff"), ((5, 0), "poly"), ((6, 0), "licon"), ((8, 0), "li1"), ((19, 0), "mcon"),
+              ((10, 0), "met1"), ((29, 0), "via"), ((30, 0), "met2"), ((49, 0), "via2"), ((50, 0), "met3"), ((66, 0), "via3"), ((67, 0), "met4")]
 LAYERS = [((64, 20), "nwell"), ((65, 20), "diff"), ((65, 44), "tap"), ((66, 20), "poly"), ((66, 44), "licon"), ((67, 20), "li1"),
           ((67, 44), "mcon"), ((68, 20), "met1"), ((68, 44), "via"), ((69, 20), "met2"), ((69, 44), "via2"), ((70, 20), "met3"),
           ((70, 44), "via3"), ((71, 20), "met4")]
@@ -105,7 +112,7 @@ def enc(np, r, extra=None):
     if extra is not None: st.append(uv(np, np.asarray(extra)[o]))
     return b"".join(st), [len(s) for s in st]
 
-def short(t): return t.split("__", 1)[-1]
+def short(t): return t[7:] if t.startswith("sg13g2_") else t.split("__", 1)[-1]
 def drive(t):
     s = t.rsplit("_", 1)
     return int(s[1]) if len(s) > 1 and s[1].isdigit() else 0
@@ -114,7 +121,7 @@ def pick_sites(np, cells, types, W, H):
     cand = []
     for (x0, y0, x1, y1, ti) in cells:
         t = short(types[ti])
-        if t.startswith(("decap", "fill", "tap", "conb", "diode")): continue
+        if t.startswith(("decap", "fill", "tap", "conb", "diode", "tiehi", "tielo", "antenna")): continue
         x, y = (x0 + x1) / 2 * GRID, (y0 + y1) / 2 * GRID
         if not (0.28 * H < y < 0.8 * H and 0.09 * W < x < 0.91 * W): continue
         cand.append((drive(t) + (0.5 if t.startswith("clk") else 0), t, x, y))
@@ -132,7 +139,7 @@ def pick_sites(np, cells, types, W, H):
 def convert(job):
     """un projet : layout -> carte CDA2 (exécuté dans un processus à part)"""
     import numpy as np, gdstk
-    path, macro, addr, tiles, title, author, key, out = job
+    path, macro, addr, tiles, title, author, key, out, pdk = job
     t0 = time.time()
     try:
         if path.endswith(".gz"):
@@ -147,7 +154,7 @@ def convert(job):
         for p in top.get_polygons(): by_layer[(p.layer, p.datatype)].append(p.points)
         ox, oy = round(bx0 / GRID), round(by0 / GRID)   # origine ramenée à (0, 0)
         payload, lay, n_tot = bytearray(), [], 0
-        for ld, name in LAYERS:
+        for ld, name in (LAYERS_IHP if pdk == "ihp" else LAYERS):
             r = layer_rects(np, gdstk, name, by_layer.get(ld, []))
             if len(r) == 0: continue
             r[:, [0, 2]] -= ox; r[:, [1, 3]] -= oy
@@ -166,8 +173,8 @@ def convert(job):
             if l.text in seen: continue
             seen.add(l.text); labels.append({"text": l.text, "x": round(l.origin[0] - bx0, 3), "y": round(l.origin[1] - by0, 3), "layer": l.layer})
         W, H = round(bx1 - bx0, 3), round(by1 - by0, 3)
-        logic = sum(1 for t in cells[:, 4].tolist() if not short(types[t]).startswith(("decap", "fill", "tap", "conb")))
-        meta = {"name": macro, "grid": GRID, "w": W, "h": H, "layers": lay, "cells": {"count": int(len(cells)), "len": cln}, "types": types, "labels": labels,
+        logic = sum(1 for t in cells[:, 4].tolist() if not short(types[t]).startswith(("decap", "fill", "tap", "conb", "tiehi", "tielo", "antenna")))
+        meta = {"name": macro, "pdk": pdk, "grid": GRID, "w": W, "h": H, "layers": lay, "cells": {"count": int(len(cells)), "len": cln}, "types": types, "labels": labels,
                 "cda": {"key": key, "title": title, "author": author, "addr": int(addr), "tiles": tiles, "slice": [0, 0, 1, 1], "sites": pick_sites(np, cells.tolist(), types, W, H), "oy": 0},
                 "stats": {"rects": n_tot, "logic": logic}}
         mj = json.dumps(meta, ensure_ascii=False, separators=(",", ":")).encode()
@@ -186,7 +193,7 @@ def git(*a, cwd=None, binary=False):
     if r.returncode: raise RuntimeError("git " + " ".join(a) + " : " + r.stderr.decode(errors="ignore")[-300:])
     return r.stdout if binary else r.stdout.decode()
 
-def chip_plan(repo_dir, projects):
+def chip_plan(repo_dir, projects, pdk="sky130"):
     """plan officiel (docs/images/chip_map.svg) si la navette en a un, sinon une grille rangée par adresse"""
     try: svg = git("show", "HEAD:docs/images/chip_map.svg", cwd=repo_dir)
     except Exception: svg = None
@@ -204,13 +211,13 @@ def chip_plan(repo_dir, projects):
             elif "project" in cl and "data-addr" in d: tiles[int(d["data-addr"])] = (R(d), "analog" in cl)
         if tiles and plan["chip"]: return plan, tiles
     # grille de secours : 16 colonnes de tuiles, de part et d'autre d'une épine centrale
-    TW, TH, GX, GY = 161, 111.52, 12.88, 60
+    TW, TH, GX, GY = (202.08, 154.98, 15.36, 60) if pdk == "ihp" else (161, 111.52, 12.88, 60)
     plan = {"official": False, "spine": [], "mux": [], "amux": [], "free": [], "ctrl": None, "chip": None}; tiles = {}
     x = y = 0; rowh = 0; cols = 16; col = 0; maxx = 0
     for p in sorted(projects, key=lambda p: p["address"]):
         tc, tr = [int(v) for v in str(p.get("tiles") or "1x1").lower().split("x")]
         if col + tc > cols: col = 0; y += rowh + GY; rowh = 0
-        w, h = tc * TW + (tc - 1) * GX, tr * TH + (tr - 1) * 2.72
+        w, h = tc * TW + (tc - 1) * GX, tr * TH + (tr - 1) * (3.78 if pdk == "ihp" else 2.72)
         px = 100 + col * (TW + GX) + (300 if col >= cols // 2 else 0)
         tiles[int(p["address"])] = ([round(px, 1), round(100 + y, 1), round(w, 1), round(h, 1)], bool(p.get("analog_pins")))
         col += tc; rowh = max(rowh, h); maxx = max(maxx, px + w)
@@ -241,7 +248,7 @@ def run_shuttle(sid, args):
         if b not in lay or lay[b].endswith(".gz") or (f.endswith(".oas") and not lay[b].endswith(".oas")): lay[b] = f
     outdir = os.path.join(args.out, "maps", sid); os.makedirs(outdir, exist_ok=True)
     srcdir = os.path.join(work, "_layouts"); os.makedirs(srcdir, exist_ok=True)
-    plan, tiles = chip_plan(work, projects)
+    pdk = pdk_of(sid); plan, tiles = chip_plan(work, projects, pdk)
     jobs, P = [], []
     for p in projects:
         macro, addr = p["macro"], int(p["address"]); key = f"a{addr}"; out = os.path.join(outdir, key + ".bin")
@@ -251,7 +258,7 @@ def run_shuttle(sid, args):
         if not os.path.exists(src):
             try: open(src, "wb").write(git("cat-file", "-p", "HEAD:" + lay[macro], cwd=work, binary=True))
             except Exception as e: log(f"   {macro} : téléchargement impossible ({e})"); continue
-        jobs.append((src, macro, addr, p.get("tiles") or "1x1", (p.get("title") or macro).strip(), (p.get("author") or "").strip(), key, out))
+        jobs.append((src, macro, addr, p.get("tiles") or "1x1", (p.get("title") or macro).strip(), (p.get("author") or "").strip(), key, out, pdk))
     log(f"   {len(projects)} projets, {len(lay)} layouts trouvés, {len(jobs)} à convertir")
     big = [j[1] for j in jobs if os.path.getsize(j[0]) > 3e6]
     if big: log(f"   grands projets (plusieurs minutes chacun) : {', '.join(big)}")
@@ -282,10 +289,10 @@ def run_shuttle(sid, args):
         out_p.append({"a": a, "m": p["macro"], "t": (p.get("title") or p["macro"]).strip(), "au": (p.get("author") or "").strip(), "ti": p.get("tiles") or "1x1",
                       "an": 1 if r[1] else 0, "r": r[0], "s": [1, 1], "k": [key] if ok else [], "d": [st] if ok and st else []})
     out_p.sort(key=lambda q: q["a"])
-    index = {"v": 1, "id": sid, "name": idx.get("name", sid), "official": plan["official"], "chip": plan["chip"], "spine": plan["spine"], "mux": plan["mux"], "amux": plan["amux"], "ctrl": plan["ctrl"] or [0, 0, 0, 0], "free": plan["free"], "p": out_p, "maps": maps}
+    index = {"v": 1, "id": sid, "name": idx.get("name", sid), "pdk": pdk, "official": plan["official"], "chip": plan["chip"], "spine": plan["spine"], "mux": plan["mux"], "amux": plan["amux"], "ctrl": plan["ctrl"] or [0, 0, 0, 0], "free": plan["free"], "p": out_p, "maps": maps}
     json.dump(index, open(os.path.join(outdir, "index.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     log(f"   index : {len(maps)} cartes sur {len(projects)} projets")
-    return {"id": sid, "name": idx.get("name", sid), "projects": len(projects), "maps": len(maps)}
+    return {"id": sid, "name": idx.get("name", sid), "pdk": pdk, "projects": len(projects), "maps": len(maps)}
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -306,7 +313,7 @@ def main():
     lst = os.path.join(args.out, "maps", "shuttles.json")
     old = json.load(open(lst, encoding="utf-8")) if os.path.exists(lst) else []
     merged = {s["id"]: s for s in old}; merged.update({s["id"]: s for s in res})
-    order = {s: i for i, s in enumerate(SKY130)}
+    order = {s: i for i, s in enumerate(SKY130 + IHP)}
     json.dump(sorted(merged.values(), key=lambda s: order.get(s["id"], 99)), open(lst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     log("terminé :", ", ".join(f"{s['id']} {s['maps']}/{s['projects']}" for s in res))
 
