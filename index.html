@@ -2,8 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-2agxeTsalvSi4V3x04BhxeQezNKDQqpaP3b2yv5U5hU=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-JinHDKAtFk/mGdG9L/Bqdiq4BhCwe2UE4X9CH3D892s=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-cZ/dVxL/lHI2sEIbAc9H1YXEIf/6VIQ473fBJvvc2yc=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-vBmJ7zZ3IqXyYQ/32vYCcSh1PjVKqRYmeZxzTkpUnnk=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-79quHedBgXXuUQKKKai+hBmFBIigj3ELStWWNU+waPQ=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-VvTYt/Bbh0UCFRhjUYnyIABhk7fMQpPcx09NGoxkzSA=' 'sha256-cZ/dVxL/lHI2sEIbAc9H1YXEIf/6VIQ473fBJvvc2yc=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-l1sXaUd5M8/mxNVneHsu+PBde0JQpERInpbAnQoxNgg=' 'sha256-t1UfHv8IiNxuv1GLoglR4wQ2X7olfOAM0QrTuhXCBt4=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
+<script>window.CDA_MAPS="";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Chip Defender Arena · LEDs Racer Edition : un FPS multijoueur gratuit dans le layout réel d'une puce Tiny Tapeout (SKY130). Six modes, des véhicules, dans le navigateur.">
@@ -21,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="4f77515a9481";</script>
+<script>window.CDA_BUILD="b084cf6c0635";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -1762,7 +1763,7 @@ document.documentElement.lang = LANG;
     document.querySelectorAll("[data-don-box]").forEach(e => e.hidden = false);
   }).catch(() => {});
   /* site hébergé : nombre de puces et de tuiles jouables, d'après maps/shuttles.json (mis à jour à chaque navette publiée) */
-  if (window.NET_CFG) fetch("maps/shuttles.json?t=" + Math.floor(Date.now() / 6e5), { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(sh => {
+  if (window.NET_CFG) fetch((window.CDA_MAPS || "") + "maps/shuttles.json?t=" + Math.floor(Date.now() / 6e5), { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(sh => {
     if (!Array.isArray(sh) || !sh.length) return;
     const nc = sh.length, nt = sh.reduce((a, x) => a + (+x.maps || 0), 0), set = (id, v) => { const e = document.getElementById(id); if (e) { e.textContent = v; if (e.dataset.count) e.dataset.count = v; } };
     set("lpNChips", nc); set("lpNTiles", nt); set("lpChipsT", nc); set("lpTilesT", nt);
@@ -1907,7 +1908,7 @@ try {
   if (MAPSEL !== "a580") {
     $("goSub") && ($("goSub").textContent = (EN ? "Loading the tile…" : "Chargement de la tuile…"));
     const bin = window.CDA_INDEX.ext === "bin";   // site hébergé : binaire ; artefact : base64 (seul format qu'il sert tel quel)
-    const path = MAPSEL.includes("/") ? "maps/" + MAPSEL : (window.CDA_INDEX.base || "maps/") + MAPSEL;
+    const path = (window.CDA_MAPS || "") + (MAPSEL.includes("/") ? "maps/" + MAPSEL : (window.CDA_INDEX.base || "maps/") + MAPSEL);   // CDA_MAPS : cartes hébergées ailleurs (Cloudflare R2)
     const r = await fetch(path + (bin ? ".bin" : ".txt")); if (!r.ok) throw new Error("HTTP " + r.status);
     gz = bin ? await r.arrayBuffer() : Uint8Array.from(atob((await r.text()).trim()), c => c.charCodeAt(0));
   } else gz = Uint8Array.from(atob(window.CHIP_RACER), c => c.charCodeAt(0));
@@ -7649,14 +7650,14 @@ const MUX = (() => {
   async function setShuttle(id) {
     if (id === SID) return;
     try {
-      if (!IDX[id]) { const r = await fetch("maps/" + id + "/index.json"); if (!r.ok) throw new Error(r.status); IDX[id] = await r.json(); }
+      if (!IDX[id]) { const r = await fetch((window.CDA_MAPS || "") + "maps/" + id + "/index.json"); if (!r.ok) throw new Error(r.status); IDX[id] = await r.json(); }
     } catch (e) { toast(EN ? "This shuttle could not be loaded" : "Impossible de charger cette navette"); return; }
     SID = id; I = index(IDX[id]); sel = null; hov = null; curP = curOf();
     if (root) { root.remove(); root = null; }
     open(after, true);
   }
   async function open(a, keep) {
-    if (SHUTTLES === null && HOME_I.ext === "bin") { SHUTTLES = []; try { const r = await fetch("maps/shuttles.json"); if (r.ok) SHUTTLES = await r.json(); } catch (e) {} if (SHUTTLES.length > 1 && root) { root.remove(); root = null; } }
+    if (SHUTTLES === null && HOME_I.ext === "bin") { SHUTTLES = []; try { const r = await fetch((window.CDA_MAPS || "") + "maps/shuttles.json"); if (r.ok) SHUTTLES = await r.json(); } catch (e) {} if (SHUTTLES.length > 1 && root) { root.remove(); root = null; } }
     if (!keep && !root && MAP_KEY.includes("/") && SHUTTLES.some(x => x.id === MAP_KEY.split("/")[0]) && SID !== MAP_KEY.split("/")[0]) { after = a && (a.mode || a.opts) ? a : null; return setShuttle(MAP_KEY.split("/")[0]); }   // on rouvre sur la navette de la puce chargée
     if (!root) { build(); const sh = $("muxSh"); if (sh) sh.onchange = () => setShuttle(sh.value); }
     if (!keep) after = a && (a.mode || a.opts) ? a : null;

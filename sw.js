@@ -4,7 +4,7 @@
    - cartes, icônes : copie locale tout de suite, rafraîchie en fond ;
    - bibliothèques (lib/, noms versionnés ; et l'ancien CDN) : copie locale d'abord.
    Le multijoueur (serveur de connexion, relais, WebRTC) n'est jamais intercepté. */
-const CACHE = "cda-v1";
+const CACHE = "cda-v2";
 const CORE = ["./", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).catch(() => {}).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
@@ -43,5 +43,6 @@ self.addEventListener("fetch", e => {
     if (/\/(maps|icons)\//.test(u.pathname) || u.pathname.endsWith(".webmanifest")) return e.respondWith(staleRevalidate(r, e));
     return;
   }
+  if (u.hostname === "maps.kercrafter.live") return e.respondWith(staleRevalidate(r, e));   // cartes sur Cloudflare R2
   if (u.hostname === "cdn.jsdelivr.net") e.respondWith(cacheFirst(r));
 });
