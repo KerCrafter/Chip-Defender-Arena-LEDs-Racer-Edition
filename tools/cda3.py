@@ -93,7 +93,8 @@ def convert3(job):
             "stats": {"rects": int(n_route + sum(sum(x[1] for x in libmeta[t]["l"]) for t in inst[:, 3].tolist())), "logic": logic}}
     mj = json.dumps(meta, ensure_ascii=False, separators=(",", ":")).encode()
     gz = gzip.compress(b"CDA3" + struct.pack("<I", len(mj)) + mj + bytes(payload) + bytes(libbytes) + ib, 9)
-    open(out, "wb").write(gz)
+    import os
+    tmpo = out + ".part"; open(tmpo, "wb").write(gz); os.replace(tmpo, out)   # jamais de carte à moitié écrite
     return {"ok": True, "bytes": len(gz), "route": n_route, "lib": n_lib, "inst": int(len(inst)), "t": round(time.time() - t0, 1)}
 
 def transform(x, y, o):

@@ -147,8 +147,28 @@ def pick_sites(np, cells, types, W, H):
             return s
     return [{"id": "A", "name": "Zone A", "sub": "", "x": round(0.3 * W, 2), "y": round(0.52 * H, 2)}, {"id": "B", "name": "Zone B", "sub": "", "x": round(0.7 * W, 2), "y": round(0.6 * H, 2)}]
 
+def map_format(path):
+    """2 ou 3 selon l'en-tête d'une carte existante (0 si illisible)"""
+    try:
+        with gzip.open(path) as f: h = f.read(4)
+        return {b"CDA2": 2, b"CDA3": 3}.get(h, 0)
+    except Exception: return 0
+
 def convert(job):
-    """un projet : layout -> carte CDA2 (exécuté dans un processus à part)"""
+    """un projet : layout -> carte (CDA3 par défaut, CDA2 avec CDA_FORMAT=2) ; exécuté dans un processus à part"""
+    if os.environ.get("CDA_FORMAT", "3") != "2":
+        import cda3
+        t0 = time.time()
+        try:
+            r = cda3.convert3(job)
+            with gzip.open(job[7]) as f: h = f.read(8); meta = json.loads(f.read(struct.unpack("<I", h[4:8])[0]))
+            return {"macro": job[1], "ok": True, "bytes": r["bytes"], "rects": meta["stats"]["rects"], "logic": meta["stats"]["logic"], "t": round(time.time() - t0, 1)}
+        except Exception as e:
+            return {"macro": job[1], "ok": False, "err": f"{type(e).__name__}: {e}"}   # l'ancienne carte, s'il y en a une, reste en place
+    return convert2(job)
+
+def convert2(job):
+    """un projet : layout -> carte CDA2 (ancien format)"""
     import numpy as np, gdstk
     path, macro, addr, tiles, title, author, key, out, pdk = job
     t0 = time.time()
@@ -286,7 +306,8 @@ def run_shuttle(sid, args):
     for p in projects:
         macro, addr = p["macro"], int(p["address"]); key = f"a{addr}"; out = os.path.join(outdir, key + ".bin")
         P.append((p, key, out))
-        if os.path.exists(out) or macro not in lay: continue
+        # carte déjà faite dans le format voulu : rien à refaire (une carte CDA2 est refaite en CDA3, 3 à 4 fois plus légère)
+        if (os.path.exists(out) and map_format(out) >= (2 if os.environ.get("CDA_FORMAT") == "2" else 3)) or macro not in lay: continue
         src = os.path.join(srcdir, os.path.basename(lay[macro]))
         if not os.path.exists(src):
             try: open(src, "wb").write(git("cat-file", "-p", "HEAD:" + lay[macro], cwd=work, binary=True))
