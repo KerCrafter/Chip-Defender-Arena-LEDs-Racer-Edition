@@ -243,6 +243,12 @@ async function stepSite(S) {
   if (!existsSync(join(SITE_DIR, ".git"))) { warn("pas de dépôt git autour : envoie-moi auth.json, je le publierai."); return; }
   if (!(await yes("Publier auth.json sur le site maintenant (git commit + push) ?", true))) return;
   const g = (...a) => spawnSync("git", a, { cwd: SITE_DIR, encoding: "utf8" });
+  if (!(g("config", "user.email").stdout || "").trim()) { // Git ne sait pas encore qui publie sur ce PC
+    say("  Git a besoin de ton nom et de ton e-mail pour signer la publication (réglé une fois, pour ce dépôt seulement).");
+    const n = await ask("Ton nom :"), m = await ask("Ton e-mail (celui de ton compte GitHub) :");
+    if (!n || !m) { warn("publication annulée"); return; }
+    g("config", "user.name", n); g("config", "user.email", m);
+  }
   g("pull", "--rebase", "--autostash");
   g("add", "auth.json");
   const c = g("commit", "-m", "Configuration publique du serveur de connexion (auth.json)");
