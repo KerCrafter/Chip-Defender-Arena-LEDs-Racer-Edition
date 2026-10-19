@@ -52,5 +52,12 @@
   "name": "Tiny Tapeout SKY 25b",
   "projects": 316,
   "maps": 315
+ },
+ {
+  "id": "testihp",
+  "name": "Essai IHP (SG13G2)",
+  "pdk": "ihp",
+  "projects": 1,
+  "maps": 1
  }
 ]
