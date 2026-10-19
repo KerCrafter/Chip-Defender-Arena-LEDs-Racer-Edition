@@ -68,7 +68,7 @@ export class Relay {
   }
 
   async fetch(req) {
-    const sub = req.headers.get("x-cda-sub") || "", exp = +req.headers.get("x-cda-exp") || 0;
+    const sub = req.headers.get("x-cda-sub") || "", exp = Math.max(+req.headers.get("x-cda-exp") || 0, nowS() + 3000); // ~50 min, prolongées par CDA_AUTH
     if (!sub) return new Response("interdit", { status: 403 });
     if (this.socks.size >= MAX_SOCKS) return new Response("relais plein", { status: 503 });
     let mine = 0; for (const st of this.socks.values()) if (st.sub === sub) mine++;

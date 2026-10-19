@@ -743,6 +743,39 @@ body.race #myTeam{visibility:hidden}
 /* lunette des fusils (clic droit) */
 #scope{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(circle at 50% 50%,transparent 0,transparent 28vmin,rgba(0,0,0,.92) 28.5vmin)}
 #scope i{position:absolute;left:50%;top:50%;width:56vmin;height:56vmin;transform:translate(-50%,-50%);border-radius:50%;box-shadow:inset 0 0 0 2px rgba(127,230,255,.7);background:linear-gradient(rgba(127,230,255,.7),rgba(127,230,255,.7)) center/1px 100% no-repeat,linear-gradient(rgba(127,230,255,.7),rgba(127,230,255,.7)) center/100% 1px no-repeat}
+/* salon sécurisé : connexion, tchat commun, parties ouvertes */
+.salon{display:grid;gap:10px}
+.sal-me{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#000;padding:8px 10px}
+.sal-me img{width:32px;height:32px;border-radius:50%;object-fit:cover}
+.sal-me span{display:grid;flex:1;min-width:0}.sal-me b{font:900 15px var(--f-brand);text-transform:uppercase;overflow:hidden;text-overflow:ellipsis}
+.sal-me small{font:500 11px var(--f-kmono);color:var(--k-sky)}
+.sal-anon{font:700 11px var(--f-kmono);color:var(--k-sky);display:flex;gap:6px;align-items:center;text-transform:uppercase;letter-spacing:.04em}
+.sal-anon select{font:500 12px var(--f-kmono)}
+.sal-cols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px;align-items:start}
+.sal-cols h4{margin:0 0 6px;font:900 14px var(--f-brand);text-transform:uppercase}
+.sal-log{height:190px}
+.sal-side{display:grid;gap:4px;align-content:start;min-width:0}
+.sal-games{display:grid;gap:6px;margin-bottom:8px}
+.sal-games .sg{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:8px;align-items:center;background:rgba(0,0,0,.5);padding:6px}
+.sal-games .sg img{width:52px;aspect-ratio:16/10;object-fit:cover}
+.sal-games .sg b{display:block;font:900 12px var(--f-brand);text-transform:uppercase}
+.sal-games .sg small{font:500 11px var(--f-kmono);color:var(--k-sky)}
+.sal-games .empty{margin:0;font:500 12px var(--f-kmono);color:var(--k-sky);background:rgba(0,0,0,.35);padding:8px}
+.sal-on{list-style:none;margin:0;padding:0;display:grid;gap:3px;max-height:150px;overflow-y:auto}
+.sal-on li{display:flex;gap:6px;align-items:center;background:rgba(0,0,0,.4);padding:4px 8px;font:500 12px var(--f-kmono)}
+.sal-on li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sal-on li small{color:var(--k-sky);font-size:10px}
+.sal-on li.me{color:#7dff9a}
+.sinv{display:flex;gap:6px;align-items:center;flex-wrap:wrap;background:#ffcf4a;color:#000;padding:6px 8px;font:500 12px var(--f-kmono);margin-bottom:6px}
+.sinv span{flex:1;min-width:0}
+.sreqs{display:grid;gap:0}
+.ginv{display:grid;gap:6px}.ginvl{display:flex;gap:6px;flex-wrap:wrap}.ginvl small{font:500 12px var(--f-kmono);color:var(--k-sky)}
+.auth-btns{display:flex;gap:12px;flex-wrap:wrap}
+.auth-b{display:inline-flex;align-items:center;gap:8px}
+.auth-err{margin:0;background:#ff5f6d;color:#000;font:700 13px var(--f-kmono);padding:8px 10px}
+i.prov{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:#9aa4b5;flex:none}
+i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.discord{background:#5865f2}i.prov.google{background:conic-gradient(#ea4335 0 25%,#fbbc05 0 50%,#34a853 0 75%,#4285f4 0)}i.prov.dev{background:#7dff9a}
+.auth-b i.prov{width:16px;height:16px;margin:0}
+@media (max-width:640px){.sal-cols{grid-template-columns:1fr}.sal-log{height:150px}}
 /* salle privée, dans le panneau « Jouer en ligne » */
 .roomrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#000;padding:10px 12px;font:500 13px var(--f-kmono);color:var(--k-sky)}
 .roomrow b{color:#fff;font-weight:700}
@@ -858,7 +891,7 @@ body.race #myTeam{visibility:hidden}
       <h1 class="lp-logo"><img data-limg="logo" alt="Chip Defender Arena"></h1>
       <p class="lp-edition">LEDs Racer Edition</p>
       <p class="lp-tag">Un FPS multijoueur dans le layout réel d'une puce Tiny Tapeout.</p>
-      <p class="lp-sub">Microbes contre Défenseurs, six modes de jeu, des nano-capsules à piloter. Directement dans le navigateur, sans installation, sans compte.</p>
+      <p class="lp-sub">Microbes contre Défenseurs, six modes de jeu, des nano-capsules à piloter. Directement dans le navigateur, sans installation ; un compte GitHub, Discord ou Google suffit pour jouer en ligne.</p>
       <div class="lp-cta">
         <button class="lp-btn lp-main" data-play="fs">Lancer en plein écran</button>
         <button class="lp-btn lp-alt" data-play="win">Jouer dans la fenêtre</button>
@@ -1009,6 +1042,19 @@ body.race #myTeam{visibility:hidden}
       <section class="pnl" id="pMulti" hidden>
         <header class="pnl-h"><button class="back" data-back>← Retour</button><h2>Jouer en ligne</h2><span id="mpStatus" class="status">Connexion à la salle…</span></header>
         <div class="mpfix" id="mpFix" hidden><p id="mpFixTxt"></p><button id="mpFixBtn" hidden></button></div>
+        <div class="salon" id="salon" hidden>
+          <div class="sal-me"><img id="salAv" alt="" hidden referrerpolicy="no-referrer"><span><b id="salName"></b><small id="salProv"></small></span><label class="sal-anon" id="salAnonRow" hidden>Mode anonyme <select id="salAnon"><option value="auto">parties publiques</option><option value="on">toujours</option><option value="off">jamais</option></select></label><button class="btn-sub" id="salOut">Se déconnecter</button></div>
+          <div class="sal-cols">
+            <div class="sal-chat"><h4>Salon · tous les joueurs</h4><div id="salLog" class="chatlog sal-log" aria-live="polite"></div><form id="salForm" class="chatform"><input id="salIn" maxlength="300" autocomplete="off" placeholder="Écrire à tout le salon…" aria-label="Message au salon"><button class="btn-sub" type="submit">Envoyer</button></form></div>
+            <div class="sal-side"><div id="salInv"></div><h4>Parties ouvertes</h4><div id="salGames" class="sal-games"></div><h4>En ligne <span id="salN"></span></h4><ul id="salOn" class="sal-on"></ul></div>
+          </div>
+        </div>
+        <div class="lv" id="lvAuth" hidden>
+          <p class="lead">Le jeu en ligne est réservé aux joueurs connectés. Connecte-toi avec un compte que tu as déjà : le jeu ne reçoit que ton nom et ta photo.</p>
+          <div class="auth-btns"><button class="btn-main auth-b" data-login="github"><i class="prov github"></i>GitHub</button><button class="btn-main auth-b" data-login="discord"><i class="prov discord"></i>Discord</button><button class="btn-main auth-b" data-login="google"><i class="prov google"></i>Google</button><button class="btn-main auth-b" data-login="dev" hidden>Essai local</button></div>
+          <p class="auth-err" id="authErr" hidden></p>
+          <p class="hint">Ton pseudo en ligne sera le nom de ce compte, vérifié pour tous les joueurs. Le salon et les parties sont chiffrés ; le mode solo reste libre, sans compte.</p>
+        </div>
         <div class="roomrow" id="roomRow" hidden><span>Salle</span> <b id="roomCode">public</b> <button id="roomCopy">Copier le lien d'invitation</button> <button id="roomNew">Nouvelle salle privée</button> <input id="roomIn" maxlength="24" placeholder="code" aria-label="Code de salle"> <button id="roomJoin">Rejoindre</button></div>
         <!-- 0. pseudo, choisi une seule fois -->
         <div class="lv" id="lvNick" hidden>
@@ -1025,7 +1071,7 @@ body.race #myTeam{visibility:hidden}
             <button class="btn-main" id="gCreatePv">Créer une partie privée</button>
           </div>
           <p class="hint">Publique : visible par tous et ouverte à tout le monde. Privée : invisible dans la liste, on y entre seulement avec son code.</p>
-          <div class="gcode"><label for="codeIn">Rejoindre une partie privée</label><div class="row"><input id="codeIn" maxlength="8" autocomplete="off" placeholder="code" spellcheck="false"><button class="btn-sub" id="codeGo">Rejoindre</button></div></div>
+          <div class="gcode" id="gcodeBox"><label for="codeIn">Rejoindre une partie privée</label><div class="row"><input id="codeIn" maxlength="8" autocomplete="off" placeholder="code" spellcheck="false"><button class="btn-sub" id="codeGo">Rejoindre</button></div></div>
         </div>
         <!-- 2. création : le mode de jeu -->
         <div class="lv" id="lvCreate" hidden>
@@ -1044,6 +1090,8 @@ body.race #myTeam{visibility:hidden}
         <div class="lv" id="lvGame" hidden>
           <div class="gm-head"><img id="gmImg" alt=""><div class="gm-t"><span class="mk" id="gmKind"></span><b id="gmName"></b><small id="gmOwner"></small></div><button class="btn-sub" id="gLeave">Quitter la partie</button></div>
           <div class="gm-code" id="gmCode" hidden><span>Partie privée · code</span><b id="gmCodeV"></b><button class="btn-sub" id="gmCodeCopy">Copier le code</button><button class="btn-sub" id="gmLinkCopy">Copier le lien d'invitation</button></div>
+          <div class="sreqs" id="gmReqs" hidden></div>
+          <div class="ginv" id="gmInv" hidden><span class="rj-l">Inviter depuis le salon</span><div id="gmInvL" class="ginvl"></div></div>
           <p class="gm-wait" id="gmWait" hidden>Partie en cours : tu entreras à la prochaine manche.</p>
           <span class="rj-l" id="gmPick">Choisis ton camp</span>
         <div class="teams">
@@ -1206,7 +1254,7 @@ function cdaRoom() { let r = ""; try { r = new URLSearchParams(location.search).
 function cdaRoomUrl(c) { const u = location.origin + location.pathname; return c && c !== "public" ? u + "?salle=" + encodeURIComponent(c) : u; }
 document.documentElement.lang = LANG;
 (function () {
-  const H = {"html": {"sol": "ground", "substrat": "substrate", "à pied": "on foot", "Bascules trouvées": "Flip-flops found", "Couches": "Layers", "Vol": "Fly", "Carte": "Map", "Joueurs": "Players", "Touche la carte pour t'y téléporter": "Tap the map to teleport there", "Fermer": "Close", "SAUT": "JUMP", "BAS": "DOWN", "TIR": "FIRE", "RÉPARER": "REPAIR", "ÉCHELLE": "LADDER", "RAYON X": "X-RAY", "échauffement": "warm-up", "Intégrité 100 %": "Integrity 100 %", "Défenseurs": "Defenders", "100 PV": "100 HP", "<i><\/i>Rayon X · vias masqués <kbd>V<\/kbd>": "<i><\/i>X-ray · vias hidden <kbd>V<\/kbd>", "présente": "presents", "Une vraie puce. Des dizaines de milliers de parois. Deux camps.": "A real chip. Tens of thousands of walls. Two sides.", "Clique ou appuie sur une touche": "Click or press any key", "Passer": "Skip", "Reprendre": "Resume", "Retour dans la puce": "Back into the chip", "Jouer en ligne": "Play online", "Microbes contre Défenseurs": "Microbes vs Defenders", "Chargement de la puce…": "Loading the chip…", "Comment jouer": "How to play", "Règles et commandes": "Rules and controls", "Personnages": "Characters", "Microbes et Défenseurs": "Microbes and Defenders", "Souris, son, graphismes": "Mouse, sound, graphics", "Crédits": "Credits", "Un jeu produit par": "A game produced by", "← Retour": "← Back", "Connexion à la salle…": "Connecting to the room…", "Attaquants · acide à 2,5 µm": "Attackers · acid at 2.5 µm", "personne": "nobody", "Protègent et réparent": "Protect and repair", "Pseudo": "Nickname", "Mode de jeu": "Game mode", "Corrosion · sites A et B": "Corrosion · sites A and B", "Capture de broche · vole le signal adverse": "Pin Capture · steal the enemy signal", "Débordement · compteur 4 bits d'éliminations": "Overflow · 4-bit elimination counter", "Bascules D · tiens les registres": "D Flip-Flops · hold the registers", "Contamination · un patient zéro": "Contamination · one patient zero", "Les Microbes gagnent si la puce perd": "The Microbes win if the chip loses", "<b class=\"cM\">Microbes<\/b> : gardent l'<b>entrée VPWR<\/b>, l'alimentation, sur le flanc gauche de la puce.": "<b class=\"cM\">Microbes<\/b>: guard the <b>VPWR input<\/b>, the power supply, on the left side of the chip.", "<b class=\"cD\">Défenseurs<\/b> : gardent la <b>sortie uo_out[0]<\/b>, LEDS_LINE, qui pilote les LEDs, sur le bord haut.": "<b class=\"cD\">Defenders<\/b>: guard the <b>uo_out[0] output<\/b>, LEDS_LINE, which drives the LEDs, on the top edge.", "Touche le signal de la broche adverse pour le voler, ramène-le sur ta broche pendant que la tienne est en place : 1 capture. 3 captures gagnent la manche (8 min max).": "Touch the enemy pin's signal to steal it, bring it back to your pin while yours is in place: 1 capture. 3 captures win the round (8 min max).", "Porteur abattu : le signal tombe au sol. Un allié le remet en place en le touchant, sinon il revient seul en 20 s. Pas de jetpack quand on porte le signal ; on réapparaît 5 s après une élimination.": "Carrier down: the signal drops to the ground. A teammate puts it back by touching it, otherwise it returns on its own after 20 s. No jetpack while carrying the signal; you respawn 5 s after being eliminated.", "Match à mort par équipe. Chaque élimination incrémente le <b>compteur 4 bits<\/b> de ton équipe, affiché en binaire.": "Team deathmatch. Each elimination increments your team's <b>4-bit counter<\/b>, shown in binary.", "Le premier compteur qui déborde, de 1111 à 1 0000, soit 16 éliminations, gagne la manche (10 min max).": "The first counter to overflow, from 1111 to 1 0000, that is 16 eliminations, wins the round (10 min max).", "On réapparaît 4 s après une élimination. Le courant compte aussi : un électrocuté donne un point à l'adversaire.": "You respawn 4 s after being eliminated. The current counts too: an electrocuted player gives the enemy a point.", "Trois vraies <b>bascules D<\/b> (dfxtp) de LEDs Racer servent de points à tenir : A, B et C.": "Three real <b>D flip-flops<\/b> (dfxtp) from LEDs Racer are the points to hold: A, B and C.", "À chaque front d'horloge (1 s), si ton équipe est seule dans la zone, la bascule avance d'un cran : au 3<sup>e<\/sup> front, Q prend la valeur de ton équipe.": "On every clock edge (1 s), if your team is alone in the zone, the flip-flop moves one step: on the 3<sup>rd<\/sup> edge, Q takes your team's value.", "Chaque front, chaque bascule tenue rapporte 1 point. 150 points gagnent la manche (8 min max). Réapparition en 4 s.": "On every edge, each flip-flop held scores 1 point. 150 points win the round (8 min max). Respawn in 4 s.", "Tout le monde commence <b class=\"cD\">Défenseur<\/b>, sauf un <b class=\"cM\">patient zéro<\/b> tiré au hasard.": "Everyone starts as a <b class=\"cD\">Defender<\/b>, except one random <b class=\"cM\">patient zero<\/b>.", "Un défenseur éliminé est contaminé : il réapparaît en Microbe 3 s plus tard. Les Microbes sont plus rapides et encaissent deux fois mieux, mais n'ont que leur acide à 2,5 µm.": "An eliminated defender is infected: they respawn as a Microbe 3 s later. Microbes are faster and twice as tough, but only have their acid at 2.5 µm.", "Les Défenseurs gagnent si l'un d'eux tient 3 minutes ; les Microbes s'ils contaminent toute la puce. Le choix d'équipe est ignoré dans ce mode.": "The Defenders win if one of them holds out for 3 minutes; the Microbes if they infect the whole chip. Team choice is ignored in this mode.", "<b class=\"cM\">Microbes<\/b> : déposer la corrosion 6 s sur le site A (racine d'horloge) ou B (pilote de puissance), ou détruire assez de parois.": "<b class=\"cM\">Microbes<\/b>: plant the corrosion for 6 s on site A (clock root) or B (power driver), or destroy enough walls.", "<b class=\"cD\">Défenseurs<\/b> : les éliminer, neutraliser la corrosion en 5 s, réparer la puce au clic droit.": "<b class=\"cD\">Defenders<\/b>: eliminate them, neutralize the corrosion in 5 s, repair the chip with right-click.", "Toutes les 5 à 10 min, la puce est mise sous tension : 15 s d'alerte, puis le métal électrocute pendant 20 s.": "Every 5 to 10 min, the chip is powered on: 15 s of warning, then the metal electrocutes for 20 s.", "Pour jouer à plusieurs, invite tes amis depuis le menu Partager de la page : ils doivent être connectés à claude.ai.": "To play together, invite your friends from the page's Share menu: they must be signed in to claude.ai.", "Tu mesures un demi-micron. Le sol est le silicium, les murets rouges sont les grilles en polysilicium, et au-dessus s'empilent les couches de métal jusqu'aux rails d'alimentation dorés du met4.": "You are half a micron tall. The floor is silicon, the red low walls are polysilicon gates, and above them the metal layers stack up to the golden met4 power rails.", "Explore librement la puce LEDs Racer (<b id=\"sCells\">1 361<\/b> cellules logiques, 161 × 226 µm) et trouve à pied les <b id=\"sDff\">234<\/b> bascules D qui retiennent l'état du jeu.": "Freely explore the LEDs Racer chip (<b id=\"sCells\">1 361<\/b> logic cells, 161 × 226 µm) and find on foot the <b id=\"sDff\">234<\/b> D flip-flops that hold the game state.", "En ligne": "Online", "Les Microbes attaquent la puce, les Défenseurs la protègent. Une manche se gagne en posant ou en neutralisant la corrosion, en éliminant l'équipe adverse, ou, pour les Microbes, en détruisant assez de parois. Les Défenseurs voient à travers les murs où les Microbes attaquent.": "The Microbes attack the chip, the Defenders protect it. A round is won by planting or neutralizing the corrosion, by eliminating the other team, or, for the Microbes, by destroying enough walls. The Defenders see through walls where the Microbes are attacking.", "Capture de broche": "Pin Capture", "Chaque équipe garde une vraie broche de la puce : l'entrée d'alimentation VPWR pour les Microbes, la sortie uo_out[0] (LEDS_LINE) pour les Défenseurs. Vole le signal adverse, ramène-le sur ta broche : trois captures gagnent la manche.": "Each team guards a real pin of the chip: the VPWR power input for the Microbes, the uo_out[0] output (LEDS_LINE) for the Defenders. Steal the enemy signal, bring it back to your pin: three captures win the round.", "Débordement, Bascules D, Contamination": "Overflow, D Flip-Flops, Contamination", "<b>Débordement<\/b> : match à mort par équipe, chaque élimination incrémente un compteur 4 bits ; le premier qui déborde gagne. <b>Bascules D<\/b> : tiens les trois bascules dfxtp de la puce, elles basculent au front d'horloge et rapportent des points. <b>Contamination<\/b> : un patient zéro contamine les défenseurs, qui doivent tenir 3 minutes.": "<b>Overflow<\/b>: team deathmatch, each elimination increments a 4-bit counter; the first one to overflow wins. <b>D Flip-Flops<\/b>: hold the chip's three dfxtp flip-flops, they flip on the clock edge and score points. <b>Contamination<\/b>: a patient zero infects the defenders, who must hold out for 3 minutes.", "Commandes": "Controls", "ZQSD / WASD": "WASD / ZQSD", "se déplacer (Maj pour courir)": "move (Shift to run)", "Souris": "Mouse", "regarder": "look", "Espace": "Space", "sauter, maintenir pour le jetpack": "jump, hold for the jetpack", "Clic gauche": "Left click", "tirer, abîme aussi la puce": "fire, also damages the chip", "Clic droit": "Right click", "réparer ou reconstituer (Défenseurs)": "repair or rebuild (Defenders)", "poser ou neutraliser la corrosion": "plant or neutralize the corrosion", "construire une échelle vers la couche au-dessus": "build a ladder to the layer above", "vision rayon X : masquer ou montrer les vias": "X-ray vision: hide or show the vias", "carte": "map", "vol et couches (solo seulement)": "fly and layers (solo only)", "tableau des joueurs (en ligne)": "player list (online)", "Échap": "Esc", "menu": "menu", "Pouce gauche": "Left thumb", "se déplacer": "move", "Glisser à droite": "Drag on the right", "maintenir pour le jetpack": "hold for the jetpack", "TIR · ACTION": "FIRE · ACTION", "tirer · poser ou neutraliser": "fire · plant or neutralize", "Défenseurs : maintenir sur un élément abîmé": "Defenders: hold on a damaged element", "apparaît près d'une couche plus haute": "appears near a higher layer", "masquer ou montrer les vias": "hide or show the vias", "Aide": "Help", "Défenseur": "Defender", "Sensibilité de la visée <output id=\"optSensV\">1,0<\/output>": "Aim sensitivity <output id=\"optSensV\">1,0<\/output>", "Inverser l'axe vertical": "Invert vertical axis", "Volume <output id=\"optVolV\">80 %<\/output>": "Volume <output id=\"optVolV\">80 %<\/output>", "Qualité graphique": "Graphics quality", "Automatique (s'adapte à l'appareil)": "Automatic (adapts to the device)", "Haute": "High", "Basse (téléphones modestes)": "Low (modest phones)", "Style graphique": "Graphics style", "Sombre : ambiance de puce, arêtes adoucies": "Dark: chip mood, softened edges", "Clair : couleurs pastel, ciel bleu": "Light: pastel colors, blue sky", "Technique : arêtes nettes, sans arrondi": "Technical: sharp edges, no rounding", "Jouer l'intro au lancement": "Play the intro at launch", "Conception de la puce": "Chip design", "Fabrication": "Fabrication", "Tiny Tapeout SKY25b · procédé SkyWater SKY130": "Tiny Tapeout SKY25b · SkyWater SKY130 process", "Monde du jeu": "Game world", "Le layout réel de la puce, sur 14 couches du silicium au met4": "The real chip layout, on 14 layers from silicon to met4", "Moteur": "Engine", "three.js, développé avec Claude": "three.js, built with Claude", "Puce LEDs Racer · SKY130 · Tiny Tapeout SKY25b": "LEDs Racer chip · SKY130 · Tiny Tapeout SKY25b", "Bots : compléter chaque équipe jusqu'à": "Bots: fill each team up to", "aucun bot": "no bots", "1 joueur": "1 player", "2 joueurs": "2 players", "3 joueurs": "3 players", "4 joueurs": "4 players", "5 joueurs": "5 players", "un joueur qui arrive prend la place d'un bot": "a player who joins takes a bot's place", "S'il manque du monde, l'hôte de la partie complète chaque équipe avec des bots (réglable dans le salon, 3 par défaut). Ils suivent l'objectif du mode, tirent moins vite et moins juste qu'un joueur, et cèdent leur place dès qu'un joueur rejoint leur équipe. On peut donc jouer seul contre des bots.": "If players are missing, the match host fills each team with bots (set in the lobby, 3 by default). They follow the mode's objective, fire slower and less accurately than a player, and give up their place as soon as a player joins their team. So you can play alone against bots.", "Recherche et destruction": "Search and destroy", "Capture du drapeau": "Capture the flag", "Match à mort par équipe": "Team deathmatch", "Domination": "Domination", "Infection": "Infection", "Débordement": "Overflow", "Bascules D": "D Flip-Flops", "VÉHICULE": "VEHICLE", "Véhicules": "Vehicles", "monter dans un véhicule ou en descendre (en ligne)": "get in or out of a vehicle (online)", "Course · des entrées à la sortie": "Race · from the inputs to the output", "Course": "Race", "Course de capsules": "Capsule race", "Chaque joueur reçoit un <b>Électron<\/b> sur la grille de départ, devant les entrées ui_in. Tout le monde part au même signal.": "Each player gets an <b>Electron<\/b> on the starting grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0] : le tracé file au sol, sur les rails du met1 puis sur les rails dorés du met4. On change d'étage uniquement dans les puits (colonnes vertes).": "Pass the arches in order up to the uo_out[0] output: the track runs along the ground, on the met1 rails then on the golden met4 rails. You change level only in the shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Le premier à la sortie gagne (4 min max).": "Outside a shaft, if you leave the metal you fall to the level below and carry on from there. No shooting during the race. First to the output wins (4 min max).", "Un Électron chacun, départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Les arches se passent dans l'ordre, au sol puis sur les rails du met1 et du met4. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage.": "One Electron each, a mass start in front of the ui_in inputs, finish at the uo_out[0] output. Arches are passed in order, on the ground then on the met1 and met4 rails. You change level in the shafts; leaving the metal drops you one level.", "Six nano-capsules attendent dans les garages (sauf en Contamination). Défenseurs : la <b>Navette BUS<\/b>, 3 places et une tourelle de 8 tirs, et la <b>CAPA<\/b>, condensateur blindé à tir chargé. Microbes : la <b>Spore<\/b>, planeur à acide, et le <b>Phage<\/b>, au tir d'injection. Pour tous : deux <b>Électrons<\/b> très rapides qui bondissent en avant par effet tunnel (Maj), et l'<b>Ascenseur via<\/b> qui monte du silicium au met4. Tous les véhicules planent entre deux couches. F pour monter ou descendre, clic gauche pour l'arme du véhicule ; les passagers tirent avec leur arme. Les véhicules changent d'étage uniquement dans les puits, les colonnes vertes : Espace pour monter, C pour descendre. Un véhicule détruit éjecte ses occupants et revient au garage 45 s plus tard.": "Six nano-capsules wait in the garages (except in Contamination). Defenders: the <b>BUS Shuttle<\/b>, 3 seats and an 8-shot turret, and the <b>CAPA<\/b>, an armored capacitor with a charged shot. Microbes: the <b>Spore<\/b>, an acid glider, and the <b>Phage<\/b>, with its injection shot. For everyone: two very fast <b>Electrons<\/b> that leap forward by tunnel effect (Shift), and the <b>Via Lift<\/b> that rises from silicon to met4. All vehicles hover between two layers. F to get in or out, left click for the vehicle's weapon; passengers fire their own weapon. Vehicles change level only in the shafts, the green columns: Space to go up, C to go down. A destroyed vehicle throws out its occupants and returns to the garage 45 s later.", "Plein écran en jouant": "Fullscreen when playing", "La puce": "The chip", "KerCrafter Lab Studio présente": "KerCrafter Lab Studio presents", "Un FPS multijoueur dans le layout réel d'une puce Tiny Tapeout.": "A multiplayer FPS inside the real layout of a Tiny Tapeout chip.", "Lancer en plein écran": "Play fullscreen", "Jouer dans la fenêtre": "Play in the window", "Salle": "Room", "Copier le lien d'invitation": "Copy invite link", "couches, du silicium au met4": "layers, from silicon to met4", "modes de jeu en ligne": "online game modes", "véhicules nano-capsules": "nano-capsule vehicles", "gratuit, dans le navigateur": "free, in your browser", "Six modes de jeu": "Six game modes", "Les grands classiques du FPS, revus à l'échelle du demi-micron et de l'électronique numérique.": "The great FPS classics, rebuilt at half-micron scale and around digital electronics.", "Corrosion": "Corrosion", "Les Microbes posent la corrosion sur un site, les Défenseurs la neutralisent. Chaque paroi détruite le reste.": "Microbes plant corrosion on a site, Defenders neutralise it. Every wall destroyed stays destroyed.", "Vole le signal sur la broche adverse, VPWR ou uo_out[0], et ramène-le sur la tienne.": "Steal the signal from the enemy pin, VPWR or uo_out[0], and bring it back to yours.", "Chaque élimination incrémente un compteur 4 bits. Le premier qui déborde gagne.": "Every kill increments a 4-bit counter. First to overflow wins.", "Tiens les trois bascules dfxtp de la puce. Elles ne changent de camp qu'au front d'horloge.": "Hold the chip's three dfxtp flip-flops. They only change sides on the clock edge.", "Contamination": "Contamination", "Un patient zéro, et des Défenseurs de moins en moins nombreux. Tiens jusqu'au bout du chrono.": "One patient zero, and fewer and fewer Defenders. Hold out until the clock runs down.", "Des entrées ui_in à la sortie uo_out[0], arche par arche, d'un étage de métal à l'autre.": "From the ui_in inputs to the uo_out[0] output, arch by arch, from one metal deck to the next.", "Deux camps": "Two sides", "Six nano-capsules": "Six nano-capsules", "Navette BUS": "BUS shuttle", "3 places et une tourelle de 8 tirs.": "3 seats and an 8-shot turret.", "Condensateur blindé, tir chargé.": "Armoured capacitor, charged shot.", "Planeur à acide, ronge les parois.": "Acid glider, eats through walls.", "Vole d'une couche à l'autre, tir d'injection.": "Flies between layers, injection shot.", "Tous": "Everyone", "Électron": "Electron", "Le plus rapide, bondit par effet tunnel.": "The fastest, leaps ahead by tunnelling.", "Ascenseur via": "Via lift", "Monte du silicium jusqu'au met4.": "Rises from silicon up to met4.", "Une vraie puce": "A real chip", "Tu mesures un demi-micron. Bonne visite.": "You are half a micron tall. Enjoy the tour.", "se déplacer, Maj pour courir": "move, Shift to run", "viser, clic gauche pour tirer": "aim, left click to shoot", "sauter, jetpack": "jump, jetpack", "monter dans un véhicule": "get in a vehicle", "tableau des joueurs": "scoreboard", "menu et sortie du plein écran": "menu and exit fullscreen", "Prêt à rétrécir ?": "Ready to shrink?", "Un jeu KerCrafter Lab · développé avec Claude": "A KerCrafter Lab game · built with Claude", "Code source sur GitHub": "Source code on GitHub", "Nouvelle salle privée": "New private room", "Rejoindre": "Join", "Microbes contre Défenseurs, six modes de jeu, des nano-capsules à piloter. Directement dans le navigateur, sans installation, sans compte.": "Microbes vs Defenders, six game modes, nano-capsules to pilot. Right in your browser: no install, no account.", "Le terrain de jeu, c'est le dessin réel de la puce LEDs Racer, conçue par Clément Kerneur et fabriquée sur la navette Tiny Tapeout SKY25b, en procédé SkyWater SKY130.": "The playing field is the real layout of the LEDs Racer chip, designed by Clément Kerneur and fabricated on the Tiny Tapeout SKY25b shuttle, in the SkyWater SKY130 process.", "Chaque muret, chaque rail doré, chaque via est un vrai rectangle du layout : le polysilicium des grilles, les couches de métal li1 à met4, les rails d'alimentation VPWR et VGND, les bascules D qui retiennent l'état du jeu.": "Every low wall, every golden rail, every via is a real rectangle from the layout: polysilicon gates, metal layers li1 to met4, the VPWR and VGND power rails, the D flip-flops that hold the game state.", "Vision rayon X activée": "X-ray vision on", "Les vias, les petits piliers qui relient deux couches de métal, deviennent invisibles.": "Vias, the small pillars linking two metal layers, become invisible.", "Ils ne bloquent plus ni tes déplacements ni tes tirs. Les couches de métal, elles, restent solides.": "They no longer block your movement or your shots. The metal layers stay solid.", "Touche <kbd>V<\/kbd> (bouton RAYON X sur mobile) pour réafficher les vias à tout moment.": "Press <kbd>V<\/kbd> (X-RAY button on mobile) to show the vias again at any time.", "Appuie sur une touche ou clique pour continuer": "Press any key or click to continue", "Ce réglage est permanent : tu n'as rien à faire.": "This setting is permanent: there is nothing to do.", "vision rayon X : masquer ou montrer les vias (solo seulement, toujours active en ligne)": "X-ray vision: hide or show the vias (solo only, always on online)", "Nouveau joueur": "New player", "recharger l'arme ; la réserve d'énergie se refait aux condensateurs de découplage (colonnes jaunes)": "reload your weapon; the energy reserve refills at decoupling capacitors (yellow columns)", "Niveau des bots": "Bot level", "Ta couleur": "Your colour", "Rejoindre la course": "Join the race", "Un Électron chacun, pas d'équipes": "One Electron each, no teams", "Arrivée": "Finish", "Pas d'équipes : chacun choisit sa couleur et reçoit un Électron. Départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Le parcours change à chaque manche : deux à trois arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage. Tout le monde va au bout, puis podium.": "No teams: everyone picks a colour and gets an Electron. Grouped start in front of the ui_in inputs, finish at the uo_out[0] output. The track changes every round: two to three arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts; leaving the metal drops you one deck. Everyone gets to finish, then the podium.", "Pas d'équipes : choisis ta <b>couleur<\/b> (une couleur prise est grisée) et reçois un <b>Électron<\/b> sur la grille, devant les entrées ui_in. Tout le monde part au même signal.": "No teams: pick your <b>colour<\/b> (a taken colour is greyed out) and get an <b>Electron<\/b> on the grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0]. Le parcours est tiré au hasard à chaque manche : 2 ou 3 arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage uniquement dans les puits (colonnes vertes).": "Go through the arches in order to the uo_out[0] output. The track is drawn at random each round: 2 or 3 arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Tout le monde va au bout (40 s après le premier arrivé au plus), puis podium.": "Outside a shaft, if you leave the metal you drop to the deck below and carry on from there. No shooting during the race. Everyone gets to finish (at most 40 s after the first finisher), then the podium.", "Choisis ton pseudo : il s'affiche au-dessus de ta tête et dans les parties. Tu pourras le changer dans les Options.": "Choose your nickname: it shows above your head and in games. You can change it later in Options.", "Continuer": "Continue", "Parties": "Games", "Créer une partie": "Create a game", "← Parties": "← Games", "Choisis le mode de jeu": "Choose the game mode", "Quitter la partie": "Leave the game", "Partie en cours : tu entreras à la prochaine manche.": "Game in progress: you will join at the next round.", "Choisis ton camp": "Choose your side", "Joueurs par équipe (les places libres sont prises par des bots)": "Players per team (free spots are filled by bots)", "sans bots, places illimitées": "no bots, unlimited spots", "Discussion": "Chat", "Envoyer": "Send", "Je suis prêt": "I'm ready", "Lancer la partie": "Start the game", "Pseudo en ligne": "Online nickname", "KerCrafter Lab Studio, en association avec Chrisflix": "KerCrafter Lab Studio, in association with Chrisflix", "← Modes": "← Modes", "Parties publiques": "Public games", "Créer une partie publique": "Create a public game", "Créer une partie privée": "Create a private game", "Publique : visible par tous et ouverte à tout le monde. Privée : invisible dans la liste, on y entre seulement avec son code.": "Public: listed and open to everyone. Private: not listed, you get in only with its code.", "Rejoindre une partie privée": "Join a private game", "Partie privée · code": "Private game · code", "Copier le code": "Copy code", "X · molette": "X · wheel", "passer de l'arme ramassée à l'arme de base ; clic droit : lunette des fusils": "swap between the picked-up weapon and your base weapon; right click: rifle scope", "Armes et fortifications": "Weapons and fortifications", "Quinze armes": "Fifteen weapons", "Des fortifications autour des zones": "Fortifications around the zones", "En ligne, chaque site, broche et bascule est ceint d'un rempart de 0,62 µm : on entre par les angles, on se couvre derrière les piliers, on passe par-dessus au jetpack. Les murs arrêtent les tirs, sauf ceux des armes qui percent les parois.": "Online, every site, pin and flip-flop is ringed by a 0.62 µm rampart: get in through the corners, take cover behind the pillars, or jetpack over it. The walls stop shots, except from weapons that pierce walls.", "Armes": "Weapons", "X / molette": "X / wheel", "changer d'arme spéciale": "switch special weapon", "lunette des fusils de précision": "sniper scope", "Laser 405 nm": "405 nm Laser", "rafale violette, précise": "precise violet burst", "Fusil à électrons": "Electron rifle", "longue portée, lunette au clic droit": "long range, scope on right click", "Canon EMP": "EMP cannon", "impulsion électromagnétique, zone de 3 µm": "electromagnetic pulse, 3 µm area", "Décharge ESD": "ESD discharge", "7 arcs en éventail, à bout portant": "7 arcs in a fan, point blank", "Mitrailleuse 1 GHz": "1 GHz machine gun", "tire à la cadence de l'horloge": "fires at clock speed", "Rayon gamma": "Gamma ray", "lourd, abîme les parois": "heavy, damages walls", "Lance-photons": "Photon launcher", "rafale de 3 photons": "3-photon burst", "Bobine Tesla": "Tesla coil", "arc large à courte portée": "wide short-range arc", "Grenade NAND": "NAND grenade", "explose à l'impact, zone de 2 µm": "explodes on impact, 2 µm area", "Faisceau d'ions": "Ion beam", "rapide et tendu": "fast and flat", "Court-circuit": "Short circuit", "pistolet rapide": "rapid pistol", "Bombe à rayons X": "X-ray bomb", "destruction massive, zone de 4,5 µm": "mass destruction, 4.5 µm area", "Canon à plasma": "Plasma cannon", "boule de plasma, petite zone": "plasma ball, small area", "Désintégrateur PN": "PN disintegrator", "fait fondre les parois (×6)": "melts walls (×6)", "Fusil SQUID": "SQUID rifle", "supraconducteur, lunette ×2 au clic droit": "superconducting, ×2 scope on right click", "<b>22<\/b> dégâts · <b>30<\/b> tirs · <b>22<\/b> µm": "<b>22<\/b> damage · <b>30<\/b> shots · <b>22<\/b> µm", "<b>Laser 405 nm<\/b> rafale violette, précise": "<b>405 nm Laser<\/b> precise violet burst", "<b>Crachat de spores<\/b> rafale de spores collantes": "<b>Spore spitter<\/b> burst of sticky spores", "<b>95<\/b> dégâts · <b>6<\/b> tirs · <b>45<\/b> µm": "<b>95<\/b> damage · <b>6<\/b> shots · <b>45<\/b> µm", "<b>Fusil à électrons<\/b> longue portée, lunette au clic droit": "<b>Electron rifle<\/b> long range, scope on right click", "<b>Harpon à pilus<\/b> longue portée, œil-lunette au clic droit": "<b>Pilus harpoon<\/b> long range, eye-scope on right click", "<b>120<\/b> dégâts · <b>3<\/b> tirs · <b>18<\/b> µm": "<b>120<\/b> damage · <b>3<\/b> shots · <b>18<\/b> µm", "<b>Canon EMP<\/b> impulsion électromagnétique, zone de 3 µm": "<b>EMP cannon<\/b> electromagnetic pulse, 3 µm area", "<b>Fleur à toxines<\/b> nuage toxique, zone de 3 µm": "<b>Toxin flower<\/b> toxic cloud, 3 µm area", "<b>7 × 14<\/b> dégâts · <b>8<\/b> tirs · <b>9<\/b> µm": "<b>7 × 14<\/b> damage · <b>8<\/b> shots · <b>9<\/b> µm", "<b>Décharge ESD<\/b> 7 arcs en éventail, à bout portant": "<b>ESD discharge<\/b> 7 arcs in a fan, point blank", "<b>Gerbe d'enzymes<\/b> 5 jets d'enzymes, à bout portant": "<b>Enzyme spray<\/b> 5 enzyme jets, point blank", "<b>9<\/b> dégâts · <b>90<\/b> tirs · <b>16<\/b> µm": "<b>9<\/b> damage · <b>90<\/b> shots · <b>16<\/b> µm", "<b>Mitrailleuse 1 GHz<\/b> tire à la cadence de l'horloge": "<b>1 GHz machine gun<\/b> fires at clock speed", "<b>Mitraille de virions<\/b> crache des virions en continu": "<b>Virion gatling<\/b> spits virions nonstop", "<b>55<\/b> dégâts · <b>10<\/b> tirs · <b>26<\/b> µm": "<b>55<\/b> damage · <b>10<\/b> shots · <b>26<\/b> µm", "<b>Rayon gamma<\/b> lourd, abîme les parois": "<b>Gamma ray<\/b> heavy, damages walls", "<b>Ver à lysozyme<\/b> lourd, digère les parois": "<b>Lysozyme worm<\/b> heavy, digests walls", "<b>3 × 16<\/b> dégâts · <b>15<\/b> tirs · <b>24<\/b> µm": "<b>3 × 16<\/b> damage · <b>15<\/b> shots · <b>24<\/b> µm", "<b>Lance-photons<\/b> rafale de 3 photons": "<b>Photon launcher<\/b> 3-photon burst", "<b>Triple spore<\/b> rafale de 3 spores": "<b>Triple spore<\/b> burst of 3 spores", "<b>34<\/b> dégâts · <b>20<\/b> tirs · <b>6<\/b> µm": "<b>34<\/b> damage · <b>20<\/b> shots · <b>6<\/b> µm", "<b>Bobine Tesla<\/b> arc large à courte portée": "<b>Tesla coil<\/b> wide short-range arc", "<b>Fouet flagellaire<\/b> coup large à courte portée": "<b>Flagellum whip<\/b> wide lash at short range", "<b>85<\/b> dégâts · <b>4<\/b> tirs · <b>14<\/b> µm": "<b>85<\/b> damage · <b>4<\/b> shots · <b>14<\/b> µm", "<b>Grenade NAND<\/b> explose à l'impact, zone de 2 µm": "<b>NAND grenade<\/b> explodes on impact, 2 µm area", "<b>Kyste explosif<\/b> éclate à l'impact, zone de 2 µm": "<b>Exploding cyst<\/b> bursts on impact, 2 µm area", "<b>32<\/b> dégâts · <b>16<\/b> tirs · <b>30<\/b> µm": "<b>32<\/b> damage · <b>16<\/b> shots · <b>30<\/b> µm", "<b>Faisceau d'ions<\/b> rapide et tendu": "<b>Ion beam<\/b> fast and flat", "<b>Dard à prions<\/b> rapide et tendu": "<b>Prion dart<\/b> fast and flat", "<b>26<\/b> dégâts · <b>18<\/b> tirs · <b>18<\/b> µm": "<b>26<\/b> damage · <b>18<\/b> shots · <b>18<\/b> µm", "<b>Court-circuit<\/b> pistolet rapide": "<b>Short circuit<\/b> rapid pistol", "<b>Pistolet à phages<\/b> pistolet rapide": "<b>Phage pistol<\/b> fast pistol", "<b>200<\/b> dégâts · <b>1<\/b> tir · <b>20<\/b> µm": "<b>200<\/b> damage · <b>1<\/b> shot · <b>20<\/b> µm", "<b>Bombe à rayons X<\/b> destruction massive, zone de 4,5 µm": "<b>X-ray bomb<\/b> mass destruction, 4.5 µm area", "<b>Pandémie<\/b> destruction massive, zone de 4,5 µm": "<b>Pandemic<\/b> mass destruction, 4.5 µm area", "<b>60<\/b> dégâts · <b>6<\/b> tirs · <b>20<\/b> µm": "<b>60<\/b> damage · <b>6<\/b> shots · <b>20<\/b> µm", "<b>Canon à plasma<\/b> boule de plasma, petite zone": "<b>Plasma cannon<\/b> plasma ball, small area", "<b>Boule de biofilm<\/b> boule gluante, petite zone": "<b>Biofilm blob<\/b> sticky blob, small area", "<b>40<\/b> dégâts · <b>12<\/b> tirs · <b>10<\/b> µm": "<b>40<\/b> damage · <b>12<\/b> shots · <b>10<\/b> µm", "<b>Désintégrateur PN<\/b> fait fondre les parois (×6)": "<b>PN disintegrator<\/b> melts walls (×6)", "<b>Glande à acide<\/b> dissout les parois (×6)": "<b>Acid gland<\/b> dissolves walls (×6)", "<b>70<\/b> dégâts · <b>8<\/b> tirs · <b>36<\/b> µm": "<b>70<\/b> damage · <b>8<\/b> shots · <b>36<\/b> µm", "<b>Fusil SQUID<\/b> supraconducteur, lunette ×2 au clic droit": "<b>SQUID rifle<\/b> superconducting, ×2 scope on right click", "<b>Sarbacane à toxine<\/b> longue portée, œil-lunette ×2 au clic droit": "<b>Toxin blowpipe<\/b> long range, ×2 eye-scope on right click", "Chaque arme existe en deux versions de même puissance : un engin pour les Défenseurs, un organe vivant pour les Microbes. Elles sont disséminées au hasard sur la puce, à de nouvelles places chaque manche. Marche dessus pour la ramasser, X ou la molette pour changer, clic droit pour la lunette. Une arme vide ou un joueur éliminé la perd ; elle réapparaît 35 s plus tard.": "Every weapon comes in two versions of equal power: a device for the Defenders, a living organ for the Microbes. They are scattered at random across the chip, in new places every round. Walk over one to pick it up, X or the mouse wheel to switch, right click for the scope. It is lost when empty or when you are eliminated, and respawns 35 s later.", "Quinze armes par camp": "Fifteen weapons per side", "À chaque manche, 15 armes sont posées au hasard sur la puce (colonnes de couleur, ronds sur la carte) : Laser 405 nm, Fusil à électrons, Canon EMP, Décharge ESD, Mitrailleuse 1 GHz, Rayon gamma, Lance-photons, Bobine Tesla, Grenade NAND, Faisceau d'ions, Court-circuit, Bombe à rayons X, Canon à plasma, Désintégrateur PN et Fusil SQUID. Les Microbes ramassent au même endroit leur version organique, de même puissance : Crachat de spores, Harpon à pilus, Fleur à toxines, Gerbe d'enzymes, Mitraille de virions, Ver à lysozyme, Triple spore, Fouet flagellaire, Kyste explosif, Dard à prions, Pistolet à phages, Pandémie, Boule de biofilm, Glande à acide et Sarbacane à toxine. Passe dessus pour la prendre : ses tirs sont comptés, et tu la perds si tu es éliminé. Elle réapparaît 35 s plus tard. Autour des zones disputées (sites, broches, bascules), des anneaux de garde servent de fortifications : des murets qu'on contourne, derrière lesquels on s'abrite, et qu'on survole au jetpack.": "Each round, 15 weapons are placed at random on the chip (coloured columns, dots on the map): 405 nm Laser, Electron rifle, EMP cannon, ESD discharge, 1 GHz machine gun, Gamma ray, Photon launcher, Tesla coil, NAND grenade, Ion beam, Short circuit, X-ray bomb, Plasma cannon, PN disintegrator and SQUID rifle. At the same spots, Microbes pick up their organic version, of equal power: Spore spitter, Pilus harpoon, Toxin flower, Enzyme spray, Virion gatling, Lysozyme worm, Triple spore, Flagellum whip, Exploding cyst, Prion dart, Phage pistol, Pandemic, Biofilm blob, Acid gland and Toxin blowpipe. Walk over one to pick it up: its shots are limited, and you lose it when you are eliminated. It comes back 35 s later. Around the contested zones (sites, pins, flip-flops), guard rings act as fortifications: low walls to go around, hide behind and fly over with the jetpack.", "Puce (carte)": "Chip (map)", "Puce": "Chip", "Les parties sur une autre puce rechargent la page avant d'entrer.": "Games on another chip reload the page before you join.", "Trois formes de 0,5 µm, toutes vertes : la bactérie à pics (gros yeux, crocs, sac d'acide), l'amibe molle aux yeux sur tentacules, et le bacille cyclope couvert de cils. Les Microbes crachent leur acide à 2,5 µm : il faut se coller aux parois pour les ronger.": "Three 0.5 µm shapes, all green: the spiky bacterium (big eyes, fangs, acid sac), the squishy amoeba with eyes on tentacles, and the cyclops bacillus covered in cilia. Microbes spit acid at 2.5 µm: hug the walls to eat through them.", "Trois machines blanches à lumières cyan : le nanorobot sur réacteurs, le drone sphère à rotor caréné, et la sentinelle à quatre pattes. Le blaster porte à 18 µm, l'outil de réparation à 4 µm.": "Three white machines with cyan lights: the nanorobot on thrusters, the sphere drone with its ducted rotor, and the four-legged sentinel. The blaster reaches 18 µm, the repair tool 4 µm.", "Personnaliser mon personnage": "Customize my character", "Personnalise ton Microbe et ton Défenseur : trois modèles par camp, une couleur d'accent et un accessoire. La couleur du camp reste la même, pour qu'on se reconnaisse en jeu.": "Customize your Microbe and your Defender: three models per side, an accent colour and an accessory. The side colour never changes, so everyone can tell the teams apart in game.", "Une bactérie à pics, gros yeux et crocs. Elle crache son acide à 2,5 µm et ronge les parois de la puce. Aussi en amibe ou en bacille cyclope, avec accent et accessoire au choix.": "A spiky bacterium with big eyes and fangs. It spits acid at 2.5 µm and eats through the chip walls. Also comes as an amoeba or a cyclops bacillus, with your pick of accent and accessory.", "Un nanorobot à visière cyan, monté sur deux réacteurs. Son blaster porte à 18 µm, et il répare ce que l'acide abîme. Aussi en drone sphère ou en sentinelle à quatre pattes, avec accent et accessoire au choix.": "A cyan-visored nanorobot on two small thrusters. Its blaster reaches 18 µm, and it repairs what the acid damages. Also comes as a sphere drone or a four-legged sentinel, with your pick of accent and accessory.", "<b>Puce · MUX<\/b><small id=\"mMuxSub\">316 tuiles de la navette TTSKY25b<\/small>": "<b>Chip · MUX<\/b><small id=\"mMuxSub\">316 tiles of the TTSKY25b shuttle<\/small>", "Puce · MUX": "Chip · MUX", "316 tuiles de la navette TTSKY25b": "316 tiles of the TTSKY25b shuttle", "Changer de tuile · MUX": "Change tile · MUX", "Les parties sur une autre tuile rechargent la page avant d'entrer.": "Games on another tile reload the page before you join.", "Choisir sur le MUX": "Pick on the MUX", "La puce et le MUX": "The chip and the MUX", "Microscope : taille de l'arène": "Microscope: arena size", "Automatique (selon les joueurs et le mode)": "Automatic (by players and mode)", "Toute la puce": "Whole chip", "75 % de la puce": "75% of the chip", "50 % de la puce": "50% of the chip", "35 % de la puce": "35% of the chip", "20 % de la puce": "20% of the chip", "Microscope en solo": "Microscope in solo", "L'écran <b>Puce · MUX<\/b> montre le vrai plan de la navette Tiny Tapeout SKY25b : 316 projets répartis autour du multiplexeur qui les sélectionne. Clique une tuile pour charger son layout et y jouer. Les grands projets se chargent en entier ; le microscope (réglé dans le salon) limite l'arène à une partie de la puce, derrière un bouclier infranchissable, pour que les joueurs se croisent. La puce choisie vaut pour le solo et pour les parties que tu crées ; rejoindre une partie sur une autre tuile recharge la page.": "The <b>Chip · MUX<\/b> screen shows the real floorplan of the Tiny Tapeout SKY25b shuttle: 316 projects laid out around the multiplexer that selects them. Click a tile to load its layout and play in it. Large projects load whole; the microscope (set in the lobby) limits the arena to part of the chip, behind an impassable shield, so players keep running into each other. The chip you pick applies to solo and to the games you create; joining a game on another tile reloads the page."}, "attr": {"Carte (M)": "Map (M)", "Part de la casse tolérée déjà atteinte": "Share of the tolerated damage already reached", "Introduction": "Introduction", "Menu": "Menu", "ton nom en jeu": "your in-game name", "Le Microbe et le Défenseur en 3D, qui tournent sur leur socle": "The Microbe and the Defender in 3D, spinning on their stands", "Menu principal": "Main menu", "Haut de page": "Top of page", "Sections": "Sections", "Changer de langue": "Change language", "En bref": "At a glance", "Code de salle": "Room code", "Le Microbe": "The Microbe", "Le Défenseur": "The Defender", "Couleur de ton Électron": "Your Electron colour", "Podium de la course": "Race podium", "Pseudo": "Nickname", "Écrire un message…": "Write a message…", "Message": "Message", "code": "code", "Aperçu de la zone couverte par le microscope": "Preview of the area covered by the microscope"}};
+  const H = {"html": {"sol": "ground", "substrat": "substrate", "à pied": "on foot", "Bascules trouvées": "Flip-flops found", "Couches": "Layers", "Vol": "Fly", "Carte": "Map", "Joueurs": "Players", "Touche la carte pour t'y téléporter": "Tap the map to teleport there", "Fermer": "Close", "SAUT": "JUMP", "BAS": "DOWN", "TIR": "FIRE", "RÉPARER": "REPAIR", "ÉCHELLE": "LADDER", "RAYON X": "X-RAY", "échauffement": "warm-up", "Intégrité 100 %": "Integrity 100 %", "Défenseurs": "Defenders", "100 PV": "100 HP", "<i><\/i>Rayon X · vias masqués <kbd>V<\/kbd>": "<i><\/i>X-ray · vias hidden <kbd>V<\/kbd>", "présente": "presents", "Une vraie puce. Des dizaines de milliers de parois. Deux camps.": "A real chip. Tens of thousands of walls. Two sides.", "Clique ou appuie sur une touche": "Click or press any key", "Passer": "Skip", "Reprendre": "Resume", "Retour dans la puce": "Back into the chip", "Jouer en ligne": "Play online", "Microbes contre Défenseurs": "Microbes vs Defenders", "Chargement de la puce…": "Loading the chip…", "Comment jouer": "How to play", "Règles et commandes": "Rules and controls", "Personnages": "Characters", "Microbes et Défenseurs": "Microbes and Defenders", "Souris, son, graphismes": "Mouse, sound, graphics", "Crédits": "Credits", "Un jeu produit par": "A game produced by", "← Retour": "← Back", "Connexion à la salle…": "Connecting to the room…", "Attaquants · acide à 2,5 µm": "Attackers · acid at 2.5 µm", "personne": "nobody", "Protègent et réparent": "Protect and repair", "Pseudo": "Nickname", "Mode de jeu": "Game mode", "Corrosion · sites A et B": "Corrosion · sites A and B", "Capture de broche · vole le signal adverse": "Pin Capture · steal the enemy signal", "Débordement · compteur 4 bits d'éliminations": "Overflow · 4-bit elimination counter", "Bascules D · tiens les registres": "D Flip-Flops · hold the registers", "Contamination · un patient zéro": "Contamination · one patient zero", "Les Microbes gagnent si la puce perd": "The Microbes win if the chip loses", "<b class=\"cM\">Microbes<\/b> : gardent l'<b>entrée VPWR<\/b>, l'alimentation, sur le flanc gauche de la puce.": "<b class=\"cM\">Microbes<\/b>: guard the <b>VPWR input<\/b>, the power supply, on the left side of the chip.", "<b class=\"cD\">Défenseurs<\/b> : gardent la <b>sortie uo_out[0]<\/b>, LEDS_LINE, qui pilote les LEDs, sur le bord haut.": "<b class=\"cD\">Defenders<\/b>: guard the <b>uo_out[0] output<\/b>, LEDS_LINE, which drives the LEDs, on the top edge.", "Touche le signal de la broche adverse pour le voler, ramène-le sur ta broche pendant que la tienne est en place : 1 capture. 3 captures gagnent la manche (8 min max).": "Touch the enemy pin's signal to steal it, bring it back to your pin while yours is in place: 1 capture. 3 captures win the round (8 min max).", "Porteur abattu : le signal tombe au sol. Un allié le remet en place en le touchant, sinon il revient seul en 20 s. Pas de jetpack quand on porte le signal ; on réapparaît 5 s après une élimination.": "Carrier down: the signal drops to the ground. A teammate puts it back by touching it, otherwise it returns on its own after 20 s. No jetpack while carrying the signal; you respawn 5 s after being eliminated.", "Match à mort par équipe. Chaque élimination incrémente le <b>compteur 4 bits<\/b> de ton équipe, affiché en binaire.": "Team deathmatch. Each elimination increments your team's <b>4-bit counter<\/b>, shown in binary.", "Le premier compteur qui déborde, de 1111 à 1 0000, soit 16 éliminations, gagne la manche (10 min max).": "The first counter to overflow, from 1111 to 1 0000, that is 16 eliminations, wins the round (10 min max).", "On réapparaît 4 s après une élimination. Le courant compte aussi : un électrocuté donne un point à l'adversaire.": "You respawn 4 s after being eliminated. The current counts too: an electrocuted player gives the enemy a point.", "Trois vraies <b>bascules D<\/b> (dfxtp) de LEDs Racer servent de points à tenir : A, B et C.": "Three real <b>D flip-flops<\/b> (dfxtp) from LEDs Racer are the points to hold: A, B and C.", "À chaque front d'horloge (1 s), si ton équipe est seule dans la zone, la bascule avance d'un cran : au 3<sup>e<\/sup> front, Q prend la valeur de ton équipe.": "On every clock edge (1 s), if your team is alone in the zone, the flip-flop moves one step: on the 3<sup>rd<\/sup> edge, Q takes your team's value.", "Chaque front, chaque bascule tenue rapporte 1 point. 150 points gagnent la manche (8 min max). Réapparition en 4 s.": "On every edge, each flip-flop held scores 1 point. 150 points win the round (8 min max). Respawn in 4 s.", "Tout le monde commence <b class=\"cD\">Défenseur<\/b>, sauf un <b class=\"cM\">patient zéro<\/b> tiré au hasard.": "Everyone starts as a <b class=\"cD\">Defender<\/b>, except one random <b class=\"cM\">patient zero<\/b>.", "Un défenseur éliminé est contaminé : il réapparaît en Microbe 3 s plus tard. Les Microbes sont plus rapides et encaissent deux fois mieux, mais n'ont que leur acide à 2,5 µm.": "An eliminated defender is infected: they respawn as a Microbe 3 s later. Microbes are faster and twice as tough, but only have their acid at 2.5 µm.", "Les Défenseurs gagnent si l'un d'eux tient 3 minutes ; les Microbes s'ils contaminent toute la puce. Le choix d'équipe est ignoré dans ce mode.": "The Defenders win if one of them holds out for 3 minutes; the Microbes if they infect the whole chip. Team choice is ignored in this mode.", "<b class=\"cM\">Microbes<\/b> : déposer la corrosion 6 s sur le site A (racine d'horloge) ou B (pilote de puissance), ou détruire assez de parois.": "<b class=\"cM\">Microbes<\/b>: plant the corrosion for 6 s on site A (clock root) or B (power driver), or destroy enough walls.", "<b class=\"cD\">Défenseurs<\/b> : les éliminer, neutraliser la corrosion en 5 s, réparer la puce au clic droit.": "<b class=\"cD\">Defenders<\/b>: eliminate them, neutralize the corrosion in 5 s, repair the chip with right-click.", "Toutes les 5 à 10 min, la puce est mise sous tension : 15 s d'alerte, puis le métal électrocute pendant 20 s.": "Every 5 to 10 min, the chip is powered on: 15 s of warning, then the metal electrocutes for 20 s.", "Pour jouer à plusieurs, invite tes amis depuis le menu Partager de la page : ils doivent être connectés à claude.ai.": "To play together, invite your friends from the page's Share menu: they must be signed in to claude.ai.", "Tu mesures un demi-micron. Le sol est le silicium, les murets rouges sont les grilles en polysilicium, et au-dessus s'empilent les couches de métal jusqu'aux rails d'alimentation dorés du met4.": "You are half a micron tall. The floor is silicon, the red low walls are polysilicon gates, and above them the metal layers stack up to the golden met4 power rails.", "Explore librement la puce LEDs Racer (<b id=\"sCells\">1 361<\/b> cellules logiques, 161 × 226 µm) et trouve à pied les <b id=\"sDff\">234<\/b> bascules D qui retiennent l'état du jeu.": "Freely explore the LEDs Racer chip (<b id=\"sCells\">1 361<\/b> logic cells, 161 × 226 µm) and find on foot the <b id=\"sDff\">234<\/b> D flip-flops that hold the game state.", "En ligne": "Online", "Les Microbes attaquent la puce, les Défenseurs la protègent. Une manche se gagne en posant ou en neutralisant la corrosion, en éliminant l'équipe adverse, ou, pour les Microbes, en détruisant assez de parois. Les Défenseurs voient à travers les murs où les Microbes attaquent.": "The Microbes attack the chip, the Defenders protect it. A round is won by planting or neutralizing the corrosion, by eliminating the other team, or, for the Microbes, by destroying enough walls. The Defenders see through walls where the Microbes are attacking.", "Capture de broche": "Pin Capture", "Chaque équipe garde une vraie broche de la puce : l'entrée d'alimentation VPWR pour les Microbes, la sortie uo_out[0] (LEDS_LINE) pour les Défenseurs. Vole le signal adverse, ramène-le sur ta broche : trois captures gagnent la manche.": "Each team guards a real pin of the chip: the VPWR power input for the Microbes, the uo_out[0] output (LEDS_LINE) for the Defenders. Steal the enemy signal, bring it back to your pin: three captures win the round.", "Débordement, Bascules D, Contamination": "Overflow, D Flip-Flops, Contamination", "<b>Débordement<\/b> : match à mort par équipe, chaque élimination incrémente un compteur 4 bits ; le premier qui déborde gagne. <b>Bascules D<\/b> : tiens les trois bascules dfxtp de la puce, elles basculent au front d'horloge et rapportent des points. <b>Contamination<\/b> : un patient zéro contamine les défenseurs, qui doivent tenir 3 minutes.": "<b>Overflow<\/b>: team deathmatch, each elimination increments a 4-bit counter; the first one to overflow wins. <b>D Flip-Flops<\/b>: hold the chip's three dfxtp flip-flops, they flip on the clock edge and score points. <b>Contamination<\/b>: a patient zero infects the defenders, who must hold out for 3 minutes.", "Commandes": "Controls", "ZQSD / WASD": "WASD / ZQSD", "se déplacer (Maj pour courir)": "move (Shift to run)", "Souris": "Mouse", "regarder": "look", "Espace": "Space", "sauter, maintenir pour le jetpack": "jump, hold for the jetpack", "Clic gauche": "Left click", "tirer, abîme aussi la puce": "fire, also damages the chip", "Clic droit": "Right click", "réparer ou reconstituer (Défenseurs)": "repair or rebuild (Defenders)", "poser ou neutraliser la corrosion": "plant or neutralize the corrosion", "construire une échelle vers la couche au-dessus": "build a ladder to the layer above", "vision rayon X : masquer ou montrer les vias": "X-ray vision: hide or show the vias", "carte": "map", "vol et couches (solo seulement)": "fly and layers (solo only)", "tableau des joueurs (en ligne)": "player list (online)", "Échap": "Esc", "menu": "menu", "Pouce gauche": "Left thumb", "se déplacer": "move", "Glisser à droite": "Drag on the right", "maintenir pour le jetpack": "hold for the jetpack", "TIR · ACTION": "FIRE · ACTION", "tirer · poser ou neutraliser": "fire · plant or neutralize", "Défenseurs : maintenir sur un élément abîmé": "Defenders: hold on a damaged element", "apparaît près d'une couche plus haute": "appears near a higher layer", "masquer ou montrer les vias": "hide or show the vias", "Aide": "Help", "Défenseur": "Defender", "Sensibilité de la visée <output id=\"optSensV\">1,0<\/output>": "Aim sensitivity <output id=\"optSensV\">1,0<\/output>", "Inverser l'axe vertical": "Invert vertical axis", "Volume <output id=\"optVolV\">80 %<\/output>": "Volume <output id=\"optVolV\">80 %<\/output>", "Qualité graphique": "Graphics quality", "Automatique (s'adapte à l'appareil)": "Automatic (adapts to the device)", "Haute": "High", "Basse (téléphones modestes)": "Low (modest phones)", "Style graphique": "Graphics style", "Sombre : ambiance de puce, arêtes adoucies": "Dark: chip mood, softened edges", "Clair : couleurs pastel, ciel bleu": "Light: pastel colors, blue sky", "Technique : arêtes nettes, sans arrondi": "Technical: sharp edges, no rounding", "Jouer l'intro au lancement": "Play the intro at launch", "Conception de la puce": "Chip design", "Fabrication": "Fabrication", "Tiny Tapeout SKY25b · procédé SkyWater SKY130": "Tiny Tapeout SKY25b · SkyWater SKY130 process", "Monde du jeu": "Game world", "Le layout réel de la puce, sur 14 couches du silicium au met4": "The real chip layout, on 14 layers from silicon to met4", "Moteur": "Engine", "three.js, développé avec Claude": "three.js, built with Claude", "Puce LEDs Racer · SKY130 · Tiny Tapeout SKY25b": "LEDs Racer chip · SKY130 · Tiny Tapeout SKY25b", "Bots : compléter chaque équipe jusqu'à": "Bots: fill each team up to", "aucun bot": "no bots", "1 joueur": "1 player", "2 joueurs": "2 players", "3 joueurs": "3 players", "4 joueurs": "4 players", "5 joueurs": "5 players", "un joueur qui arrive prend la place d'un bot": "a player who joins takes a bot's place", "S'il manque du monde, l'hôte de la partie complète chaque équipe avec des bots (réglable dans le salon, 3 par défaut). Ils suivent l'objectif du mode, tirent moins vite et moins juste qu'un joueur, et cèdent leur place dès qu'un joueur rejoint leur équipe. On peut donc jouer seul contre des bots.": "If players are missing, the match host fills each team with bots (set in the lobby, 3 by default). They follow the mode's objective, fire slower and less accurately than a player, and give up their place as soon as a player joins their team. So you can play alone against bots.", "Recherche et destruction": "Search and destroy", "Capture du drapeau": "Capture the flag", "Match à mort par équipe": "Team deathmatch", "Domination": "Domination", "Infection": "Infection", "Débordement": "Overflow", "Bascules D": "D Flip-Flops", "VÉHICULE": "VEHICLE", "Véhicules": "Vehicles", "monter dans un véhicule ou en descendre (en ligne)": "get in or out of a vehicle (online)", "Course · des entrées à la sortie": "Race · from the inputs to the output", "Course": "Race", "Course de capsules": "Capsule race", "Chaque joueur reçoit un <b>Électron<\/b> sur la grille de départ, devant les entrées ui_in. Tout le monde part au même signal.": "Each player gets an <b>Electron<\/b> on the starting grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0] : le tracé file au sol, sur les rails du met1 puis sur les rails dorés du met4. On change d'étage uniquement dans les puits (colonnes vertes).": "Pass the arches in order up to the uo_out[0] output: the track runs along the ground, on the met1 rails then on the golden met4 rails. You change level only in the shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Le premier à la sortie gagne (4 min max).": "Outside a shaft, if you leave the metal you fall to the level below and carry on from there. No shooting during the race. First to the output wins (4 min max).", "Un Électron chacun, départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Les arches se passent dans l'ordre, au sol puis sur les rails du met1 et du met4. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage.": "One Electron each, a mass start in front of the ui_in inputs, finish at the uo_out[0] output. Arches are passed in order, on the ground then on the met1 and met4 rails. You change level in the shafts; leaving the metal drops you one level.", "Six nano-capsules attendent dans les garages (sauf en Contamination). Défenseurs : la <b>Navette BUS<\/b>, 3 places et une tourelle de 8 tirs, et la <b>CAPA<\/b>, condensateur blindé à tir chargé. Microbes : la <b>Spore<\/b>, planeur à acide, et le <b>Phage<\/b>, au tir d'injection. Pour tous : deux <b>Électrons<\/b> très rapides qui bondissent en avant par effet tunnel (Maj), et l'<b>Ascenseur via<\/b> qui monte du silicium au met4. Tous les véhicules planent entre deux couches. F pour monter ou descendre, clic gauche pour l'arme du véhicule ; les passagers tirent avec leur arme. Les véhicules changent d'étage uniquement dans les puits, les colonnes vertes : Espace pour monter, C pour descendre. Un véhicule détruit éjecte ses occupants et revient au garage 45 s plus tard.": "Six nano-capsules wait in the garages (except in Contamination). Defenders: the <b>BUS Shuttle<\/b>, 3 seats and an 8-shot turret, and the <b>CAPA<\/b>, an armored capacitor with a charged shot. Microbes: the <b>Spore<\/b>, an acid glider, and the <b>Phage<\/b>, with its injection shot. For everyone: two very fast <b>Electrons<\/b> that leap forward by tunnel effect (Shift), and the <b>Via Lift<\/b> that rises from silicon to met4. All vehicles hover between two layers. F to get in or out, left click for the vehicle's weapon; passengers fire their own weapon. Vehicles change level only in the shafts, the green columns: Space to go up, C to go down. A destroyed vehicle throws out its occupants and returns to the garage 45 s later.", "Plein écran en jouant": "Fullscreen when playing", "La puce": "The chip", "KerCrafter Lab Studio présente": "KerCrafter Lab Studio presents", "Un FPS multijoueur dans le layout réel d'une puce Tiny Tapeout.": "A multiplayer FPS inside the real layout of a Tiny Tapeout chip.", "Lancer en plein écran": "Play fullscreen", "Jouer dans la fenêtre": "Play in the window", "Salle": "Room", "Copier le lien d'invitation": "Copy invite link", "couches, du silicium au met4": "layers, from silicon to met4", "modes de jeu en ligne": "online game modes", "véhicules nano-capsules": "nano-capsule vehicles", "gratuit, dans le navigateur": "free, in your browser", "Six modes de jeu": "Six game modes", "Les grands classiques du FPS, revus à l'échelle du demi-micron et de l'électronique numérique.": "The great FPS classics, rebuilt at half-micron scale and around digital electronics.", "Corrosion": "Corrosion", "Les Microbes posent la corrosion sur un site, les Défenseurs la neutralisent. Chaque paroi détruite le reste.": "Microbes plant corrosion on a site, Defenders neutralise it. Every wall destroyed stays destroyed.", "Vole le signal sur la broche adverse, VPWR ou uo_out[0], et ramène-le sur la tienne.": "Steal the signal from the enemy pin, VPWR or uo_out[0], and bring it back to yours.", "Chaque élimination incrémente un compteur 4 bits. Le premier qui déborde gagne.": "Every kill increments a 4-bit counter. First to overflow wins.", "Tiens les trois bascules dfxtp de la puce. Elles ne changent de camp qu'au front d'horloge.": "Hold the chip's three dfxtp flip-flops. They only change sides on the clock edge.", "Contamination": "Contamination", "Un patient zéro, et des Défenseurs de moins en moins nombreux. Tiens jusqu'au bout du chrono.": "One patient zero, and fewer and fewer Defenders. Hold out until the clock runs down.", "Des entrées ui_in à la sortie uo_out[0], arche par arche, d'un étage de métal à l'autre.": "From the ui_in inputs to the uo_out[0] output, arch by arch, from one metal deck to the next.", "Deux camps": "Two sides", "Six nano-capsules": "Six nano-capsules", "Navette BUS": "BUS shuttle", "3 places et une tourelle de 8 tirs.": "3 seats and an 8-shot turret.", "Condensateur blindé, tir chargé.": "Armoured capacitor, charged shot.", "Planeur à acide, ronge les parois.": "Acid glider, eats through walls.", "Vole d'une couche à l'autre, tir d'injection.": "Flies between layers, injection shot.", "Tous": "Everyone", "Électron": "Electron", "Le plus rapide, bondit par effet tunnel.": "The fastest, leaps ahead by tunnelling.", "Ascenseur via": "Via lift", "Monte du silicium jusqu'au met4.": "Rises from silicon up to met4.", "Une vraie puce": "A real chip", "Tu mesures un demi-micron. Bonne visite.": "You are half a micron tall. Enjoy the tour.", "se déplacer, Maj pour courir": "move, Shift to run", "viser, clic gauche pour tirer": "aim, left click to shoot", "sauter, jetpack": "jump, jetpack", "monter dans un véhicule": "get in a vehicle", "tableau des joueurs": "scoreboard", "menu et sortie du plein écran": "menu and exit fullscreen", "Prêt à rétrécir ?": "Ready to shrink?", "Un jeu KerCrafter Lab · développé avec Claude": "A KerCrafter Lab game · built with Claude", "Code source sur GitHub": "Source code on GitHub", "Nouvelle salle privée": "New private room", "Rejoindre": "Join", "Le terrain de jeu, c'est le dessin réel de la puce LEDs Racer, conçue par Clément Kerneur et fabriquée sur la navette Tiny Tapeout SKY25b, en procédé SkyWater SKY130.": "The playing field is the real layout of the LEDs Racer chip, designed by Clément Kerneur and fabricated on the Tiny Tapeout SKY25b shuttle, in the SkyWater SKY130 process.", "Chaque muret, chaque rail doré, chaque via est un vrai rectangle du layout : le polysilicium des grilles, les couches de métal li1 à met4, les rails d'alimentation VPWR et VGND, les bascules D qui retiennent l'état du jeu.": "Every low wall, every golden rail, every via is a real rectangle from the layout: polysilicon gates, metal layers li1 to met4, the VPWR and VGND power rails, the D flip-flops that hold the game state.", "Vision rayon X activée": "X-ray vision on", "Les vias, les petits piliers qui relient deux couches de métal, deviennent invisibles.": "Vias, the small pillars linking two metal layers, become invisible.", "Ils ne bloquent plus ni tes déplacements ni tes tirs. Les couches de métal, elles, restent solides.": "They no longer block your movement or your shots. The metal layers stay solid.", "Touche <kbd>V<\/kbd> (bouton RAYON X sur mobile) pour réafficher les vias à tout moment.": "Press <kbd>V<\/kbd> (X-RAY button on mobile) to show the vias again at any time.", "Appuie sur une touche ou clique pour continuer": "Press any key or click to continue", "Ce réglage est permanent : tu n'as rien à faire.": "This setting is permanent: there is nothing to do.", "vision rayon X : masquer ou montrer les vias (solo seulement, toujours active en ligne)": "X-ray vision: hide or show the vias (solo only, always on online)", "Nouveau joueur": "New player", "recharger l'arme ; la réserve d'énergie se refait aux condensateurs de découplage (colonnes jaunes)": "reload your weapon; the energy reserve refills at decoupling capacitors (yellow columns)", "Niveau des bots": "Bot level", "Ta couleur": "Your colour", "Rejoindre la course": "Join the race", "Un Électron chacun, pas d'équipes": "One Electron each, no teams", "Arrivée": "Finish", "Pas d'équipes : chacun choisit sa couleur et reçoit un Électron. Départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Le parcours change à chaque manche : deux à trois arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage. Tout le monde va au bout, puis podium.": "No teams: everyone picks a colour and gets an Electron. Grouped start in front of the ui_in inputs, finish at the uo_out[0] output. The track changes every round: two to three arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts; leaving the metal drops you one deck. Everyone gets to finish, then the podium.", "Pas d'équipes : choisis ta <b>couleur<\/b> (une couleur prise est grisée) et reçois un <b>Électron<\/b> sur la grille, devant les entrées ui_in. Tout le monde part au même signal.": "No teams: pick your <b>colour<\/b> (a taken colour is greyed out) and get an <b>Electron<\/b> on the grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0]. Le parcours est tiré au hasard à chaque manche : 2 ou 3 arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage uniquement dans les puits (colonnes vertes).": "Go through the arches in order to the uo_out[0] output. The track is drawn at random each round: 2 or 3 arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Tout le monde va au bout (40 s après le premier arrivé au plus), puis podium.": "Outside a shaft, if you leave the metal you drop to the deck below and carry on from there. No shooting during the race. Everyone gets to finish (at most 40 s after the first finisher), then the podium.", "Choisis ton pseudo : il s'affiche au-dessus de ta tête et dans les parties. Tu pourras le changer dans les Options.": "Choose your nickname: it shows above your head and in games. You can change it later in Options.", "Continuer": "Continue", "Parties": "Games", "Créer une partie": "Create a game", "← Parties": "← Games", "Choisis le mode de jeu": "Choose the game mode", "Quitter la partie": "Leave the game", "Partie en cours : tu entreras à la prochaine manche.": "Game in progress: you will join at the next round.", "Choisis ton camp": "Choose your side", "Joueurs par équipe (les places libres sont prises par des bots)": "Players per team (free spots are filled by bots)", "sans bots, places illimitées": "no bots, unlimited spots", "Discussion": "Chat", "Envoyer": "Send", "Je suis prêt": "I'm ready", "Lancer la partie": "Start the game", "Pseudo en ligne": "Online nickname", "KerCrafter Lab Studio, en association avec Chrisflix": "KerCrafter Lab Studio, in association with Chrisflix", "← Modes": "← Modes", "Parties publiques": "Public games", "Créer une partie publique": "Create a public game", "Créer une partie privée": "Create a private game", "Publique : visible par tous et ouverte à tout le monde. Privée : invisible dans la liste, on y entre seulement avec son code.": "Public: listed and open to everyone. Private: not listed, you get in only with its code.", "Rejoindre une partie privée": "Join a private game", "Partie privée · code": "Private game · code", "Copier le code": "Copy code", "X · molette": "X · wheel", "passer de l'arme ramassée à l'arme de base ; clic droit : lunette des fusils": "swap between the picked-up weapon and your base weapon; right click: rifle scope", "Armes et fortifications": "Weapons and fortifications", "Quinze armes": "Fifteen weapons", "Des fortifications autour des zones": "Fortifications around the zones", "En ligne, chaque site, broche et bascule est ceint d'un rempart de 0,62 µm : on entre par les angles, on se couvre derrière les piliers, on passe par-dessus au jetpack. Les murs arrêtent les tirs, sauf ceux des armes qui percent les parois.": "Online, every site, pin and flip-flop is ringed by a 0.62 µm rampart: get in through the corners, take cover behind the pillars, or jetpack over it. The walls stop shots, except from weapons that pierce walls.", "Armes": "Weapons", "X / molette": "X / wheel", "changer d'arme spéciale": "switch special weapon", "lunette des fusils de précision": "sniper scope", "Laser 405 nm": "405 nm Laser", "rafale violette, précise": "precise violet burst", "Fusil à électrons": "Electron rifle", "longue portée, lunette au clic droit": "long range, scope on right click", "Canon EMP": "EMP cannon", "impulsion électromagnétique, zone de 3 µm": "electromagnetic pulse, 3 µm area", "Décharge ESD": "ESD discharge", "7 arcs en éventail, à bout portant": "7 arcs in a fan, point blank", "Mitrailleuse 1 GHz": "1 GHz machine gun", "tire à la cadence de l'horloge": "fires at clock speed", "Rayon gamma": "Gamma ray", "lourd, abîme les parois": "heavy, damages walls", "Lance-photons": "Photon launcher", "rafale de 3 photons": "3-photon burst", "Bobine Tesla": "Tesla coil", "arc large à courte portée": "wide short-range arc", "Grenade NAND": "NAND grenade", "explose à l'impact, zone de 2 µm": "explodes on impact, 2 µm area", "Faisceau d'ions": "Ion beam", "rapide et tendu": "fast and flat", "Court-circuit": "Short circuit", "pistolet rapide": "rapid pistol", "Bombe à rayons X": "X-ray bomb", "destruction massive, zone de 4,5 µm": "mass destruction, 4.5 µm area", "Canon à plasma": "Plasma cannon", "boule de plasma, petite zone": "plasma ball, small area", "Désintégrateur PN": "PN disintegrator", "fait fondre les parois (×6)": "melts walls (×6)", "Fusil SQUID": "SQUID rifle", "supraconducteur, lunette ×2 au clic droit": "superconducting, ×2 scope on right click", "<b>22<\/b> dégâts · <b>30<\/b> tirs · <b>22<\/b> µm": "<b>22<\/b> damage · <b>30<\/b> shots · <b>22<\/b> µm", "<b>Laser 405 nm<\/b> rafale violette, précise": "<b>405 nm Laser<\/b> precise violet burst", "<b>Crachat de spores<\/b> rafale de spores collantes": "<b>Spore spitter<\/b> burst of sticky spores", "<b>95<\/b> dégâts · <b>6<\/b> tirs · <b>45<\/b> µm": "<b>95<\/b> damage · <b>6<\/b> shots · <b>45<\/b> µm", "<b>Fusil à électrons<\/b> longue portée, lunette au clic droit": "<b>Electron rifle<\/b> long range, scope on right click", "<b>Harpon à pilus<\/b> longue portée, œil-lunette au clic droit": "<b>Pilus harpoon<\/b> long range, eye-scope on right click", "<b>120<\/b> dégâts · <b>3<\/b> tirs · <b>18<\/b> µm": "<b>120<\/b> damage · <b>3<\/b> shots · <b>18<\/b> µm", "<b>Canon EMP<\/b> impulsion électromagnétique, zone de 3 µm": "<b>EMP cannon<\/b> electromagnetic pulse, 3 µm area", "<b>Fleur à toxines<\/b> nuage toxique, zone de 3 µm": "<b>Toxin flower<\/b> toxic cloud, 3 µm area", "<b>7 × 14<\/b> dégâts · <b>8<\/b> tirs · <b>9<\/b> µm": "<b>7 × 14<\/b> damage · <b>8<\/b> shots · <b>9<\/b> µm", "<b>Décharge ESD<\/b> 7 arcs en éventail, à bout portant": "<b>ESD discharge<\/b> 7 arcs in a fan, point blank", "<b>Gerbe d'enzymes<\/b> 5 jets d'enzymes, à bout portant": "<b>Enzyme spray<\/b> 5 enzyme jets, point blank", "<b>9<\/b> dégâts · <b>90<\/b> tirs · <b>16<\/b> µm": "<b>9<\/b> damage · <b>90<\/b> shots · <b>16<\/b> µm", "<b>Mitrailleuse 1 GHz<\/b> tire à la cadence de l'horloge": "<b>1 GHz machine gun<\/b> fires at clock speed", "<b>Mitraille de virions<\/b> crache des virions en continu": "<b>Virion gatling<\/b> spits virions nonstop", "<b>55<\/b> dégâts · <b>10<\/b> tirs · <b>26<\/b> µm": "<b>55<\/b> damage · <b>10<\/b> shots · <b>26<\/b> µm", "<b>Rayon gamma<\/b> lourd, abîme les parois": "<b>Gamma ray<\/b> heavy, damages walls", "<b>Ver à lysozyme<\/b> lourd, digère les parois": "<b>Lysozyme worm<\/b> heavy, digests walls", "<b>3 × 16<\/b> dégâts · <b>15<\/b> tirs · <b>24<\/b> µm": "<b>3 × 16<\/b> damage · <b>15<\/b> shots · <b>24<\/b> µm", "<b>Lance-photons<\/b> rafale de 3 photons": "<b>Photon launcher<\/b> 3-photon burst", "<b>Triple spore<\/b> rafale de 3 spores": "<b>Triple spore<\/b> burst of 3 spores", "<b>34<\/b> dégâts · <b>20<\/b> tirs · <b>6<\/b> µm": "<b>34<\/b> damage · <b>20<\/b> shots · <b>6<\/b> µm", "<b>Bobine Tesla<\/b> arc large à courte portée": "<b>Tesla coil<\/b> wide short-range arc", "<b>Fouet flagellaire<\/b> coup large à courte portée": "<b>Flagellum whip<\/b> wide lash at short range", "<b>85<\/b> dégâts · <b>4<\/b> tirs · <b>14<\/b> µm": "<b>85<\/b> damage · <b>4<\/b> shots · <b>14<\/b> µm", "<b>Grenade NAND<\/b> explose à l'impact, zone de 2 µm": "<b>NAND grenade<\/b> explodes on impact, 2 µm area", "<b>Kyste explosif<\/b> éclate à l'impact, zone de 2 µm": "<b>Exploding cyst<\/b> bursts on impact, 2 µm area", "<b>32<\/b> dégâts · <b>16<\/b> tirs · <b>30<\/b> µm": "<b>32<\/b> damage · <b>16<\/b> shots · <b>30<\/b> µm", "<b>Faisceau d'ions<\/b> rapide et tendu": "<b>Ion beam<\/b> fast and flat", "<b>Dard à prions<\/b> rapide et tendu": "<b>Prion dart<\/b> fast and flat", "<b>26<\/b> dégâts · <b>18<\/b> tirs · <b>18<\/b> µm": "<b>26<\/b> damage · <b>18<\/b> shots · <b>18<\/b> µm", "<b>Court-circuit<\/b> pistolet rapide": "<b>Short circuit<\/b> rapid pistol", "<b>Pistolet à phages<\/b> pistolet rapide": "<b>Phage pistol<\/b> fast pistol", "<b>200<\/b> dégâts · <b>1<\/b> tir · <b>20<\/b> µm": "<b>200<\/b> damage · <b>1<\/b> shot · <b>20<\/b> µm", "<b>Bombe à rayons X<\/b> destruction massive, zone de 4,5 µm": "<b>X-ray bomb<\/b> mass destruction, 4.5 µm area", "<b>Pandémie<\/b> destruction massive, zone de 4,5 µm": "<b>Pandemic<\/b> mass destruction, 4.5 µm area", "<b>60<\/b> dégâts · <b>6<\/b> tirs · <b>20<\/b> µm": "<b>60<\/b> damage · <b>6<\/b> shots · <b>20<\/b> µm", "<b>Canon à plasma<\/b> boule de plasma, petite zone": "<b>Plasma cannon<\/b> plasma ball, small area", "<b>Boule de biofilm<\/b> boule gluante, petite zone": "<b>Biofilm blob<\/b> sticky blob, small area", "<b>40<\/b> dégâts · <b>12<\/b> tirs · <b>10<\/b> µm": "<b>40<\/b> damage · <b>12<\/b> shots · <b>10<\/b> µm", "<b>Désintégrateur PN<\/b> fait fondre les parois (×6)": "<b>PN disintegrator<\/b> melts walls (×6)", "<b>Glande à acide<\/b> dissout les parois (×6)": "<b>Acid gland<\/b> dissolves walls (×6)", "<b>70<\/b> dégâts · <b>8<\/b> tirs · <b>36<\/b> µm": "<b>70<\/b> damage · <b>8<\/b> shots · <b>36<\/b> µm", "<b>Fusil SQUID<\/b> supraconducteur, lunette ×2 au clic droit": "<b>SQUID rifle<\/b> superconducting, ×2 scope on right click", "<b>Sarbacane à toxine<\/b> longue portée, œil-lunette ×2 au clic droit": "<b>Toxin blowpipe<\/b> long range, ×2 eye-scope on right click", "Chaque arme existe en deux versions de même puissance : un engin pour les Défenseurs, un organe vivant pour les Microbes. Elles sont disséminées au hasard sur la puce, à de nouvelles places chaque manche. Marche dessus pour la ramasser, X ou la molette pour changer, clic droit pour la lunette. Une arme vide ou un joueur éliminé la perd ; elle réapparaît 35 s plus tard.": "Every weapon comes in two versions of equal power: a device for the Defenders, a living organ for the Microbes. They are scattered at random across the chip, in new places every round. Walk over one to pick it up, X or the mouse wheel to switch, right click for the scope. It is lost when empty or when you are eliminated, and respawns 35 s later.", "Quinze armes par camp": "Fifteen weapons per side", "À chaque manche, 15 armes sont posées au hasard sur la puce (colonnes de couleur, ronds sur la carte) : Laser 405 nm, Fusil à électrons, Canon EMP, Décharge ESD, Mitrailleuse 1 GHz, Rayon gamma, Lance-photons, Bobine Tesla, Grenade NAND, Faisceau d'ions, Court-circuit, Bombe à rayons X, Canon à plasma, Désintégrateur PN et Fusil SQUID. Les Microbes ramassent au même endroit leur version organique, de même puissance : Crachat de spores, Harpon à pilus, Fleur à toxines, Gerbe d'enzymes, Mitraille de virions, Ver à lysozyme, Triple spore, Fouet flagellaire, Kyste explosif, Dard à prions, Pistolet à phages, Pandémie, Boule de biofilm, Glande à acide et Sarbacane à toxine. Passe dessus pour la prendre : ses tirs sont comptés, et tu la perds si tu es éliminé. Elle réapparaît 35 s plus tard. Autour des zones disputées (sites, broches, bascules), des anneaux de garde servent de fortifications : des murets qu'on contourne, derrière lesquels on s'abrite, et qu'on survole au jetpack.": "Each round, 15 weapons are placed at random on the chip (coloured columns, dots on the map): 405 nm Laser, Electron rifle, EMP cannon, ESD discharge, 1 GHz machine gun, Gamma ray, Photon launcher, Tesla coil, NAND grenade, Ion beam, Short circuit, X-ray bomb, Plasma cannon, PN disintegrator and SQUID rifle. At the same spots, Microbes pick up their organic version, of equal power: Spore spitter, Pilus harpoon, Toxin flower, Enzyme spray, Virion gatling, Lysozyme worm, Triple spore, Flagellum whip, Exploding cyst, Prion dart, Phage pistol, Pandemic, Biofilm blob, Acid gland and Toxin blowpipe. Walk over one to pick it up: its shots are limited, and you lose it when you are eliminated. It comes back 35 s later. Around the contested zones (sites, pins, flip-flops), guard rings act as fortifications: low walls to go around, hide behind and fly over with the jetpack.", "Puce (carte)": "Chip (map)", "Puce": "Chip", "Les parties sur une autre puce rechargent la page avant d'entrer.": "Games on another chip reload the page before you join.", "Trois formes de 0,5 µm, toutes vertes : la bactérie à pics (gros yeux, crocs, sac d'acide), l'amibe molle aux yeux sur tentacules, et le bacille cyclope couvert de cils. Les Microbes crachent leur acide à 2,5 µm : il faut se coller aux parois pour les ronger.": "Three 0.5 µm shapes, all green: the spiky bacterium (big eyes, fangs, acid sac), the squishy amoeba with eyes on tentacles, and the cyclops bacillus covered in cilia. Microbes spit acid at 2.5 µm: hug the walls to eat through them.", "Trois machines blanches à lumières cyan : le nanorobot sur réacteurs, le drone sphère à rotor caréné, et la sentinelle à quatre pattes. Le blaster porte à 18 µm, l'outil de réparation à 4 µm.": "Three white machines with cyan lights: the nanorobot on thrusters, the sphere drone with its ducted rotor, and the four-legged sentinel. The blaster reaches 18 µm, the repair tool 4 µm.", "Personnaliser mon personnage": "Customize my character", "Personnalise ton Microbe et ton Défenseur : trois modèles par camp, une couleur d'accent et un accessoire. La couleur du camp reste la même, pour qu'on se reconnaisse en jeu.": "Customize your Microbe and your Defender: three models per side, an accent colour and an accessory. The side colour never changes, so everyone can tell the teams apart in game.", "Une bactérie à pics, gros yeux et crocs. Elle crache son acide à 2,5 µm et ronge les parois de la puce. Aussi en amibe ou en bacille cyclope, avec accent et accessoire au choix.": "A spiky bacterium with big eyes and fangs. It spits acid at 2.5 µm and eats through the chip walls. Also comes as an amoeba or a cyclops bacillus, with your pick of accent and accessory.", "Un nanorobot à visière cyan, monté sur deux réacteurs. Son blaster porte à 18 µm, et il répare ce que l'acide abîme. Aussi en drone sphère ou en sentinelle à quatre pattes, avec accent et accessoire au choix.": "A cyan-visored nanorobot on two small thrusters. Its blaster reaches 18 µm, and it repairs what the acid damages. Also comes as a sphere drone or a four-legged sentinel, with your pick of accent and accessory.", "<b>Puce · MUX<\/b><small id=\"mMuxSub\">316 tuiles de la navette TTSKY25b<\/small>": "<b>Chip · MUX<\/b><small id=\"mMuxSub\">316 tiles of the TTSKY25b shuttle<\/small>", "Puce · MUX": "Chip · MUX", "316 tuiles de la navette TTSKY25b": "316 tiles of the TTSKY25b shuttle", "Changer de tuile · MUX": "Change tile · MUX", "Les parties sur une autre tuile rechargent la page avant d'entrer.": "Games on another tile reload the page before you join.", "Choisir sur le MUX": "Pick on the MUX", "La puce et le MUX": "The chip and the MUX", "Microscope : taille de l'arène": "Microscope: arena size", "Automatique (selon les joueurs et le mode)": "Automatic (by players and mode)", "Toute la puce": "Whole chip", "75 % de la puce": "75% of the chip", "50 % de la puce": "50% of the chip", "35 % de la puce": "35% of the chip", "20 % de la puce": "20% of the chip", "Microscope en solo": "Microscope in solo", "L'écran <b>Puce · MUX<\/b> montre le vrai plan de la navette Tiny Tapeout SKY25b : 316 projets répartis autour du multiplexeur qui les sélectionne. Clique une tuile pour charger son layout et y jouer. Les grands projets se chargent en entier ; le microscope (réglé dans le salon) limite l'arène à une partie de la puce, derrière un bouclier infranchissable, pour que les joueurs se croisent. La puce choisie vaut pour le solo et pour les parties que tu crées ; rejoindre une partie sur une autre tuile recharge la page.": "The <b>Chip · MUX<\/b> screen shows the real floorplan of the Tiny Tapeout SKY25b shuttle: 316 projects laid out around the multiplexer that selects them. Click a tile to load its layout and play in it. Large projects load whole; the microscope (set in the lobby) limits the arena to part of the chip, behind an impassable shield, so players keep running into each other. The chip you pick applies to solo and to the games you create; joining a game on another tile reloads the page.", "Salon · tous les joueurs": "Lobby · every player", "Parties ouvertes": "Open games", "Mode anonyme": "Anonymous mode", "parties publiques": "public games", "toujours": "always", "jamais": "never", "Se déconnecter": "Sign out", "Essai local": "Local test", "Inviter depuis le salon": "Invite from the lobby", "Le jeu en ligne est réservé aux joueurs connectés. Connecte-toi avec un compte que tu as déjà : le jeu ne reçoit que ton nom et ta photo.": "Online play is for signed-in players. Sign in with an account you already have: the game only receives your name and picture.", "Ton pseudo en ligne sera le nom de ce compte, vérifié pour tous les joueurs. Le salon et les parties sont chiffrés ; le mode solo reste libre, sans compte.": "Your online name will be this account's name, verified for every player. The lobby and the games are encrypted; solo play stays free, no account needed.", "Microbes contre Défenseurs, six modes de jeu, des nano-capsules à piloter. Directement dans le navigateur, sans installation ; un compte GitHub, Discord ou Google suffit pour jouer en ligne.": "Microbes vs Defenders, six game modes, nano-capsules to pilot. Right in your browser, no install; a GitHub, Discord or Google account is all you need to play online."}, "attr": {"Carte (M)": "Map (M)", "Part de la casse tolérée déjà atteinte": "Share of the tolerated damage already reached", "Introduction": "Introduction", "Menu": "Menu", "ton nom en jeu": "your in-game name", "Le Microbe et le Défenseur en 3D, qui tournent sur leur socle": "The Microbe and the Defender in 3D, spinning on their stands", "Menu principal": "Main menu", "Haut de page": "Top of page", "Sections": "Sections", "Changer de langue": "Change language", "En bref": "At a glance", "Code de salle": "Room code", "Le Microbe": "The Microbe", "Le Défenseur": "The Defender", "Couleur de ton Électron": "Your Electron colour", "Podium de la course": "Race podium", "Pseudo": "Nickname", "Écrire un message…": "Write a message…", "Message": "Message", "code": "code", "Aperçu de la zone couverte par le microscope": "Preview of the area covered by the microscope", "Écrire à tout le salon…": "Write to the whole lobby…", "Message au salon": "Message to the lobby"}};
   const sel = document.getElementById("optLang");
   if (sel) { sel.value = LANG; sel.addEventListener("change", () => { try { localStorage.setItem("cda-lang", sel.value); } catch (e) {} location.reload(); }); }
   if (!EN) return;
@@ -3208,26 +3256,30 @@ function splashFeedback(b, sp, dm, skip) {
 const SELF_HOST = !!window.NET_CFG && !(window.claude && typeof window.claude.use === "function");
 const NET_VER = "0.25.4", NET_STRATS = ["nostr", "mqtt", "torrent", "supabase", "ws-relay"];
 const NET = { strat: "", err: "", code: "" };
+let SH_ROOM_P = null;   // salle ouverte (une seule à la fois ; remise à zéro quand on quitte une session)
 function selfHostClaude() {
-  let roomP = null;
-  return { use: async n => n === "room" ? (roomP || (roomP = selfHostRoom())) : n === "user" ? { name: async () => "" } : null };
+  return { use: async n => n === "room" ? (SH_ROOM_P || (SH_ROOM_P = selfHostRoom())) : n === "user" ? { name: async () => "" } : null };
 }
 async function selfHostRoom() {
-  const C = window.NET_CFG || {}, strat = NET_STRATS.includes(C.strategy) ? C.strategy : "nostr";
-  NET.strat = strat; NET.code = cdaRoom();
+  const SS = window.CDA_SESS;   // session de jeu sécurisée : notre relais, clé de la partie, TURN éventuel
+  const C = window.NET_CFG || {}, strat = SS ? "nostr" : NET_STRATS.includes(C.strategy) ? C.strategy : "nostr";
+  NET.strat = strat; NET.code = SS ? SS.r : cdaRoom();
   const url = (typeof C.lib === "string" && C.lib ? C.lib : "https://cdn.jsdelivr.net/npm/@trystero-p2p/{s}@" + NET_VER + "/+esm").replace("{s}", strat);
   let T;
   try { T = await import(url); } catch (e) { NET.err = "lib"; throw e; }
+  NET.T = T;
   const cfg = { appId: strat === "supabase" ? String(C.supabaseUrl || "") : String(C.appId || "chip-defender-arena") };
   const rc = {};
   if (Array.isArray(C.relayUrls) && C.relayUrls.length) rc.urls = C.relayUrls.map(String);
+  if (SS && SS.relay) rc.urls = [SS.relay];
   if (strat === "supabase") rc.supabaseKey = String(C.supabaseKey || "");
   if (strat === "ws-relay" && !rc.urls) { NET.err = "cfg"; throw new Error("ws-relay sans relayUrls"); }
   if (strat === "supabase" && (!cfg.appId || !rc.supabaseKey)) { NET.err = "cfg"; throw new Error("supabase incomplet"); }
   rc.warnOnRelayFailure = false;
   cfg.relayConfig = rc;
   if (Array.isArray(C.turn) && C.turn.length) cfg.turnConfig = C.turn;
-  if (C.password) cfg.password = String(C.password);
+  if (SS) cfg.password = SS.key; else if (C.password) cfg.password = String(C.password);
+  if (SS && SS.ice) cfg.rtcConfig = { iceServers: SS.ice, iceTransportPolicy: "relay" };   // mode anonyme : tout passe par TURN
   const tr = T.joinRoom(cfg, "cda-" + NET.code, { onJoinError: d => { NET.err = "join"; console.warn("salle :", d && d.error); } });
   const self = T.selfId;
   let mine = {}, snap = Object.freeze([]);
@@ -3271,6 +3323,7 @@ async function selfHostRoom() {
     peers: () => snap,
     connected: () => true,
     count: () => others.size,
+    leave() { try { tr.leave(); } catch (e) {} others.clear(); lsP.length = 0; lsC.length = 0; },
     onPeers(f) { lsP.push(f); soon(); return () => { const i = lsP.indexOf(f); if (i >= 0) lsP.splice(i, 1); }; },
     onConnection(f) { lsC.push(f); return () => {}; },
     emit: () => Promise.resolve(), on: () => () => {},
@@ -3278,7 +3331,7 @@ async function selfHostRoom() {
 }
 /* salle privée : code dans l'adresse (?salle=xxxx), lien d'invitation, nouvelle salle */
 function roomUI() {
-  if (!SELF_HOST) return;
+  if (!SELF_HOST || (AUTH && AUTH.on)) return;
   const row = $("roomRow"); row.hidden = false;
   $("roomCode").textContent = cdaRoom();
   $("roomCopy").onclick = () => {
@@ -3397,8 +3450,8 @@ function acKicked() {
   UI.inGame = false; UI.openMenu();
 }
 
-/* ---- connexion à la salle ---- */
-(async () => {
+/* ---- connexion à la salle (au démarrage sans auth.json ; sinon à l'ouverture d'une session de jeu) ---- */
+async function roomConnect() {
   const c = window.claude && typeof window.claude.use === "function" ? window.claude : SELF_HOST ? selfHostClaude() : null;
   roomUI();
   let room = null;
@@ -3408,12 +3461,13 @@ function acKicked() {
   try { MP.user = await c.use("user"); } catch (e) { MP.user = null; }
   try { const saved = localStorage.getItem("ledsracer-nick"); if (saved) $("nick").value = saved; } catch (e) {}
   if (!$("nick").value && MP.user) { try { const n = await MP.user.name(); if (n) $("nick").value = n.split(" ")[0].slice(0, 16); } catch (e) {} }
-  MP.room.onPeers(ch => { MP.peers = ch.peers.filter(p => p.sameTab || !acBanned(p.peer)); try { if (MP.on) MP.peers = MP.peers.concat(botPeers()); } catch (e) {}   /* les bots restent visibles entre deux images */ for (const p of ch.left) dropAvatar(p.peer); updateLobby(); },
+  const myRaw = room;
+  MP.room.onPeers(ch => { if (MP.raw !== myRaw) return; MP.peers = ch.peers.filter(p => p.sameTab || !acBanned(p.peer)); try { if (MP.on) MP.peers = MP.peers.concat(botPeers()); } catch (e) {}   /* les bots restent visibles entre deux images */ for (const p of ch.left) dropAvatar(p.peer); updateLobby(); },
     e => { $("mpStatus").textContent = (EN ? "Room unreachable" : "Salle inaccessible"); diagnoseRoom(e && e.code); });
   MP.room.onConnection(ok => { if (MP.room) $("mpStatus").textContent = ok ? (EN ? "Connected to the room" : "Connecté à la salle") : (EN ? "Connecting to the room…" : "Connexion à la salle…"); updateLobby(); });
   $("tM").disabled = $("tD").disabled = $("tR").disabled = false;
-  nickInit(); updateLobby(); lobbyPublish();
-})();
+  if (!(AUTH && AUTH.on)) nickInit(); updateLobby(); lobbyPublish();
+}
 /* ---- pourquoi la salle ne répond pas : explication claire + bouton d'autorisation ---- */
 async function diagnoseRoom(code) {
   if (SELF_HOST) {
@@ -3448,7 +3502,7 @@ function updateLobby() {
   $("nM").textContent = withBots(cnt("M"), nb("M")); $("nD").textContent = withBots(cnt("D"), nb("D"));
   if (MP.room && MP.room.connected()) {
     const n = MP.raw ? MP.raw.peers().length : ps.length;
-    $("mpStatus").textContent = n <= 1 ? (EN ? "Connected · you're alone in the room for now" : "Connecté · tu es seul dans la salle pour l'instant") : (EN ? `Connected · ${n} people on the page` : `Connecté · ${n} personnes sur la page`);
+    $("mpStatus").textContent = AUTH && AUTH.on ? (n <= 1 ? (EN ? "Game room · waiting for players" : "Salle de la partie · en attente de joueurs") : (EN ? `Game room · ${n} players` : `Salle de la partie · ${n} joueurs`)) : n <= 1 ? (EN ? "Connected · you're alone in the room for now" : "Connecté · tu es seul dans la salle pour l'instant") : (EN ? `Connected · ${n} people on the page` : `Connecté · ${n} personnes sur la page`);
   }
 }
 
@@ -5969,6 +6023,7 @@ function leaveGame(quiet) {
   MP.gid = null; MP.gdOwn = false; MP.gd = null; MP.gdLast = null; MP.rd = false; MP.lt = null; MP.wait = false; MP.cfg = null;
   L.chat = []; L.log = []; L.seen.clear();
   lobbyPublish(); if (!quiet) lobbyRender(true);
+  if (AUTH && AUTH.on && window.CDA_SESS) sessEnd();   // une session = une partie : on quitte sa salle
 }
 const freshLobbyG = () => ({ r: 0, ph: "wait", t0: Date.now(), bomb: null, win: null, why: "", sc: { M: 0, D: 0 }, mode: vMode($("gmode").value), fl: null, cap: { M: 0, D: 0 }, evs: [], evn: 0 });
 // quitter le jeu en cours (retour au salon)
@@ -5997,19 +6052,20 @@ function teamClick(t) {
   if (t !== "race" && cap) { const n = members().filter(q => !q.sameTab && (q.presence.lt === t || q.presence.team === t)).length; if (n >= cap) { toast((EN ? "This side is full" : "Ce camp est complet")); return; } }
   MP.lt = t; UI.click && UI.click(); lobbyPublish(); lobbyRender(true);
 }
-$("gCreate").onclick = () => createGame(L.mode, false);
-$("gCreatePv").onclick = () => createGame(L.mode, true);
+$("gCreate").onclick = () => sessCreate(L.mode, false);
+$("gCreatePv").onclick = () => sessCreate(L.mode, true);
 $("lBack").onclick = () => { L.mode = null; lobbyRender(true); };
 $("codeGo").onclick = () => { const c = ($("codeIn").value || "").toLowerCase().replace(/[^a-z0-9]/g, ""); if (c) joinGame(c, true); };
 $("codeIn").addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Enter") $("codeGo").click(); });
-const inviteUrl = code => (typeof cdaRoomUrl === "function" && SELF_HOST ? cdaRoomUrl(cdaRoom()) : location.href.split("#")[0]) + "#p" + code;
+const inviteUrl = code => AUTH && AUTH.on && window.CDA_SESS ? location.origin + location.pathname + "#s=" + [window.CDA_SESS.r, window.CDA_SESS.key, code, window.CDA_SESS.anon ? 1 : 0].join(".") : (typeof cdaRoomUrl === "function" && SELF_HOST ? cdaRoomUrl(cdaRoom()) : location.href.split("#")[0]) + "#p" + code;
 $("gmCodeCopy").onclick = () => { const c = (MP.gid || "").toUpperCase(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => toast((EN ? "Code copied" : "Code copié")), () => toast(c)); };
 $("gmLinkCopy").onclick = () => { const u = inviteUrl(MP.gid || ""); (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => toast((EN ? "Invite link copied" : "Lien d'invitation copié")), () => toast(u)); };
 // arrivée par un lien d'invitation (#pCODE) : on rejoint la partie dès qu'elle est visible
 { const m = /^#p([a-z0-9]{4,8})$/i.exec(location.hash || ""); if (m) L.pending = { code: m[1].toLowerCase(), until: performance.now() + 20000 }; }
 // retour après un changement de puce : on rouvre la liste du mode, ou on entre dans la partie visée
 { let a = null; try { a = JSON.parse(sessionStorage.getItem("cda-after") || "null"); sessionStorage.removeItem("cda-after"); } catch (e) {}
-  if (a && a.join) L.pending = { code: a.join, until: performance.now() + 20000 };
+  if (a && a.join) L.pending = { code: a.join, until: performance.now() + 30000 };
+  if (a && a.salon) L.after = a;
   if (a && a.mode) L.after = a; }
 
 $("gLeave").onclick = () => { leaveGame(); };
@@ -6070,9 +6126,16 @@ function avatarShots() {
 window.lobbyRender = f => lobbyRender(f);
 function lobbyRender(force) {
   if ($("pMulti").hidden && !force) return;
-  const view = !nickOk() ? "nick" : MP.gid ? "game" : L.mode ? "list" : "create";
-  if (view !== L.view) { L.view = view; for (const [v, id] of [["nick", "lvNick"], ["list", "lvList"], ["create", "lvCreate"], ["game", "lvGame"]]) $(id).hidden = v !== view; if (view === "game") { avatarShots(); chatRender(true); } if (view === "create") document.querySelectorAll("#lvCreate .mcard").forEach(c => c.setAttribute("aria-checked", "false")); }
+  const view = AUTH && AUTH.on && !AUTH.user ? "auth" : !nickOk() ? "nick" : MP.gid ? "game" : L.mode ? "list" : "create";
+  if (AUTH && AUTH.on) {
+    $("salon").hidden = !AUTH.user || !(view === "create" || view === "list");
+    if (view === "auth") authRender(); else { salHeadRender(); if (view === "game") salGameRender(); else salRender(force); }
+    if (!MP.raw && AUTH.user) $("mpStatus").textContent = SAL.open ? (EN ? `Lobby · ${SAL.online.size + 1} online` : `Salon · ${SAL.online.size + 1} en ligne`) : (EN ? "Connecting to the lobby…" : "Connexion au salon…");
+    else if (!AUTH.user) $("mpStatus").textContent = AUTH.ready ? (EN ? "Sign in to play online" : "Connecte-toi pour jouer en ligne") : (EN ? "Sign-in…" : "Connexion…");
+  }
+  if (view !== L.view) { L.view = view; for (const [v, id] of [["auth", "lvAuth"], ["nick", "lvNick"], ["list", "lvList"], ["create", "lvCreate"], ["game", "lvGame"]]) $(id).hidden = v !== view; if (view === "game") { avatarShots(); chatRender(true); } if (view === "create") document.querySelectorAll("#lvCreate .mcard").forEach(c => c.setAttribute("aria-checked", "false")); }
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  if (view === "list" && AUTH && AUTH.on) { salListRender(force); return; }
   if (view === "list") {
     const gl = gameList().filter(g => vMode(g.gd.mode) === L.mode);
     $("lTitle").textContent = `${EN ? "Public games" : "Parties publiques"} · ${MODE_NAME[L.mode]}`;
@@ -6130,7 +6193,7 @@ function lobbyRender(force) {
 function afterTick() {
   if (L.after && UI.openPanel) {
     const a = L.after; L.after = null; $("start").hidden = false; UI.showMenu && UI.stage !== "menu" && UI.showMenu();
-    if (a.mode) { UI.openPanel("pMulti"); L.mode = vMode(a.mode); lobbyRender(true); } else if (a.opts) UI.openPanel("pOpts");
+    if (a.mode) { UI.openPanel("pMulti"); L.mode = vMode(a.mode); lobbyRender(true); } else if (a.opts) UI.openPanel("pOpts"); else if (a.salon) { UI.openPanel("pMulti"); lobbyRender(true); }
   }
 }
 function lobbyTick() {
@@ -6166,6 +6229,427 @@ function lobbyTick() {
   if (now - L.lastPub > 4000 && !MP.on) { L.lastPub = now; lobbyPublish(); }   // présence tenue à jour
   if (!$("pMulti").hidden && !$("start").hidden) { if (!L.rT || now > L.rT) { L.rT = now + 250; lobbyRender(false); } }
 }
+
+
+/* ==== Multijoueur sécurisé (site hébergé) ====
+   auth.json (publié par l'assistant du serveur) active ce mode. Alors :
+   - jouer en ligne demande une connexion GitHub, Discord ou Google (serveur Cloudflare) ;
+   - le salon commun (tchat, joueurs en ligne, parties ouvertes) passe par notre relais Nostr,
+     chiffré avec la clé de l'heure K(h) ; chaque message porte le jeton signé de son auteur ;
+   - chaque partie vit dans sa propre salle Trystero, chiffrée par une clé tirée par l'hôte, qui ne circule
+     que dans des messages chiffrés pour un seul destinataire (NIP-44) ou dans un lien d'invitation (#s=…) ;
+   - mode anonyme : la partie passe par le relais TURN de Cloudflare (adresses IP masquées).
+   Sans auth.json, le jeu garde l'ancien fonctionnement (salle publique Trystero). */
+var AUTH = { on: false, cfg: null, user: null, h: 0, token: "", sk: null, pk: "", nt: null, err: "", renT: 0, hT: 0, pubK: null, tc: new Map(), ready: false };
+var SAL = { ws: null, open: false, h: 0, keys: new Map(), msgs: [], seen: new Set(), online: new Map(), reqs: [], invites: [], wait: null, retry: 0, sig: "", gsig: "" };
+window.CDA_SESS = null;
+const NT_URL = "https://cdn.jsdelivr.net/npm/nostr-tools@2.17.0/+esm";
+const enc8 = new TextEncoder(), dec8 = new TextDecoder();
+const b64e = u => { let s = ""; for (const b of u) s += String.fromCharCode(b); return btoa(s); };
+const b64d = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const b64ud = s => { s = String(s).replace(/-/g, "+").replace(/_/g, "/"); return b64d(s + "=".repeat((4 - s.length % 4) % 4)); };
+const hexOf = u => Array.from(u, b => b.toString(16).padStart(2, "0")).join("");
+const unhex = h => Uint8Array.from(h.match(/../g), x => parseInt(x, 16));
+const rid = n => { const a = crypto.getRandomValues(new Uint8Array(n)); return Array.from(a, b => "abcdefghijklmnopqrstuvwxyz0123456789"[b % 36]).join(""); };
+const rkey = () => b64e(crypto.getRandomValues(new Uint8Array(16))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+const escH = t => String(t).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const PROV_NAME = { github: "GitHub", discord: "Discord", google: "Google", dev: "essai" };
+const RX = { r: /^[a-z0-9]{6,16}$/, key: /^[A-Za-z0-9_-]{16,64}$/, gid: /^[a-z0-9]{4,8}$/ };
+
+/* --- fragments d'adresse : retour de connexion (#cda=…), invitation (#s=…) --- */
+function hashRead() {
+  const h = location.hash || "";
+  let m;
+  if ((m = /^#cda=([A-Za-z0-9_.-]{20,3000})$/.exec(h))) { try { localStorage.setItem("cda-auth", m[1]); } catch (e) {} }
+  else if ((m = /^#cda_err=([a-z]+)$/.exec(h))) AUTH.err = m[1];
+  else if ((m = /^#s=([a-z0-9]{6,16})\.([A-Za-z0-9_-]{16,64})\.([a-z0-9]{4,8})\.([01])$/.exec(h))) { try { sessionStorage.setItem("cda-invite", JSON.stringify({ r: m[1], key: m[2], gid: m[3], anon: m[4] === "1" })); } catch (e) {} }
+  else return false;
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  return true;
+}
+hashRead();
+// lien d'invitation collé dans un onglet où le jeu est déjà ouvert
+addEventListener("hashchange", () => {
+  if (!/^#s=/.test(location.hash) || !hashRead() || !AUTH.on) return;
+  let inv = null; try { inv = JSON.parse(sessionStorage.getItem("cda-invite") || "null"); sessionStorage.removeItem("cda-invite"); } catch (e) {}
+  if (!inv) return;
+  if (AUTH.user) sessJoin(inv);
+  else { try { sessionStorage.setItem("cda-invite", JSON.stringify(inv)); } catch (e) {} if (UI.openPanel) { $("start").hidden = false; UI.showMenu && UI.stage !== "menu" && UI.showMenu(); UI.openPanel("pMulti"); } lobbyRender(true); }
+});
+
+/* --- jeton d'identité : vérifié avec la clé publique du serveur --- */
+async function tokCheck(tok) {
+  if (typeof tok !== "string" || tok.length > 3000) return null;
+  if (AUTH.tc.has(tok)) return AUTH.tc.get(tok);
+  let o = null;
+  try {
+    const [p, s] = tok.split(".");
+    if (!AUTH.pubK) AUTH.pubK = await crypto.subtle.importKey("raw", b64ud(AUTH.cfg.pubkey), { name: "Ed25519" }, false, ["verify"]);
+    if (await crypto.subtle.verify({ name: "Ed25519" }, AUTH.pubK, b64ud(s), enc8.encode(p))) {
+      const j = JSON.parse(dec8.decode(b64ud(p)));
+      if (j && j.t === "i" && typeof j.sub === "string" && typeof j.n === "string" && /^[0-9a-f]{64}$/.test(j.pk)) o = j;
+    }
+  } catch (e) {}
+  if (AUTH.tc.size > 400) AUTH.tc.clear();
+  AUTH.tc.set(tok, o); return o;
+}
+
+/* --- connexion --- */
+function authLogin(p) {
+  try { sessionStorage.setItem("cda-quick", JSON.stringify({ fs: false })); sessionStorage.setItem("cda-after", JSON.stringify({ salon: 1 })); } catch (e) {}
+  location.href = AUTH.cfg.server + "/login/" + p + "?r=" + encodeURIComponent(location.origin + location.pathname + location.search);
+}
+function authForget(why) {
+  try { localStorage.removeItem("cda-auth"); } catch (e) {}
+  AUTH.user = null; AUTH.token = ""; AUTH.err = why || "";
+  clearTimeout(AUTH.renT); clearTimeout(AUTH.hT);
+  if (MP.gid) leaveGame(true); else if (window.CDA_SESS) sessEnd();
+  try { SAL.ws && SAL.ws.close(); } catch (e) {}
+  SAL.online.clear(); SAL.msgs = []; SAL.seen.clear(); SAL.invites = []; SAL.reqs = [];
+  lobbyRender(true);
+}
+async function salKey(h, k) {
+  if (SAL.keys.has(h)) return;
+  const d = await crypto.subtle.digest("SHA-256", enc8.encode("cda-salon:" + k));
+  SAL.keys.set(h, await crypto.subtle.importKey("raw", d, "AES-GCM", false, ["encrypt", "decrypt"]));
+  for (const x of [...SAL.keys.keys()]) if (x < h - 1) SAL.keys.delete(x);
+}
+async function authSession() {
+  let ref = ""; try { ref = localStorage.getItem("cda-auth") || ""; } catch (e) {}
+  if (!ref) { AUTH.user = null; return false; }
+  let r = null;
+  try { r = await fetch(AUTH.cfg.server + "/session", { method: "POST", headers: { authorization: "Bearer " + ref, "content-type": "application/json" }, body: JSON.stringify({ pk: AUTH.pk }) }); } catch (e) {}
+  if (r && (r.status === 401 || r.status === 403)) { authForget(r.status === 403 ? "banni" : "expire"); return false; }
+  if (!r || !r.ok) { clearTimeout(AUTH.renT); AUTH.renT = setTimeout(authRenew, 30000); AUTH.err = AUTH.user ? "" : "reseau"; return !!AUTH.user; }
+  const j = await r.json();
+  try { localStorage.setItem("cda-auth", j.refresh); } catch (e) {}
+  const first = !AUTH.user;
+  AUTH.user = j.user; AUTH.token = j.token; AUTH.h = j.h; AUTH.err = "";
+  // une seule adresse de relais pour toute la visite : Trystero garde ainsi une seule connexion, réutilisée de partie en partie
+  if (!AUTH.relayUrl) AUTH.relayUrl = AUTH.cfg.relay + "?t=" + encodeURIComponent(j.token);
+  await salKey(j.h, j.key); if (j.next) await salKey(j.next.h, j.next.key);
+  if (!SAL.h || SAL.h < j.h) { SAL.h = j.h; salSubscribe(); }
+  clearTimeout(AUTH.renT); AUTH.renT = setTimeout(authRenew, Math.max(60, j.renewIn || 1800) * 1000);
+  if (j.next) { clearTimeout(AUTH.hT); AUTH.hT = setTimeout(() => salHour(j.next.h), Math.max(0, j.next.h * 3600e3 - Date.now()) + 500); }
+  if (first) {   // pseudo = nom du compte (vérifié par les autres)
+    const n = cleanNick(j.user.name) || "joueur";
+    $("nick").value = n; MP.nick = n; L.nickSet = true;
+    try { localStorage.setItem("ledsracer-nick", n); localStorage.setItem("cda-nick-ok", "1"); } catch (e) {}
+  }
+  return true;
+}
+async function authRenew() {
+  if (!AUTH.on) return;
+  const ok = await authSession();
+  if (ok) { salAuthPush(); salConnect(); }
+  lobbyRender(true);
+}
+// le nouveau jeton prolonge les connexions ouvertes au relais (salon et partie en cours)
+function salAuthPush() {
+  const m = JSON.stringify(["CDA_AUTH", AUTH.token]);
+  try { if (SAL.ws && SAL.ws.readyState === 1) SAL.ws.send(m); } catch (e) {}
+  try { const so = NET.T && NET.T.getRelaySockets ? NET.T.getRelaySockets() : {}; for (const k in so) { const w = so[k]; if (w && w.readyState === 1 && String(k).indexOf(AUTH.cfg.relay) === 0) w.send(m); } } catch (e) {}
+}
+function salHour(h) {
+  if (h <= SAL.h) return;
+  SAL.h = h; salSubscribe();
+  SAL.msgs.push({ sys: true, t: EN ? "New hour: the lobby key has been renewed." : "Nouvelle heure : la clé du salon a été renouvelée.", ts: Date.now() });
+  salRender(true);
+}
+
+/* --- relais du salon --- */
+function salConnect() {
+  if (!AUTH.user || !AUTH.token || (SAL.ws && SAL.ws.readyState <= 1)) return;
+  let ws;
+  try { ws = new WebSocket(AUTH.relayUrl); } catch (e) { return; }
+  SAL.ws = ws;
+  ws.onopen = () => { SAL.open = true; SAL.retry = 0; try { ws.send(JSON.stringify(["CDA_AUTH", AUTH.token])); } catch (e) {} salSubscribe(); salHere(); salRender(true); };
+  ws.onmessage = e => {
+    let m; try { m = JSON.parse(e.data); } catch (x) { return; }
+    if (!Array.isArray(m)) return;
+    if (m[0] === "EVENT" && m[2]) salEvent(m[2]).catch(() => {});
+    else if (m[0] === "NOTICE" && /expir/i.test(String(m[1]))) authRenew();
+  };
+  ws.onclose = () => {
+    if (SAL.ws === ws) { SAL.ws = null; SAL.open = false; }
+    if (!AUTH.user) return;
+    SAL.retry = Math.min(30, SAL.retry ? SAL.retry * 2 : 2);
+    setTimeout(salConnect, SAL.retry * 1000); salRender(true);
+  };
+}
+const salTag = h => "cda-salon-" + h;
+function salSubscribe() {
+  if (!SAL.open || !SAL.ws || !SAL.h) return;
+  const now = Math.floor(Date.now() / 1000), tags = [salTag(SAL.h)];
+  if (SAL.keys.has(SAL.h - 1)) tags.push(salTag(SAL.h - 1));
+  const s = (id, f) => SAL.ws.send(JSON.stringify(["REQ", id, f]));
+  s("c", { kinds: [4242], "#t": tags, limit: 80 });
+  s("v", { kinds: [24242], "#t": [salTag(SAL.h)] });
+  s("d", { kinds: [24243], "#p": [AUTH.pk], since: now - 120 });
+}
+async function salSend(kind, body, to) {
+  if (!SAL.open || !SAL.ws || !AUTH.nt) return false;
+  const nt = AUTH.nt, inner = JSON.stringify(Object.assign({ tok: AUTH.token }, body));
+  let content, tags;
+  if (kind === 24243) { content = nt.nip44.encrypt(inner, nt.nip44.getConversationKey(AUTH.sk, to)); tags = [["p", to]]; }
+  else {
+    const K = SAL.keys.get(SAL.h); if (!K) return false;
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, K, enc8.encode(inner)));
+    const all = new Uint8Array(12 + ct.length); all.set(iv); all.set(ct, 12);
+    content = b64e(all); tags = [["t", salTag(SAL.h)]];
+  }
+  const ev = nt.finalizeEvent({ kind, created_at: Math.floor(Date.now() / 1000), tags, content }, AUTH.sk);
+  try { SAL.ws.send(JSON.stringify(["EVENT", ev])); } catch (e) { return false; }
+  return ev;
+}
+async function salEvent(ev) {
+  if (!ev || typeof ev.content !== "string" || ev.content.length > 20000 || !Array.isArray(ev.tags)) return;
+  if (ev.kind === 4242) { if (SAL.seen.has(ev.id)) return; SAL.seen.add(ev.id); }   // le relais peut renvoyer l'historique : un message, une fois
+  let inner = null;
+  if (ev.kind === 24243) {
+    if (!ev.tags.some(t => t[0] === "p" && t[1] === AUTH.pk)) return;
+    try { inner = JSON.parse(AUTH.nt.nip44.decrypt(ev.content, AUTH.nt.nip44.getConversationKey(AUTH.sk, ev.pubkey))); } catch (e) { return; }
+  } else {
+    const tg = (ev.tags.find(t => t[0] === "t") || [])[1] || "", h = +tg.replace("cda-salon-", ""), K = SAL.keys.get(h);
+    if (!K) return;
+    try { const all = b64d(ev.content); inner = JSON.parse(dec8.decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv: all.slice(0, 12) }, K, all.slice(12)))); } catch (e) { return; }
+  }
+  if (!inner || typeof inner !== "object") return;
+  const id = await tokCheck(inner.tok);
+  // le message doit venir de la clé Nostr inscrite dans le jeton (sinon : jeton volé ou recopié)
+  if (!id || id.pk !== ev.pubkey || id.exp * 1000 < Date.now() - 15 * 60e3) return;
+  const who = { sub: id.sub, n: cleanNick(id.n) || "joueur", prov: id.prov, a: typeof id.a === "string" ? id.a : "", pk: ev.pubkey };
+  if (ev.kind === 4242 && inner.k === "m" && typeof inner.t === "string") {
+    SAL.msgs.push({ who, t: inner.t.slice(0, 300), ts: Math.min(Date.now(), ev.created_at * 1000) });
+    SAL.msgs.sort((a, b) => a.ts - b.ts); if (SAL.msgs.length > 150) SAL.msgs.splice(0, SAL.msgs.length - 150);
+    salRender(false);
+  } else if (ev.kind === 24242 && inner.k === "h") {
+    if (ev.pubkey === AUTH.pk) return;
+    const g = inner.g && typeof inner.g === "object" && RX.r.test(inner.g.r) && RX.gid.test(inner.g.gid) ? inner.g : null;
+    SAL.online.set(ev.pubkey, { who, at: Date.now(), g, inG: !!inner.inG });
+    salRender(false);
+  } else if (ev.kind === 24242 && inner.k === "bye") { SAL.online.delete(ev.pubkey); salRender(false); }
+  else if (ev.kind === 24243) salDm(who, inner);
+}
+// messages privés : demande d'entrée, clé de partie, refus, invitation
+function salDm(who, m) {
+  const S = window.CDA_SESS;
+  if (m.k === "req" && S && S.own && m.r === S.r) {
+    if (!S.pv) salGive(who.pk, "key");
+    else if (!SAL.reqs.some(q => q.who.pk === who.pk)) { SAL.reqs.push({ who, at: Date.now() }); toast(EN ? `${who.n} asks to join your game` : `${who.n} demande à entrer dans ta partie`); lobbyRender(true); }
+  } else if ((m.k === "key" || m.k === "no") && SAL.wait && m.r === SAL.wait.r && SAL.wait.pk === who.pk) {
+    const w = SAL.wait; SAL.wait = null; clearTimeout(w.timer);
+    if (m.k === "no") { toast(EN ? `${who.n} declined your request` : `${who.n} a refusé ta demande`); lobbyRender(true); return; }
+    if (RX.key.test(m.key)) sessJoin({ r: m.r, key: m.key, gid: RX.gid.test(m.gid) ? m.gid : w.gid, anon: !!m.anon });
+  } else if (m.k === "inv" && RX.r.test(m.r) && RX.key.test(m.key) && RX.gid.test(m.gid)) {
+    SAL.invites = SAL.invites.filter(i => i.who.pk !== who.pk);
+    SAL.invites.push({ who, r: m.r, key: m.key, gid: m.gid, anon: !!m.anon, mode: typeof m.mode === "string" ? m.mode : "", at: Date.now() });
+    toast(EN ? `${who.n} invites you to a game` : `${who.n} t'invite à sa partie`); lobbyRender(true);
+  }
+}
+function salGive(pk, k) {
+  const S = window.CDA_SESS; if (!S) return;
+  salSend(24243, { k, r: S.r, key: k === "no" ? undefined : S.key, gid: MP.gid, anon: !!S.anon, mode: MP.gd ? MP.gd.mode : "" }, pk);
+}
+// présence dans le salon (toutes les 20 s) ; l'hôte d'une partie publique y joint l'annonce
+function salHere() {
+  if (!SAL.open || !AUTH.user) return;
+  const S = window.CDA_SESS, gd = MP.gdOwn ? MP.gd : null;
+  let g = null;
+  if (S && S.own && gd && !gd.pv && MP.gid) g = { r: S.r, gid: gd.id, mode: gd.mode, map: gd.map, mapt: gd.mapt, name: gd.name, n: members().length, cap: gameCap(gd), st: gd.st, anon: !!S.anon };
+  salSend(24242, { k: "h", g, inG: !!S });
+}
+setInterval(() => {
+  if (!AUTH.user) return;
+  salHere();
+  const now = Date.now();
+  for (const [k, v] of SAL.online) if (now - v.at > 50000) SAL.online.delete(k);
+  SAL.invites = SAL.invites.filter(i => now - i.at < 10 * 60e3);
+  salRender(false);
+}, 20000);
+addEventListener("pagehide", () => { try { if (SAL.open) salSend(24242, { k: "bye" }); } catch (e) {} });
+
+/* --- sessions de jeu : une salle Trystero par partie --- */
+const anonPolicy = () => { try { return localStorage.getItem("cda-anon") || "auto"; } catch (e) { return "auto"; } };
+async function sessStart(S) {
+  if (MP.gid) leaveGame(true); else if (window.CDA_SESS) sessEnd();
+  S.relay = AUTH.relayUrl;
+  if (S.anon) {
+    let j = null;
+    if (AUTH.cfg.turn) { try { const r = await fetch(AUTH.cfg.server + "/turn", { headers: { authorization: "Bearer " + AUTH.token } }); j = r.ok ? await r.json() : null; } catch (e) {} }
+    if (j && Array.isArray(j.iceServers) && j.iceServers.length) S.ice = j.iceServers;
+    else { S.anon = false; toast(EN ? "Anonymous mode unavailable: direct connection" : "Mode anonyme indisponible : liaison directe"); }
+  }
+  window.CDA_SESS = S;
+  try { sessionStorage.setItem("cda-sess", JSON.stringify({ r: S.r, key: S.key, anon: !!S.anon, own: !!S.own, pv: !!S.pv, gid: S.gid || null, t: Date.now() })); } catch (e) {}
+  $("mpStatus").textContent = EN ? "Joining the game…" : "Connexion à la partie…";
+  await roomConnect();
+  salHere();
+  return !!MP.raw;
+}
+function sessEnd() {
+  window.CDA_SESS = null; SAL.reqs = [];
+  try { sessionStorage.removeItem("cda-sess"); } catch (e) {}
+  const raw = MP.raw; MP.raw = null; MP.room = null; MP.peers = []; SH_ROOM_P = null;
+  try { raw && raw.leave && raw.leave(); } catch (e) {}
+  salHere(); lobbyRender(true);
+}
+async function sessCreate(mode, pv) {
+  if (!AUTH.on) return createGame(mode, pv);
+  if (!AUTH.user || !mode) { lobbyRender(true); return; }
+  const pol = anonPolicy(), anon = pol === "on" || (pol === "auto" && !pv);
+  $("gCreate").disabled = $("gCreatePv").disabled = true;
+  try {
+    if (!(await sessStart({ r: rid(10), key: rkey(), anon, own: true, pv: !!pv }))) { toast(EN ? "Could not open the game" : "Impossible d'ouvrir la partie"); sessEnd(); return; }
+    createGame(mode, pv); salHere();
+  } finally { $("gCreate").disabled = $("gCreatePv").disabled = false; }
+}
+async function sessJoin(k) {
+  const ok = await sessStart({ r: k.r, key: k.key, anon: !!k.anon, own: false, pv: false, gid: k.gid });
+  if (!ok) { toast(EN ? "Could not join the game" : "Impossible de rejoindre la partie"); sessEnd(); return; }
+  L.pending = { code: k.gid, until: performance.now() + 30000 };
+  if ($("pMulti").hidden && UI.openPanel) { $("start").hidden = false; UI.showMenu && UI.stage !== "menu" && UI.showMenu(); UI.openPanel("pMulti"); }
+  lobbyRender(true);
+}
+function salAsk(pk) {
+  const o = SAL.online.get(pk);
+  if (!o || !o.g) { toast(EN ? "This game no longer exists" : (EN ? "This game no longer exists" : "Cette partie n'existe plus")); return; }
+  if (o.g.n >= o.g.cap) { toast(EN ? "Game full" : (EN ? "Game full" : "Partie complète")); return; }
+  if (SAL.wait) clearTimeout(SAL.wait.timer);
+  const w = { r: o.g.r, gid: o.g.gid, pk };
+  w.timer = setTimeout(() => { if (SAL.wait === w) { SAL.wait = null; toast(EN ? "No answer from the host" : "Pas de réponse de l'hôte"); lobbyRender(true); } }, 12000);
+  SAL.wait = w;
+  salSend(24243, { k: "req", r: o.g.r, gid: o.g.gid }, pk);
+  toast(EN ? `Request sent to ${o.who.n}` : `Demande envoyée à ${o.who.n}`); lobbyRender(true);
+}
+
+/* --- affichage --- */
+function salGames(mode) {
+  const out = [];
+  for (const [pk, o] of SAL.online) if (o.g && (!mode || vMode(o.g.mode) === mode)) out.push({ pk, o, g: o.g });
+  return out.sort((a, b) => a.o.who.n.localeCompare(b.o.who.n));
+}
+function provIcon(p) { return `<i class="prov ${escH(p || "")}" title="${escH(PROV_NAME[p] || p || "")}"></i>`; }
+function salRender(force) {
+  if (!AUTH.on || $("pMulti").hidden) return;
+  const box = $("salLog"); if (!box) return;
+  // tchat
+  const sig = SAL.msgs.length + ":" + (SAL.msgs.length ? SAL.msgs[SAL.msgs.length - 1].ts : 0);
+  if (force || sig !== SAL.sig) {
+    SAL.sig = sig;
+    const near = box.scrollHeight - box.scrollTop - box.clientHeight < 40;
+    box.innerHTML = SAL.msgs.map(m => m.sys ? `<p class="sys">${escH(m.t)}</p>` : `<p>${provIcon(m.who.prov)}<b>${escH(m.who.n)}</b> : ${escH(m.t)}</p>`).join("") || `<p class="sys">${EN ? "No message in the lobby this hour. Say hi!" : "Aucun message dans le salon cette heure-ci. Dis bonjour !"}</p>`;
+    if (near || force) box.scrollTop = box.scrollHeight;
+  }
+  // en ligne, parties, invitations
+  const on = [...SAL.online.values()].sort((a, b) => a.who.n.localeCompare(b.who.n));
+  const games = salGames(null);
+  const gsig = JSON.stringify([on.map(o => [o.who.pk, o.g && o.g.n, o.inG]), SAL.invites.map(i => i.at), SAL.wait && SAL.wait.r, SAL.open]);
+  if (!force && gsig === SAL.gsig) return;
+  SAL.gsig = gsig;
+  $("salN").textContent = `(${on.length + 1})`;
+  $("salOn").innerHTML = `<li class="me">${provIcon(AUTH.user.prov)}<span>${escH(AUTH.user.name)} ${EN ? "(you)" : "(toi)"}</span></li>` + on.map(o => `<li>${provIcon(o.who.prov)}<span>${escH(o.who.n)}</span><small>${o.g ? (EN ? "hosting" : "héberge") : o.inG ? (EN ? "in a game" : "en partie") : ""}</small></li>`).join("");
+  $("salGames").innerHTML = games.length ? games.map(x => {
+    const img = document.querySelector(`.mcard[data-mode="${vMode(x.g.mode)}"] img`), full = x.g.n >= x.g.cap, w = SAL.wait && SAL.wait.r === x.g.r;
+    return `<div class="sg"><img src="${img ? img.src : ""}" alt=""><div><b>${escH(MODE_NAME[vMode(x.g.mode)] || x.g.mode)}</b><small>${escH(x.o.who.n)} · ${x.g.n}${x.g.cap < 99 ? "/" + x.g.cap : ""}${x.g.anon ? (EN ? " · anonymous" : " · anonyme") : ""}${x.g.st === "play" ? (EN ? " · playing" : " · en cours") : ""}${window.CDA_INDEX && x.g.map ? " · " + escH(mapTitle(x.g.map, x.g.mapt)) : ""}</small></div><button class="btn-sub" data-ask="${escH(x.pk)}" ${full || w ? "disabled" : ""}>${w ? (EN ? "Waiting…" : "En attente…") : full ? (EN ? "Full" : "Complète") : (EN ? "Join" : "Rejoindre")}</button></div>`;
+  }).join("") : `<p class="empty">${EN ? "No public game open right now: create one!" : "Aucune partie publique ouverte : crées-en une !"}</p>`;
+  $("salGames").querySelectorAll("[data-ask]").forEach(b => b.onclick = () => salAsk(b.dataset.ask));
+  $("salInv").innerHTML = SAL.invites.map((i, n) => `<div class="sinv">${provIcon(i.who.prov)}<span><b>${escH(i.who.n)}</b> ${EN ? "invites you" : "t'invite"}${i.mode ? " · " + escH(MODE_NAME[vMode(i.mode)] || "") : ""}</span><button class="btn-sub" data-inv="${n}">${EN ? "Join" : "Rejoindre"}</button><button class="btn-sub" data-invx="${n}">×</button></div>`).join("");
+  $("salInv").querySelectorAll("[data-inv]").forEach(b => b.onclick = () => { const i = SAL.invites[+b.dataset.inv]; SAL.invites = SAL.invites.filter(x => x !== i); if (i) sessJoin(i); });
+  $("salInv").querySelectorAll("[data-invx]").forEach(b => b.onclick = () => { SAL.invites.splice(+b.dataset.invx, 1); salRender(true); });
+}
+// dans le salon d'une partie : demandes d'entrée (partie privée) et invitations à envoyer
+function salGameRender() {
+  const S = window.CDA_SESS, own = AUTH.on && S && S.own;
+  $("gmReqs").hidden = !own || !SAL.reqs.length;
+  $("gmInv").hidden = !own;
+  if (!own) return;
+  $("gmReqs").innerHTML = SAL.reqs.map((q, n) => `<div class="sinv">${provIcon(q.who.prov)}<span><b>${escH(q.who.n)}</b> ${EN ? "wants to join" : "demande à entrer"}</span><button class="btn-sub" data-rq="${n}">${EN ? "Accept" : "Accepter"}</button><button class="btn-sub" data-rqx="${n}">${EN ? "Decline" : "Refuser"}</button></div>`).join("");
+  $("gmReqs").querySelectorAll("[data-rq]").forEach(b => b.onclick = () => { const q = SAL.reqs[+b.dataset.rq]; SAL.reqs = SAL.reqs.filter(x => x !== q); if (q) salGive(q.who.pk, "key"); salGameRender(); });
+  $("gmReqs").querySelectorAll("[data-rqx]").forEach(b => b.onclick = () => { const q = SAL.reqs[+b.dataset.rqx]; SAL.reqs = SAL.reqs.filter(x => x !== q); if (q) salGive(q.who.pk, "no"); salGameRender(); });
+  const cand = [...SAL.online.values()].filter(o => !o.inG).sort((a, b) => a.who.n.localeCompare(b.who.n));
+  const sig = cand.map(o => o.who.pk).join(",");
+  if ($("gmInvL").dataset.sig === sig) return;
+  $("gmInvL").dataset.sig = sig;
+  $("gmInvL").innerHTML = cand.length ? cand.map(o => `<button class="btn-sub" data-invite="${escH(o.who.pk)}">${provIcon(o.who.prov)}${escH(o.who.n)}</button>`).join("") : `<small>${EN ? "Nobody free in the lobby right now." : "Personne de libre dans le salon pour l'instant."}</small>`;
+  $("gmInvL").querySelectorAll("[data-invite]").forEach(b => b.onclick = () => { salGive(b.dataset.invite, "inv"); b.disabled = true; b.textContent = (EN ? "Invited · " : "Invité · ") + b.textContent; });
+}
+function authRender() {
+  const e = AUTH.err;
+  $("authErr").textContent = e === "banni" ? (EN ? "This account is banned from online play." : "Ce compte est banni du jeu en ligne.")
+    : e === "expire" ? (EN ? "Your session has expired: sign in again." : "Ta session a expiré : reconnecte-toi.")
+    : e === "annule" ? (EN ? "Sign-in cancelled." : "Connexion annulée.")
+    : e === "fournisseur" ? (EN ? "Sign-in failed with this provider. Try again or use another one." : "La connexion a échoué avec ce fournisseur. Réessaie ou choisis-en un autre.")
+    : e === "reseau" ? (EN ? "The sign-in server can't be reached right now." : "Le serveur de connexion ne répond pas pour l'instant.") : "";
+  $("authErr").hidden = !$("authErr").textContent;
+  document.querySelectorAll("#lvAuth [data-login]").forEach(b => b.hidden = !AUTH.cfg.providers.includes(b.dataset.login));
+}
+function salHeadRender() {
+  const u = AUTH.user; if (!u) return;
+  $("salName").textContent = u.name;
+  $("salProv").textContent = (EN ? "via " : "via ") + (PROV_NAME[u.prov] || u.prov) + (SAL.open ? "" : (EN ? " · connecting to the lobby…" : " · connexion au salon…"));
+  if (u.avatar && $("salAv").getAttribute("src") !== u.avatar) $("salAv").src = u.avatar;
+  $("salAv").hidden = !u.avatar;
+}
+
+/* --- démarrage --- */
+async function cdaBoot() {
+  let cfg = null;
+  if (SELF_HOST) document.querySelectorAll("#pMulti > .note").forEach(n => n.hidden = true);   // conseil propre à claude.ai
+  if (SELF_HOST) { try { const r = await fetch("auth.json", { cache: "no-store" }); if (r.ok) cfg = await r.json(); } catch (e) {} }
+  if (!cfg || !cfg.server || !cfg.relay || !cfg.pubkey || !Array.isArray(cfg.providers)) { roomConnect(); return; }
+  AUTH.on = true; AUTH.cfg = cfg;
+  $("roomRow").hidden = true; $("gcodeBox").hidden = true; $("gmCodeCopy").hidden = true; $("gmCodeV").hidden = true;
+  { const t = document.querySelector("#gmCode > span"); if (t) t.textContent = EN ? "Private game · invitation only" : "Partie privée · sur invitation"; } $("salAnonRow").hidden = !cfg.turn;
+  $("salAnon").value = anonPolicy();
+  { const h = document.querySelector("#lvList .hint"); if (h) h.textContent = EN ? "Public: listed in the lobby, the host lets anyone in. Private: never listed; players come in with your invitation (lobby or link)." : "Publique : annoncée dans le salon, l'hôte laisse entrer tout le monde. Privée : jamais annoncée, on y entre sur ton invitation (depuis le salon ou par lien)."; }
+  $("salAnon").onchange = () => { try { localStorage.setItem("cda-anon", $("salAnon").value); } catch (e) {} };
+  document.querySelectorAll("#lvAuth [data-login]").forEach(b => b.onclick = () => authLogin(b.dataset.login));
+  $("salOut").onclick = () => { authForget(""); };
+  $("salForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const t = ($("salIn").value || "").trim().slice(0, 300); if (!t || !SAL.open) return;
+    $("salIn").value = "";
+    salSend(4242, { k: "m", t }).then(ev => { if (ev) { SAL.seen.add(ev.id); SAL.msgs.push({ who: { n: AUTH.user.name, prov: AUTH.user.prov, pk: AUTH.pk }, t, ts: Date.now() }); salRender(true); } });
+  });
+  $("salIn").addEventListener("keydown", e => e.stopPropagation());
+  $("mpStatus").textContent = EN ? "Sign-in…" : "Connexion…";
+  nickInit();
+  try {
+    AUTH.nt = await import(NT_URL);
+    let skh = ""; try { skh = sessionStorage.getItem("cda-nsk") || ""; } catch (e) {}
+    if (!/^[0-9a-f]{64}$/.test(skh)) { skh = hexOf(AUTH.nt.generateSecretKey()); try { sessionStorage.setItem("cda-nsk", skh); } catch (e) {} }
+    AUTH.sk = unhex(skh); AUTH.pk = AUTH.nt.getPublicKey(AUTH.sk);
+  } catch (e) { AUTH.err = "reseau"; console.warn("nostr-tools", e); }
+  if (AUTH.pk) await authSession();
+  AUTH.ready = true;
+  if (AUTH.user) {
+    salConnect();
+    // une invitation reçue par lien, ou une partie à reprendre après un changement de puce
+    let inv = null, prev = null;
+    try { inv = JSON.parse(sessionStorage.getItem("cda-invite") || "null"); sessionStorage.removeItem("cda-invite"); prev = JSON.parse(sessionStorage.getItem("cda-sess") || "null"); } catch (e) {}
+    if (inv) sessJoin(inv);
+    else if (prev && !prev.own && prev.gid && Date.now() - prev.t < 2 * 3600e3) sessJoin(prev);
+    else try { sessionStorage.removeItem("cda-sess"); } catch (e) {}
+  }
+  lobbyRender(true);
+}
+// liste des parties publiques d'un mode (vue « list ») : lue dans le salon
+function salListRender(force) {
+  const gl = salGames(L.mode);
+  $("lTitle").textContent = `${EN ? "Public games" : "Parties publiques"} · ${MODE_NAME[L.mode]}`;
+  const sig = "s" + JSON.stringify([gl.map(x => [x.pk, x.g.n, x.g.st, x.g.map]), SAL.wait && SAL.wait.r]);
+  if (sig === L.sig && !force) return;
+  L.sig = sig;
+  $("gList").innerHTML = gl.length ? gl.map(x => {
+    const g = x.g, img = document.querySelector(`.mcard[data-mode="${vMode(g.mode)}"] img`), full = g.n >= g.cap, play = g.st === "play", w = SAL.wait && SAL.wait.r === g.r;
+    return `<div class="gi"><img src="${img ? img.src : ""}" alt=""><div><b>${escH(MODE_NAME[vMode(g.mode)])}</b>${window.CDA_INDEX && g.map ? `<span class="gchip">${escH(mapTitle(g.map, g.mapt))}</span>` : ""}<small>${provIcon(x.o.who.prov)}${escH(x.o.who.n)} · ${g.n}${g.cap < 99 ? " / " + g.cap : ""} ${EN ? "players" : "joueurs"}${g.anon ? (EN ? " · anonymous" : " · anonyme") : ""}</small><br><span class="st ${play ? "play" : "wait"}">${play ? (EN ? "In progress · join at next round" : "En cours · tu entreras à la manche suivante") : (EN ? "Waiting for players" : "En attente de joueurs")}</span></div><button class="btn-main" data-ask="${escH(x.pk)}" ${full || w ? "disabled" : ""}>${w ? (EN ? "Waiting…" : "En attente…") : full ? (EN ? "Full" : "Complète") : (EN ? "Join" : "Rejoindre")}</button></div>`;
+  }).join("") : `<p class="empty">${EN ? "No public game in this mode yet: create one below." : "Aucune partie publique dans ce mode pour l'instant : crées-en une ci-dessous."}</p>`;
+  $("gList").querySelectorAll("[data-ask]").forEach(b => b.onclick = () => salAsk(b.dataset.ask));
+}
+window.__cda = { AUTH, SAL, renew: () => authRenew() };   // pour le débogage (console)
+cdaBoot();
 
 
 /* ---- 15 armes à ramasser, posées au hasard sur la puce à chaque manche (la même disposition pour tous).

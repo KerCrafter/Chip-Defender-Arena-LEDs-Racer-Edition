@@ -64,7 +64,7 @@ async function idSign(env, obj) {
   const p = b64u.enc(enc.encode(JSON.stringify(obj)));
   return p + "." + b64u.enc(await crypto.subtle.sign({ name: "Ed25519" }, keyCache.get("ed"), enc.encode(p)));
 }
-export async function idOpen(env, tok) {
+export async function idOpen(env, tok, grace = 0) {
   if (typeof tok !== "string" || tok.length > 4096) return null;
   const [p, s] = tok.split(".");
   if (!p || !s) return null;
@@ -72,7 +72,7 @@ export async function idOpen(env, tok) {
     if (!keyCache.has("edp")) keyCache.set("edp", await crypto.subtle.importKey("raw", b64u.dec(env.PUBLIC_KEY), { name: "Ed25519" }, false, ["verify"]));
     if (!(await crypto.subtle.verify({ name: "Ed25519" }, keyCache.get("edp"), b64u.dec(s), enc.encode(p)))) return null;
     const o = JSON.parse(dec.decode(b64u.dec(p)));
-    return o && o.t === "i" && o.exp > now() ? o : null;
+    return o && o.t === "i" && o.exp + grace > now() ? o : null;
   } catch (e) { return null; }
 }
 export const banned = (env, sub) => String(env.BANNED || "").split(/[\s,;]+/).filter(Boolean).includes(sub);
@@ -201,10 +201,13 @@ async function route(req, env, ctx) {
     const id = await idOpen(env, (req.headers.get("authorization") || "").replace(/^Bearer\s+/i, ""));
     if (!id || banned(env, id.sub)) return json({ error: "jeton invalide" }, 401, C);
     if (!(env.TURN_KEY_ID && env.TURN_TOKEN)) return json({ error: "TURN non configuré" }, 404, C);
-    const r = await fetch(`https://rtc.live.cloudflare.com/v1/turn/keys/${env.TURN_KEY_ID}/credentials/generate-ice-servers`, {
-      method: "POST", headers: { authorization: "Bearer " + env.TURN_TOKEN, "content-type": "application/json" }, body: JSON.stringify({ ttl: 6 * HOUR })
-    });
-    if (!r.ok) return json({ error: "TURN indisponible" }, 502, C);
+    let r = null;
+    try {
+      r = await fetch(`https://rtc.live.cloudflare.com/v1/turn/keys/${env.TURN_KEY_ID}/credentials/generate-ice-servers`, {
+        method: "POST", headers: { authorization: "Bearer " + env.TURN_TOKEN, "content-type": "application/json" }, body: JSON.stringify({ ttl: 6 * HOUR })
+      });
+    } catch (e) {}
+    if (!r || !r.ok) return json({ error: "TURN indisponible" }, 502, C);
     const j = await r.json();
     // le port 53 traîne dans les navigateurs : on l'écarte
     const ice = (j.iceServers || []).map(s => ({ ...s, urls: [].concat(s.urls).filter(u => !/:53(\?|$)/.test(u)) })).filter(s => s.urls.length);
@@ -214,7 +217,10 @@ async function route(req, env, ctx) {
   /* 5. relais Nostr privé */
   if (path === "/relay") {
     if (req.headers.get("upgrade") !== "websocket") return json({ relay: "wss://" + url.host + "/relay?t=<jeton>", info: "relais Nostr réservé aux joueurs connectés" }, 200, C);
-    const id = await idOpen(env, url.searchParams.get("t") || "");
+    // L'adresse du relais garde le jeton du début de la visite (7 jours de grâce) : Trystero peut ainsi se
+    // reconnecter seul. Ce jeton ne fait qu'ouvrir le transport : il ne donne ni la clé du salon ni celle d'une
+    // partie, les bannis sont refusés à chaque message, et le jeu renouvelle le jeton sur la connexion (CDA_AUTH).
+    const id = await idOpen(env, url.searchParams.get("t") || "", 7 * 86400);
     if (!id) return new Response("jeton absent ou expiré", { status: 401 });
     if (banned(env, id.sub)) return new Response("banni", { status: 403 });
     const fwd = new Request(req, { headers: new Headers(req.headers) });
