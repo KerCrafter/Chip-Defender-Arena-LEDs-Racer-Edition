@@ -2,7 +2,7 @@
    - la page du jeu : réseau d'abord (toujours la dernière version en ligne), copie gardée pour le hors-ligne ;
    - version.json et auth.json : toujours le réseau (mise à jour en douceur, configuration du serveur) ;
    - cartes, icônes : copie locale tout de suite, rafraîchie en fond ;
-   - bibliothèques du CDN (adresses versionnées) : copie locale d'abord.
+   - bibliothèques (lib/, noms versionnés ; et l'ancien CDN) : copie locale d'abord.
    Le multijoueur (serveur de connexion, relais, WebRTC) n'est jamais intercepté. */
 const CACHE = "cda-v1";
 const CORE = ["./", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"];
@@ -37,7 +37,8 @@ self.addEventListener("fetch", e => {
   if (r.method !== "GET") return;
   const u = new URL(r.url);
   if (u.origin === self.location.origin) {
-    if (/\/(version|auth)\.json$/.test(u.pathname) || u.pathname.endsWith("/sw.js")) return;
+    if (/\/(version|auth|dons)\.json$/.test(u.pathname) || u.pathname.endsWith("/sw.js")) return;
+    if (/\/lib\//.test(u.pathname)) return e.respondWith(cacheFirst(r));   // bibliothèques : noms versionnés, donc immuables
     if (r.mode === "navigate" || u.pathname.endsWith("/") || u.pathname.endsWith(".html")) return e.respondWith(netFirst(r, u));
     if (/\/(maps|icons)\//.test(u.pathname) || u.pathname.endsWith(".webmanifest")) return e.respondWith(staleRevalidate(r, e));
     return;
