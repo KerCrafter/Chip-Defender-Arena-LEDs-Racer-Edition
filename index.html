@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-WIhYLwvbUCDtMzggxI3511ut/ZeshXeNYTAgwtLeXw0=' 'sha256-cZ/dVxL/lHI2sEIbAc9H1YXEIf/6VIQ473fBJvvc2yc=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-khTeCgPwIN4gToVek6ykSBUOz5Z0DdNwvabU04Wtphk=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-vBmJ7zZ3IqXyYQ/32vYCcSh1PjVKqRYmeZxzTkpUnnk=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://auth.kercrafter.live wss://auth.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-SJrLsnyedF3DiI+SQLXNICKjPXvQUxl2RVs2nXsDZUI=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-cZ/dVxL/lHI2sEIbAc9H1YXEIf/6VIQ473fBJvvc2yc=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-ngqAKMZaCRc0rBeuawfrnE9ndbpCUhbDX94+jMi9A2k=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-vBmJ7zZ3IqXyYQ/32vYCcSh1PjVKqRYmeZxzTkpUnnk=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="8a6a8f125d97";</script>
+<script>window.CDA_BUILD="27ce9c26d24e";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -6920,7 +6920,7 @@ function salHeadRender() {
 async function cdaBoot() {
   let cfg = null;
   if (SELF_HOST) document.querySelectorAll("#pMulti > .note").forEach(n => n.hidden = true);   // conseil propre à claude.ai
-  if (SELF_HOST) { try { const r = await fetch("auth.json", { cache: "no-store" }); if (r.ok) cfg = await r.json(); } catch (e) {} }
+  if (SELF_HOST) { try { const r = await fetch("auth.json?t=" + Date.now(), { cache: "no-store" }); if (r.ok) cfg = await r.json(); } catch (e) {} }
   if (!cfg || !cfg.server || !cfg.relay || !cfg.pubkey || !Array.isArray(cfg.providers)) {
     // site hébergé : jamais de repli sur les relais publics (hors ligne, ou configuration absente)
     if (SELF_HOST) { $("mpStatus").textContent = EN ? "Online play unavailable right now (offline?)" : "Jeu en ligne indisponible pour l'instant (hors ligne ?)"; $("roomRow").hidden = true; return; }
