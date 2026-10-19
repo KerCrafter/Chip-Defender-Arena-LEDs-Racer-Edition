@@ -11,15 +11,15 @@
    node publier-r2.mjs --maps <dossier maps> --state <fichier d'état> [--jobs 8] */
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync, readdirSync, statSync, appendFileSync } from "node:fs";
-import { join, dirname, relative, sep } from "node:path";
+import { join, dirname, relative, sep, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
 import * as readline from "node:readline";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const arg = (k, d) => { const i = process.argv.indexOf("--" + k); return i > 0 ? process.argv[i + 1] : d; };
-const MAPS = arg("maps", join(HERE, "..", "..", "maps"));
-const STATE_F = arg("state", join(HERE, ".publier-r2.json"));
+const MAPS = resolve(arg("maps", join(HERE, "..", "..", "maps")));   // absolu : wrangler tourne depuis le dossier du serveur
+const STATE_F = resolve(arg("state", join(HERE, ".publier-r2.json")));
 const ERRLOG = join(dirname(STATE_F), "publier-r2-erreurs.log");
 const JOBS = Math.max(1, Math.min(16, +arg("jobs", 8)));
 const BUCKET = "cda-maps", DOMAIN = "maps-cda.kercrafter.live", ZONE = "kercrafter.live";
