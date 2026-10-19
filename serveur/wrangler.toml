@@ -4,6 +4,8 @@ name = "cda-serveur"
 main = "src/worker.js"
 compatibility_date = "2025-09-01"
 workers_dev = true
+# adresse personnalisée (zone kercrafter.live gérée par Cloudflare) ; l'adresse workers.dev reste active
+routes = [{ pattern = "auth.kercrafter.live", custom_domain = true }]
 
 [vars]
 # sites autorisés à utiliser la connexion (séparés par des virgules)

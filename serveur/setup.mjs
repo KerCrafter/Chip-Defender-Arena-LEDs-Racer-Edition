@@ -109,7 +109,8 @@ async function stepDeploy(S) {
     if (/workers\.dev subdomain/i.test(out)) warn("Il faut d'abord un sous-domaine workers.dev : tableau de bord → Workers & Pages → choisis-le, puis relance.");
     throw new Error("le déploiement a échoué (voir les messages ci-dessus)");
   }
-  if (m) S.url = m[0].toLowerCase();
+  if (m && !S.domain) S.url = m[0].toLowerCase();   // avec l'adresse personnalisée, on la garde
+  if (m) S.wurl = m[0].toLowerCase();
   while (!S.url) {
     const u = await ask("Je n'ai pas vu l'adresse du serveur. Colle-la (elle finit par .workers.dev) :");
     if (/^https:\/\/[^/]+\.workers\.dev\/?$/.test(u)) S.url = u.replace(/\/$/, "");
@@ -258,6 +259,60 @@ async function stepSite(S) {
   okMsg("publié : le site saura où trouver le serveur dans une minute environ");
 }
 
+/* adresse personnalisée auth.kercrafter.live (la zone doit être gérée par Cloudflare) */
+const AUTH_HOST = "auth.kercrafter.live";
+async function stepDomain(S) {
+  title("Adresse " + AUTH_HOST);
+  const NEW = "https://" + AUTH_HOST, OLD = S.wurl || (S.domain ? "" : S.url);
+  let info = await check(NEW);
+  if (!(info && info.pubkey)) {
+    // une ancienne entrée DNS « auth » (copiée depuis OVH) empêcherait Cloudflare de créer l'adresse
+    const j = await (await fetch(`https://cloudflare-dns.com/dns-query?name=${AUTH_HOST}&type=A`, { headers: { accept: "application/dns-json" } }).catch(() => null))?.json().catch(() => null);
+    if (j && Array.isArray(j.Answer) && j.Answer.length) {
+      warn("Une entrée DNS « auth » existe déjà (sans doute recopiée d'OVH). Supprime-la, Cloudflare la recréera pour le serveur :");
+      step(1, "Cloudflare → kercrafter.live → DNS → Records → ligne « auth » → Edit → Delete.");
+      if (await yes("Ouvrir Cloudflare ?", true)) openUrl("https://dash.cloudflare.com/?to=/:account/kercrafter.live/dns/records");
+      await pause("Appuie sur Entrée quand l'entrée est supprimée…");
+    }
+    await stepCloudflare();
+    say("  Je redéploie le serveur avec son adresse " + AUTH_HOST + " (l'adresse workers.dev reste active).");
+    rl.pause(); const { code, out } = await wrLive(["deploy"]); rl.resume();
+    if (code !== 0) { if (/already (has|exists)|existing DNS record|conflict/i.test(out)) warn("Il reste une entrée DNS « auth » : supprime-la dans Cloudflare puis relance ce choix."); throw new Error("le déploiement a échoué (voir ci-dessus)"); }
+    const m = out.match(/https:\/\/[a-z0-9-]+\.[a-z0-9-]+\.workers\.dev/i); if (m) { S.wurl = m[0].toLowerCase(); save(S); }
+    say("  J'attends que l'adresse et son certificat soient prêts (quelques minutes au plus)…");
+    for (let i = 0; i < 40 && !(info && info.pubkey); i++) { await new Promise(r => setTimeout(r, 15000)); info = await check(NEW); process.stdout.write("."); }
+    say("");
+    if (!(info && info.pubkey)) throw new Error(NEW + " ne répond pas encore : relance ce choix dans quelques minutes");
+  }
+  okMsg(NEW + " répond (même serveur, mêmes clés : personne n'est déconnecté)");
+  // adresses de retour des fournisseurs de connexion
+  const done = Object.keys(S.providers || {}).filter(p => S.providers[p]);
+  for (const p of done) {
+    const cb = NEW + "/callback/" + p;
+    title("Retour de connexion · " + PROV[p].name);
+    if (p === "github") {
+      step(1, "GitHub → Settings → Developer settings → OAuth Apps → Chip Defender Arena.");
+      if (await yes("Ouvrir la page GitHub ?", true)) openUrl("https://github.com/settings/developers");
+      step(2, "Remplace « Authorization callback URL » par (GitHub n'en accepte qu'une) :");
+    } else if (p === "discord") {
+      step(1, "Portail développeur Discord → ton application → OAuth2 → Redirects → « Add Redirect ».");
+      if (await yes("Ouvrir la page Discord ?", true)) openUrl("https://discord.com/developers/applications");
+      step(2, "Ajoute cette adresse (garde l'ancienne pour l'instant), puis « Save Changes » :");
+    } else {
+      step(1, "Google Auth Platform → Clients → Chip Defender Arena → « URI de redirection autorisés » → Ajouter un URI.");
+      if (await yes("Ouvrir la page Google ?", true)) openUrl("https://console.cloud.google.com/auth/clients");
+      step(2, "Ajoute cette adresse (garde l'ancienne pour l'instant), puis « Enregistrer » :");
+    }
+    value("Adresse", cb);
+    await pause();
+  }
+  S.url = NEW; S.domain = true; save(S);
+  okMsg("le serveur s'appelle maintenant " + NEW);
+  await stepSite(S);
+  say("  Les joueurs basculent dès qu'ils rechargent auth.json (à chaque ouverture du jeu) ; les sessions restent valides.");
+  if (OLD) say(C.d("  Plus tard, tu pourras retirer l'ancienne adresse de retour chez Discord et Google (" + OLD + "/callback/…)."));
+}
+
 async function status(S) {
   title("État");
   value("Serveur", S.url || "pas encore déployé");
@@ -289,7 +344,7 @@ async function main() {
   if (!S.url) return full(S);
   for (;;) {
     say("\n  " + C.b("Que veux-tu faire ?") + C.d("  (serveur : " + S.url + ")"));
-    say("   1. Tout reprendre pas à pas\n   2. GitHub   3. Discord   4. Google\n   5. Mode anonyme (TURN)\n   6. Bannir / débannir un joueur\n   7. Mettre le serveur à jour (redéployer)\n   8. Republier auth.json\n   9. État\n  10. Nouvelle clé maître (déconnecte tout le monde)\n   0. Quitter");
+    say("   1. Tout reprendre pas à pas\n   2. GitHub   3. Discord   4. Google\n   5. Mode anonyme (TURN)\n   6. Bannir / débannir un joueur\n   7. Mettre le serveur à jour (redéployer)\n   8. Republier auth.json\n   9. État\n  10. Nouvelle clé maître (déconnecte tout le monde)\n  11. Adresse " + AUTH_HOST + (S.domain ? " (fait)" : "") + "\n   0. Quitter");
     const c = await ask("Ton choix :");
     try {
       if (c === "1") await full(S);
@@ -302,6 +357,7 @@ async function main() {
       else if (c === "8") await stepSite(S);
       else if (c === "9") await status(S);
       else if (c === "10") { if (await yes("Sûr ? Tous les joueurs devront se reconnecter.", false)) { await stepKeys(S, true); await stepSite(S); } }
+      else if (c === "11") await stepDomain(S);
       else if (c === "0" || c === "") return;
     } catch (e) { fail(e.message); }
   }
