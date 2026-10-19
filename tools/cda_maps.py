@@ -222,7 +222,7 @@ def chip_plan(repo_dir, projects):
 
 def run_shuttle(sid, args):
     log(f"== {sid}")
-    try: idx = json.load(open(os.path.join(args.index_dir, sid + ".json"))) if args.index_dir else fetch_json(f"https://index.tinytapeout.com/{sid}.json")
+    try: idx = json.load(open(os.path.join(args.index_dir, sid + ".json"), encoding="utf-8")) if args.index_dir else fetch_json(f"https://index.tinytapeout.com/{sid}.json")
     except Exception as e: log(f"   index introuvable ({e}) : navette ignorée"); return None
     repo = idx["repo"].rstrip("/"); projects = idx["projects"]
     work = os.path.join(args.work, sid); os.makedirs(args.work, exist_ok=True)
@@ -256,11 +256,11 @@ def run_shuttle(sid, args):
     big = [j[1] for j in jobs if os.path.getsize(j[0]) > 3e6]
     if big: log(f"   grands projets (plusieurs minutes chacun) : {', '.join(big)}")
     stats_f = os.path.join(work, "stats.json")
-    stats = json.load(open(stats_f)) if os.path.exists(stats_f) else {}
+    stats = json.load(open(stats_f, encoding="utf-8")) if os.path.exists(stats_f) else {}
     if jobs:
         with Pool(args.jobs) as pool:
             for k, r in enumerate(pool.imap_unordered(convert, jobs), 1):
-                if r["ok"]: stats[r["macro"]] = [r["bytes"], r["rects"], r["logic"]]; json.dump(stats, open(stats_f, "w"))
+                if r["ok"]: stats[r["macro"]] = [r["bytes"], r["rects"], r["logic"]]; json.dump(stats, open(stats_f, "w", encoding="utf-8"))
                 log(f"   [{k}/{len(jobs)}] {r['macro']} " + (f"{r['rects']} rectangles, {r['bytes'] // 1024} Ko, {r['t']} s" if r["ok"] else "ERREUR " + r["err"]))
                 if not args.keep_layouts and r["ok"]:
                     j = next(j for j in jobs if j[1] == r["macro"])
@@ -283,7 +283,7 @@ def run_shuttle(sid, args):
                       "an": 1 if r[1] else 0, "r": r[0], "s": [1, 1], "k": [key] if ok else [], "d": [st] if ok and st else []})
     out_p.sort(key=lambda q: q["a"])
     index = {"v": 1, "id": sid, "name": idx.get("name", sid), "official": plan["official"], "chip": plan["chip"], "spine": plan["spine"], "mux": plan["mux"], "amux": plan["amux"], "ctrl": plan["ctrl"] or [0, 0, 0, 0], "free": plan["free"], "p": out_p, "maps": maps}
-    json.dump(index, open(os.path.join(outdir, "index.json"), "w"), ensure_ascii=False, separators=(",", ":"))
+    json.dump(index, open(os.path.join(outdir, "index.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     log(f"   index : {len(maps)} cartes sur {len(projects)} projets")
     return {"id": sid, "name": idx.get("name", sid), "projects": len(projects), "maps": len(maps)}
 
@@ -304,10 +304,10 @@ def main():
         if r: res.append(r)
     os.makedirs(os.path.join(args.out, "maps"), exist_ok=True)
     lst = os.path.join(args.out, "maps", "shuttles.json")
-    old = json.load(open(lst)) if os.path.exists(lst) else []
+    old = json.load(open(lst, encoding="utf-8")) if os.path.exists(lst) else []
     merged = {s["id"]: s for s in old}; merged.update({s["id"]: s for s in res})
     order = {s: i for i, s in enumerate(SKY130)}
-    json.dump(sorted(merged.values(), key=lambda s: order.get(s["id"], 99)), open(lst, "w"), ensure_ascii=False, indent=1)
+    json.dump(sorted(merged.values(), key=lambda s: order.get(s["id"], 99)), open(lst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     log("terminé :", ", ".join(f"{s['id']} {s['maps']}/{s['projects']}" for s in res))
 
 if __name__ == "__main__":
