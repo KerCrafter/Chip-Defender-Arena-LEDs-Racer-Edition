@@ -112,6 +112,11 @@ def enc(np, r, extra=None):
     if extra is not None: st.append(uv(np, np.asarray(extra)[o]))
     return b"".join(st), [len(s) for s in st]
 
+def tiles_of(v):
+    """taille en tuiles (« 2x2 », « 8×2 »…) ; valeur absente ou bizarre : 1x1"""
+    m = re.search(r"(\d+)\s*[x×*]\s*(\d+)", str(v or ""))
+    return (int(m.group(1)), int(m.group(2))) if m else (1, 1)
+
 def short(t): return t[7:] if t.startswith("sg13g2_") else t.split("__", 1)[-1]
 def drive(t):
     s = t.rsplit("_", 1)
@@ -215,7 +220,7 @@ def chip_plan(repo_dir, projects, pdk="sky130"):
     plan = {"official": False, "spine": [], "mux": [], "amux": [], "free": [], "ctrl": None, "chip": None}; tiles = {}
     x = y = 0; rowh = 0; cols = 16; col = 0; maxx = 0
     for p in sorted(projects, key=lambda p: p["address"]):
-        tc, tr = [int(v) for v in str(p.get("tiles") or "1x1").lower().split("x")]
+        tc, tr = tiles_of(p.get("tiles"))
         if col + tc > cols: col = 0; y += rowh + GY; rowh = 0
         w, h = tc * TW + (tc - 1) * GX, tr * TH + (tr - 1) * (3.78 if pdk == "ihp" else 2.72)
         px = 100 + col * (TW + GX) + (300 if col >= cols // 2 else 0)
@@ -285,7 +290,7 @@ def run_shuttle(sid, args):
                 st = [os.path.getsize(out), meta.get("stats", {}).get("rects", 0), meta.get("stats", {}).get("logic", 0)]
             except Exception: st = [os.path.getsize(out), 0, 0]
         if ok: maps[key] = 1
-        tc, tr = [int(v) for v in str(p.get("tiles") or "1x1").lower().split("x")]
+        tc, tr = tiles_of(p.get("tiles"))
         out_p.append({"a": a, "m": p["macro"], "t": (p.get("title") or p["macro"]).strip(), "au": (p.get("author") or "").strip(), "ti": p.get("tiles") or "1x1",
                       "an": 1 if r[1] else 0, "r": r[0], "s": [1, 1], "k": [key] if ok else [], "d": [st] if ok and st else []})
     out_p.sort(key=lambda q: q["a"])
