@@ -122,7 +122,9 @@ function cors(env, req) {
   const o = req.headers.get("origin");
   return originOk(env, o) ? { "access-control-allow-origin": o, "access-control-allow-headers": "authorization, content-type", "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-max-age": "86400", vary: "origin" } : {};
 }
-function back(r, frag) { const u = new URL(r); u.hash = frag; return Response.redirect(u.toString(), 302); }
+function back(r, frag, n) { const u = new URL(r); u.hash = frag + (n ? "&n=" + n : ""); return Response.redirect(u.toString(), 302); }
+// nonce tiré par la page du jeu : il revient avec la session, et la page refuse une session qu'elle n'a pas demandée
+const nonceOf = v => /^[a-z0-9]{8,40}$/.test(v || "") ? v : "";
 
 async function session(env, user) {
   return hmacSign(env, "session", { t: "s", sub: user.sub, n: user.n, a: user.a, iat: now(), exp: now() + SESSION_DAYS * 86400 });
@@ -139,17 +141,17 @@ async function route(req, env, ctx) {
   /* 1. départ vers GitHub / Discord / Google */
   let m = path.match(/^\/login\/([a-z]+)$/);
   if (m) {
-    const p = m[1], r = returnOk(env, url.searchParams.get("r") || "");
+    const p = m[1], r = returnOk(env, url.searchParams.get("r") || ""), n = nonceOf(url.searchParams.get("n"));
     if (!r) return json({ error: "adresse de retour refusée" }, 400);
     if (!enabled(env).includes(p)) return back(r, "cda_err=fournisseur");
     if (p === "dev") { // essai local uniquement (DEV=1)
       const name = cleanName(url.searchParams.get("name") || "testeur");
       const sub = "dev:" + name.toLowerCase();
       if (banned(env, sub)) return back(r, "cda_err=banni");
-      return back(r, "cda=" + await session(env, { sub, n: name, a: "" }));
+      return back(r, "cda=" + await session(env, { sub, n: name, a: "" }), n);
     }
     const P = PROVIDERS[p];
-    const state = await hmacSign(env, "state", { p, r: r.toString(), exp: now() + 600, k: b64u.enc(crypto.getRandomValues(new Uint8Array(9))) });
+    const state = await hmacSign(env, "state", { p, r: r.toString(), n, exp: now() + 600, k: b64u.enc(crypto.getRandomValues(new Uint8Array(9))) });
     const q = new URLSearchParams({ client_id: env[up(p) + "_ID"], redirect_uri: url.origin + "/callback/" + p, response_type: "code", state, ...(P.scope ? { scope: P.scope } : {}), ...(P.extra || {}) });
     return Response.redirect(P.auth + "?" + q, 302);
   }
@@ -170,7 +172,7 @@ async function route(req, env, ctx) {
       if (!tj.access_token) throw new Error("pas de jeton d'accès : " + (tj.error_description || tj.error || tr.status));
       const u = await P.user(tj.access_token), sub = p + ":" + u.id;
       if (banned(env, sub)) return back(st.r, "cda_err=banni");
-      return back(st.r, "cda=" + await session(env, { sub, n: cleanName(u.name), a: String(u.avatar || "").slice(0, 300) }));
+      return back(st.r, "cda=" + await session(env, { sub, n: cleanName(u.name), a: String(u.avatar || "").slice(0, 300) }), nonceOf(st.n));
     } catch (e) {
       console.log("callback", p, e && e.message);
       return back(st.r, "cda_err=fournisseur");
@@ -214,17 +216,18 @@ async function route(req, env, ctx) {
     return json({ iceServers: ice, ttl: 6 * HOUR }, 200, C);
   }
 
-  /* 5. relais Nostr privé */
+  /* 5. relais Nostr privé : le jeton n'est plus dans l'adresse, il arrive dans le premier message (CDA_AUTH) */
   if (path === "/relay") {
-    if (req.headers.get("upgrade") !== "websocket") return json({ relay: "wss://" + url.host + "/relay?t=<jeton>", info: "relais Nostr réservé aux joueurs connectés" }, 200, C);
-    // L'adresse du relais garde le jeton du début de la visite (7 jours de grâce) : Trystero peut ainsi se
-    // reconnecter seul. Ce jeton ne fait qu'ouvrir le transport : il ne donne ni la clé du salon ni celle d'une
-    // partie, les bannis sont refusés à chaque message, et le jeu renouvelle le jeton sur la connexion (CDA_AUTH).
-    const id = await idOpen(env, url.searchParams.get("t") || "", 7 * 86400);
-    if (!id) return new Response("jeton absent ou expiré", { status: 401 });
-    if (banned(env, id.sub)) return new Response("banni", { status: 403 });
-    const fwd = new Request(req, { headers: new Headers(req.headers) });
-    fwd.headers.set("x-cda-sub", id.sub); fwd.headers.set("x-cda-exp", String(id.exp));
+    if (req.headers.get("upgrade") !== "websocket") return json({ relay: "wss://" + url.host + "/relay", info: "relais Nostr réservé aux joueurs connectés : premier message [\"CDA_AUTH\", jeton]" }, 200, C);
+    const h = new Headers(req.headers); for (const k of ["x-cda-sub", "x-cda-exp", "x-cda-pending"]) h.delete(k);
+    const fwd = new Request(req, { headers: h });
+    const t = url.searchParams.get("t");
+    if (t) {   // ancienne forme (pages ouvertes avant la mise à jour) : jeton encore valide, sans délai de grâce
+      const id = await idOpen(env, t);
+      if (!id) return new Response("jeton absent ou expiré", { status: 401 });
+      if (banned(env, id.sub)) return new Response("banni", { status: 403 });
+      fwd.headers.set("x-cda-sub", id.sub); fwd.headers.set("x-cda-exp", String(id.exp));
+    } else fwd.headers.set("x-cda-pending", "1");
     return env.RELAY.get(env.RELAY.idFromName("salon")).fetch(fwd);
   }
 

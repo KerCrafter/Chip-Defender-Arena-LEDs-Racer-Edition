@@ -10,6 +10,9 @@ import { idOpen, banned } from "./worker.js";
 
 const MAX_SOCKS = 2000, MAX_PER_USER = 6, MAX_SUBS = 20, MAX_FILTERS = 10, MAX_MSG = 65536, MAX_CONTENT = 32768;
 const RATE_WIN = 10, RATE_MAX = 60, KEEP_S = 3 * 3600, KEEP_N = 500, GRACE = 600;
+// connexion ouverte sans jeton dans l'adresse : le premier message doit être ["CDA_AUTH", jeton] (10 s au plus) ;
+// d'ici là, rien n'est relayé et les messages reçus attendent (50 au plus, 128 Ko)
+const AUTH_WAIT_MS = 10000, MAX_PENDING = 300, PEND_N = 50, PEND_BYTES = 131072;
 const hex = (s, n) => typeof s === "string" && s.length === n && /^[0-9a-f]+$/.test(s);
 const nowS = () => Math.floor(Date.now() / 1000);
 const enc = new TextEncoder();
@@ -54,7 +57,9 @@ function cleanFilter(f) {
 }
 
 export class Relay {
-  constructor(ctx, env) { this.ctx = ctx; this.env = env; this.socks = new Map(); this.recent = null; this.saveT = 0; }
+  constructor(ctx, env) { this.ctx = ctx; this.env = env; this.socks = new Map(); this.recent = null; this.saveT = 0; this.active = new Map(); }
+  // un compte = une seule session (un onglet, un appareil) : on retient la clé Nostr de la session active de chaque compte
+  liveFor(sub, pk) { for (const st of this.socks.values()) if (st.sub === sub && st.pk === pk) return true; return false; }
 
   async loadRecent() {
     if (!this.recent) this.recent = (await this.ctx.storage.get("recent")) || [];
@@ -68,25 +73,53 @@ export class Relay {
   }
 
   async fetch(req) {
-    const sub = req.headers.get("x-cda-sub") || "", exp = Math.max(+req.headers.get("x-cda-exp") || 0, nowS() + 3000); // ~50 min, prolongées par CDA_AUTH
-    if (!sub) return new Response("interdit", { status: 403 });
+    const pending = req.headers.get("x-cda-pending") === "1";
+    const sub = pending ? null : req.headers.get("x-cda-sub") || "", exp = Math.max(+req.headers.get("x-cda-exp") || 0, nowS() + 3000); // ~50 min, prolongées par CDA_AUTH
+    if (!pending && !sub) return new Response("interdit", { status: 403 });
     if (this.socks.size >= MAX_SOCKS) return new Response("relais plein", { status: 503 });
-    let mine = 0; for (const st of this.socks.values()) if (st.sub === sub) mine++;
-    if (mine >= MAX_PER_USER) return new Response("trop de connexions", { status: 429 });
+    if (pending) { let n = 0; for (const st of this.socks.values()) if (!st.sub) n++; if (n >= MAX_PENDING) return new Response("relais occupé", { status: 503 }); }
+    else if (this.userSocks(sub) >= MAX_PER_USER) return new Response("trop de connexions", { status: 429 });
     const pair = new WebSocketPair(), ws = pair[1];
     ws.accept();
-    const st = { sub, exp, subs: new Map(), rt: 0, rn: 0 };
+    const st = { sub, exp, subs: new Map(), rt: 0, rn: 0, pend: pending ? [] : null, pendB: 0 };
+    if (pending) setTimeout(() => { if (!st.sub) { try { ws.close(4401, "authentification requise"); } catch (e) {} this.socks.delete(ws); } }, AUTH_WAIT_MS);
     this.socks.set(ws, st);
     ws.addEventListener("message", e => this.onMessage(ws, st, e.data).catch(err => this.send(ws, ["NOTICE", "erreur : " + (err && err.message)])));
-    const bye = () => this.socks.delete(ws);
+    const bye = () => { this.socks.delete(ws); if (st.sub && st.pk && this.active.get(st.sub) === st.pk && !this.liveFor(st.sub, st.pk)) this.active.delete(st.sub); };
     ws.addEventListener("close", bye); ws.addEventListener("error", bye);
     return new Response(null, { status: 101, webSocket: pair[0] });
+  }
+
+  userSocks(sub) { let n = 0; for (const st of this.socks.values()) if (st.sub === sub) n++; return n; }
+
+  // première authentification d'une connexion ouverte sans jeton
+  async authFirst(ws, st, data) {
+    let m = null; try { m = JSON.parse(data); } catch (e) {}
+    if (!Array.isArray(m) || m[0] !== "CDA_AUTH") {
+      st.pendB += data.length;
+      if (st.pend.length >= PEND_N || st.pendB > PEND_BYTES) { try { ws.close(4401, "authentification requise"); } catch (e) {} this.socks.delete(ws); return; }
+      st.pend.push(data); return;
+    }
+    const id = await idOpen(this.env, m[1]);
+    if (!id || banned(this.env, id.sub)) { this.send(ws, ["NOTICE", "CDA_AUTH refusé"]); try { ws.close(4403, "jeton refusé"); } catch (e) {} this.socks.delete(ws); return; }
+    if (this.userSocks(id.sub) >= MAX_PER_USER + (m[2] && m[2].take ? 99 : 0)) { this.send(ws, ["NOTICE", "trop de connexions"]); try { ws.close(4429, "trop de connexions"); } catch (e) {} this.socks.delete(ws); return; }
+    const act = this.active.get(id.sub), take = !!(m[2] && m[2].take);
+    if (act && act !== id.pk && this.liveFor(id.sub, act)) {
+      if (!take) { this.send(ws, ["NOTICE", "CDA_SESSION ailleurs"]); try { ws.close(4409, "session ouverte ailleurs"); } catch (e) {} this.socks.delete(ws); return; }
+      for (const [w, o] of [...this.socks]) if (o.sub === id.sub && o.pk === act) { this.send(w, ["NOTICE", "CDA_SESSION remplacée"]); try { w.close(4409, "session reprise ailleurs"); } catch (e) {} this.socks.delete(w); }
+    }
+    this.active.set(id.sub, id.pk);
+    st.sub = id.sub; st.pk = id.pk; st.exp = Math.max(id.exp, nowS() + 3000);
+    this.send(ws, ["NOTICE", "CDA_AUTH ok"]);
+    const q = st.pend; st.pend = null; st.pendB = 0;
+    for (const d of q) await this.onMessage(ws, st, d);   // les messages arrivés avant l'authentification, dans l'ordre
   }
 
   send(ws, msg) { try { ws.send(JSON.stringify(msg)); } catch (e) { this.socks.delete(ws); } }
 
   async onMessage(ws, st, data) {
     if (typeof data !== "string" || data.length > MAX_MSG) return this.send(ws, ["NOTICE", "message refusé (taille)"]);
+    if (!st.sub) return this.authFirst(ws, st, data);
     const t = nowS();
     if (t > st.exp + GRACE || banned(this.env, st.sub)) { this.send(ws, ["NOTICE", "jeton expiré : reconnecte-toi"]); try { ws.close(4001, "jeton expiré"); } catch (e) {} this.socks.delete(ws); return; }
     let m; try { m = JSON.parse(data); } catch (e) { return this.send(ws, ["NOTICE", "JSON invalide"]); }
@@ -132,7 +165,7 @@ export class Relay {
 
     if (type === "CDA_AUTH") {
       const id = await idOpen(this.env, m[1]);
-      if (!id || id.sub !== st.sub) return this.send(ws, ["NOTICE", "CDA_AUTH refusé"]);
+      if (!id || id.sub !== st.sub || (st.pk && id.pk !== st.pk)) return this.send(ws, ["NOTICE", "CDA_AUTH refusé"]);
       st.exp = id.exp;
       return this.send(ws, ["NOTICE", "CDA_AUTH ok"]);
     }

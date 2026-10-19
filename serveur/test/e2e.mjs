@@ -5,17 +5,18 @@ const B = process.argv[2] || "http://127.0.0.1:8787", R = "http://localhost:5173
 const ok = (c, m) => { console.log((c ? "OK   " : "ÉCHEC") + " " + m); if (!c) process.exitCode = 1; };
 const hex = u => Buffer.from(u).toString("hex");
 async function login(name) {
-  const r = await fetch(`${B}/login/dev?r=${encodeURIComponent(R)}&name=${name}`, { redirect: "manual" });
-  return new URL(r.headers.get("location")).hash.slice(1);
+  const r = await fetch(`${B}/login/dev?r=${encodeURIComponent(R)}&name=${name}&n=testnonce42`, { redirect: "manual" });
+  return new URL(r.headers.get("location")).hash.slice(1).replace(/&n=.*$/, "");
 }
 async function session(frag, sk) {
-  const tok = frag.replace(/^cda=/, "");
+  const tok = frag.replace(/^cda=/, "").replace(/&n=.*$/, "");
   const r = await fetch(B + "/session", { method: "POST", headers: { authorization: "Bearer " + tok, origin: "http://localhost:5173", "content-type": "application/json" }, body: JSON.stringify({ pk: getPublicKey(sk) }) });
   return { status: r.status, cors: r.headers.get("access-control-allow-origin"), j: await r.json() };
 }
-function sock(token) {
+function sock(token, legacy) {
   return new Promise((res, rej) => {
-    const ws = new WebSocket(B.replace("http", "ws") + "/relay?t=" + encodeURIComponent(token));
+    const ws = new WebSocket(B.replace("http", "ws") + "/relay" + (legacy ? "?t=" + encodeURIComponent(token) : ""));
+    if (!legacy && token) ws.on("open", () => ws.send(JSON.stringify(["CDA_AUTH", token])));
     const inbox = []; let waiters = [];
     ws.on("message", d => { const m = JSON.parse(d); inbox.push(m); waiters = waiters.filter(w => !(w.f(m) && (w.r(m), true))); });
     ws.on("open", () => res({ ws, inbox, send: m => ws.send(JSON.stringify(m)), wait: (f, ms = 3000) => new Promise((r, j) => { const hit = inbox.find(f); if (hit) return r(hit); waiters.push({ f, r }); setTimeout(() => j(new Error("délai dépassé")), ms); }) }));
@@ -47,8 +48,15 @@ const tamper = Buffer.from(JSON.stringify({ ...JSON.parse(Buffer.from(p, "base64
 ok(!(await crypto.subtle.verify({ name: "Ed25519" }, pub, Buffer.from(sg, "base64url"), new TextEncoder().encode(tamper))), "jeton modifié détecté");
 
 // relais
-let refused = ""; try { await sock("faux"); } catch (e) { refused = e.message; }
-ok(refused === "HTTP 401", "relais : connexion sans jeton refusée");
+let refused = ""; try { await sock("faux", true); } catch (e) { refused = e.message; }
+ok(refused === "HTTP 401", "relais : ancienne forme (?t=) avec faux jeton refusée");
+const rn = await fetch(`${B}/login/dev?r=${encodeURIComponent(R)}&name=nonce&n=abcdef1234`, { redirect: "manual" });
+ok(new URL(rn.headers.get("location")).hash.endsWith("&n=abcdef1234"), "connexion : le nonce de la page revient avec la session");
+// connexion sans authentification : rien n'est relayé, puis fermeture
+const anon = await sock(null);
+anon.send(["REQ", "x", { kinds: [42] }]);
+const fake = await sock("xxx.yyy");
+ok(!!(await fake.wait(m => m[0] === "NOTICE" && m[1] === "CDA_AUTH refusé").catch(() => null)), "relais : CDA_AUTH avec faux jeton refusé");
 const A = await sock(sA.j.token), Bs = await sock(sB.j.token);
 Bs.send(["REQ", "salon", { kinds: [42], "#t": ["salon-" + sA.j.h] }]);
 await Bs.wait(m => m[0] === "EOSE" && m[1] === "salon");
@@ -80,5 +88,20 @@ A.send(["CDA_AUTH", sB.j.token]);
 ok(!!(await A.wait(m => m[0] === "NOTICE" && m[1] === "CDA_AUTH refusé")), "relais : jeton d'un autre joueur refusé");
 // TURN : jeton exigé
 ok((await fetch(B + "/turn")).status === 401, "TURN : refusé sans jeton");
-for (const s of [A, Bs, Cs]) s.ws.close();
+ok(!anon.inbox.some(m => m[0] === "EVENT" || m[0] === "EOSE"), "relais : une connexion non authentifiée ne reçoit rien");
+// une seule session par compte : Alice ouvre un second onglet (autre clé Nostr)
+const skA2 = generateSecretKey(), sAbis = await session(a, skA2);
+const A2 = await sock(sAbis.j.token);
+ok(!!(await A2.wait(m => m[0] === "NOTICE" && m[1] === "CDA_SESSION ailleurs").catch(() => null)), "un compte : le second onglet est refusé (déjà en jeu ailleurs)");
+const A3 = await new Promise((res, rej) => { const w = new WebSocket(B.replace("http", "ws") + "/relay"); const inbox = []; w.on("message", d => inbox.push(JSON.parse(d))); w.on("open", () => { w.send(JSON.stringify(["CDA_AUTH", sAbis.j.token, { take: true }])); res({ ws: w, inbox }); }); w.on("error", rej); });
+await new Promise(r => setTimeout(r, 800));
+ok(A3.inbox.some(m => m[1] === "CDA_AUTH ok"), "un compte : « Jouer ici » reprend la session");
+ok(A.inbox.some(m => m[0] === "NOTICE" && m[1] === "CDA_SESSION remplacée"), "un compte : l'ancien onglet est prévenu et déconnecté");
+A3.ws.close();
+await new Promise(r => setTimeout(r, 10500));
+ok(anon.ws.readyState === 3 || anon.ws.readyState === 2, "relais : connexion non authentifiée fermée au bout de 10 s");
+const L = await sock(sA2.j.token, true);
+L.send(["REQ", "l", { kinds: [42], limit: 1 }]);
+ok(!!(await L.wait(m => m[0] === "EOSE")), "relais : l'ancienne forme (?t=jeton valide) marche encore pendant la transition");
+for (const s of [A, Bs, Cs, L]) s.ws.close();
 console.log("terminé");
