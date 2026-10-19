@@ -17,7 +17,7 @@
 <meta name="apple-mobile-web-app-title" content="Chip Defender">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
-<script>window.CDA_BUILD="3247528779be";</script>
+<script>window.CDA_BUILD="270bc0dc070c";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -921,10 +921,10 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
   <header class="lp-nav">
     <a class="lp-brand" href="#lp-top" aria-label="Haut de page"><img data-lsrc="kl" alt="KerCrafter Lab"></a>
     <nav class="lp-links" aria-label="Sections">
+      <a href="#lp-chip">La puce</a>
       <a href="#lp-modes">Modes</a>
       <a href="#lp-roster">Personnages</a>
       <a href="#lp-wpn">Armes</a>
-      <a href="#lp-chip">La puce</a>
       <a href="#lp-don" class="lp-navdon" data-don-box hidden>☕ Soutenir</a>
     </nav>
     <button class="lp-lang" id="lpLang" aria-label="Changer de langue">EN</button>
@@ -970,6 +970,28 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
     <div><b data-count="6">6</b><span>véhicules nano-capsules</span></div>
     <div><b data-count="14">14</b><span>couches, du silicium au met4</span></div>
     <div><b>Free</b><span>gratuit, sans pub, dans le navigateur</span></div>
+  </section>
+
+  <section class="lp-sec" id="lp-chip">
+    <h2>Une vraie puce</h2>
+    <div class="lp-chip">
+      <div>
+        <p>Le terrain de jeu, c'est le dessin réel de la puce LEDs Racer, conçue par Clément Kerneur et fabriquée sur la navette Tiny Tapeout SKY25b, en procédé SkyWater SKY130.</p>
+        <p class="lp-more">Et ce n'est pas la seule : sur l'écran du MUX, choisis parmi <b><span id="lpTilesT">1748</span> tuiles</b> de <b><span id="lpChipsT">9</span> puces Tiny Tapeout</b>, de <span id="lpRange">TT 3.5 à SKY 25b</span>. Chaque projet devient une arène.</p>
+        <p>Chaque muret, chaque rail doré, chaque via est un vrai rectangle du layout : le polysilicium des grilles, les couches de métal li1 à met4, les rails d'alimentation VPWR et VGND, les bascules D qui retiennent l'état du jeu.</p>
+        <p>Tu mesures un demi-micron. Bonne visite.</p>
+      </div>
+      <dl class="lp-keys">
+        <dt>ZQSD / WASD</dt><dd>se déplacer, Maj pour courir</dd>
+        <dt>Souris</dt><dd>viser, clic gauche pour tirer</dd>
+        <dt>Espace</dt><dd>sauter, jetpack</dd>
+        <dt>F</dt><dd>monter dans un véhicule</dd>
+        <dt>X / molette</dt><dd>changer d'arme spéciale</dd>
+        <dt>Clic droit</dt><dd>lunette des fusils de précision</dd>
+        <dt>Tab</dt><dd>tableau des joueurs</dd>
+        <dt>Échap</dt><dd>menu et sortie du plein écran</dd>
+      </dl>
+    </div>
   </section>
 
   <section class="lp-sec" id="lp-modes">
@@ -1025,28 +1047,6 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
     <div class="lp-fort">
       <div class="lp-fortpic" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></div>
       <div><h3>Des fortifications autour des zones</h3><p>En ligne, chaque site, broche et bascule est ceint d'un rempart de 0,62 µm : on entre par les angles, on se couvre derrière les piliers, on passe par-dessus au jetpack. Les murs arrêtent les tirs, sauf ceux des armes qui percent les parois.</p></div>
-    </div>
-  </section>
-
-  <section class="lp-sec" id="lp-chip">
-    <h2>Une vraie puce</h2>
-    <div class="lp-chip">
-      <div>
-        <p>Le terrain de jeu, c'est le dessin réel de la puce LEDs Racer, conçue par Clément Kerneur et fabriquée sur la navette Tiny Tapeout SKY25b, en procédé SkyWater SKY130.</p>
-        <p class="lp-more">Et ce n'est pas la seule : sur l'écran du MUX, choisis parmi <b><span id="lpTilesT">1748</span> tuiles</b> de <b><span id="lpChipsT">9</span> puces Tiny Tapeout</b>, de <span id="lpRange">TT 3.5 à SKY 25b</span>. Chaque projet devient une arène.</p>
-        <p>Chaque muret, chaque rail doré, chaque via est un vrai rectangle du layout : le polysilicium des grilles, les couches de métal li1 à met4, les rails d'alimentation VPWR et VGND, les bascules D qui retiennent l'état du jeu.</p>
-        <p>Tu mesures un demi-micron. Bonne visite.</p>
-      </div>
-      <dl class="lp-keys">
-        <dt>ZQSD / WASD</dt><dd>se déplacer, Maj pour courir</dd>
-        <dt>Souris</dt><dd>viser, clic gauche pour tirer</dd>
-        <dt>Espace</dt><dd>sauter, jetpack</dd>
-        <dt>F</dt><dd>monter dans un véhicule</dd>
-        <dt>X / molette</dt><dd>changer d'arme spéciale</dd>
-        <dt>Clic droit</dt><dd>lunette des fusils de précision</dd>
-        <dt>Tab</dt><dd>tableau des joueurs</dd>
-        <dt>Échap</dt><dd>menu et sortie du plein écran</dd>
-      </dl>
     </div>
   </section>
 
