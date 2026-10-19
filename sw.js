@@ -43,6 +43,6 @@ self.addEventListener("fetch", e => {
     if (/\/(maps|icons)\//.test(u.pathname) || u.pathname.endsWith(".webmanifest")) return e.respondWith(staleRevalidate(r, e));
     return;
   }
-  if (u.hostname === "maps.chip-defender-arena.kercrafter.live") return e.respondWith(staleRevalidate(r, e));   // cartes sur Cloudflare R2
+  if (u.hostname === "maps-cda.kercrafter.live") return e.respondWith(staleRevalidate(r, e));   // cartes sur Cloudflare R2
   if (u.hostname === "cdn.jsdelivr.net") e.respondWith(cacheFirst(r));
 });

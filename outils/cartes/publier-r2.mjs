@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-/* Chip Defender Arena · publication des cartes sur Cloudflare R2 (maps.chip-defender-arena.kercrafter.live)
+/* Chip Defender Arena · publication des cartes sur Cloudflare R2 (maps-cda.kercrafter.live)
    =====================================================================================
    GitHub Pages limite un site à 1 Go : les cartes (SKY130 + IHP) vont dans un « bucket » R2,
-   servi par Cloudflare sur https://maps.chip-defender-arena.kercrafter.live/maps/... (même arborescence que le site).
+   servi par Cloudflare sur https://maps-cda.kercrafter.live/maps/... (même arborescence que le site).
 
    Utilise la connexion Cloudflare de wrangler déjà faite par installer-serveur.bat : aucun secret en plus.
    Première fois : création du bucket, règles CORS (seul le site du jeu peut lire les cartes depuis la page),
-   domaine maps.kercrafter.live. Ensuite : n'envoie que les fichiers nouveaux ou modifiés.
+   domaine maps-cda.kercrafter.live. Ensuite : n'envoie que les fichiers nouveaux ou modifiés.
 
    node publier-r2.mjs --maps <dossier maps> --state <fichier d'état> [--jobs 8] */
 import { createHash } from "node:crypto";
@@ -21,7 +21,7 @@ const arg = (k, d) => { const i = process.argv.indexOf("--" + k); return i > 0 ?
 const MAPS = arg("maps", join(HERE, "..", "..", "maps"));
 const STATE_F = arg("state", join(HERE, ".publier-r2.json"));
 const JOBS = Math.max(1, Math.min(16, +arg("jobs", 8)));
-const BUCKET = "cda-maps", DOMAIN = "maps.chip-defender-arena.kercrafter.live", ZONE = "kercrafter.live";
+const BUCKET = "cda-maps", DOMAIN = "maps-cda.kercrafter.live", ZONE = "kercrafter.live";
 const ORIGINS = ["https://chip-defender-arena.kercrafter.live", "https://kercrafter.github.io"];
 const SERVEUR = join(HERE, "..", "..", "serveur");
 const WRANGLER = join(SERVEUR, "node_modules", "wrangler", "bin", "wrangler.js");
@@ -146,11 +146,6 @@ async function verify() {
   } catch (e) {
     const c = String(e.cause && (e.cause.code || e.cause.message) || e.message);
     fail("vérification impossible : " + c);
-    if (/CERT|TLS|SSL|altname|handshake/i.test(c)) {
-      warn("Le certificat HTTPS de " + DOMAIN + " n'est pas (encore) valide. Attends 10 minutes et relance.");
-      say("     S'il reste invalide : le certificat gratuit de Cloudflare ne couvre qu'un niveau de sous-domaine (*.kercrafter.live).");
-      say("     Envoie ce message à Claude : il passera sur une adresse couverte, sans rien renvoyer.");
-    }
   }
 }
 
