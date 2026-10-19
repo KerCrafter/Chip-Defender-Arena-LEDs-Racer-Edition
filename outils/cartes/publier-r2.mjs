@@ -193,7 +193,7 @@ async function main() {
   if (!S.setup) await setup(S);
   const errs = await upload(S);
   await verify();
-  if (!errs) say("\n  Dis à Claude « cartes R2 en ligne » : il basculera le jeu sur " + DOMAIN + ".");
+  if (!errs) say("\n  C'est en ligne : les joueurs voient les nouvelles cartes en rechargeant le jeu (cache de 5 min pour les index).");
   process.exitCode = errs ? 1 : 0;
 }
 main().catch(e => { fail(e.message); process.exitCode = 1; }).finally(() => rl && rl.close());
