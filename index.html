@@ -17,7 +17,7 @@
 <meta name="apple-mobile-web-app-title" content="Chip Defender">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
-<script>window.CDA_BUILD="270bc0dc070c";</script>
+<script>window.CDA_BUILD="77e78f638003";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -454,10 +454,14 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 .lp-links a{color:#fff;text-decoration:none;font:700 13px var(--f-kmono);text-transform:uppercase;letter-spacing:.06em}
 .lp-links a:hover,.lp-links a:focus-visible{color:var(--k-sky);text-decoration:underline}
 .lp-lang{font:700 12px var(--f-kmono);background:#fff;color:#000;border:0;border-radius:0;padding:6px 9px;cursor:pointer}
-.lp-hero{position:relative;min-height:min(92vh,860px);display:grid;align-items:center;padding:56px 16px 64px;overflow:hidden;background:var(--k-blue)}
+.lp-hero{position:relative;min-height:calc(100vh - 62px - var(--lp-facts-h,128px));min-height:calc(100svh - 62px - var(--lp-facts-h,128px));box-sizing:border-box;display:grid;align-items:center;padding:36px 16px 40px;overflow:hidden;background:var(--k-blue)}
 .lp-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.55;transform:scale(1.04)}
 .lp-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,84,176,.96) 0,rgba(0,107,223,.82) 42%,rgba(0,107,223,.18) 100%)}
 .lp-hero-in{position:relative;z-index:1;width:min(1180px,100%);margin:0 auto;display:grid;gap:16px;justify-items:start}
+.lp-hl,.lp-hr{display:grid;gap:16px;justify-items:start;min-width:0}
+@media (min-width:980px){.lp-hero-in{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:56px;align-items:center}.lp-hl .lp-logo{width:min(560px,100%)}}
+@media (max-width:600px){.lp-hero{padding:18px 16px 22px}.lp-hero-in,.lp-hl,.lp-hr{gap:10px}.lp-kick{font-size:11px}.lp-sub{font-size:13px;line-height:1.5}.lp-cta{gap:8px}.lp-cta .lp-btn{padding:12px 18px}.lp-herodon{margin-top:4px}}
+@media (max-height:760px) and (min-width:980px){.lp-hl .lp-logo{width:min(440px,100%)}.lp-tag{font-size:clamp(20px,2.6vw,28px)}}
 .lp-kick{font:500 13px var(--f-kmono);color:var(--k-sky);letter-spacing:.3em;text-transform:uppercase}
 .lp-logo{margin:0;width:min(560px,92vw)}
 .lp-logo img{width:100%;height:auto;filter:drop-shadow(0 6px 0 rgba(0,0,0,.35))}
@@ -506,7 +510,7 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 .lp-facts div{padding:22px 16px;border-right:1px solid #222;display:grid;gap:2px}
 .lp-facts b{font:900 clamp(30px,4vw,44px)/1 var(--f-brand);color:var(--k-sky)}
 .lp-facts span{font:500 13px var(--f-kmono);color:#cfd8e6}
-@media (max-width:1100px){.lp-facts{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:1100px){.lp-facts{grid-template-columns:repeat(3,1fr)}#landing{--lp-facts-h:250px}}
 .lp-sec{padding:72px 16px;width:min(1180px,100%);margin:0 auto;box-sizing:border-box}
 .lp-dark{width:auto;background:var(--k-blue2);padding-left:max(16px,calc((100% - 1148px)/2));padding-right:max(16px,calc((100% - 1148px)/2))}
 .lp-lead{font:500 15px var(--f-kmono);color:var(--k-sky);margin-bottom:28px!important;max-width:60ch}
@@ -544,7 +548,9 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
   .lp-modes{grid-template-columns:1fr 1fr}
   .lp-vehs{grid-template-columns:repeat(3,1fr)}
   .lp-chars,.lp-chip{grid-template-columns:1fr}
-  .lp-facts{grid-template-columns:1fr 1fr!important}
+  .lp-facts{grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:minmax(150px,40%);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .lp-facts div{scroll-snap-align:start;padding:16px 14px}
+  #landing{--lp-facts-h:118px}
 }
 @media (max-width:560px){
   .lp-links{display:none}
@@ -934,9 +940,12 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
     <div class="lp-hero-bg" data-lbg="hero"></div>
     <canvas class="lp-traces" aria-hidden="true"></canvas>
     <div class="lp-hero-in">
+      <div class="lp-hl">
       <p class="lp-kick">KerCrafter Lab Studio présente</p>
       <h1 class="lp-logo beta-tag" data-beta="BÊTA"><img data-limg="logo" alt="Chip Defender Arena"></h1>
       <p class="lp-edition">LEDs Racer Edition</p>
+      </div>
+      <div class="lp-hr">
       <p class="lp-tag">Un FPS multijoueur dans le layout réel d'une puce Tiny Tapeout.</p>
       <p class="lp-sub">Microbes contre Défenseurs, six modes de jeu, des nano-capsules à piloter. Directement dans le navigateur, sans installation ; un compte GitHub, Discord ou Google suffit pour jouer en ligne.</p>
       <div class="lp-cta">
@@ -947,7 +956,17 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
       <a class="lp-herodon" data-don data-don-box hidden href="#" target="_blank" rel="noopener">☕ Le jeu est gratuit : soutiens-le sur Ko-fi</a>
       <p class="lp-ios" data-ios hidden>Sur iPhone et iPad : bouton Partager, puis « Sur l'écran d'accueil » pour installer le jeu.</p>
       <p class="lp-room"><span>Salle</span> <b id="lpRoom">public</b> <button class="lp-link" id="lpInvite">Copier le lien d'invitation</button></p>
+      </div>
     </div>
+  </section>
+
+  <section class="lp-facts" aria-label="En bref">
+    <div><b data-count="9" id="lpNChips">9</b><span>puces Tiny Tapeout jouables</span></div>
+    <div><b data-count="1748" id="lpNTiles">1748</b><span>tuiles, autant d'arènes</span></div>
+    <div><b data-count="6">6</b><span>modes de jeu en ligne</span></div>
+    <div><b data-count="6">6</b><span>véhicules nano-capsules</span></div>
+    <div><b data-count="14">14</b><span>couches, du silicium au met4</span></div>
+    <div><b>Free</b><span>gratuit, sans pub, dans le navigateur</span></div>
   </section>
 
   <section class="lp-don" id="lp-don" data-don-box hidden aria-labelledby="lpDonT">
@@ -961,15 +980,6 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
       </div>
       <figure class="lp-don-c lp-don-d"><img data-limg="pd" alt="Le Défenseur"><figcaption>Chaque café répare une paroi. Merci !</figcaption></figure>
     </div>
-  </section>
-
-  <section class="lp-facts" aria-label="En bref">
-    <div><b data-count="9" id="lpNChips">9</b><span>puces Tiny Tapeout jouables</span></div>
-    <div><b data-count="1748" id="lpNTiles">1748</b><span>tuiles, autant d'arènes</span></div>
-    <div><b data-count="6">6</b><span>modes de jeu en ligne</span></div>
-    <div><b data-count="6">6</b><span>véhicules nano-capsules</span></div>
-    <div><b data-count="14">14</b><span>couches, du silicium au met4</span></div>
-    <div><b>Free</b><span>gratuit, sans pub, dans le navigateur</span></div>
   </section>
 
   <section class="lp-sec" id="lp-chip">
@@ -1043,10 +1053,6 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
       <article style="--wc:#ff6a3d;--mc:#57e3a0"><div class="lp-wduo"><div class="lp-3dbox lp-wbox lp-wd" data-l3d="w-plasma-D"></div><div class="lp-3dbox lp-wbox lp-wm" data-l3d="w-plasma-M"></div></div><p class="lp-wD"><b>Canon à plasma</b> boule de plasma, petite zone</p><p class="lp-wM"><b>Boule de biofilm</b> boule gluante, petite zone</p><p class="lp-wst"><b>60</b> dégâts · <b>6</b> tirs · <b>20</b> µm</p></article>
       <article style="--wc:#c9529f;--mc:#e6f03a"><div class="lp-wduo"><div class="lp-3dbox lp-wbox lp-wd" data-l3d="w-pn-D"></div><div class="lp-3dbox lp-wbox lp-wm" data-l3d="w-pn-M"></div></div><p class="lp-wD"><b>Désintégrateur PN</b> fait fondre les parois (×6)</p><p class="lp-wM"><b>Glande à acide</b> dissout les parois (×6)</p><p class="lp-wst"><b>40</b> dégâts · <b>12</b> tirs · <b>10</b> µm</p></article>
       <article style="--wc:#9fe8ff;--mc:#a0ffd8"><div class="lp-wduo"><div class="lp-3dbox lp-wbox lp-wd" data-l3d="w-squid-D"></div><div class="lp-3dbox lp-wbox lp-wm" data-l3d="w-squid-M"></div></div><p class="lp-wD"><b>Fusil SQUID</b> supraconducteur, lunette ×2 au clic droit</p><p class="lp-wM"><b>Sarbacane à toxine</b> longue portée, œil-lunette ×2 au clic droit</p><p class="lp-wst"><b>70</b> dégâts · <b>8</b> tirs · <b>36</b> µm</p></article>
-    </div>
-    <div class="lp-fort">
-      <div class="lp-fortpic" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></div>
-      <div><h3>Des fortifications autour des zones</h3><p>En ligne, chaque site, broche et bascule est ceint d'un rempart de 0,62 µm : on entre par les angles, on se couvre derrière les piliers, on passe par-dessus au jetpack. Les murs arrêtent les tirs, sauf ceux des armes qui percent les parois.</p></div>
     </div>
   </section>
 
