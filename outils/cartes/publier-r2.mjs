@@ -120,6 +120,7 @@ async function upload(S) {
   say(`  ${todo.length} fichier(s) à envoyer (${mo.toFixed(0)} Mo), ${JOBS} à la fois. Tu peux fermer et relancer : ce qui est envoyé n'est pas renvoyé.`);
   ensureLogin();
   let done = 0, errs = 0, lastSave = Date.now(), busy = 0, gate = null, stop = false;
+  let pauseUntil = 0;
   // une seule reconnexion pour tous les envois qui échouent en même temps
   let relog = null;
   const relogin = () => relog || (relog = (async () => {
@@ -146,11 +147,17 @@ async function upload(S) {
         busy++;
         const json = f.key.endsWith(".json");
         let res;
-        for (let tr = 0; tr < 3 && !stop; tr++) {
+        for (let tr = 0, lim = 0; tr < 3 && !stop; tr++) {
+          // limite de débit de Cloudflare (429) : tout le monde fait une pause, puis on réessaie ce fichier
+          while (Date.now() < pauseUntil) await new Promise(r => setTimeout(r, 1000));
           res = await wrAsync(["r2", "object", "put", BUCKET + "/" + f.key, "--file", f.p, "--remote",
             "--content-type", json ? "application/json; charset=utf-8" : "application/octet-stream",
             "--cache-control", json ? "public, max-age=300" : "public, max-age=86400"]);
           if (res.code === 0) break;
+          if (/429|Too Many Requests|rate limit/i.test(res.out) && lim++ < 20) {
+            if (Date.now() >= pauseUntil) { pauseUntil = Date.now() + 75e3; if (tty) process.stdout.write("\n"); warn("Cloudflare limite le débit : pause de 75 s, puis reprise automatique…"); }
+            tr--; continue;
+          }
           if (NOT_LOGGED.test(res.out) && !stop) { busy--; await relogin(); busy++; }
         }
         busy--;
