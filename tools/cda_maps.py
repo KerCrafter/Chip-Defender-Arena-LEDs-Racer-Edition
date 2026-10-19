@@ -62,6 +62,21 @@ def layer_rects(np, gdstk, name, polys):
             a = np.round(np.asarray(p) / GRID).astype(np.int64)
             rects.add((a[:, 0].min(), a[:, 1].min(), a[:, 0].max(), a[:, 1].max()))
         arr = np.array(sorted(rects), np.int64) if rects else np.zeros((0, 4), np.int64)
+    elif len(polys) > 30000:
+        # grands projets : fusion par carrés de 40 µm, sinon une seule fusion géante prend des heures
+        C = 40.0
+        bb = np.array([[p[:, 0].min(), p[:, 1].min(), p[:, 0].max(), p[:, 1].max()] for p in map(np.asarray, polys)])
+        x0, y0, x1, y1 = bb[:, 0].min(), bb[:, 1].min(), bb[:, 2].max(), bb[:, 3].max()
+        rects = []
+        for cx in np.arange(np.floor(x0 / C) * C, x1, C):
+            mx = (bb[:, 2] > cx) & (bb[:, 0] < cx + C)
+            if not mx.any(): continue
+            for cy in np.arange(np.floor(y0 / C) * C, y1, C):
+                m = mx & (bb[:, 3] > cy) & (bb[:, 1] < cy + C)
+                if not m.any(): continue
+                merged = gdstk.boolean([gdstk.Polygon(polys[i]) for i in np.nonzero(m)[0]], [gdstk.rectangle((cx, cy), (cx + C, cy + C))], "and", precision=1e-3)
+                for mp in merged: rects.extend(slab_rects(np, mp.points))
+        arr = np.array(rects, np.int64) if rects else np.zeros((0, 4), np.int64)
     else:
         merged = gdstk.boolean([gdstk.Polygon(p) for p in polys], [], "or", precision=1e-3)
         rects = []
@@ -238,6 +253,8 @@ def run_shuttle(sid, args):
             except Exception as e: log(f"   {macro} : téléchargement impossible ({e})"); continue
         jobs.append((src, macro, addr, p.get("tiles") or "1x1", (p.get("title") or macro).strip(), (p.get("author") or "").strip(), key, out))
     log(f"   {len(projects)} projets, {len(lay)} layouts trouvés, {len(jobs)} à convertir")
+    big = [j[1] for j in jobs if os.path.getsize(j[0]) > 3e6]
+    if big: log(f"   grands projets (plusieurs minutes chacun) : {', '.join(big)}")
     stats_f = os.path.join(work, "stats.json")
     stats = json.load(open(stats_f)) if os.path.exists(stats_f) else {}
     if jobs:
