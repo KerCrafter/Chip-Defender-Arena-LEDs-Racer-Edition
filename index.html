@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-79quHedBgXXuUQKKKai+hBmFBIigj3ELStWWNU+waPQ=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-Ys+ndQUF1LuZPemcmPxKQQuoPSu18Z6NFxiPWMZVXBg=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-gjoKe//VDO6uN133MMoLj8iIwdKWRtjfElaEHb99ilw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-t1UfHv8IiNxuv1GLoglR4wQ2X7olfOAM0QrTuhXCBt4=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-79quHedBgXXuUQKKKai+hBmFBIigj3ELStWWNU+waPQ=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-e1JvZmooM1kh9GRA1bHAhbeAlEcFQKnyBwX9mT/EvBw=' 'sha256-gjoKe//VDO6uN133MMoLj8iIwdKWRtjfElaEHb99ilw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-pcTkGHbMDqmCwZltzphTiaHnQigt+64HA4E7lmlVi6g=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="2399eda1f786";</script>
+<script>window.CDA_BUILD="8a3087f1a54c";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -497,6 +497,7 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 .lp-herodon:hover,.lp-herodon:focus-visible{background:#ff5e5b;color:#000}
 @media (max-width:760px){.lp-don-in{grid-template-columns:1fr 1fr}.lp-don-t{grid-column:1 / -1;grid-row:2}.lp-don-c img{width:min(150px,90%)}.lp-don-d img{width:min(105px,65%)}.lp-don-c figcaption{font-size:12px}}
 @media (prefers-reduced-motion:reduce){.lp-don-c img{animation:none}}
+.mx-sub{font-size:12px;line-height:1.4;max-height:7.5em;overflow:auto;margin:6px 0;opacity:.85}
 .lp-kofi{display:inline-block;text-decoration:none;margin-top:6px;background:#ff5e5b;color:#fff;box-shadow:4px 4px 0 #fff}
 .lp-kofi:hover,.lp-kofi:focus-visible{background:#fff;color:#000}
 .lp-kofi::before{content:"☕ "}
@@ -7618,7 +7619,7 @@ const MUX = (() => {
       const q = $("muxQ").value.trim().toLowerCase(), res = $("muxRes");
       I.p.forEach(p => p.g.classList.remove("hit"));
       if (!q) { res.hidden = true; return; }
-      const L2 = I.p.filter(p => String(p.a) === q || bits(p.a) === q || (p.t + " " + p.au + " " + p.m).toLowerCase().includes(q)).slice(0, 40);
+      const L2 = I.p.filter(p => String(p.a) === q || bits(p.a) === q || (p.t + " " + p.au + " " + p.m + " " + (p.sub || []).join(" ")).toLowerCase().includes(q)).slice(0, 40);
       L2.forEach(p => p.g.classList.add("hit"));
       res.hidden = false;
       res.innerHTML = L2.length ? L2.map(p => `<li><button data-a="${p.a}"><b>${esc(p.t)}</b><small>${esc(p.au)} · ${p.a} · ${p.ti}</small></button></li>`).join("") : `<li class="none">${EN ? "No project found" : "Aucun projet"}</li>`;
@@ -7642,7 +7643,7 @@ const MUX = (() => {
     const k = fullKey(p.k[n]), d = p.d[n] || [0, 0, 0], isCur = k === MAP_KEY;
     const sl = p.k.length > 1 ? `<span class="mx-tag">${EN ? "arena" : "arène"} ${n + 1}/${p.k.length}</span>` : "";
     c.innerHTML = `<span class="mx-kind ${p.an ? "an" : ""}">${p.an ? (EN ? "Analog" : "Analogique") : (EN ? "Digital" : "Numérique")} · ${p.ti}</span>${sl}
-      <h3>${esc(p.t)}</h3><p class="mx-au">${esc(p.au)}</p><code>${esc(p.m)}</code>
+      <h3>${esc(p.t)}</h3><p class="mx-au">${esc(p.au)}</p><code>${esc(p.m)}</code>${p.sub && p.sub.length ? `<p class="mx-sub"><b>${EN ? "Projects on this shared tile" : "Projets sur cette tuile partagée"} :</b> ${p.sub.map(esc).join(" · ")}</p>` : ""}
       ${p.k.length ? `<dl><dt>${EN ? "Logic cells" : "Cellules logiques"}</dt><dd>${d[2].toLocaleString(EN ? "en-US" : "fr-FR")}</dd><dt>${EN ? "Rectangles" : "Rectangles"}</dt><dd>${d[1].toLocaleString(EN ? "en-US" : "fr-FR")}</dd><dt>${EN ? "Download" : "Téléchargement"}</dt><dd>${isCur ? (EN ? "loaded" : "chargée") : kb(d[0])}</dd></dl>
       ${preview ? "" : `<button class="btn-main" id="muxGo" ${isCur ? "disabled" : ""}>${isCur ? (EN ? "You are on this tile" : "Tu es sur cette tuile") : (EN ? "Load this tile" : "Charger cette tuile")}</button>`}` : `<p class="mx-hint">${EN ? "No layout could be extracted for this project." : "Aucun layout exploitable pour ce projet."}</p>`}`;
     const go = $("muxGo"); if (go) go.onclick = () => { close(); try { localStorage.setItem("cda-map-sh", I.name || SID); } catch (e) {} mapSwitch(k, after, p.t); };

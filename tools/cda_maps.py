@@ -232,6 +232,28 @@ def chip_plan(repo_dir, projects, pdk="sky130"):
     plan["chip"] = [round(maxx + 100, 1), round(H, 1)]
     return plan, tiles
 
+def group_shared(out_p):
+    """tuiles partagées (ttihp25a : ~15 petits projets Wokwi sur une même tuile, macro tt_um_wokwi_group_N) :
+       une seule entrée par adresse dans l'écran du MUX, avec le nombre de projets et leurs auteurs"""
+    by = collections.OrderedDict()
+    for q in out_p: by.setdefault(q["a"], []).append(q)
+    res = []
+    for a, L in by.items():
+        if len(L) == 1: res.append(L[0]); continue
+        base = next((q for q in L if "group" in q["m"].lower()), L[0])
+        m = re.search(r"group_?(\d+)", base["m"], re.I)
+        members = [q for q in L if q is not base] or L
+        au = []
+        for q in members:
+            for x in re.split(r"\s*[,;&]\s*|\s+and\s+|\s+et\s+", q["au"] or ""):
+                if x and x not in au: au.append(x)
+        g = dict(base)
+        g["t"] = (f"Groupe Wokwi n°{m.group(1)}" if m else "Tuile partagée") + f" · {len(members)} projets"
+        g["au"] = ", ".join(au[:8]) + (f" et {len(au) - 8} autres" if len(au) > 8 else "")
+        g["sub"] = [q["t"] for q in members][:40]
+        res.append(g)
+    return res
+
 def run_shuttle(sid, args):
     log(f"== {sid}")
     try: idx = json.load(open(os.path.join(args.index_dir, sid + ".json"), encoding="utf-8")) if args.index_dir else fetch_json(f"https://index.tinytapeout.com/{sid}.json")
@@ -293,6 +315,7 @@ def run_shuttle(sid, args):
         tc, tr = tiles_of(p.get("tiles"))
         out_p.append({"a": a, "m": p["macro"], "t": (p.get("title") or p["macro"]).strip(), "au": (p.get("author") or "").strip(), "ti": p.get("tiles") or "1x1",
                       "an": 1 if r[1] else 0, "r": r[0], "s": [1, 1], "k": [key] if ok else [], "d": [st] if ok and st else []})
+    out_p = group_shared(out_p)
     out_p.sort(key=lambda q: q["a"])
     index = {"v": 1, "id": sid, "name": idx.get("name", sid), "pdk": pdk, "official": plan["official"], "chip": plan["chip"], "spine": plan["spine"], "mux": plan["mux"], "amux": plan["amux"], "ctrl": plan["ctrl"] or [0, 0, 0, 0], "free": plan["free"], "p": out_p, "maps": maps}
     json.dump(index, open(os.path.join(outdir, "index.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
