@@ -55,7 +55,8 @@ def convert3(job):
     for ref in top.references:
         cell = ref.cell
         if cell.name not in tindex: tindex[cell.name] = len(types); types.append(cell)
-        offs = ref.repetition.offsets if ref.repetition.size > 1 else [(0, 0)]
+        # tableaux de cellules (répétitions régulières ou explicites) : une instance par copie
+        offs = ref.repetition.get_offsets() if ref.repetition.size > 1 else [(0, 0)]
         for dx, dy in offs:
             inst.append((round((ref.origin[0] + dx) / GRID) - ox, round((ref.origin[1] + dy) / GRID) - oy, orient_of(ref), tindex[cell.name]))
     libmeta, libbytes, n_lib = [], bytearray(), 0

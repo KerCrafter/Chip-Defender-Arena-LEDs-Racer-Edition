@@ -21,8 +21,8 @@ Dépendances : Python 3.9+, git, et  pip install gdstk numpy pyyaml
 import argparse, collections, gzip, json, os, re, struct, subprocess, sys, tempfile, time, urllib.request
 from multiprocessing import Pool
 
-SKY130 = ["tt03p5", "tt04", "tt05", "tt06", "tt07", "tt08", "tt09", "ttsky25a", "ttsky25b"]
-IHP = ["ttihp0p2", "ttihp0p3", "ttihp0p4", "ttihp25a", "ttihp25b", "ttihp26a"]
+SKY130 = ["tt03p5", "tt04", "tt05", "tt06", "tt07", "tt08", "tt09", "ttsky25a", "ttsky25b", "ttsky26a", "ttsky26b", "ttsky26c"]
+IHP = ["ttihp0p2", "ttihp0p3", "ttihp0p4", "ttihp25a", "ttihp25b", "ttihp26a", "ttihp26b"]
 GF = ["ttgf0p1", "ttgf0p2", "ttgf0p3", "ttgf26a", "ttgf26b"]
 GRID = 0.005
 def pdk_of(sid): return "ihp" if sid.startswith("ttihp") else "gf180" if sid.startswith("ttgf") else "sky130"
@@ -369,8 +369,12 @@ def main():
     old = json.load(open(lst, encoding="utf-8")) if os.path.exists(lst) else []
     merged = {s["id"]: s for s in old}; merged.update({s["id"]: s for s in res})
     merged = {k: v for k, v in merged.items() if v.get("maps")}   # navette sans aucune carte (layouts non publiés, ex. ttgf0p1) : pas dans la liste
-    order = {s: i for i, s in enumerate(SKY130 + IHP + GF)}
-    json.dump(sorted(merged.values(), key=lambda s: order.get(s["id"], 99)), open(lst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    # ordre de fabrication (fin des soumissions, d'après tinytapeout.com/runs) ; navette inconnue : à la fin
+    DATE = {"tt03p5": "2023-06-15", "tt04": "2023-09-08", "tt05": "2023-11-04", "tt06": "2024-04-19", "tt07": "2024-06-01", "tt08": "2024-09-06",
+            "ttihp0p2": "2024-11-04", "tt09": "2024-11-10", "ttihp0p3": "2025-01-15", "ttihp25a": "2025-03-28", "ttihp25b": "2025-09-01", "ttsky25a": "2025-09-15",
+            "ttsky25b": "2025-11-10", "ttgf0p2": "2025-11-24", "ttihp26a": "2026-03-23", "ttihp0p4": "2026-03-28", "ttsky26a": "2026-05-11", "ttsky26b": "2026-05-18",
+            "ttgf26a": "2026-06-22", "ttgf26b": "2026-06-22", "ttgf0p3": "2026-07-07", "ttsky26c": "2026-09-07", "ttihp26b": "2026-09-21"}
+    json.dump(sorted(merged.values(), key=lambda s: (DATE.get(s["id"], "9999"), s["id"])), open(lst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     log("terminé :", ", ".join(f"{s['id']} {s['maps']}/{s['projects']}" for s in res))
 
 if __name__ == "__main__":
