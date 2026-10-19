@@ -7,6 +7,7 @@ Télécharge les layouts (GDS/OASIS) des projets Tiny Tapeout et les convertit e
     python3 cda_maps.py                       # toutes les navettes SKY130 connues
     python3 cda_maps.py --shuttles tt06,tt07  # seulement celles-ci
     python3 cda_maps.py --shuttles ttihp25a   # navette IHP (procédé SG13G2), même fonctionnement
+    python3 cda_maps.py --shuttles ttgf0p2    # navette GlobalFoundries (procédé GF180MCU)
     python3 cda_maps.py --out ../site --jobs 4
 
 Sortie (dans --out, par défaut le dossier courant) :
@@ -22,12 +23,17 @@ from multiprocessing import Pool
 
 SKY130 = ["tt03p5", "tt04", "tt05", "tt06", "tt07", "tt08", "tt09", "ttsky25a", "ttsky25b"]
 IHP = ["ttihp0p2", "ttihp0p3", "ttihp0p4", "ttihp25a", "ttihp25b", "ttihp26a"]
+GF = ["ttgf0p1", "ttgf0p2", "ttgf0p3", "ttgf26a", "ttgf26b"]
 GRID = 0.005
-def pdk_of(sid): return "ihp" if sid.startswith("ttihp") else "sky130"
+def pdk_of(sid): return "ihp" if sid.startswith("ttihp") else "gf180" if sid.startswith("ttgf") else "sky130"
 # Les 5 niveaux de routage IHP (Metal1..Metal5) occupent les 5 étages du jeu (li1, met1..met4), contact pour contact :
 # la carte garde les noms d'étage du jeu et porte "pdk": "ihp", le jeu affiche alors les vrais noms IHP.
 LAYERS_IHP = [((31, 0), "nwell"), ((1, 0), "diff"), ((5, 0), "poly"), ((6, 0), "licon"), ((8, 0), "li1"), ((19, 0), "mcon"),
               ((10, 0), "met1"), ((29, 0), "via"), ((30, 0), "met2"), ((49, 0), "via2"), ((50, 0), "met3"), ((66, 0), "via3"), ((67, 0), "met4")]
+# GF180MCU : pas de couche li1. Metal1 (rails horizontaux, comme le met1 SKY130) .. Metal4 (rubans d'alimentation verticaux,
+# comme le met4) gardent leur étage ; le contact (Contact 33) remplit licon et mcon pour relier le silicium au Metal1.
+LAYERS_GF = [((21, 0), "nwell"), ((22, 0), "diff"), ((30, 0), "poly"), ((33, 0), "licon"), ((33, 0), "mcon"), ((34, 0), "met1"),
+             ((35, 0), "via"), ((36, 0), "met2"), ((38, 0), "via2"), ((42, 0), "met3"), ((40, 0), "via3"), ((46, 0), "met4")]
 LAYERS = [((64, 20), "nwell"), ((65, 20), "diff"), ((65, 44), "tap"), ((66, 20), "poly"), ((66, 44), "licon"), ((67, 20), "li1"),
           ((67, 44), "mcon"), ((68, 20), "met1"), ((68, 44), "via"), ((69, 20), "met2"), ((69, 44), "via2"), ((70, 20), "met3"),
           ((70, 44), "via3"), ((71, 20), "met4")]
@@ -126,7 +132,7 @@ def pick_sites(np, cells, types, W, H):
     cand = []
     for (x0, y0, x1, y1, ti) in cells:
         t = short(types[ti])
-        if t.startswith(("decap", "fill", "tap", "conb", "diode", "tiehi", "tielo", "antenna")): continue
+        if t.startswith(("decap", "fill", "tap", "conb", "diode", "tie", "antenna", "endcap")): continue
         x, y = (x0 + x1) / 2 * GRID, (y0 + y1) / 2 * GRID
         if not (0.28 * H < y < 0.8 * H and 0.09 * W < x < 0.91 * W): continue
         cand.append((drive(t) + (0.5 if t.startswith("clk") else 0), t, x, y))
@@ -159,7 +165,7 @@ def convert(job):
         for p in top.get_polygons(): by_layer[(p.layer, p.datatype)].append(p.points)
         ox, oy = round(bx0 / GRID), round(by0 / GRID)   # origine ramenée à (0, 0)
         payload, lay, n_tot = bytearray(), [], 0
-        for ld, name in (LAYERS_IHP if pdk == "ihp" else LAYERS):
+        for ld, name in {"ihp": LAYERS_IHP, "gf180": LAYERS_GF}.get(pdk, LAYERS):
             r = layer_rects(np, gdstk, name, by_layer.get(ld, []))
             if len(r) == 0: continue
             r[:, [0, 2]] -= ox; r[:, [1, 3]] -= oy
@@ -178,7 +184,7 @@ def convert(job):
             if l.text in seen: continue
             seen.add(l.text); labels.append({"text": l.text, "x": round(l.origin[0] - bx0, 3), "y": round(l.origin[1] - by0, 3), "layer": l.layer})
         W, H = round(bx1 - bx0, 3), round(by1 - by0, 3)
-        logic = sum(1 for t in cells[:, 4].tolist() if not short(types[t]).startswith(("decap", "fill", "tap", "conb", "tiehi", "tielo", "antenna")))
+        logic = sum(1 for t in cells[:, 4].tolist() if not short(types[t]).startswith(("decap", "fill", "tap", "conb", "tie", "antenna", "endcap")))
         meta = {"name": macro, "pdk": pdk, "grid": GRID, "w": W, "h": H, "layers": lay, "cells": {"count": int(len(cells)), "len": cln}, "types": types, "labels": labels,
                 "cda": {"key": key, "title": title, "author": author, "addr": int(addr), "tiles": tiles, "slice": [0, 0, 1, 1], "sites": pick_sites(np, cells.tolist(), types, W, H), "oy": 0},
                 "stats": {"rects": n_tot, "logic": logic}}
@@ -216,13 +222,13 @@ def chip_plan(repo_dir, projects, pdk="sky130"):
             elif "project" in cl and "data-addr" in d: tiles[int(d["data-addr"])] = (R(d), "analog" in cl)
         if tiles and plan["chip"]: return plan, tiles
     # grille de secours : 16 colonnes de tuiles, de part et d'autre d'une épine centrale
-    TW, TH, GX, GY = (202.08, 154.98, 15.36, 60) if pdk == "ihp" else (161, 111.52, 12.88, 60)
+    TW, TH, GX, GY = {"ihp": (202.08, 154.98, 15.36, 60), "gf180": (346.64, 160.72, 17.92, 60)}.get(pdk, (161, 111.52, 12.88, 60))
     plan = {"official": False, "spine": [], "mux": [], "amux": [], "free": [], "ctrl": None, "chip": None}; tiles = {}
     x = y = 0; rowh = 0; cols = 16; col = 0; maxx = 0
     for p in sorted(projects, key=lambda p: p["address"]):
         tc, tr = tiles_of(p.get("tiles"))
         if col + tc > cols: col = 0; y += rowh + GY; rowh = 0
-        w, h = tc * TW + (tc - 1) * GX, tr * TH + (tr - 1) * (3.78 if pdk == "ihp" else 2.72)
+        w, h = tc * TW + (tc - 1) * GX, tr * TH + (tr - 1) * {"ihp": 3.78, "gf180": 3.92}.get(pdk, 2.72)
         px = 100 + col * (TW + GX) + (300 if col >= cols // 2 else 0)
         tiles[int(p["address"])] = ([round(px, 1), round(100 + y, 1), round(w, 1), round(h, 1)], bool(p.get("analog_pins")))
         col += tc; rowh = max(rowh, h); maxx = max(maxx, px + w)
@@ -341,7 +347,7 @@ def main():
     lst = os.path.join(args.out, "maps", "shuttles.json")
     old = json.load(open(lst, encoding="utf-8")) if os.path.exists(lst) else []
     merged = {s["id"]: s for s in old}; merged.update({s["id"]: s for s in res})
-    order = {s: i for i, s in enumerate(SKY130 + IHP)}
+    order = {s: i for i, s in enumerate(SKY130 + IHP + GF)}
     json.dump(sorted(merged.values(), key=lambda s: order.get(s["id"], 99)), open(lst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     log("terminé :", ", ".join(f"{s['id']} {s['maps']}/{s['projects']}" for s in res))
 

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-79quHedBgXXuUQKKKai+hBmFBIigj3ELStWWNU+waPQ=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-e1JvZmooM1kh9GRA1bHAhbeAlEcFQKnyBwX9mT/EvBw=' 'sha256-gjoKe//VDO6uN133MMoLj8iIwdKWRtjfElaEHb99ilw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-pcTkGHbMDqmCwZltzphTiaHnQigt+64HA4E7lmlVi6g=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-79quHedBgXXuUQKKKai+hBmFBIigj3ELStWWNU+waPQ=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-KZ3DbW9KPdBosePHSsa7mCKtiPO/9SkdgjC5NhuFg2A=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-Z4xBH2imP4HjFrmh3bBhS01LM/h14TXPq9gBqa/ruks=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-gjoKe//VDO6uN133MMoLj8iIwdKWRtjfElaEHb99ilw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="8a3087f1a54c";</script>
+<script>window.CDA_BUILD="ce732b6d70f8";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -1950,11 +1950,16 @@ const GROUPS = [
   { id: "met3", name: "met3", col: "#2fb3c6", z: "2,8" },
   { id: "met4", name: (EN ? "met4 (power)" : "met4 (alim)"), col: "#d99a32", z: "4,0" },
 ];
-/* procédé IHP SG13G2 : ses 5 métaux (Metal1..Metal5) occupent les 5 étages du jeu (li1, met1..met4) ; seuls les noms changent */
-const IHP = M.pdk === "ihp";
-const LNAME = IHP ? { licon: "Cont", li1: "Metal1", mcon: "Via1", met1: "Metal2", via: "Via2", met2: "Metal3", via2: "Via3", met3: "Metal4", via3: "Via4", met4: "Metal5", diff: "Activ", poly: "GatPoly", nwell: "NWell" } : {};
+/* autres procédés : les couches occupent les étages du jeu (li1, met1..met4), seuls les noms affichés changent.
+   IHP SG13G2 : Metal1..Metal5 sur li1, met1..met4.  GF180MCU : pas de li1 ; Metal1..Metal4 sur met1..met4, contacts sur licon + mcon. */
+const PDK = M.pdk === "ihp" || M.pdk === "gf180" ? M.pdk : "sky130";
+const IHP = PDK === "ihp", GF = PDK === "gf180";
+const LNAME = IHP ? { licon: "Cont", li1: "Metal1", mcon: "Via1", met1: "Metal2", via: "Via2", met2: "Metal3", via2: "Via3", met3: "Metal4", via3: "Via4", met4: "Metal5", diff: "Activ", poly: "GatPoly", nwell: "NWell" }
+  : GF ? { licon: "Contact", li1: "—", mcon: "Contact", met1: "Metal1", via: "Via1", met2: "Metal2", via2: "Via2", met3: "Metal3", via3: "Via3", met4: "Metal4", diff: "COMP", poly: "Poly2", nwell: "Nwell" } : {};
 const lname = n => LNAME[n] || n;
-if (IHP) { const G = { li1: "Metal1 + contacts", met1: "Metal2", met2: "Metal3", met3: "Metal4", met4: "Metal5 (alim)", poly: "GatPoly (grilles)" }; GROUPS.forEach(g => { if (G[g.id]) g.name = G[g.id]; }); }
+{ const G = IHP ? { li1: "Metal1 + contacts", met1: "Metal2", met2: "Metal3", met3: "Metal4", met4: "Metal5 (alim)", poly: "GatPoly (grilles)" }
+    : GF ? { li1: "Contacts", met1: "Metal1", met2: "Metal2", met3: "Metal3", met4: "Metal4 (alim)", poly: "Poly2 (grilles)" } : {};
+  GROUPS.forEach(g => { if (G[g.id]) g.name = G[g.id]; }); }
 const grpVis = {}; GROUPS.forEach(g => grpVis[g.id] = true);
 
 // La logique de LEDs Racer occupe la tuile de y = 58 à 222 µm : les 55 premiers microns (remplissage seul)
@@ -2002,9 +2007,9 @@ const C0x = new Float32Array(NC), C0y = new Float32Array(NC), C1x = new Float32A
 for (let i = 0; i < NC; i++) { C0x[i] = CA[i*5]*G5; C0y[i] = CA[i*5+1]*G5 - OY; C1x[i] = CA[i*5+2]*G5; C1y[i] = CA[i*5+3]*G5 - OY; CT[i] = CA[i*5+4]; }
 // cellules sous la coupe : hors jeu (boîte vide, ne compte pas)
 for (let i = 0; i < NC; i++) if (C1y[i] <= 0) { C0x[i] = C1x[i] = C0y[i] = C1y[i] = -100; }
-const short = n => n.replace(/^sky130_(fd|ef)_sc_hd__|^sg13g2_/, "");
-const isDff = t => /^(dfxtp|dfrtp|dfstp|dfbbp|edfxtp|sdf|dfrbp)/.test(short(M.types[t]));
-const isFiller = t => /^(decap|fill|tapvpwrvgnd)/.test(short(M.types[t]));
+const short = n => n.replace(/^sky130_(fd|ef)_sc_hd__|^sg13g2_|^gf180mcu_fd_sc_mcu[79]t5v0__/, "");
+const isDff = t => /^(dfxtp|dfrtp|dfstp|dfbbp|edfxtp|sdf|dfrbp|dffq|dffrnq|dffsnq|dffrsnq|dffn)/.test(short(M.types[t]));
+const isFiller = t => /^(decap|fill|tapvpwrvgnd|endcap)/.test(short(M.types[t]));
 
 /* ---------- grilles spatiales ---------- */
 function buildGrid(n, gs, x0, y0, x1, y1, filter) {
@@ -2232,7 +2237,7 @@ function applyStyle(name) {
 applyStyle(UI.OPTS.style || "dark");
 let SOLO_AR = null;
 if (N > 900000) {   // même calcul que arenaFor() plus bas, centré sur la logique
-  let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna)/.test(t)) continue; sx += C0x[i] + C1x[i]; sy += C0y[i] + C1y[i]; n += 2; }
+  let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna|endcap)/.test(t)) continue; sx += C0x[i] + C1x[i]; sy += C0y[i] + C1y[i]; n += 2; }
   const cx = n ? sx / n : W / 2, cy = n ? sy / n - OY : HH / 2, A = 900000 / N * W * HH;
   let w = Math.min(W, Math.sqrt(A)), h = Math.min(HH, A / w); w = Math.min(W, A / h);
   const x0 = Math.max(0, Math.min(W - w, cx - w / 2)), y0 = Math.max(0, Math.min(HH - h, cy - h / 2)), r1 = v => Math.round(v * 10) / 10;
@@ -2630,7 +2635,7 @@ mapC.addEventListener("pointerdown", e => {
 if (isTouch) { $("keysDesk").hidden = true; $("keysTouch").hidden = false; }
 $("go").disabled = false; $("goSub").textContent = (EN ? `Explore the chip, find the ${dffs.length} flip-flops` : `Explorer la puce, trouver les ${dffs.length} bascules`); UI.ready = true;
 UI.isMP = () => MP.on;
-$("credWorld").textContent = (EN ? `The real chip layout: ${N.toLocaleString((EN ? "en-US" : "fr-FR"))} rectangles on ${IHP ? "13 layers, from silicon to Metal5 (IHP SG13G2 process)" : "14 layers, from silicon to met4"}, over the ${Math.round(M.w)} × ${Math.round(HH)} µm area where the logic lives` : `Le layout réel de la puce : ${N.toLocaleString((EN ? "en-US" : "fr-FR"))} rectangles sur ${IHP ? "13 couches, du silicium au Metal5 (procédé IHP SG13G2)" : "14 couches, du silicium au met4"}, sur la zone de ${Math.round(M.w)} × ${Math.round(HH)} µm où vit la logique`);
+$("credWorld").textContent = (EN ? `The real chip layout: ${N.toLocaleString((EN ? "en-US" : "fr-FR"))} rectangles on ${IHP ? "13 layers, from silicon to Metal5 (IHP SG13G2 process)" : GF ? "11 layers, from silicon to Metal4 (GF180MCU process)" : "14 layers, from silicon to met4"}, over the ${Math.round(M.w)} × ${Math.round(HH)} µm area where the logic lives` : `Le layout réel de la puce : ${N.toLocaleString((EN ? "en-US" : "fr-FR"))} rectangles sur ${IHP ? "13 couches, du silicium au Metal5 (procédé IHP SG13G2)" : GF ? "11 couches, du silicium au Metal4 (procédé GF180MCU)" : "14 couches, du silicium au met4"}, sur la zone de ${Math.round(M.w)} × ${Math.round(HH)} µm où vit la logique`);
 UI.onResume = () => { goFullscreen(); UI.closeMenu(); if (isTouch) $("touch").hidden = false; else canvas.requestPointerLock?.()?.catch?.(() => {}); canvas.focus(); };
 function applyQuality() {
   const q = UI.OPTS.q;
@@ -2665,6 +2670,10 @@ function describe(name) {
     [/^dfxtp/, (EN ? "D flip-flop: stores 1 bit on every clock edge" : "Bascule D : retient 1 bit à chaque front d'horloge")],
     [/^dfrtp/, (EN ? "D flip-flop with reset" : "Bascule D avec reset")],
     [/^dfrbp/, "Bascule D avec reset (sorties Q et Q barre)"],
+    [/^dffr?s?n?q/, "Bascule D (front montant)"],
+    [/^dffn/, "Bascule D (front descendant)"],
+    [/^icgt/, "Porte d'horloge (coupe l'horloge des blocs au repos)"],
+    [/^latq|^latr|^lat/, "Verrou (latch)"],
     [/^sdf/, "Bascule D avec chaîne de test"],
     [/^dlhq|^dllr|^dlh/, "Verrou (latch) : suit l'entrée tant que l'horloge est haute"],
     [/^dly/, (EN ? "Delay cell (fixes hold time)" : "Cellule de retard (corrige le temps de maintien)")],
@@ -2685,7 +2694,11 @@ function describe(name) {
     [/^o\d.*ai$/, (EN ? "OR-AND-invert complex gate" : "Porte complexe OU-ET inversée")],
     [/^o\d/, (EN ? "OR-AND complex gate" : "Porte complexe OU-ET")],
     [/^conb/, (EN ? "Constant 0 and 1" : "Constante 0 et 1")],
-    [/^tiehi/, "Constante 1"],
+    [/^tiehi|^tieh$/, "Constante 1"],
+    [/^tiel$/, "Constante 0"],
+    [/^filltie/, "Remplissage avec prise de caisson"],
+    [/^fillcap/, "Remplissage avec condensateur de découplage"],
+    [/^endcap/, "Cellule de fin de rangée"],
     [/^tielo/, "Constante 0"],
     [/^antenna/, "Diode de protection (effet d'antenne)"],
     [/^decap/, (EN ? "Decoupling capacitor (steadies the supply)" : "Condensateur de découplage (stabilise l'alim)")],
@@ -4721,6 +4734,7 @@ let aimT = 0, aimMsgT = 0;
 function aimMsg(t) { $("aim").textContent = t; $("aim").hidden = false; aimMsgT = 1.2; }
 const LAYFR = { poly: (EN ? "poly gate" : "grille poly"), licon: (EN ? "licon contact" : "contact licon"), li1: "li1", mcon: (EN ? "mcon contact" : "contact mcon"), met1: "met1", via: "via 1", met2: "met2", via2: "via 2", met3: "met3", via3: "via 3", met4: "met4" };
 if (IHP) Object.assign(LAYFR, { poly: "grille GatPoly", licon: "contact Cont", li1: "Metal1", mcon: "Via1", met1: "Metal2", via: "Via2", met2: "Metal3", via2: "Via3", met3: "Metal4", via3: "Via4", met4: "Metal5" });
+if (GF) Object.assign(LAYFR, { poly: "grille Poly2", licon: "contact", mcon: "contact", met1: "Metal1", via: "Via1", met2: "Metal2", via2: "Via2", met3: "Metal3", via3: "Via3", met4: "Metal4" });
 function aimTick(dt) {
   aimMsgT -= dt; aimT -= dt;
   if (aimMsgT > 0 || aimT > 0) return;
@@ -5241,7 +5255,8 @@ const SLAB_NAME = [(EN ? "above the transistors" : "au-dessus des transistors"),
 const PASS_R = 0.2, LEVEL_T = 0.75;
 const SLAB_COL = ["#d0453d", "#8b62c8", "#3a74d0", "#c9529f", "#2fb3c6", "#e2a83a"];
 const SLAB_SHORT = [(EN ? "ground" : "sol"), "li1", "met1", "met2", "met3", "met4"];
-if (IHP) { ["li1", "met1", "met2", "met3", "met4"].forEach((n, i) => { SLAB_SHORT[i + 1] = lname(n); SLAB_NAME[i + 1] = (EN ? "above " : "au-dessus de ") + lname(n); }); }
+if (IHP || GF) { ["li1", "met1", "met2", "met3", "met4"].forEach((n, i) => { SLAB_SHORT[i + 1] = lname(n); SLAB_NAME[i + 1] = (EN ? "above " : "au-dessus de ") + lname(n); }); }
+if (GF) { SLAB_SHORT[1] = EN ? "contacts" : "contacts"; SLAB_NAME[1] = EN ? "above the contacts" : "au-dessus des contacts"; }
 // vraie hauteur de chaque modèle (tourelle, antenne, canon compris), mesurée une fois
 const VEH_SIZE = 0.7, VEH_MARGIN = 0.07, VHT = {};
 function vehBox(kind) {
@@ -7273,7 +7288,7 @@ function wpDrop(msg) { if (msg && MP.wpn) toast((EN ? `${wName(MP.wpn.k, MP.team
    centrée où il veut). Au-delà, un bouclier infranchissable : on ne le traverse pas, les tirs s'y arrêtent, et
    la puce n'est pas dessinée derrière. Objectifs, apparitions, armes et stations sont replacés dans la fenêtre. */
 const AR_CAP = 900000;   // au-delà, les très grands projets ne sont jamais affichés en entier
-const LOGIC_C = (() => { let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna)/.test(t)) continue; sx += C0x[i] + C1x[i]; sy += C0y[i] + C1y[i]; n += 2; } return n ? [sx / n, sy / n] : [W / 2, HH / 2]; })();
+const LOGIC_C = (() => { let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna|endcap)/.test(t)) continue; sx += C0x[i] + C1x[i]; sy += C0y[i] + C1y[i]; n += 2; } return n ? [sx / n, sy / n] : [W / 2, HH / 2]; })();
 const vMic = m => { m = m && typeof m === "object" ? m : {}; const z = m.m === "auto" || m.m === undefined ? "auto" : Math.max(0.05, Math.min(1, +m.m || 1)); const f = v => typeof v === "number" && v >= 0 && v <= 1 ? Math.round(v * 1000) / 1000 : null; return { m: z, cx: f(m.cx), cy: f(m.cy) }; };
 // fenêtre (en coordonnées de jeu) pour un réglage, un nombre de joueurs et un mode ; null = toute la puce
 function arenaFor(spec, n, mode) {
@@ -7293,7 +7308,7 @@ const ARC = () => [(AR.x0 + AR.x1) / 2, (AR.y0 + AR.y1) / 2];
 function sitesIn(a) {
   const aw = a.x1 - a.x0, ah = a.y1 - a.y0, drv = t => +((t.match(/_(\d+)$/) || [0, 0])[1]), cand = [];
   for (let i = 0; i < NC; i++) {
-    const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna|diode)/.test(t)) continue;
+    const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna|endcap|diode)/.test(t)) continue;
     const x = (C0x[i] + C1x[i]) / 2, y = (C0y[i] + C1y[i]) / 2;
     if (x < a.x0 + 0.09 * aw || x > a.x1 - 0.09 * aw || y < a.y0 + 0.28 * ah || y > a.y1 - 0.2 * ah) continue;
     cand.push({ d: drv(t) + (/^clk/.test(t) ? 0.5 : 0), t, x, y });
