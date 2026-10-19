@@ -55,7 +55,7 @@
  },
  {
   "id": "testihp",
-  "name": "Essai IHP (SG13G2)",
+  "name": "IHP 25a (essai)",
   "pdk": "ihp",
   "projects": 1,
   "maps": 1
