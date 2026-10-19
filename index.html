@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-4m+5BqLEFpjlDjnUuYvbpkyQl62fMsrjt3i8l7N+xjI=' 'sha256-Eq1Cs4Ec8NENdW6mQtoHnX14w1fg0AkjB74ipnPsvVw=' 'sha256-GLKcwMjOR/xFG58zvf2ZCXN1n6C/6d2+SHXIxf41/z0=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-aAv0lkHuqkZ7LwyxIHByGRBtDWRl+xjnV5/SQQ4T0cM=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-xXIj1leOY8SmIEnPUyQNPpfj7XaYwIUpEdF+pjZdzzU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-6h3ncHyCYg7BHg6jCtN38jGUJ615kHrQx6l3nnsswvM=' 'sha256-6o/W2C7L2qfffhtWvpnC6rIW4hcZGjgH7aw/Ygo3qtk=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-aAv0lkHuqkZ7LwyxIHByGRBtDWRl+xjnV5/SQQ4T0cM=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-xXIj1leOY8SmIEnPUyQNPpfj7XaYwIUpEdF+pjZdzzU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="70bb34f20fb8";</script>
+<script>window.CDA_BUILD="fd5042d853d9";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -361,6 +361,17 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 .kl-cred{width:min(280px,70%);height:auto}
 #muxScr{position:fixed;inset:0;z-index:80;display:grid;grid-template-rows:auto 1fr;background:#04070d;color:#fff;font:15px/1.45 var(--f-brand)}
 #muxScr[hidden]{display:none}
+#mapLoad{position:fixed;inset:0;z-index:90;display:grid;place-items:center;background:#04070dee;color:#fff;font:15px/1.4 var(--f-brand)}
+#mapLoad[hidden]{display:none}
+#mapLoad>div{display:grid;gap:8px;justify-items:center;text-align:center;padding:24px}
+#mapLoad .ml-k{font:700 12px var(--f-kmono);letter-spacing:.14em;text-transform:uppercase;color:var(--k-sky)}
+#mapLoad .ml-t{font:900 clamp(22px,4vw,38px)/1.1 var(--f-brand);text-transform:uppercase;max-width:80vw}
+#mapLoad .ml-s{font:500 13px var(--f-kmono);color:#c9d3e2}
+#mapLoad .ml-bar{display:block;width:min(320px,70vw);height:8px;background:#ffffff1f;overflow:hidden}
+#mapLoad .ml-bar i{display:block;height:100%;width:40%;background:var(--k-sky);animation:mlRun 1.1s ease-in-out infinite}
+#mapLoad.build .ml-bar i{width:100%;animation:mlPulse .8s ease-in-out infinite alternate}
+@keyframes mlRun{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
+@keyframes mlPulse{from{opacity:.45}to{opacity:1}}
 #chipScr{position:fixed;inset:0;z-index:80;display:grid;grid-template-rows:auto 1fr;background:radial-gradient(ellipse at 50% 30%,#0b1a33,#04070d 70%);color:#fff;font:15px/1.45 var(--f-brand)}
 #chipScr[hidden]{display:none}
 .cp-leg{margin:0;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font:700 11px var(--f-kmono);letter-spacing:.06em;text-transform:uppercase;color:#c9d3e2}
@@ -1258,7 +1269,7 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
         <h3>Solo</h3>
         <p>Explore librement la puce <span data-chipname>LEDs Racer</span> (<b id="sCells">1 361</b> cellules logiques, <span data-chipdim>161 × 226</span> µm) et trouve à pied les <b id="sDff">234</b> bascules D qui retiennent l'état du jeu.</p>
         <h3 class="howMux" hidden>La puce et le MUX</h3>
-        <p class="howMux" hidden><b>Choisis ta puce</b> affiche toutes les puces Tiny Tapeout, dans l'ordre de leur fabrication. Clique une puce pour ouvrir son MUX : le vrai plan de la puce, avec ses projets répartis autour du multiplexeur qui les sélectionne. Double-clique une tuile (ou clique-la puis « Charger ») pour y jouer. Les grands projets se chargent en entier ; le microscope (réglé dans le salon) limite l'arène à une partie de la puce, derrière un bouclier infranchissable, pour que les joueurs se croisent. La puce choisie vaut pour le solo et pour les parties que tu crées ; rejoindre une partie sur une autre tuile recharge la page.</p>
+        <p class="howMux" hidden><b>Choisis ta puce</b> affiche toutes les puces Tiny Tapeout, dans l'ordre de leur fabrication. Clique une puce pour ouvrir son MUX : le vrai plan de la puce, avec ses projets répartis autour du multiplexeur qui les sélectionne. Double-clique une tuile (ou clique-la puis « Choisir ») : elle se chargera au lancement de ta prochaine partie, sans recharger la page. Les grands projets se chargent en entier ; le microscope (réglé dans le salon) limite l'arène à une partie de la puce, derrière un bouclier infranchissable, pour que les joueurs se croisent. La puce choisie vaut pour le solo et pour les parties que tu crées ; rejoindre une partie sur une autre tuile recharge la page.</p>
         <h3>En ligne</h3>
         <p>Les Microbes attaquent la puce, les Défenseurs la protègent. Une manche se gagne en posant ou en neutralisant la corrosion, en éliminant l'équipe adverse, ou, pour les Microbes, en détruisant assez de parois. Les Défenseurs voient à travers les murs où les Microbes attaquent.</p>
         <h3>Capture de broche</h3>
@@ -1373,7 +1384,7 @@ function cdaRoom() { let r = ""; try { r = new URLSearchParams(location.search).
 function cdaRoomUrl(c) { const u = location.origin + location.pathname; return c && c !== "public" ? u + "?salle=" + encodeURIComponent(c) : u; }
 document.documentElement.lang = LANG;
 (function () {
-  const H = {"html": {"sol": "ground", "substrat": "substrate", "à pied": "on foot", "Bascules trouvées": "Flip-flops found", "Couches": "Layers", "Vol": "Fly", "Carte": "Map", "Joueurs": "Players", "Touche la carte pour t'y téléporter": "Tap the map to teleport there", "Fermer": "Close", "SAUT": "JUMP", "BAS": "DOWN", "TIR": "FIRE", "RÉPARER": "REPAIR", "ÉCHELLE": "LADDER", "RAYON X": "X-RAY", "échauffement": "warm-up", "Intégrité 100 %": "Integrity 100 %", "Défenseurs": "Defenders", "100 PV": "100 HP", "<i><\/i>Rayon X · vias masqués <kbd>V<\/kbd>": "<i><\/i>X-ray · vias hidden <kbd>V<\/kbd>", "présente": "presents", "Une vraie puce. Des dizaines de milliers de parois. Deux camps.": "A real chip. Tens of thousands of walls. Two sides.", "Clique ou appuie sur une touche": "Click or press any key", "Passer": "Skip", "Reprendre": "Resume", "Retour dans la puce": "Back into the chip", "Jouer en ligne": "Play online", "Microbes contre Défenseurs": "Microbes vs Defenders", "Chargement de la puce…": "Loading the chip…", "Comment jouer": "How to play", "Règles et commandes": "Rules and controls", "Personnages": "Characters", "Microbes et Défenseurs": "Microbes and Defenders", "Souris, son, graphismes": "Mouse, sound, graphics", "Crédits": "Credits", "Un jeu produit par": "A game produced by", "← Retour": "← Back", "Connexion à la salle…": "Connecting to the room…", "Attaquants · acide à 2,5 µm": "Attackers · acid at 2.5 µm", "personne": "nobody", "Protègent et réparent": "Protect and repair", "Pseudo": "Nickname", "Mode de jeu": "Game mode", "Corrosion · sites A et B": "Corrosion · sites A and B", "Capture de broche · vole le signal adverse": "Pin Capture · steal the enemy signal", "Débordement · compteur 4 bits d'éliminations": "Overflow · 4-bit elimination counter", "Bascules D · tiens les registres": "D Flip-Flops · hold the registers", "Contamination · un patient zéro": "Contamination · one patient zero", "Les Microbes gagnent si la puce perd": "The Microbes win if the chip loses", "<b class=\"cM\">Microbes<\/b> : gardent l'<b>entrée VPWR<\/b>, l'alimentation, sur le flanc gauche de la puce.": "<b class=\"cM\">Microbes<\/b>: guard the <b>VPWR input<\/b>, the power supply, on the left side of the chip.", "<b class=\"cD\">Défenseurs<\/b> : gardent la <b>sortie uo_out[0]<\/b>, LEDS_LINE, qui pilote les LEDs, sur le bord haut.": "<b class=\"cD\">Defenders<\/b>: guard the <b>uo_out[0] output<\/b>, LEDS_LINE, which drives the LEDs, on the top edge.", "Touche le signal de la broche adverse pour le voler, ramène-le sur ta broche pendant que la tienne est en place : 1 capture. 3 captures gagnent la manche (8 min max).": "Touch the enemy pin's signal to steal it, bring it back to your pin while yours is in place: 1 capture. 3 captures win the round (8 min max).", "Porteur abattu : le signal tombe au sol. Un allié le remet en place en le touchant, sinon il revient seul en 20 s. Pas de jetpack quand on porte le signal ; on réapparaît 5 s après une élimination.": "Carrier down: the signal drops to the ground. A teammate puts it back by touching it, otherwise it returns on its own after 20 s. No jetpack while carrying the signal; you respawn 5 s after being eliminated.", "Match à mort par équipe. Chaque élimination incrémente le <b>compteur 4 bits<\/b> de ton équipe, affiché en binaire.": "Team deathmatch. Each elimination increments your team's <b>4-bit counter<\/b>, shown in binary.", "Le premier compteur qui déborde, de 1111 à 1 0000, soit 16 éliminations, gagne la manche (10 min max).": "The first counter to overflow, from 1111 to 1 0000, that is 16 eliminations, wins the round (10 min max).", "On réapparaît 4 s après une élimination. Le courant compte aussi : un électrocuté donne un point à l'adversaire.": "You respawn 4 s after being eliminated. The current counts too: an electrocuted player gives the enemy a point.", "Trois vraies <b>bascules D<\/b> (dfxtp) de LEDs Racer servent de points à tenir : A, B et C.": "Three real <b>D flip-flops<\/b> (dfxtp) from LEDs Racer are the points to hold: A, B and C.", "À chaque front d'horloge (1 s), si ton équipe est seule dans la zone, la bascule avance d'un cran : au 3<sup>e<\/sup> front, Q prend la valeur de ton équipe.": "On every clock edge (1 s), if your team is alone in the zone, the flip-flop moves one step: on the 3<sup>rd<\/sup> edge, Q takes your team's value.", "Chaque front, chaque bascule tenue rapporte 1 point. 150 points gagnent la manche (8 min max). Réapparition en 4 s.": "On every edge, each flip-flop held scores 1 point. 150 points win the round (8 min max). Respawn in 4 s.", "Tout le monde commence <b class=\"cD\">Défenseur<\/b>, sauf un <b class=\"cM\">patient zéro<\/b> tiré au hasard.": "Everyone starts as a <b class=\"cD\">Defender<\/b>, except one random <b class=\"cM\">patient zero<\/b>.", "Un défenseur éliminé est contaminé : il réapparaît en Microbe 3 s plus tard. Les Microbes sont plus rapides et encaissent deux fois mieux, mais n'ont que leur acide à 2,5 µm.": "An eliminated defender is infected: they respawn as a Microbe 3 s later. Microbes are faster and twice as tough, but only have their acid at 2.5 µm.", "Les Défenseurs gagnent si l'un d'eux tient 3 minutes ; les Microbes s'ils contaminent toute la puce. Le choix d'équipe est ignoré dans ce mode.": "The Defenders win if one of them holds out for 3 minutes; the Microbes if they infect the whole chip. Team choice is ignored in this mode.", "<b class=\"cM\">Microbes<\/b> : déposer la corrosion 6 s sur le site A (racine d'horloge) ou B (pilote de puissance), ou détruire assez de parois.": "<b class=\"cM\">Microbes<\/b>: plant the corrosion for 6 s on site A (clock root) or B (power driver), or destroy enough walls.", "<b class=\"cD\">Défenseurs<\/b> : les éliminer, neutraliser la corrosion en 5 s, réparer la puce au clic droit.": "<b class=\"cD\">Defenders<\/b>: eliminate them, neutralize the corrosion in 5 s, repair the chip with right-click.", "Toutes les 5 à 10 min, la puce est mise sous tension : 15 s d'alerte, puis le métal électrocute pendant 20 s.": "Every 5 to 10 min, the chip is powered on: 15 s of warning, then the metal electrocutes for 20 s.", "Pour jouer à plusieurs, invite tes amis depuis le menu Partager de la page : ils doivent être connectés à claude.ai.": "To play together, invite your friends from the page's Share menu: they must be signed in to claude.ai.", "Tu mesures un demi-micron. Le sol est le silicium, les murets rouges sont les grilles en polysilicium, et au-dessus s'empilent les couches de métal jusqu'aux rails d'alimentation dorés du met4.": "You are half a micron tall. The floor is silicon, the red low walls are polysilicon gates, and above them the metal layers stack up to the golden met4 power rails.", "Explore librement la puce LEDs Racer (<b id=\"sCells\">1 361<\/b> cellules logiques, 161 × 226 µm) et trouve à pied les <b id=\"sDff\">234<\/b> bascules D qui retiennent l'état du jeu.": "Freely explore the LEDs Racer chip (<b id=\"sCells\">1 361<\/b> logic cells, 161 × 226 µm) and find on foot the <b id=\"sDff\">234<\/b> D flip-flops that hold the game state.", "En ligne": "Online", "Les Microbes attaquent la puce, les Défenseurs la protègent. Une manche se gagne en posant ou en neutralisant la corrosion, en éliminant l'équipe adverse, ou, pour les Microbes, en détruisant assez de parois. Les Défenseurs voient à travers les murs où les Microbes attaquent.": "The Microbes attack the chip, the Defenders protect it. A round is won by planting or neutralizing the corrosion, by eliminating the other team, or, for the Microbes, by destroying enough walls. The Defenders see through walls where the Microbes are attacking.", "Capture de broche": "Pin Capture", "Chaque équipe garde une vraie broche de la puce : l'entrée d'alimentation VPWR pour les Microbes, la sortie uo_out[0] (LEDS_LINE) pour les Défenseurs. Vole le signal adverse, ramène-le sur ta broche : trois captures gagnent la manche.": "Each team guards a real pin of the chip: the VPWR power input for the Microbes, the uo_out[0] output (LEDS_LINE) for the Defenders. Steal the enemy signal, bring it back to your pin: three captures win the round.", "Débordement, Bascules D, Contamination": "Overflow, D Flip-Flops, Contamination", "<b>Débordement<\/b> : match à mort par équipe, chaque élimination incrémente un compteur 4 bits ; le premier qui déborde gagne. <b>Bascules D<\/b> : tiens les trois bascules dfxtp de la puce, elles basculent au front d'horloge et rapportent des points. <b>Contamination<\/b> : un patient zéro contamine les défenseurs, qui doivent tenir 3 minutes.": "<b>Overflow<\/b>: team deathmatch, each elimination increments a 4-bit counter; the first one to overflow wins. <b>D Flip-Flops<\/b>: hold the chip's three dfxtp flip-flops, they flip on the clock edge and score points. <b>Contamination<\/b>: a patient zero infects the defenders, who must hold out for 3 minutes.", "Commandes": "Controls", "ZQSD / WASD": "WASD / ZQSD", "se déplacer (Maj pour courir)": "move (Shift to run)", "Souris": "Mouse", "regarder": "look", "Espace": "Space", "sauter, maintenir pour le jetpack": "jump, hold for the jetpack", "Clic gauche": "Left click", "tirer, abîme aussi la puce": "fire, also damages the chip", "Clic droit": "Right click", "réparer ou reconstituer (Défenseurs)": "repair or rebuild (Defenders)", "poser ou neutraliser la corrosion": "plant or neutralise the corrosion", "construire une échelle vers la couche au-dessus": "build a ladder to the layer above", "vision rayon X : masquer ou montrer les vias": "X-ray vision: hide or show the vias", "carte": "map", "vol et couches (solo seulement)": "fly and layers (solo only)", "tableau des joueurs (en ligne)": "player list (online)", "Échap": "Esc", "menu": "menu", "Pouce gauche": "Left thumb", "se déplacer": "move", "Glisser à droite": "Drag on the right", "maintenir pour le jetpack": "hold for the jetpack", "TIR · ACTION": "FIRE · ACTION", "tirer · poser ou neutraliser": "fire · plant or neutralize", "Défenseurs : maintenir sur un élément abîmé": "Defenders: hold on a damaged element", "apparaît près d'une couche plus haute": "appears near a higher layer", "masquer ou montrer les vias": "hide or show the vias", "Aide": "Help", "Défenseur": "Defender", "Sensibilité de la visée <output id=\"optSensV\">1,0<\/output>": "Aim sensitivity <output id=\"optSensV\">1,0<\/output>", "Inverser l'axe vertical": "Invert vertical axis", "Volume <output id=\"optVolV\">80 %<\/output>": "Volume <output id=\"optVolV\">80 %<\/output>", "Qualité graphique": "Graphics quality", "Automatique (s'adapte à l'appareil)": "Automatic (adapts to the device)", "Haute": "High", "Basse (téléphones modestes)": "Low (modest phones)", "Style graphique": "Graphics style", "Sombre : ambiance de puce, arêtes adoucies": "Dark: chip mood, softened edges", "Clair : couleurs pastel, ciel bleu": "Light: pastel colors, blue sky", "Technique : arêtes nettes, sans arrondi": "Technical: sharp edges, no rounding", "Jouer l'intro au lancement": "Play the intro at launch", "Conception de la puce": "Chip design", "Fabrication": "Fabrication", "Tiny Tapeout SKY25b · procédé SkyWater SKY130": "Tiny Tapeout SKY25b · SkyWater SKY130 process", "Monde du jeu": "Game world", "Le layout réel de la puce, sur 14 couches du silicium au met4": "The real chip layout, on 14 layers from silicon to met4", "Moteur": "Engine", "three.js, développé avec Claude": "three.js, built with Claude", "Puce LEDs Racer · SKY130 · Tiny Tapeout SKY25b": "LEDs Racer chip · SKY130 · Tiny Tapeout SKY25b", "Bots : compléter chaque équipe jusqu'à": "Bots: fill each team up to", "aucun bot": "no bots", "1 joueur": "1 player", "2 joueurs": "2 players", "3 joueurs": "3 players", "4 joueurs": "4 players", "5 joueurs": "5 players", "un joueur qui arrive prend la place d'un bot": "a player who joins takes a bot's place", "S'il manque du monde, l'hôte de la partie complète chaque équipe avec des bots (réglable dans le salon, 3 par défaut). Ils suivent l'objectif du mode, tirent moins vite et moins juste qu'un joueur, et cèdent leur place dès qu'un joueur rejoint leur équipe. On peut donc jouer seul contre des bots.": "If players are missing, the match host fills each team with bots (set in the lobby, 3 by default). They follow the mode's objective, fire slower and less accurately than a player, and give up their place as soon as a player joins their team. So you can play alone against bots.", "Recherche et destruction": "Search and destroy", "Capture du drapeau": "Capture the flag", "Match à mort par équipe": "Team deathmatch", "Domination": "Domination", "Infection": "Infection", "Débordement": "Overflow", "Bascules D": "D Flip-Flops", "VÉHICULE": "VEHICLE", "Véhicules": "Vehicles", "monter dans un véhicule ou en descendre (en ligne)": "get in or out of a vehicle (online)", "Course · des entrées à la sortie": "Race · from the inputs to the output", "Course": "Race", "Course de capsules": "Capsule race", "Chaque joueur reçoit un <b>Électron<\/b> sur la grille de départ, devant les entrées ui_in. Tout le monde part au même signal.": "Each player gets an <b>Electron<\/b> on the starting grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0] : le tracé file au sol, sur les rails du met1 puis sur les rails dorés du met4. On change d'étage uniquement dans les puits (colonnes vertes).": "Pass the arches in order up to the uo_out[0] output: the track runs along the ground, on the met1 rails then on the golden met4 rails. You change level only in the shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Le premier à la sortie gagne (4 min max).": "Outside a shaft, if you leave the metal you fall to the level below and carry on from there. No shooting during the race. First to the output wins (4 min max).", "Un Électron chacun, départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Les arches se passent dans l'ordre, au sol puis sur les rails du met1 et du met4. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage.": "One Electron each, a mass start in front of the ui_in inputs, finish at the uo_out[0] output. Arches are passed in order, on the ground then on the met1 and met4 rails. You change level in the shafts; leaving the metal drops you one level.", "Six nano-capsules attendent dans les garages (sauf en Contamination). Défenseurs : la <b>Navette BUS<\/b>, 3 places et une tourelle de 8 tirs, et la <b>CAPA<\/b>, condensateur blindé à tir chargé. Microbes : la <b>Spore<\/b>, planeur à acide, et le <b>Phage<\/b>, au tir d'injection. Pour tous : deux <b>Électrons<\/b> très rapides qui bondissent en avant par effet tunnel (Maj), et l'<b>Ascenseur via<\/b> qui monte du silicium au met4. Tous les véhicules planent entre deux couches. F pour monter ou descendre, clic gauche pour l'arme du véhicule ; les passagers tirent avec leur arme. Les véhicules changent d'étage uniquement dans les puits, les colonnes vertes : Espace pour monter, C pour descendre. Un véhicule détruit éjecte ses occupants et revient au garage 45 s plus tard.": "Six nano-capsules wait in the garages (except in Contamination). Defenders: the <b>BUS Shuttle<\/b>, 3 seats and an 8-shot turret, and the <b>CAPA<\/b>, an armored capacitor with a charged shot. Microbes: the <b>Spore<\/b>, an acid glider, and the <b>Phage<\/b>, with its injection shot. For everyone: two very fast <b>Electrons<\/b> that leap forward by tunnel effect (Shift), and the <b>Via Lift<\/b> that rises from silicon to met4. All vehicles hover between two layers. F to get in or out, left click for the vehicle's weapon; passengers fire their own weapon. Vehicles change level only in the shafts, the green columns: Space to go up, C to go down. A destroyed vehicle throws out its occupants and returns to the garage 45 s later.", "Plein écran en jouant": "Fullscreen when playing", "La puce": "The chip", "KerCrafter Lab Studio présente": "KerCrafter Lab Studio presents", "Un FPS multijoueur dans le layout réel d'une puce Tiny Tapeout.": "A multiplayer FPS inside the real layout of a Tiny Tapeout chip.", "Lancer en plein écran": "Play fullscreen", "Jouer dans la fenêtre": "Play in the window", "Salle": "Room", "Copier le lien d'invitation": "Copy invite link", "couches, du silicium au met4": "layers, from silicon to met4", "modes de jeu en ligne": "online game modes", "véhicules nano-capsules": "nano-capsule vehicles", "gratuit, dans le navigateur": "free, in your browser", "Six modes de jeu": "Six game modes", "Les grands classiques du FPS, revus à l'échelle du demi-micron et de l'électronique numérique.": "The great FPS classics, rebuilt at half-micron scale and around digital electronics.", "Corrosion": "Corrosion", "Les Microbes posent la corrosion sur un site, les Défenseurs la neutralisent. Chaque paroi détruite le reste.": "Microbes plant corrosion on a site, Defenders neutralise it. Every wall destroyed stays destroyed.", "Vole le signal sur la broche adverse, VPWR ou uo_out[0], et ramène-le sur la tienne.": "Steal the signal from the enemy pin, VPWR or uo_out[0], and bring it back to yours.", "Chaque élimination incrémente un compteur 4 bits. Le premier qui déborde gagne.": "Every kill increments a 4-bit counter. First to overflow wins.", "Tiens les trois bascules dfxtp de la puce. Elles ne changent de camp qu'au front d'horloge.": "Hold the chip's three dfxtp flip-flops. They only change sides on the clock edge.", "Contamination": "Contamination", "Un patient zéro, et des Défenseurs de moins en moins nombreux. Tiens jusqu'au bout du chrono.": "One patient zero, and fewer and fewer Defenders. Hold out until the clock runs down.", "Des entrées ui_in à la sortie uo_out[0], arche par arche, d'un étage de métal à l'autre.": "From the ui_in inputs to the uo_out[0] output, arch by arch, from one metal deck to the next.", "Deux camps": "Two sides", "Six nano-capsules": "Six nano-capsules", "Navette BUS": "BUS shuttle", "3 places et une tourelle de 8 tirs.": "3 seats and an 8-shot turret.", "Condensateur blindé, tir chargé.": "Armoured capacitor, charged shot.", "Planeur à acide, ronge les parois.": "Acid glider, eats through walls.", "Vole d'une couche à l'autre, tir d'injection.": "Flies between layers, injection shot.", "Tous": "Everyone", "Électron": "Electron", "Le plus rapide, bondit par effet tunnel.": "The fastest, leaps ahead by tunnelling.", "Ascenseur via": "Via lift", "Monte du silicium jusqu'au met4.": "Rises from silicon up to met4.", "Une vraie puce": "A real chip", "Tu mesures un demi-micron. Bonne visite.": "You are half a micron tall. Enjoy the tour.", "se déplacer, Maj pour courir": "move, Shift to run", "viser, clic gauche pour tirer": "aim, left click to shoot", "sauter, jetpack": "jump, jetpack", "monter dans un véhicule": "get in a vehicle", "tableau des joueurs": "scoreboard", "menu et sortie du plein écran": "menu and exit fullscreen", "Prêt à rétrécir ?": "Ready to shrink?", "Un jeu KerCrafter Lab · développé avec Claude": "A KerCrafter Lab game · built with Claude", "Code source sur GitHub": "Source code on GitHub", "Nouvelle salle privée": "New private room", "Rejoindre": "Join", "Le terrain de jeu, c'est le dessin réel de la puce LEDs Racer, conçue par Clément Kerneur et fabriquée sur la navette Tiny Tapeout SKY25b, en procédé SkyWater SKY130.": "The playing field is the real layout of the LEDs Racer chip, designed by Clément Kerneur and fabricated on the Tiny Tapeout SKY25b shuttle, in the SkyWater SKY130 process.", "Vision rayon X activée": "X-ray vision on", "Les vias, les petits piliers qui relient deux couches de métal, deviennent invisibles.": "Vias, the small pillars linking two metal layers, become invisible.", "Ils ne bloquent plus ni tes déplacements ni tes tirs. Les couches de métal, elles, restent solides.": "They no longer block your movement or your shots. The metal layers stay solid.", "Touche <kbd>V<\/kbd> (bouton RAYON X sur mobile) pour réafficher les vias à tout moment.": "Press <kbd>V<\/kbd> (X-RAY button on mobile) to show the vias again at any time.", "Appuie sur une touche ou clique pour continuer": "Press any key or click to continue", "Ce réglage est permanent : tu n'as rien à faire.": "This setting is permanent: there is nothing to do.", "vision rayon X : masquer ou montrer les vias (solo seulement, toujours active en ligne)": "X-ray vision: hide or show the vias (solo only, always on online)", "Nouveau joueur": "New player", "recharger l'arme ; la réserve d'énergie se refait aux condensateurs de découplage (colonnes jaunes)": "reload your weapon; the energy reserve refills at decoupling capacitors (yellow columns)", "Niveau des bots": "Bot level", "Ta couleur": "Your colour", "Rejoindre la course": "Join the race", "Un Électron chacun, pas d'équipes": "One Electron each, no teams", "Arrivée": "Finish", "Pas d'équipes : chacun choisit sa couleur et reçoit un Électron. Départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Le parcours change à chaque manche : deux à trois arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage. Tout le monde va au bout, puis podium.": "No teams: everyone picks a colour and gets an Electron. Grouped start in front of the ui_in inputs, finish at the uo_out[0] output. The track changes every round: two to three arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts; leaving the metal drops you one deck. Everyone gets to finish, then the podium.", "Pas d'équipes : choisis ta <b>couleur<\/b> (une couleur prise est grisée) et reçois un <b>Électron<\/b> sur la grille, devant les entrées ui_in. Tout le monde part au même signal.": "No teams: pick your <b>colour<\/b> (a taken colour is greyed out) and get an <b>Electron<\/b> on the grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0]. Le parcours est tiré au hasard à chaque manche : 2 ou 3 arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage uniquement dans les puits (colonnes vertes).": "Go through the arches in order to the uo_out[0] output. The track is drawn at random each round: 2 or 3 arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Tout le monde va au bout (40 s après le premier arrivé au plus), puis podium.": "Outside a shaft, if you leave the metal you drop to the deck below and carry on from there. No shooting during the race. Everyone gets to finish (at most 40 s after the first finisher), then the podium.", "Choisis ton pseudo : il s'affiche au-dessus de ta tête et dans les parties. Tu pourras le changer dans les Options.": "Choose your nickname: it shows above your head and in games. You can change it later in Options.", "Continuer": "Continue", "Parties": "Games", "Créer une partie": "Create a game", "← Parties": "← Games", "Choisis le mode de jeu": "Choose the game mode", "Quitter la partie": "Leave the game", "Partie en cours : tu entreras à la prochaine manche.": "Game in progress: you will join at the next round.", "Choisis ton camp": "Choose your side", "Joueurs par équipe (les places libres sont prises par des bots)": "Players per team (free spots are filled by bots)", "sans bots, places illimitées": "no bots, unlimited spots", "Discussion": "Chat", "Envoyer": "Send", "Je suis prêt": "I'm ready", "Lancer la partie": "Start the game", "Pseudo en ligne": "Online nickname", "KerCrafter Lab Studio, en association avec Chrisflix": "KerCrafter Lab Studio, in association with Chrisflix", "← Modes": "← Modes", "Parties publiques": "Public games", "Créer une partie publique": "Create a public game", "Créer une partie privée": "Create a private game", "Publique : visible par tous et ouverte à tout le monde. Privée : invisible dans la liste, on y entre seulement avec son code.": "Public: listed and open to everyone. Private: not listed, you get in only with its code.", "Rejoindre une partie privée": "Join a private game", "Partie privée · code": "Private game · code", "Copier le code": "Copy code", "X · molette": "X · wheel", "passer de l'arme ramassée à l'arme de base ; clic droit : lunette des fusils": "swap between the picked-up weapon and your base weapon; right click: rifle scope", "Armes et fortifications": "Weapons and fortifications", "Quinze armes": "Fifteen weapons", "Des fortifications autour des zones": "Fortifications around the zones", "En ligne, chaque site, broche et bascule est ceint d'un rempart de 0,62 µm : on entre par les angles, on se couvre derrière les piliers, on passe par-dessus au jetpack. Les murs arrêtent les tirs, sauf ceux des armes qui percent les parois.": "Online, every site, pin and flip-flop is ringed by a 0.62 µm rampart: get in through the corners, take cover behind the pillars, or jetpack over it. The walls stop shots, except from weapons that pierce walls.", "Armes": "Weapons", "X / molette": "X / wheel", "changer d'arme spéciale": "switch special weapon", "lunette des fusils de précision": "sniper scope", "Laser 405 nm": "405 nm Laser", "rafale violette, précise": "precise violet burst", "Fusil à électrons": "Electron rifle", "longue portée, lunette au clic droit": "long range, scope on right click", "Canon EMP": "EMP cannon", "impulsion électromagnétique, zone de 3 µm": "electromagnetic pulse, 3 µm area", "Décharge ESD": "ESD discharge", "7 arcs en éventail, à bout portant": "7 arcs in a fan, point blank", "Mitrailleuse 1 GHz": "1 GHz machine gun", "tire à la cadence de l'horloge": "fires at clock speed", "Rayon gamma": "Gamma ray", "lourd, abîme les parois": "heavy, damages walls", "Lance-photons": "Photon launcher", "rafale de 3 photons": "3-photon burst", "Bobine Tesla": "Tesla coil", "arc large à courte portée": "wide short-range arc", "Grenade NAND": "NAND grenade", "explose à l'impact, zone de 2 µm": "explodes on impact, 2 µm area", "Faisceau d'ions": "Ion beam", "rapide et tendu": "fast and flat", "Court-circuit": "Short circuit", "pistolet rapide": "rapid pistol", "Bombe à rayons X": "X-ray bomb", "destruction massive, zone de 4,5 µm": "mass destruction, 4.5 µm area", "Canon à plasma": "Plasma cannon", "boule de plasma, petite zone": "plasma ball, small area", "Désintégrateur PN": "PN disintegrator", "fait fondre les parois (×6)": "melts walls (×6)", "Fusil SQUID": "SQUID rifle", "supraconducteur, lunette ×2 au clic droit": "superconducting, ×2 scope on right click", "<b>22<\/b> dégâts · <b>30<\/b> tirs · <b>22<\/b> µm": "<b>22<\/b> damage · <b>30<\/b> shots · <b>22<\/b> µm", "<b>Laser 405 nm<\/b> rafale violette, précise": "<b>405 nm Laser<\/b> precise violet burst", "<b>Crachat de spores<\/b> rafale de spores collantes": "<b>Spore spitter<\/b> burst of sticky spores", "<b>95<\/b> dégâts · <b>6<\/b> tirs · <b>45<\/b> µm": "<b>95<\/b> damage · <b>6<\/b> shots · <b>45<\/b> µm", "<b>Fusil à électrons<\/b> longue portée, lunette au clic droit": "<b>Electron rifle<\/b> long range, scope on right click", "<b>Harpon à pilus<\/b> longue portée, œil-lunette au clic droit": "<b>Pilus harpoon<\/b> long range, eye-scope on right click", "<b>120<\/b> dégâts · <b>3<\/b> tirs · <b>18<\/b> µm": "<b>120<\/b> damage · <b>3<\/b> shots · <b>18<\/b> µm", "<b>Canon EMP<\/b> impulsion électromagnétique, zone de 3 µm": "<b>EMP cannon<\/b> electromagnetic pulse, 3 µm area", "<b>Fleur à toxines<\/b> nuage toxique, zone de 3 µm": "<b>Toxin flower<\/b> toxic cloud, 3 µm area", "<b>7 × 14<\/b> dégâts · <b>8<\/b> tirs · <b>9<\/b> µm": "<b>7 × 14<\/b> damage · <b>8<\/b> shots · <b>9<\/b> µm", "<b>Décharge ESD<\/b> 7 arcs en éventail, à bout portant": "<b>ESD discharge<\/b> 7 arcs in a fan, point blank", "<b>Gerbe d'enzymes<\/b> 5 jets d'enzymes, à bout portant": "<b>Enzyme spray<\/b> 5 enzyme jets, point blank", "<b>9<\/b> dégâts · <b>90<\/b> tirs · <b>16<\/b> µm": "<b>9<\/b> damage · <b>90<\/b> shots · <b>16<\/b> µm", "<b>Mitrailleuse 1 GHz<\/b> tire à la cadence de l'horloge": "<b>1 GHz machine gun<\/b> fires at clock speed", "<b>Mitraille de virions<\/b> crache des virions en continu": "<b>Virion gatling<\/b> spits virions nonstop", "<b>55<\/b> dégâts · <b>10<\/b> tirs · <b>26<\/b> µm": "<b>55<\/b> damage · <b>10<\/b> shots · <b>26<\/b> µm", "<b>Rayon gamma<\/b> lourd, abîme les parois": "<b>Gamma ray<\/b> heavy, damages walls", "<b>Ver à lysozyme<\/b> lourd, digère les parois": "<b>Lysozyme worm<\/b> heavy, digests walls", "<b>3 × 16<\/b> dégâts · <b>15<\/b> tirs · <b>24<\/b> µm": "<b>3 × 16<\/b> damage · <b>15<\/b> shots · <b>24<\/b> µm", "<b>Lance-photons<\/b> rafale de 3 photons": "<b>Photon launcher<\/b> 3-photon burst", "<b>Triple spore<\/b> rafale de 3 spores": "<b>Triple spore<\/b> burst of 3 spores", "<b>34<\/b> dégâts · <b>20<\/b> tirs · <b>6<\/b> µm": "<b>34<\/b> damage · <b>20<\/b> shots · <b>6<\/b> µm", "<b>Bobine Tesla<\/b> arc large à courte portée": "<b>Tesla coil<\/b> wide short-range arc", "<b>Fouet flagellaire<\/b> coup large à courte portée": "<b>Flagellum whip<\/b> wide lash at short range", "<b>85<\/b> dégâts · <b>4<\/b> tirs · <b>14<\/b> µm": "<b>85<\/b> damage · <b>4<\/b> shots · <b>14<\/b> µm", "<b>Grenade NAND<\/b> explose à l'impact, zone de 2 µm": "<b>NAND grenade<\/b> explodes on impact, 2 µm area", "<b>Kyste explosif<\/b> éclate à l'impact, zone de 2 µm": "<b>Exploding cyst<\/b> bursts on impact, 2 µm area", "<b>32<\/b> dégâts · <b>16<\/b> tirs · <b>30<\/b> µm": "<b>32<\/b> damage · <b>16<\/b> shots · <b>30<\/b> µm", "<b>Faisceau d'ions<\/b> rapide et tendu": "<b>Ion beam<\/b> fast and flat", "<b>Dard à prions<\/b> rapide et tendu": "<b>Prion dart<\/b> fast and flat", "<b>26<\/b> dégâts · <b>18<\/b> tirs · <b>18<\/b> µm": "<b>26<\/b> damage · <b>18<\/b> shots · <b>18<\/b> µm", "<b>Court-circuit<\/b> pistolet rapide": "<b>Short circuit<\/b> rapid pistol", "<b>Pistolet à phages<\/b> pistolet rapide": "<b>Phage pistol<\/b> fast pistol", "<b>200<\/b> dégâts · <b>1<\/b> tir · <b>20<\/b> µm": "<b>200<\/b> damage · <b>1<\/b> shot · <b>20<\/b> µm", "<b>Bombe à rayons X<\/b> destruction massive, zone de 4,5 µm": "<b>X-ray bomb<\/b> mass destruction, 4.5 µm area", "<b>Pandémie<\/b> destruction massive, zone de 4,5 µm": "<b>Pandemic<\/b> mass destruction, 4.5 µm area", "<b>60<\/b> dégâts · <b>6<\/b> tirs · <b>20<\/b> µm": "<b>60<\/b> damage · <b>6<\/b> shots · <b>20<\/b> µm", "<b>Canon à plasma<\/b> boule de plasma, petite zone": "<b>Plasma cannon<\/b> plasma ball, small area", "<b>Boule de biofilm<\/b> boule gluante, petite zone": "<b>Biofilm blob<\/b> sticky blob, small area", "<b>40<\/b> dégâts · <b>12<\/b> tirs · <b>10<\/b> µm": "<b>40<\/b> damage · <b>12<\/b> shots · <b>10<\/b> µm", "<b>Désintégrateur PN<\/b> fait fondre les parois (×6)": "<b>PN disintegrator<\/b> melts walls (×6)", "<b>Glande à acide<\/b> dissout les parois (×6)": "<b>Acid gland<\/b> dissolves walls (×6)", "<b>70<\/b> dégâts · <b>8<\/b> tirs · <b>36<\/b> µm": "<b>70<\/b> damage · <b>8<\/b> shots · <b>36<\/b> µm", "<b>Fusil SQUID<\/b> supraconducteur, lunette ×2 au clic droit": "<b>SQUID rifle<\/b> superconducting, ×2 scope on right click", "<b>Sarbacane à toxine<\/b> longue portée, œil-lunette ×2 au clic droit": "<b>Toxin blowpipe<\/b> long range, ×2 eye-scope on right click", "Chaque arme existe en deux versions de même puissance : un engin pour les Défenseurs, un organe vivant pour les Microbes. Elles sont disséminées au hasard sur la puce, à de nouvelles places chaque manche. Marche dessus pour la ramasser, X ou la molette pour changer, clic droit pour la lunette. Une arme vide ou un joueur éliminé la perd ; elle réapparaît 35 s plus tard.": "Every weapon comes in two versions of equal power: a device for the Defenders, a living organ for the Microbes. They are scattered at random across the chip, in new places every round. Walk over one to pick it up, X or the mouse wheel to switch, right click for the scope. It is lost when empty or when you are eliminated, and respawns 35 s later.", "Quinze armes par camp": "Fifteen weapons per side", "À chaque manche, 15 armes sont posées au hasard sur la puce (colonnes de couleur, ronds sur la carte) : Laser 405 nm, Fusil à électrons, Canon EMP, Décharge ESD, Mitrailleuse 1 GHz, Rayon gamma, Lance-photons, Bobine Tesla, Grenade NAND, Faisceau d'ions, Court-circuit, Bombe à rayons X, Canon à plasma, Désintégrateur PN et Fusil SQUID. Les Microbes ramassent au même endroit leur version organique, de même puissance : Crachat de spores, Harpon à pilus, Fleur à toxines, Gerbe d'enzymes, Mitraille de virions, Ver à lysozyme, Triple spore, Fouet flagellaire, Kyste explosif, Dard à prions, Pistolet à phages, Pandémie, Boule de biofilm, Glande à acide et Sarbacane à toxine. Passe dessus pour la prendre : ses tirs sont comptés, et tu la perds si tu es éliminé. Elle réapparaît 35 s plus tard. Autour des zones disputées (sites, broches, bascules), des anneaux de garde servent de fortifications : des murets qu'on contourne, derrière lesquels on s'abrite, et qu'on survole au jetpack.": "Each round, 15 weapons are placed at random on the chip (coloured columns, dots on the map): 405 nm Laser, Electron rifle, EMP cannon, ESD discharge, 1 GHz machine gun, Gamma ray, Photon launcher, Tesla coil, NAND grenade, Ion beam, Short circuit, X-ray bomb, Plasma cannon, PN disintegrator and SQUID rifle. At the same spots, Microbes pick up their organic version, of equal power: Spore spitter, Pilus harpoon, Toxin flower, Enzyme spray, Virion gatling, Lysozyme worm, Triple spore, Flagellum whip, Exploding cyst, Prion dart, Phage pistol, Pandemic, Biofilm blob, Acid gland and Toxin blowpipe. Walk over one to pick it up: its shots are limited, and you lose it when you are eliminated. It comes back 35 s later. Around the contested zones (sites, pins, flip-flops), guard rings act as fortifications: low walls to go around, hide behind and fly over with the jetpack.", "Puce (carte)": "Chip (map)", "Puce": "Chip", "Les parties sur une autre puce rechargent la page avant d'entrer.": "Games on another chip reload the page before you join.", "Trois formes de 0,5 µm, toutes vertes : la bactérie à pics (gros yeux, crocs, sac d'acide), l'amibe molle aux yeux sur tentacules, et le bacille cyclope couvert de cils. Les Microbes crachent leur acide à 2,5 µm : il faut se coller aux parois pour les ronger.": "Three 0.5 µm shapes, all green: the spiky bacterium (big eyes, fangs, acid sac), the squishy amoeba with eyes on tentacles, and the cyclops bacillus covered in cilia. Microbes spit acid at 2.5 µm: hug the walls to eat through them.", "Trois machines blanches à lumières cyan : le nanorobot sur réacteurs, le drone sphère à rotor caréné, et la sentinelle à quatre pattes. Le blaster porte à 18 µm, l'outil de réparation à 4 µm.": "Three white machines with cyan lights: the nanorobot on thrusters, the sphere drone with its ducted rotor, and the four-legged sentinel. The blaster reaches 18 µm, the repair tool 4 µm.", "Personnaliser mon personnage": "Customize my character", "Personnalise ton Microbe et ton Défenseur : trois modèles par camp, une couleur d'accent et un accessoire. La couleur du camp reste la même, pour qu'on se reconnaisse en jeu.": "Customize your Microbe and your Defender: three models per side, an accent colour and an accessory. The side colour never changes, so everyone can tell the teams apart in game.", "Une bactérie à pics, gros yeux et crocs. Elle crache son acide à 2,5 µm et ronge les parois de la puce. Aussi en amibe ou en bacille cyclope, avec accent et accessoire au choix.": "A spiky bacterium with big eyes and fangs. It spits acid at 2.5 µm and eats through the chip walls. Also comes as an amoeba or a cyclops bacillus, with your pick of accent and accessory.", "Un nanorobot à visière cyan, monté sur deux réacteurs. Son blaster porte à 18 µm, et il répare ce que l'acide abîme. Aussi en drone sphère ou en sentinelle à quatre pattes, avec accent et accessoire au choix.": "A cyan-visored nanorobot on two small thrusters. Its blaster reaches 18 µm, and it repairs what the acid damages. Also comes as a sphere drone or a four-legged sentinel, with your pick of accent and accessory.", "<b>Puce · MUX<\/b><small id=\"mMuxSub\">316 tuiles de la navette TTSKY25b<\/small>": "<b>Chip · MUX<\/b><small id=\"mMuxSub\">316 tiles of the TTSKY25b shuttle<\/small>", "Puce · MUX": "Chip · MUX", "316 tuiles de la navette TTSKY25b": "316 tiles of the TTSKY25b shuttle", "Changer de tuile · MUX": "Change tile · MUX", "Les parties sur une autre tuile rechargent la page avant d'entrer.": "Games on another tile reload the page before you join.", "Choisir sur le MUX": "Pick on the MUX", "La puce et le MUX": "The chip and the MUX", "Microscope : taille de l'arène": "Microscope: arena size", "Automatique (selon les joueurs et le mode)": "Automatic (by players and mode)", "Toute la puce": "Whole chip", "75 % de la puce": "75% of the chip", "50 % de la puce": "50% of the chip", "35 % de la puce": "35% of the chip", "20 % de la puce": "20% of the chip", "Microscope en solo": "Microscope in solo", "Salon · tous les joueurs": "Lobby · every player", "Parties ouvertes": "Open games", "Mode anonyme": "Anonymous mode", "parties publiques": "public games", "toujours": "always", "jamais": "never", "Se déconnecter": "Sign out", "Essai local": "Local test", "Inviter depuis le salon": "Invite from the lobby", "Le jeu en ligne est réservé aux joueurs connectés. Connecte-toi avec un compte que tu as déjà : le jeu ne reçoit que ton nom et ta photo.": "Online play is for signed-in players. Sign in with an account you already have: the game only receives your name and picture.", "Ton pseudo en ligne sera le nom de ce compte, vérifié pour tous les joueurs. Le salon et les parties sont chiffrés ; le mode solo reste libre, sans compte.": "Your online name will be this account's name, verified for every player. The lobby and the games are encrypted; solo play stays free, no account needed.", "Microbes contre Défenseurs, six modes de jeu, des nano-capsules à piloter. Directement dans le navigateur, sans installation ; un compte GitHub, Discord ou Google suffit pour jouer en ligne.": "Microbes vs Defenders, six game modes, nano-capsules to pilot. Right in your browser, no install; a GitHub, Discord or Google account is all you need to play online.", "puces Tiny Tapeout jouables": "playable Tiny Tapeout chips", "tuiles, autant d'arènes": "tiles, as many arenas", "Mettre à jour maintenant": "Update now", "Installer l'application": "Install the app", "Sur iPhone et iPad : bouton Partager, puis « Sur l'écran d'accueil » pour installer le jeu.": "On iPhone and iPad: tap Share, then “Add to Home Screen” to install the game.", "Manette": "Controller", "Stick gauche": "Left stick", "se déplacer · clic : courir": "move · click: sprint", "Stick droit": "Right stick", "tirer · lunette des fusils, ou réparer (Défenseurs)": "fire · rifle scope, or repair (Defenders)", "sauter, maintenir pour le jetpack · descendre (vol)": "jump, hold for the jetpack · go down (flight)", "changer d'arme (vol en solo)": "switch weapon (flight in solo)", "échelle · recharger": "ladder · reload", "Croix ↑ · ↓": "D-pad ↑ · ↓", "véhicule (vol en solo) · carte": "vehicle (flight in solo) · map", "Croix ← →": "D-pad ← →", "joueur suivi en spectateur · rayon X en solo": "spectated player · X-ray in solo", "Affichage · Menu": "View · Menu", "tableau des joueurs · menu": "scoreboard · menu", "Dans les menus": "In menus", "croix ou stick pour choisir, A pour valider, B pour revenir": "D-pad or stick to choose, A to confirm, B to go back", "gratuit, sans pub, dans le navigateur": "free, no ads, in your browser", "Soutenir": "Support", "Soutenir le projet": "Support the project", "Chip Defender Arena est gratuit, sans publicité ni achat dans le jeu. Le serveur, les cartes de toutes les puces Tiny Tapeout et les nouveautés sont faits sur du temps libre : un don, même petit, aide à continuer.": "Chip Defender Arena is free, with no ads and no in-game purchases. The server, the maps of every Tiny Tapeout chip and the new features are made in spare time: a donation, even a small one, keeps it going.", "Offrir un café sur Ko-fi": "Buy me a coffee on Ko-fi", "Soutenir sur Ko-fi": "Support on Ko-fi", "Le jeu te plaît ? Il reste gratuit grâce aux dons.": "Enjoying the game? It stays free thanks to donations.", "☕ Soutenir": "☕ Support", "Un café, et je ronge les parois deux fois plus vite !": "One coffee and I eat through walls twice as fast!", "Gratuit · sans pub · sans achat dans le jeu": "Free · no ads · no in-game purchases", "Offre un café aux deux camps": "Buy both sides a coffee", "Le serveur, les cartes de toutes les puces Tiny Tapeout et chaque nouveauté sont faits sur du temps libre. Un don, même petit, fait vivre le jeu.": "The server, the maps of every Tiny Tapeout chip and every new feature are made in spare time. A donation, even a small one, keeps the game alive.", "Faire un don sur Ko-fi": "Donate on Ko-fi", "Chaque café répare une paroi. Merci !": "Every coffee repairs a wall. Thank you!", "☕ Le jeu est gratuit : soutiens-le sur Ko-fi": "☕ The game is free: support it on Ko-fi", "Jouer ici": "Play here", "L'autre onglet ou appareil sera déconnecté du jeu en ligne.": "The other tab or device will be disconnected from online play.", "Choisis ta puce": "Choose your chip", "<b>Choisis ta puce<\/b> affiche toutes les puces Tiny Tapeout, dans l'ordre de leur fabrication. Clique une puce pour ouvrir son MUX : le vrai plan de la puce, avec ses projets répartis autour du multiplexeur qui les sélectionne. Double-clique une tuile (ou clique-la puis « Charger ») pour y jouer. Les grands projets se chargent en entier ; le microscope (réglé dans le salon) limite l'arène à une partie de la puce, derrière un bouclier infranchissable, pour que les joueurs se croisent. La puce choisie vaut pour le solo et pour les parties que tu crées ; rejoindre une partie sur une autre tuile recharge la page.": "<b>Choose your chip<\/b> shows every Tiny Tapeout chip, in the order they were made. Click a chip to open its MUX: the real floorplan of the chip, with its projects laid out around the multiplexer that selects them. Double-click a tile (or click it, then “Load”) to play in it. Large projects load whole; the microscope (set in the lobby) limits the arena to part of the chip, behind an impassable shield, so that players run into each other. The chosen chip applies to solo play and to the games you create; joining a game on another tile reloads the page.", "fonderies : SkyWater, IHP, GlobalFoundries": "foundries: SkyWater, IHP, GlobalFoundries", "Et ce n'est pas la seule : avec « Choisis ta puce », pars à la découverte de <b><span id=\"lpTilesT\">3610<\/span> tuiles<\/b> de <b><span id=\"lpChipsT\">23<\/span> puces Tiny Tapeout<\/b>, de <span id=\"lpRange\">TT 3.5 à IHP 26b<\/span>, fabriquées de 2023 à 2026 dans trois fonderies : SkyWater (procédé SKY130, États-Unis), IHP (procédé SG13G2, Allemagne) et GlobalFoundries (procédé GF180MCU, États-Unis). Chaque projet devient une arène.": "And it's not the only one: with “Choose your chip”, explore <b><span id=\"lpTilesT\">3610<\/span> tiles<\/b> across <b><span id=\"lpChipsT\">23<\/span> Tiny Tapeout chips<\/b>, from <span id=\"lpRange\">TT 3.5 to IHP 26b<\/span>, made from 2023 to 2026 in three foundries: SkyWater (SKY130 process, USA), IHP (SG13G2 process, Germany) and GlobalFoundries (GF180MCU process, USA). Every project becomes an arena.", "Chaque muret, chaque rail doré, chaque via est un vrai rectangle du layout : le polysilicium des grilles, les couches de métal (li1 à met4 chez SkyWater, Metal1 à Metal5 chez IHP, Metal1 à Metal4 chez GlobalFoundries), les rails d'alimentation, les bascules D qui retiennent l'état du jeu.": "Every low wall, every golden rail, every via is a real rectangle of the layout: the polysilicon of the gates, the metal layers (li1 to met4 at SkyWater, Metal1 to Metal5 at IHP, Metal1 to Metal4 at GlobalFoundries), the power rails, the D flip-flops that hold the game state.", "3610 tuiles · 23 puces Tiny Tapeout": "3610 tiles · 23 Tiny Tapeout chips"}, "attr": {"Carte (M)": "Map (M)", "Part de la casse tolérée déjà atteinte": "Share of the tolerated damage already reached", "Introduction": "Introduction", "Menu": "Menu", "ton nom en jeu": "your in-game name", "Le Microbe et le Défenseur en 3D, qui tournent sur leur socle": "The Microbe and the Defender in 3D, spinning on their stands", "Menu principal": "Main menu", "Haut de page": "Top of page", "Sections": "Sections", "Changer de langue": "Change language", "En bref": "At a glance", "Code de salle": "Room code", "Le Microbe": "The Microbe", "Le Défenseur": "The Defender", "Couleur de ton Électron": "Your Electron colour", "Podium de la course": "Race podium", "Pseudo": "Nickname", "Écrire un message…": "Write a message…", "Message": "Message", "code": "code", "Aperçu de la zone couverte par le microscope": "Preview of the area covered by the microscope", "Écrire à tout le salon…": "Write to the whole lobby…", "Message au salon": "Message to the lobby"}};
+  const H = {"html": {"sol": "ground", "substrat": "substrate", "à pied": "on foot", "Bascules trouvées": "Flip-flops found", "Couches": "Layers", "Vol": "Fly", "Carte": "Map", "Joueurs": "Players", "Touche la carte pour t'y téléporter": "Tap the map to teleport there", "Fermer": "Close", "SAUT": "JUMP", "BAS": "DOWN", "TIR": "FIRE", "RÉPARER": "REPAIR", "ÉCHELLE": "LADDER", "RAYON X": "X-RAY", "échauffement": "warm-up", "Intégrité 100 %": "Integrity 100 %", "Défenseurs": "Defenders", "100 PV": "100 HP", "<i><\/i>Rayon X · vias masqués <kbd>V<\/kbd>": "<i><\/i>X-ray · vias hidden <kbd>V<\/kbd>", "présente": "presents", "Une vraie puce. Des dizaines de milliers de parois. Deux camps.": "A real chip. Tens of thousands of walls. Two sides.", "Clique ou appuie sur une touche": "Click or press any key", "Passer": "Skip", "Reprendre": "Resume", "Retour dans la puce": "Back into the chip", "Jouer en ligne": "Play online", "Microbes contre Défenseurs": "Microbes vs Defenders", "Chargement de la puce…": "Loading the chip…", "Comment jouer": "How to play", "Règles et commandes": "Rules and controls", "Personnages": "Characters", "Microbes et Défenseurs": "Microbes and Defenders", "Souris, son, graphismes": "Mouse, sound, graphics", "Crédits": "Credits", "Un jeu produit par": "A game produced by", "← Retour": "← Back", "Connexion à la salle…": "Connecting to the room…", "Attaquants · acide à 2,5 µm": "Attackers · acid at 2.5 µm", "personne": "nobody", "Protègent et réparent": "Protect and repair", "Pseudo": "Nickname", "Mode de jeu": "Game mode", "Corrosion · sites A et B": "Corrosion · sites A and B", "Capture de broche · vole le signal adverse": "Pin Capture · steal the enemy signal", "Débordement · compteur 4 bits d'éliminations": "Overflow · 4-bit elimination counter", "Bascules D · tiens les registres": "D Flip-Flops · hold the registers", "Contamination · un patient zéro": "Contamination · one patient zero", "Les Microbes gagnent si la puce perd": "The Microbes win if the chip loses", "<b class=\"cM\">Microbes<\/b> : gardent l'<b>entrée VPWR<\/b>, l'alimentation, sur le flanc gauche de la puce.": "<b class=\"cM\">Microbes<\/b>: guard the <b>VPWR input<\/b>, the power supply, on the left side of the chip.", "<b class=\"cD\">Défenseurs<\/b> : gardent la <b>sortie uo_out[0]<\/b>, LEDS_LINE, qui pilote les LEDs, sur le bord haut.": "<b class=\"cD\">Defenders<\/b>: guard the <b>uo_out[0] output<\/b>, LEDS_LINE, which drives the LEDs, on the top edge.", "Touche le signal de la broche adverse pour le voler, ramène-le sur ta broche pendant que la tienne est en place : 1 capture. 3 captures gagnent la manche (8 min max).": "Touch the enemy pin's signal to steal it, bring it back to your pin while yours is in place: 1 capture. 3 captures win the round (8 min max).", "Porteur abattu : le signal tombe au sol. Un allié le remet en place en le touchant, sinon il revient seul en 20 s. Pas de jetpack quand on porte le signal ; on réapparaît 5 s après une élimination.": "Carrier down: the signal drops to the ground. A teammate puts it back by touching it, otherwise it returns on its own after 20 s. No jetpack while carrying the signal; you respawn 5 s after being eliminated.", "Match à mort par équipe. Chaque élimination incrémente le <b>compteur 4 bits<\/b> de ton équipe, affiché en binaire.": "Team deathmatch. Each elimination increments your team's <b>4-bit counter<\/b>, shown in binary.", "Le premier compteur qui déborde, de 1111 à 1 0000, soit 16 éliminations, gagne la manche (10 min max).": "The first counter to overflow, from 1111 to 1 0000, that is 16 eliminations, wins the round (10 min max).", "On réapparaît 4 s après une élimination. Le courant compte aussi : un électrocuté donne un point à l'adversaire.": "You respawn 4 s after being eliminated. The current counts too: an electrocuted player gives the enemy a point.", "Trois vraies <b>bascules D<\/b> (dfxtp) de LEDs Racer servent de points à tenir : A, B et C.": "Three real <b>D flip-flops<\/b> (dfxtp) from LEDs Racer are the points to hold: A, B and C.", "À chaque front d'horloge (1 s), si ton équipe est seule dans la zone, la bascule avance d'un cran : au 3<sup>e<\/sup> front, Q prend la valeur de ton équipe.": "On every clock edge (1 s), if your team is alone in the zone, the flip-flop moves one step: on the 3<sup>rd<\/sup> edge, Q takes your team's value.", "Chaque front, chaque bascule tenue rapporte 1 point. 150 points gagnent la manche (8 min max). Réapparition en 4 s.": "On every edge, each flip-flop held scores 1 point. 150 points win the round (8 min max). Respawn in 4 s.", "Tout le monde commence <b class=\"cD\">Défenseur<\/b>, sauf un <b class=\"cM\">patient zéro<\/b> tiré au hasard.": "Everyone starts as a <b class=\"cD\">Defender<\/b>, except one random <b class=\"cM\">patient zero<\/b>.", "Un défenseur éliminé est contaminé : il réapparaît en Microbe 3 s plus tard. Les Microbes sont plus rapides et encaissent deux fois mieux, mais n'ont que leur acide à 2,5 µm.": "An eliminated defender is infected: they respawn as a Microbe 3 s later. Microbes are faster and twice as tough, but only have their acid at 2.5 µm.", "Les Défenseurs gagnent si l'un d'eux tient 3 minutes ; les Microbes s'ils contaminent toute la puce. Le choix d'équipe est ignoré dans ce mode.": "The Defenders win if one of them holds out for 3 minutes; the Microbes if they infect the whole chip. Team choice is ignored in this mode.", "<b class=\"cM\">Microbes<\/b> : déposer la corrosion 6 s sur le site A (racine d'horloge) ou B (pilote de puissance), ou détruire assez de parois.": "<b class=\"cM\">Microbes<\/b>: plant the corrosion for 6 s on site A (clock root) or B (power driver), or destroy enough walls.", "<b class=\"cD\">Défenseurs<\/b> : les éliminer, neutraliser la corrosion en 5 s, réparer la puce au clic droit.": "<b class=\"cD\">Defenders<\/b>: eliminate them, neutralize the corrosion in 5 s, repair the chip with right-click.", "Toutes les 5 à 10 min, la puce est mise sous tension : 15 s d'alerte, puis le métal électrocute pendant 20 s.": "Every 5 to 10 min, the chip is powered on: 15 s of warning, then the metal electrocutes for 20 s.", "Pour jouer à plusieurs, invite tes amis depuis le menu Partager de la page : ils doivent être connectés à claude.ai.": "To play together, invite your friends from the page's Share menu: they must be signed in to claude.ai.", "Tu mesures un demi-micron. Le sol est le silicium, les murets rouges sont les grilles en polysilicium, et au-dessus s'empilent les couches de métal jusqu'aux rails d'alimentation dorés du met4.": "You are half a micron tall. The floor is silicon, the red low walls are polysilicon gates, and above them the metal layers stack up to the golden met4 power rails.", "Explore librement la puce LEDs Racer (<b id=\"sCells\">1 361<\/b> cellules logiques, 161 × 226 µm) et trouve à pied les <b id=\"sDff\">234<\/b> bascules D qui retiennent l'état du jeu.": "Freely explore the LEDs Racer chip (<b id=\"sCells\">1 361<\/b> logic cells, 161 × 226 µm) and find on foot the <b id=\"sDff\">234<\/b> D flip-flops that hold the game state.", "En ligne": "Online", "Les Microbes attaquent la puce, les Défenseurs la protègent. Une manche se gagne en posant ou en neutralisant la corrosion, en éliminant l'équipe adverse, ou, pour les Microbes, en détruisant assez de parois. Les Défenseurs voient à travers les murs où les Microbes attaquent.": "The Microbes attack the chip, the Defenders protect it. A round is won by planting or neutralizing the corrosion, by eliminating the other team, or, for the Microbes, by destroying enough walls. The Defenders see through walls where the Microbes are attacking.", "Capture de broche": "Pin Capture", "Chaque équipe garde une vraie broche de la puce : l'entrée d'alimentation VPWR pour les Microbes, la sortie uo_out[0] (LEDS_LINE) pour les Défenseurs. Vole le signal adverse, ramène-le sur ta broche : trois captures gagnent la manche.": "Each team guards a real pin of the chip: the VPWR power input for the Microbes, the uo_out[0] output (LEDS_LINE) for the Defenders. Steal the enemy signal, bring it back to your pin: three captures win the round.", "Débordement, Bascules D, Contamination": "Overflow, D Flip-Flops, Contamination", "<b>Débordement<\/b> : match à mort par équipe, chaque élimination incrémente un compteur 4 bits ; le premier qui déborde gagne. <b>Bascules D<\/b> : tiens les trois bascules dfxtp de la puce, elles basculent au front d'horloge et rapportent des points. <b>Contamination<\/b> : un patient zéro contamine les défenseurs, qui doivent tenir 3 minutes.": "<b>Overflow<\/b>: team deathmatch, each elimination increments a 4-bit counter; the first one to overflow wins. <b>D Flip-Flops<\/b>: hold the chip's three dfxtp flip-flops, they flip on the clock edge and score points. <b>Contamination<\/b>: a patient zero infects the defenders, who must hold out for 3 minutes.", "Commandes": "Controls", "ZQSD / WASD": "WASD / ZQSD", "se déplacer (Maj pour courir)": "move (Shift to run)", "Souris": "Mouse", "regarder": "look", "Espace": "Space", "sauter, maintenir pour le jetpack": "jump, hold for the jetpack", "Clic gauche": "Left click", "tirer, abîme aussi la puce": "fire, also damages the chip", "Clic droit": "Right click", "réparer ou reconstituer (Défenseurs)": "repair or rebuild (Defenders)", "poser ou neutraliser la corrosion": "plant or neutralise the corrosion", "construire une échelle vers la couche au-dessus": "build a ladder to the layer above", "vision rayon X : masquer ou montrer les vias": "X-ray vision: hide or show the vias", "carte": "map", "vol et couches (solo seulement)": "fly and layers (solo only)", "tableau des joueurs (en ligne)": "player list (online)", "Échap": "Esc", "menu": "menu", "Pouce gauche": "Left thumb", "se déplacer": "move", "Glisser à droite": "Drag on the right", "maintenir pour le jetpack": "hold for the jetpack", "TIR · ACTION": "FIRE · ACTION", "tirer · poser ou neutraliser": "fire · plant or neutralize", "Défenseurs : maintenir sur un élément abîmé": "Defenders: hold on a damaged element", "apparaît près d'une couche plus haute": "appears near a higher layer", "masquer ou montrer les vias": "hide or show the vias", "Aide": "Help", "Défenseur": "Defender", "Sensibilité de la visée <output id=\"optSensV\">1,0<\/output>": "Aim sensitivity <output id=\"optSensV\">1,0<\/output>", "Inverser l'axe vertical": "Invert vertical axis", "Volume <output id=\"optVolV\">80 %<\/output>": "Volume <output id=\"optVolV\">80 %<\/output>", "Qualité graphique": "Graphics quality", "Automatique (s'adapte à l'appareil)": "Automatic (adapts to the device)", "Haute": "High", "Basse (téléphones modestes)": "Low (modest phones)", "Style graphique": "Graphics style", "Sombre : ambiance de puce, arêtes adoucies": "Dark: chip mood, softened edges", "Clair : couleurs pastel, ciel bleu": "Light: pastel colors, blue sky", "Technique : arêtes nettes, sans arrondi": "Technical: sharp edges, no rounding", "Jouer l'intro au lancement": "Play the intro at launch", "Conception de la puce": "Chip design", "Fabrication": "Fabrication", "Tiny Tapeout SKY25b · procédé SkyWater SKY130": "Tiny Tapeout SKY25b · SkyWater SKY130 process", "Monde du jeu": "Game world", "Le layout réel de la puce, sur 14 couches du silicium au met4": "The real chip layout, on 14 layers from silicon to met4", "Moteur": "Engine", "three.js, développé avec Claude": "three.js, built with Claude", "Puce LEDs Racer · SKY130 · Tiny Tapeout SKY25b": "LEDs Racer chip · SKY130 · Tiny Tapeout SKY25b", "Bots : compléter chaque équipe jusqu'à": "Bots: fill each team up to", "aucun bot": "no bots", "1 joueur": "1 player", "2 joueurs": "2 players", "3 joueurs": "3 players", "4 joueurs": "4 players", "5 joueurs": "5 players", "un joueur qui arrive prend la place d'un bot": "a player who joins takes a bot's place", "S'il manque du monde, l'hôte de la partie complète chaque équipe avec des bots (réglable dans le salon, 3 par défaut). Ils suivent l'objectif du mode, tirent moins vite et moins juste qu'un joueur, et cèdent leur place dès qu'un joueur rejoint leur équipe. On peut donc jouer seul contre des bots.": "If players are missing, the match host fills each team with bots (set in the lobby, 3 by default). They follow the mode's objective, fire slower and less accurately than a player, and give up their place as soon as a player joins their team. So you can play alone against bots.", "Recherche et destruction": "Search and destroy", "Capture du drapeau": "Capture the flag", "Match à mort par équipe": "Team deathmatch", "Domination": "Domination", "Infection": "Infection", "Débordement": "Overflow", "Bascules D": "D Flip-Flops", "VÉHICULE": "VEHICLE", "Véhicules": "Vehicles", "monter dans un véhicule ou en descendre (en ligne)": "get in or out of a vehicle (online)", "Course · des entrées à la sortie": "Race · from the inputs to the output", "Course": "Race", "Course de capsules": "Capsule race", "Chaque joueur reçoit un <b>Électron<\/b> sur la grille de départ, devant les entrées ui_in. Tout le monde part au même signal.": "Each player gets an <b>Electron<\/b> on the starting grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0] : le tracé file au sol, sur les rails du met1 puis sur les rails dorés du met4. On change d'étage uniquement dans les puits (colonnes vertes).": "Pass the arches in order up to the uo_out[0] output: the track runs along the ground, on the met1 rails then on the golden met4 rails. You change level only in the shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Le premier à la sortie gagne (4 min max).": "Outside a shaft, if you leave the metal you fall to the level below and carry on from there. No shooting during the race. First to the output wins (4 min max).", "Un Électron chacun, départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Les arches se passent dans l'ordre, au sol puis sur les rails du met1 et du met4. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage.": "One Electron each, a mass start in front of the ui_in inputs, finish at the uo_out[0] output. Arches are passed in order, on the ground then on the met1 and met4 rails. You change level in the shafts; leaving the metal drops you one level.", "Six nano-capsules attendent dans les garages (sauf en Contamination). Défenseurs : la <b>Navette BUS<\/b>, 3 places et une tourelle de 8 tirs, et la <b>CAPA<\/b>, condensateur blindé à tir chargé. Microbes : la <b>Spore<\/b>, planeur à acide, et le <b>Phage<\/b>, au tir d'injection. Pour tous : deux <b>Électrons<\/b> très rapides qui bondissent en avant par effet tunnel (Maj), et l'<b>Ascenseur via<\/b> qui monte du silicium au met4. Tous les véhicules planent entre deux couches. F pour monter ou descendre, clic gauche pour l'arme du véhicule ; les passagers tirent avec leur arme. Les véhicules changent d'étage uniquement dans les puits, les colonnes vertes : Espace pour monter, C pour descendre. Un véhicule détruit éjecte ses occupants et revient au garage 45 s plus tard.": "Six nano-capsules wait in the garages (except in Contamination). Defenders: the <b>BUS Shuttle<\/b>, 3 seats and an 8-shot turret, and the <b>CAPA<\/b>, an armored capacitor with a charged shot. Microbes: the <b>Spore<\/b>, an acid glider, and the <b>Phage<\/b>, with its injection shot. For everyone: two very fast <b>Electrons<\/b> that leap forward by tunnel effect (Shift), and the <b>Via Lift<\/b> that rises from silicon to met4. All vehicles hover between two layers. F to get in or out, left click for the vehicle's weapon; passengers fire their own weapon. Vehicles change level only in the shafts, the green columns: Space to go up, C to go down. A destroyed vehicle throws out its occupants and returns to the garage 45 s later.", "Plein écran en jouant": "Fullscreen when playing", "La puce": "The chip", "KerCrafter Lab Studio présente": "KerCrafter Lab Studio presents", "Un FPS multijoueur dans le layout réel d'une puce Tiny Tapeout.": "A multiplayer FPS inside the real layout of a Tiny Tapeout chip.", "Lancer en plein écran": "Play fullscreen", "Jouer dans la fenêtre": "Play in the window", "Salle": "Room", "Copier le lien d'invitation": "Copy invite link", "couches, du silicium au met4": "layers, from silicon to met4", "modes de jeu en ligne": "online game modes", "véhicules nano-capsules": "nano-capsule vehicles", "gratuit, dans le navigateur": "free, in your browser", "Six modes de jeu": "Six game modes", "Les grands classiques du FPS, revus à l'échelle du demi-micron et de l'électronique numérique.": "The great FPS classics, rebuilt at half-micron scale and around digital electronics.", "Corrosion": "Corrosion", "Les Microbes posent la corrosion sur un site, les Défenseurs la neutralisent. Chaque paroi détruite le reste.": "Microbes plant corrosion on a site, Defenders neutralise it. Every wall destroyed stays destroyed.", "Vole le signal sur la broche adverse, VPWR ou uo_out[0], et ramène-le sur la tienne.": "Steal the signal from the enemy pin, VPWR or uo_out[0], and bring it back to yours.", "Chaque élimination incrémente un compteur 4 bits. Le premier qui déborde gagne.": "Every kill increments a 4-bit counter. First to overflow wins.", "Tiens les trois bascules dfxtp de la puce. Elles ne changent de camp qu'au front d'horloge.": "Hold the chip's three dfxtp flip-flops. They only change sides on the clock edge.", "Contamination": "Contamination", "Un patient zéro, et des Défenseurs de moins en moins nombreux. Tiens jusqu'au bout du chrono.": "One patient zero, and fewer and fewer Defenders. Hold out until the clock runs down.", "Des entrées ui_in à la sortie uo_out[0], arche par arche, d'un étage de métal à l'autre.": "From the ui_in inputs to the uo_out[0] output, arch by arch, from one metal deck to the next.", "Deux camps": "Two sides", "Six nano-capsules": "Six nano-capsules", "Navette BUS": "BUS shuttle", "3 places et une tourelle de 8 tirs.": "3 seats and an 8-shot turret.", "Condensateur blindé, tir chargé.": "Armoured capacitor, charged shot.", "Planeur à acide, ronge les parois.": "Acid glider, eats through walls.", "Vole d'une couche à l'autre, tir d'injection.": "Flies between layers, injection shot.", "Tous": "Everyone", "Électron": "Electron", "Le plus rapide, bondit par effet tunnel.": "The fastest, leaps ahead by tunnelling.", "Ascenseur via": "Via lift", "Monte du silicium jusqu'au met4.": "Rises from silicon up to met4.", "Une vraie puce": "A real chip", "Tu mesures un demi-micron. Bonne visite.": "You are half a micron tall. Enjoy the tour.", "se déplacer, Maj pour courir": "move, Shift to run", "viser, clic gauche pour tirer": "aim, left click to shoot", "sauter, jetpack": "jump, jetpack", "monter dans un véhicule": "get in a vehicle", "tableau des joueurs": "scoreboard", "menu et sortie du plein écran": "menu and exit fullscreen", "Prêt à rétrécir ?": "Ready to shrink?", "Un jeu KerCrafter Lab · développé avec Claude": "A KerCrafter Lab game · built with Claude", "Code source sur GitHub": "Source code on GitHub", "Nouvelle salle privée": "New private room", "Rejoindre": "Join", "Le terrain de jeu, c'est le dessin réel de la puce LEDs Racer, conçue par Clément Kerneur et fabriquée sur la navette Tiny Tapeout SKY25b, en procédé SkyWater SKY130.": "The playing field is the real layout of the LEDs Racer chip, designed by Clément Kerneur and fabricated on the Tiny Tapeout SKY25b shuttle, in the SkyWater SKY130 process.", "Vision rayon X activée": "X-ray vision on", "Les vias, les petits piliers qui relient deux couches de métal, deviennent invisibles.": "Vias, the small pillars linking two metal layers, become invisible.", "Ils ne bloquent plus ni tes déplacements ni tes tirs. Les couches de métal, elles, restent solides.": "They no longer block your movement or your shots. The metal layers stay solid.", "Touche <kbd>V<\/kbd> (bouton RAYON X sur mobile) pour réafficher les vias à tout moment.": "Press <kbd>V<\/kbd> (X-RAY button on mobile) to show the vias again at any time.", "Appuie sur une touche ou clique pour continuer": "Press any key or click to continue", "Ce réglage est permanent : tu n'as rien à faire.": "This setting is permanent: there is nothing to do.", "vision rayon X : masquer ou montrer les vias (solo seulement, toujours active en ligne)": "X-ray vision: hide or show the vias (solo only, always on online)", "Nouveau joueur": "New player", "recharger l'arme ; la réserve d'énergie se refait aux condensateurs de découplage (colonnes jaunes)": "reload your weapon; the energy reserve refills at decoupling capacitors (yellow columns)", "Niveau des bots": "Bot level", "Ta couleur": "Your colour", "Rejoindre la course": "Join the race", "Un Électron chacun, pas d'équipes": "One Electron each, no teams", "Arrivée": "Finish", "Pas d'équipes : chacun choisit sa couleur et reçoit un Électron. Départ groupé devant les entrées ui_in, arrivée à la sortie uo_out[0]. Le parcours change à chaque manche : deux à trois arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage dans les puits ; quitter le métal fait tomber d'un étage. Tout le monde va au bout, puis podium.": "No teams: everyone picks a colour and gets an Electron. Grouped start in front of the ui_in inputs, finish at the uo_out[0] output. The track changes every round: two to three arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts; leaving the metal drops you one deck. Everyone gets to finish, then the podium.", "Pas d'équipes : choisis ta <b>couleur<\/b> (une couleur prise est grisée) et reçois un <b>Électron<\/b> sur la grille, devant les entrées ui_in. Tout le monde part au même signal.": "No teams: pick your <b>colour<\/b> (a taken colour is greyed out) and get an <b>Electron<\/b> on the grid, in front of the ui_in inputs. Everyone starts on the same signal.", "Passe les arches dans l'ordre jusqu'à la sortie uo_out[0]. Le parcours est tiré au hasard à chaque manche : 2 ou 3 arches au sol, puis sur deux étages de métal, puis retour au sol. On change d'étage uniquement dans les puits (colonnes vertes).": "Go through the arches in order to the uo_out[0] output. The track is drawn at random each round: 2 or 3 arches on the ground, then on two metal decks, then back to the ground. You change deck only in shafts (green columns).", "Hors d'un puits, si tu quittes le métal tu tombes à l'étage du dessous et tu reprends de là. Pas de tir pendant la course. Tout le monde va au bout (40 s après le premier arrivé au plus), puis podium.": "Outside a shaft, if you leave the metal you drop to the deck below and carry on from there. No shooting during the race. Everyone gets to finish (at most 40 s after the first finisher), then the podium.", "Choisis ton pseudo : il s'affiche au-dessus de ta tête et dans les parties. Tu pourras le changer dans les Options.": "Choose your nickname: it shows above your head and in games. You can change it later in Options.", "Continuer": "Continue", "Parties": "Games", "Créer une partie": "Create a game", "← Parties": "← Games", "Choisis le mode de jeu": "Choose the game mode", "Quitter la partie": "Leave the game", "Partie en cours : tu entreras à la prochaine manche.": "Game in progress: you will join at the next round.", "Choisis ton camp": "Choose your side", "Joueurs par équipe (les places libres sont prises par des bots)": "Players per team (free spots are filled by bots)", "sans bots, places illimitées": "no bots, unlimited spots", "Discussion": "Chat", "Envoyer": "Send", "Je suis prêt": "I'm ready", "Lancer la partie": "Start the game", "Pseudo en ligne": "Online nickname", "KerCrafter Lab Studio, en association avec Chrisflix": "KerCrafter Lab Studio, in association with Chrisflix", "← Modes": "← Modes", "Parties publiques": "Public games", "Créer une partie publique": "Create a public game", "Créer une partie privée": "Create a private game", "Publique : visible par tous et ouverte à tout le monde. Privée : invisible dans la liste, on y entre seulement avec son code.": "Public: listed and open to everyone. Private: not listed, you get in only with its code.", "Rejoindre une partie privée": "Join a private game", "Partie privée · code": "Private game · code", "Copier le code": "Copy code", "X · molette": "X · wheel", "passer de l'arme ramassée à l'arme de base ; clic droit : lunette des fusils": "swap between the picked-up weapon and your base weapon; right click: rifle scope", "Armes et fortifications": "Weapons and fortifications", "Quinze armes": "Fifteen weapons", "Des fortifications autour des zones": "Fortifications around the zones", "En ligne, chaque site, broche et bascule est ceint d'un rempart de 0,62 µm : on entre par les angles, on se couvre derrière les piliers, on passe par-dessus au jetpack. Les murs arrêtent les tirs, sauf ceux des armes qui percent les parois.": "Online, every site, pin and flip-flop is ringed by a 0.62 µm rampart: get in through the corners, take cover behind the pillars, or jetpack over it. The walls stop shots, except from weapons that pierce walls.", "Armes": "Weapons", "X / molette": "X / wheel", "changer d'arme spéciale": "switch special weapon", "lunette des fusils de précision": "sniper scope", "Laser 405 nm": "405 nm Laser", "rafale violette, précise": "precise violet burst", "Fusil à électrons": "Electron rifle", "longue portée, lunette au clic droit": "long range, scope on right click", "Canon EMP": "EMP cannon", "impulsion électromagnétique, zone de 3 µm": "electromagnetic pulse, 3 µm area", "Décharge ESD": "ESD discharge", "7 arcs en éventail, à bout portant": "7 arcs in a fan, point blank", "Mitrailleuse 1 GHz": "1 GHz machine gun", "tire à la cadence de l'horloge": "fires at clock speed", "Rayon gamma": "Gamma ray", "lourd, abîme les parois": "heavy, damages walls", "Lance-photons": "Photon launcher", "rafale de 3 photons": "3-photon burst", "Bobine Tesla": "Tesla coil", "arc large à courte portée": "wide short-range arc", "Grenade NAND": "NAND grenade", "explose à l'impact, zone de 2 µm": "explodes on impact, 2 µm area", "Faisceau d'ions": "Ion beam", "rapide et tendu": "fast and flat", "Court-circuit": "Short circuit", "pistolet rapide": "rapid pistol", "Bombe à rayons X": "X-ray bomb", "destruction massive, zone de 4,5 µm": "mass destruction, 4.5 µm area", "Canon à plasma": "Plasma cannon", "boule de plasma, petite zone": "plasma ball, small area", "Désintégrateur PN": "PN disintegrator", "fait fondre les parois (×6)": "melts walls (×6)", "Fusil SQUID": "SQUID rifle", "supraconducteur, lunette ×2 au clic droit": "superconducting, ×2 scope on right click", "<b>22<\/b> dégâts · <b>30<\/b> tirs · <b>22<\/b> µm": "<b>22<\/b> damage · <b>30<\/b> shots · <b>22<\/b> µm", "<b>Laser 405 nm<\/b> rafale violette, précise": "<b>405 nm Laser<\/b> precise violet burst", "<b>Crachat de spores<\/b> rafale de spores collantes": "<b>Spore spitter<\/b> burst of sticky spores", "<b>95<\/b> dégâts · <b>6<\/b> tirs · <b>45<\/b> µm": "<b>95<\/b> damage · <b>6<\/b> shots · <b>45<\/b> µm", "<b>Fusil à électrons<\/b> longue portée, lunette au clic droit": "<b>Electron rifle<\/b> long range, scope on right click", "<b>Harpon à pilus<\/b> longue portée, œil-lunette au clic droit": "<b>Pilus harpoon<\/b> long range, eye-scope on right click", "<b>120<\/b> dégâts · <b>3<\/b> tirs · <b>18<\/b> µm": "<b>120<\/b> damage · <b>3<\/b> shots · <b>18<\/b> µm", "<b>Canon EMP<\/b> impulsion électromagnétique, zone de 3 µm": "<b>EMP cannon<\/b> electromagnetic pulse, 3 µm area", "<b>Fleur à toxines<\/b> nuage toxique, zone de 3 µm": "<b>Toxin flower<\/b> toxic cloud, 3 µm area", "<b>7 × 14<\/b> dégâts · <b>8<\/b> tirs · <b>9<\/b> µm": "<b>7 × 14<\/b> damage · <b>8<\/b> shots · <b>9<\/b> µm", "<b>Décharge ESD<\/b> 7 arcs en éventail, à bout portant": "<b>ESD discharge<\/b> 7 arcs in a fan, point blank", "<b>Gerbe d'enzymes<\/b> 5 jets d'enzymes, à bout portant": "<b>Enzyme spray<\/b> 5 enzyme jets, point blank", "<b>9<\/b> dégâts · <b>90<\/b> tirs · <b>16<\/b> µm": "<b>9<\/b> damage · <b>90<\/b> shots · <b>16<\/b> µm", "<b>Mitrailleuse 1 GHz<\/b> tire à la cadence de l'horloge": "<b>1 GHz machine gun<\/b> fires at clock speed", "<b>Mitraille de virions<\/b> crache des virions en continu": "<b>Virion gatling<\/b> spits virions nonstop", "<b>55<\/b> dégâts · <b>10<\/b> tirs · <b>26<\/b> µm": "<b>55<\/b> damage · <b>10<\/b> shots · <b>26<\/b> µm", "<b>Rayon gamma<\/b> lourd, abîme les parois": "<b>Gamma ray<\/b> heavy, damages walls", "<b>Ver à lysozyme<\/b> lourd, digère les parois": "<b>Lysozyme worm<\/b> heavy, digests walls", "<b>3 × 16<\/b> dégâts · <b>15<\/b> tirs · <b>24<\/b> µm": "<b>3 × 16<\/b> damage · <b>15<\/b> shots · <b>24<\/b> µm", "<b>Lance-photons<\/b> rafale de 3 photons": "<b>Photon launcher<\/b> 3-photon burst", "<b>Triple spore<\/b> rafale de 3 spores": "<b>Triple spore<\/b> burst of 3 spores", "<b>34<\/b> dégâts · <b>20<\/b> tirs · <b>6<\/b> µm": "<b>34<\/b> damage · <b>20<\/b> shots · <b>6<\/b> µm", "<b>Bobine Tesla<\/b> arc large à courte portée": "<b>Tesla coil<\/b> wide short-range arc", "<b>Fouet flagellaire<\/b> coup large à courte portée": "<b>Flagellum whip<\/b> wide lash at short range", "<b>85<\/b> dégâts · <b>4<\/b> tirs · <b>14<\/b> µm": "<b>85<\/b> damage · <b>4<\/b> shots · <b>14<\/b> µm", "<b>Grenade NAND<\/b> explose à l'impact, zone de 2 µm": "<b>NAND grenade<\/b> explodes on impact, 2 µm area", "<b>Kyste explosif<\/b> éclate à l'impact, zone de 2 µm": "<b>Exploding cyst<\/b> bursts on impact, 2 µm area", "<b>32<\/b> dégâts · <b>16<\/b> tirs · <b>30<\/b> µm": "<b>32<\/b> damage · <b>16<\/b> shots · <b>30<\/b> µm", "<b>Faisceau d'ions<\/b> rapide et tendu": "<b>Ion beam<\/b> fast and flat", "<b>Dard à prions<\/b> rapide et tendu": "<b>Prion dart<\/b> fast and flat", "<b>26<\/b> dégâts · <b>18<\/b> tirs · <b>18<\/b> µm": "<b>26<\/b> damage · <b>18<\/b> shots · <b>18<\/b> µm", "<b>Court-circuit<\/b> pistolet rapide": "<b>Short circuit<\/b> rapid pistol", "<b>Pistolet à phages<\/b> pistolet rapide": "<b>Phage pistol<\/b> fast pistol", "<b>200<\/b> dégâts · <b>1<\/b> tir · <b>20<\/b> µm": "<b>200<\/b> damage · <b>1<\/b> shot · <b>20<\/b> µm", "<b>Bombe à rayons X<\/b> destruction massive, zone de 4,5 µm": "<b>X-ray bomb<\/b> mass destruction, 4.5 µm area", "<b>Pandémie<\/b> destruction massive, zone de 4,5 µm": "<b>Pandemic<\/b> mass destruction, 4.5 µm area", "<b>60<\/b> dégâts · <b>6<\/b> tirs · <b>20<\/b> µm": "<b>60<\/b> damage · <b>6<\/b> shots · <b>20<\/b> µm", "<b>Canon à plasma<\/b> boule de plasma, petite zone": "<b>Plasma cannon<\/b> plasma ball, small area", "<b>Boule de biofilm<\/b> boule gluante, petite zone": "<b>Biofilm blob<\/b> sticky blob, small area", "<b>40<\/b> dégâts · <b>12<\/b> tirs · <b>10<\/b> µm": "<b>40<\/b> damage · <b>12<\/b> shots · <b>10<\/b> µm", "<b>Désintégrateur PN<\/b> fait fondre les parois (×6)": "<b>PN disintegrator<\/b> melts walls (×6)", "<b>Glande à acide<\/b> dissout les parois (×6)": "<b>Acid gland<\/b> dissolves walls (×6)", "<b>70<\/b> dégâts · <b>8<\/b> tirs · <b>36<\/b> µm": "<b>70<\/b> damage · <b>8<\/b> shots · <b>36<\/b> µm", "<b>Fusil SQUID<\/b> supraconducteur, lunette ×2 au clic droit": "<b>SQUID rifle<\/b> superconducting, ×2 scope on right click", "<b>Sarbacane à toxine<\/b> longue portée, œil-lunette ×2 au clic droit": "<b>Toxin blowpipe<\/b> long range, ×2 eye-scope on right click", "Chaque arme existe en deux versions de même puissance : un engin pour les Défenseurs, un organe vivant pour les Microbes. Elles sont disséminées au hasard sur la puce, à de nouvelles places chaque manche. Marche dessus pour la ramasser, X ou la molette pour changer, clic droit pour la lunette. Une arme vide ou un joueur éliminé la perd ; elle réapparaît 35 s plus tard.": "Every weapon comes in two versions of equal power: a device for the Defenders, a living organ for the Microbes. They are scattered at random across the chip, in new places every round. Walk over one to pick it up, X or the mouse wheel to switch, right click for the scope. It is lost when empty or when you are eliminated, and respawns 35 s later.", "Quinze armes par camp": "Fifteen weapons per side", "À chaque manche, 15 armes sont posées au hasard sur la puce (colonnes de couleur, ronds sur la carte) : Laser 405 nm, Fusil à électrons, Canon EMP, Décharge ESD, Mitrailleuse 1 GHz, Rayon gamma, Lance-photons, Bobine Tesla, Grenade NAND, Faisceau d'ions, Court-circuit, Bombe à rayons X, Canon à plasma, Désintégrateur PN et Fusil SQUID. Les Microbes ramassent au même endroit leur version organique, de même puissance : Crachat de spores, Harpon à pilus, Fleur à toxines, Gerbe d'enzymes, Mitraille de virions, Ver à lysozyme, Triple spore, Fouet flagellaire, Kyste explosif, Dard à prions, Pistolet à phages, Pandémie, Boule de biofilm, Glande à acide et Sarbacane à toxine. Passe dessus pour la prendre : ses tirs sont comptés, et tu la perds si tu es éliminé. Elle réapparaît 35 s plus tard. Autour des zones disputées (sites, broches, bascules), des anneaux de garde servent de fortifications : des murets qu'on contourne, derrière lesquels on s'abrite, et qu'on survole au jetpack.": "Each round, 15 weapons are placed at random on the chip (coloured columns, dots on the map): 405 nm Laser, Electron rifle, EMP cannon, ESD discharge, 1 GHz machine gun, Gamma ray, Photon launcher, Tesla coil, NAND grenade, Ion beam, Short circuit, X-ray bomb, Plasma cannon, PN disintegrator and SQUID rifle. At the same spots, Microbes pick up their organic version, of equal power: Spore spitter, Pilus harpoon, Toxin flower, Enzyme spray, Virion gatling, Lysozyme worm, Triple spore, Flagellum whip, Exploding cyst, Prion dart, Phage pistol, Pandemic, Biofilm blob, Acid gland and Toxin blowpipe. Walk over one to pick it up: its shots are limited, and you lose it when you are eliminated. It comes back 35 s later. Around the contested zones (sites, pins, flip-flops), guard rings act as fortifications: low walls to go around, hide behind and fly over with the jetpack.", "Puce (carte)": "Chip (map)", "Puce": "Chip", "Les parties sur une autre puce rechargent la page avant d'entrer.": "Games on another chip reload the page before you join.", "Trois formes de 0,5 µm, toutes vertes : la bactérie à pics (gros yeux, crocs, sac d'acide), l'amibe molle aux yeux sur tentacules, et le bacille cyclope couvert de cils. Les Microbes crachent leur acide à 2,5 µm : il faut se coller aux parois pour les ronger.": "Three 0.5 µm shapes, all green: the spiky bacterium (big eyes, fangs, acid sac), the squishy amoeba with eyes on tentacles, and the cyclops bacillus covered in cilia. Microbes spit acid at 2.5 µm: hug the walls to eat through them.", "Trois machines blanches à lumières cyan : le nanorobot sur réacteurs, le drone sphère à rotor caréné, et la sentinelle à quatre pattes. Le blaster porte à 18 µm, l'outil de réparation à 4 µm.": "Three white machines with cyan lights: the nanorobot on thrusters, the sphere drone with its ducted rotor, and the four-legged sentinel. The blaster reaches 18 µm, the repair tool 4 µm.", "Personnaliser mon personnage": "Customize my character", "Personnalise ton Microbe et ton Défenseur : trois modèles par camp, une couleur d'accent et un accessoire. La couleur du camp reste la même, pour qu'on se reconnaisse en jeu.": "Customize your Microbe and your Defender: three models per side, an accent colour and an accessory. The side colour never changes, so everyone can tell the teams apart in game.", "Une bactérie à pics, gros yeux et crocs. Elle crache son acide à 2,5 µm et ronge les parois de la puce. Aussi en amibe ou en bacille cyclope, avec accent et accessoire au choix.": "A spiky bacterium with big eyes and fangs. It spits acid at 2.5 µm and eats through the chip walls. Also comes as an amoeba or a cyclops bacillus, with your pick of accent and accessory.", "Un nanorobot à visière cyan, monté sur deux réacteurs. Son blaster porte à 18 µm, et il répare ce que l'acide abîme. Aussi en drone sphère ou en sentinelle à quatre pattes, avec accent et accessoire au choix.": "A cyan-visored nanorobot on two small thrusters. Its blaster reaches 18 µm, and it repairs what the acid damages. Also comes as a sphere drone or a four-legged sentinel, with your pick of accent and accessory.", "<b>Puce · MUX<\/b><small id=\"mMuxSub\">316 tuiles de la navette TTSKY25b<\/small>": "<b>Chip · MUX<\/b><small id=\"mMuxSub\">316 tiles of the TTSKY25b shuttle<\/small>", "Puce · MUX": "Chip · MUX", "316 tuiles de la navette TTSKY25b": "316 tiles of the TTSKY25b shuttle", "Changer de tuile · MUX": "Change tile · MUX", "Les parties sur une autre tuile rechargent la page avant d'entrer.": "Games on another tile reload the page before you join.", "Choisir sur le MUX": "Pick on the MUX", "La puce et le MUX": "The chip and the MUX", "Microscope : taille de l'arène": "Microscope: arena size", "Automatique (selon les joueurs et le mode)": "Automatic (by players and mode)", "Toute la puce": "Whole chip", "75 % de la puce": "75% of the chip", "50 % de la puce": "50% of the chip", "35 % de la puce": "35% of the chip", "20 % de la puce": "20% of the chip", "Microscope en solo": "Microscope in solo", "Salon · tous les joueurs": "Lobby · every player", "Parties ouvertes": "Open games", "Mode anonyme": "Anonymous mode", "parties publiques": "public games", "toujours": "always", "jamais": "never", "Se déconnecter": "Sign out", "Essai local": "Local test", "Inviter depuis le salon": "Invite from the lobby", "Le jeu en ligne est réservé aux joueurs connectés. Connecte-toi avec un compte que tu as déjà : le jeu ne reçoit que ton nom et ta photo.": "Online play is for signed-in players. Sign in with an account you already have: the game only receives your name and picture.", "Ton pseudo en ligne sera le nom de ce compte, vérifié pour tous les joueurs. Le salon et les parties sont chiffrés ; le mode solo reste libre, sans compte.": "Your online name will be this account's name, verified for every player. The lobby and the games are encrypted; solo play stays free, no account needed.", "Microbes contre Défenseurs, six modes de jeu, des nano-capsules à piloter. Directement dans le navigateur, sans installation ; un compte GitHub, Discord ou Google suffit pour jouer en ligne.": "Microbes vs Defenders, six game modes, nano-capsules to pilot. Right in your browser, no install; a GitHub, Discord or Google account is all you need to play online.", "puces Tiny Tapeout jouables": "playable Tiny Tapeout chips", "tuiles, autant d'arènes": "tiles, as many arenas", "Mettre à jour maintenant": "Update now", "Installer l'application": "Install the app", "Sur iPhone et iPad : bouton Partager, puis « Sur l'écran d'accueil » pour installer le jeu.": "On iPhone and iPad: tap Share, then “Add to Home Screen” to install the game.", "Manette": "Controller", "Stick gauche": "Left stick", "se déplacer · clic : courir": "move · click: sprint", "Stick droit": "Right stick", "tirer · lunette des fusils, ou réparer (Défenseurs)": "fire · rifle scope, or repair (Defenders)", "sauter, maintenir pour le jetpack · descendre (vol)": "jump, hold for the jetpack · go down (flight)", "changer d'arme (vol en solo)": "switch weapon (flight in solo)", "échelle · recharger": "ladder · reload", "Croix ↑ · ↓": "D-pad ↑ · ↓", "véhicule (vol en solo) · carte": "vehicle (flight in solo) · map", "Croix ← →": "D-pad ← →", "joueur suivi en spectateur · rayon X en solo": "spectated player · X-ray in solo", "Affichage · Menu": "View · Menu", "tableau des joueurs · menu": "scoreboard · menu", "Dans les menus": "In menus", "croix ou stick pour choisir, A pour valider, B pour revenir": "D-pad or stick to choose, A to confirm, B to go back", "gratuit, sans pub, dans le navigateur": "free, no ads, in your browser", "Soutenir": "Support", "Soutenir le projet": "Support the project", "Chip Defender Arena est gratuit, sans publicité ni achat dans le jeu. Le serveur, les cartes de toutes les puces Tiny Tapeout et les nouveautés sont faits sur du temps libre : un don, même petit, aide à continuer.": "Chip Defender Arena is free, with no ads and no in-game purchases. The server, the maps of every Tiny Tapeout chip and the new features are made in spare time: a donation, even a small one, keeps it going.", "Offrir un café sur Ko-fi": "Buy me a coffee on Ko-fi", "Soutenir sur Ko-fi": "Support on Ko-fi", "Le jeu te plaît ? Il reste gratuit grâce aux dons.": "Enjoying the game? It stays free thanks to donations.", "☕ Soutenir": "☕ Support", "Un café, et je ronge les parois deux fois plus vite !": "One coffee and I eat through walls twice as fast!", "Gratuit · sans pub · sans achat dans le jeu": "Free · no ads · no in-game purchases", "Offre un café aux deux camps": "Buy both sides a coffee", "Le serveur, les cartes de toutes les puces Tiny Tapeout et chaque nouveauté sont faits sur du temps libre. Un don, même petit, fait vivre le jeu.": "The server, the maps of every Tiny Tapeout chip and every new feature are made in spare time. A donation, even a small one, keeps the game alive.", "Faire un don sur Ko-fi": "Donate on Ko-fi", "Chaque café répare une paroi. Merci !": "Every coffee repairs a wall. Thank you!", "☕ Le jeu est gratuit : soutiens-le sur Ko-fi": "☕ The game is free: support it on Ko-fi", "Jouer ici": "Play here", "L'autre onglet ou appareil sera déconnecté du jeu en ligne.": "The other tab or device will be disconnected from online play.", "Choisis ta puce": "Choose your chip", "fonderies : SkyWater, IHP, GlobalFoundries": "foundries: SkyWater, IHP, GlobalFoundries", "Et ce n'est pas la seule : avec « Choisis ta puce », pars à la découverte de <b><span id=\"lpTilesT\">3610<\/span> tuiles<\/b> de <b><span id=\"lpChipsT\">23<\/span> puces Tiny Tapeout<\/b>, de <span id=\"lpRange\">TT 3.5 à IHP 26b<\/span>, fabriquées de 2023 à 2026 dans trois fonderies : SkyWater (procédé SKY130, États-Unis), IHP (procédé SG13G2, Allemagne) et GlobalFoundries (procédé GF180MCU, États-Unis). Chaque projet devient une arène.": "And it's not the only one: with “Choose your chip”, explore <b><span id=\"lpTilesT\">3610<\/span> tiles<\/b> across <b><span id=\"lpChipsT\">23<\/span> Tiny Tapeout chips<\/b>, from <span id=\"lpRange\">TT 3.5 to IHP 26b<\/span>, made from 2023 to 2026 in three foundries: SkyWater (SKY130 process, USA), IHP (SG13G2 process, Germany) and GlobalFoundries (GF180MCU process, USA). Every project becomes an arena.", "Chaque muret, chaque rail doré, chaque via est un vrai rectangle du layout : le polysilicium des grilles, les couches de métal (li1 à met4 chez SkyWater, Metal1 à Metal5 chez IHP, Metal1 à Metal4 chez GlobalFoundries), les rails d'alimentation, les bascules D qui retiennent l'état du jeu.": "Every low wall, every golden rail, every via is a real rectangle of the layout: the polysilicon of the gates, the metal layers (li1 to met4 at SkyWater, Metal1 to Metal5 at IHP, Metal1 to Metal4 at GlobalFoundries), the power rails, the D flip-flops that hold the game state.", "3610 tuiles · 23 puces Tiny Tapeout": "3610 tiles · 23 Tiny Tapeout chips", "<b>Choisis ta puce<\/b> affiche toutes les puces Tiny Tapeout, dans l'ordre de leur fabrication. Clique une puce pour ouvrir son MUX : le vrai plan de la puce, avec ses projets répartis autour du multiplexeur qui les sélectionne. Double-clique une tuile (ou clique-la puis « Choisir ») : elle se chargera au lancement de ta prochaine partie, sans recharger la page. Les grands projets se chargent en entier ; le microscope (réglé dans le salon) limite l'arène à une partie de la puce, derrière un bouclier infranchissable, pour que les joueurs se croisent. La puce choisie vaut pour le solo et pour les parties que tu crées ; rejoindre une partie sur une autre tuile recharge la page.": "<b>Choose your chip<\/b> shows every Tiny Tapeout chip, in the order they were made. Click a chip to open its MUX: the real floorplan of the chip, with its projects laid out around the multiplexer that selects them. Double-click a tile (or click it, then “Choose”): it loads when your next game starts, without reloading the page. Large projects load whole; the microscope (set in the lobby) limits the arena to part of the chip, behind an impassable shield, so that players run into each other. The chosen chip applies to solo play and to the games you create; joining a game on another tile reloads the page."}, "attr": {"Carte (M)": "Map (M)", "Part de la casse tolérée déjà atteinte": "Share of the tolerated damage already reached", "Introduction": "Introduction", "Menu": "Menu", "ton nom en jeu": "your in-game name", "Le Microbe et le Défenseur en 3D, qui tournent sur leur socle": "The Microbe and the Defender in 3D, spinning on their stands", "Menu principal": "Main menu", "Haut de page": "Top of page", "Sections": "Sections", "Changer de langue": "Change language", "En bref": "At a glance", "Code de salle": "Room code", "Le Microbe": "The Microbe", "Le Défenseur": "The Defender", "Couleur de ton Électron": "Your Electron colour", "Podium de la course": "Race podium", "Pseudo": "Nickname", "Écrire un message…": "Write a message…", "Message": "Message", "code": "code", "Aperçu de la zone couverte par le microscope": "Preview of the area covered by the microscope", "Écrire à tout le salon…": "Write to the whole lobby…", "Message au salon": "Message to the lobby"}};
   const sel = document.getElementById("optLang");
   if (sel) { sel.value = LANG; sel.addEventListener("change", () => { try { localStorage.setItem("cda-lang", sel.value); } catch (e) {} location.reload(); }); }
   if (!EN) return;
@@ -1997,29 +2008,60 @@ function cda3Unpack(raw) {
   delete meta.lib; delete meta.inst;
   return { meta, buf: out.buffer };
 }
-const MAPSEL = (() => {
+// tuile voulue : préférence enregistrée (choisie sur le MUX) ou ?puce= dans l'adresse
+function mapPref() {
   let k = null; try { k = localStorage.getItem("cda-map"); } catch (e) {}
   const q = new URLSearchParams(location.search).get("puce"); if (q) k = q;
-  const I = window.CDA_INDEX; if (!k || !I) return "a580";
+  return mapValid(k);
+}
+function mapValid(k) {
+  const I = window.CDA_INDEX; if (!k || !I || k === "racer") return "a580";
   if (/^[a-z0-9]+\/a\d+$/.test(k)) return I.ext === "bin" ? k : "a580";   // autre navette : fichiers du site
   return I.maps[k] ? k : "a580";
-})();
-let M, buf;
-try {
+}
+// téléchargement et décodage d'une tuile (LEDs Racer : embarquée dans la page)
+async function loadMapData(key) {
   let gz;
-  if (MAPSEL !== "a580") {
-    $("goSub") && ($("goSub").textContent = (EN ? "Loading the tile…" : "Chargement de la tuile…"));
+  if (key !== "a580") {
     const bin = window.CDA_INDEX.ext === "bin";   // site hébergé : binaire ; artefact : base64 (seul format qu'il sert tel quel)
-    const path = (window.CDA_MAPS || "") + (MAPSEL.includes("/") ? "maps/" + MAPSEL : (window.CDA_INDEX.base || "maps/") + MAPSEL);   // CDA_MAPS : cartes hébergées ailleurs (Cloudflare R2)
+    const path = (window.CDA_MAPS || "") + (key.includes("/") ? "maps/" + key : (window.CDA_INDEX.base || "maps/") + key);   // CDA_MAPS : cartes hébergées ailleurs (Cloudflare R2)
     const r = await fetch(path + (bin ? ".bin" : ".txt")); if (!r.ok) throw new Error("HTTP " + r.status);
     gz = bin ? await r.arrayBuffer() : Uint8Array.from(atob((await r.text()).trim()), c => c.charCodeAt(0));
   } else gz = Uint8Array.from(atob(window.CHIP_RACER), c => c.charCodeAt(0));
-  ({ meta: M, buf } = await cdaUnpack(gz));
+  return cdaUnpack(gz);
+}
+let MAPSEL = mapPref();
+let M, buf;
+try {
+  if (MAPSEL !== "a580") $("goSub") && ($("goSub").textContent = (EN ? "Loading the tile…" : "Chargement de la tuile…"));
+  ({ meta: M, buf } = await loadMapData(MAPSEL));
 } catch (e) {
   console.log("carte", MAPSEL, e);
   if (MAPSEL !== "a580") { try { localStorage.removeItem("cda-map"); } catch (e2) {} location.reload(); return; }
   $("go").textContent = (EN ? "Browser too old (DecompressionStream missing)" : "Navigateur trop ancien (DecompressionStream manquant)"); return;
 }
+
+/* ---------- monde reconstructible (généré par refac/transform.js) ----------
+   Tout ce qui dépend de la carte est construit par les fonctions __wN, à leur place au démarrage, puis rejoué dans
+   le même ordre par __wRebuild() quand chargerCarte() change de tuile. Les objets ajoutés à la scène pendant ces
+   constructions sont notés pour être retirés et libérés au changement suivant. */
+let PDK, IHP, GF, LNAME, MAP_KEY, IS_RACER, OY, MAP_SL, MAP_TITLE, MAP_AUTHOR, G5, W, HH, AR, AR_ON, layerNames, N, X0, X1, Y0g, Y1g, Z0, Z1, LAY, layVis, dmgVal, dead, laySolid, NC, CA, C0x, C0y, C1x, C1y, CT, SG, CG, stamp, st, hits, floorCv, floorTex, outMat, isMetal, CH, ncx, ncy, chunkOf, layCol, chunks, meshByChunk, isGlass, instMesh, instJ, SOLO_AR, dffs, marks, logic, SITES, SPAWN, PINS, SPAWN_CTF, SPAWN_ALT, DOMS, FORTS, FORT_H, FORT_T, FORT_ZONES, fortGroup, siteLabels, siteGroup, ctfGroup, CTF3D, domGroup, DOM3D, SOLID_N, SOLID_W, SHAFTS, BASE_TRACK, TRACK, ARCHES, trackSeed, shaftGroup, raceGroup, ARCH3D, startLabel, NRG, DECAPS, PADS, padGroup, PAD3D, WSPOTS, wpSeed, LOGIC_C, AR_ORIG, shieldGroup, arCur, anchors, anchGrid, anchMarks, dum;
+const __WF = [], __WOBJ = []; let __WTRACK = null;
+{ const add0 = THREE.Scene.prototype.add; THREE.Scene.prototype.add = function (...o) { if (__WTRACK) __WTRACK.push(...o); return add0.apply(this, o); }; }
+function __wrun(f) { if (!__WF.includes(f)) __WF.push(f); const p = __WTRACK; __WTRACK = __WOBJ; try { f(); } finally { __WTRACK = p; } }
+function __wDispose(o) {
+  o.traverse && o.traverse(c => {
+    if (c.geometry) c.geometry.dispose();
+    const ms = Array.isArray(c.material) ? c.material : c.material ? [c.material] : [];
+    ms.forEach(m => { for (const k in m) if (m[k] && m[k].isTexture) m[k].dispose(); m.dispose(); });
+    if (c.isInstancedMesh) c.dispose();
+  });
+}
+function __wRebuild() {
+  for (const o of __WOBJ.splice(0)) { if (o.parent) o.parent.remove(o); __wDispose(o); }
+  for (const f of __WF.slice()) __wrun(f);
+}
+
 const VZ = 2.0;                 // exagération verticale
 const R = 0.09, H = 0.48, EYE = 0.42, STEP = 0.46;
 const WALK = 2.4, RUN = 5.5, GRAV = 11, JUMP = 3.4, THRUST = 19, FLY = 7;
@@ -2053,31 +2095,57 @@ const GROUPS = [
 ];
 /* autres procédés : les couches occupent les étages du jeu (li1, met1..met4), seuls les noms affichés changent.
    IHP SG13G2 : Metal1..Metal5 sur li1, met1..met4.  GF180MCU : pas de li1 ; Metal1..Metal4 sur met1..met4, contacts sur licon + mcon. */
-const PDK = M.pdk === "ihp" || M.pdk === "gf180" ? M.pdk : "sky130";
-const IHP = PDK === "ihp", GF = PDK === "gf180";
-const LNAME = IHP ? { licon: "Cont", li1: "Metal1", mcon: "Via1", met1: "Metal2", via: "Via2", met2: "Metal3", via2: "Via3", met3: "Metal4", via3: "Via4", met4: "Metal5", diff: "Activ", poly: "GatPoly", nwell: "NWell" }
+function __w1() {
+PDK = M.pdk === "ihp" || M.pdk === "gf180" ? M.pdk : "sky130";
+IHP = PDK === "ihp";
+GF = PDK === "gf180";
+LNAME = IHP ? { licon: "Cont", li1: "Metal1", mcon: "Via1", met1: "Metal2", via: "Via2", met2: "Metal3", via2: "Via3", met3: "Metal4", via3: "Via4", met4: "Metal5", diff: "Activ", poly: "GatPoly", nwell: "NWell" }
   : GF ? { licon: "Contact", li1: "—", mcon: "Contact", met1: "Metal1", via: "Via1", met2: "Metal2", via2: "Via2", met3: "Metal3", via3: "Via3", met4: "Metal4", diff: "COMP", poly: "Poly2", nwell: "Nwell" } : {};
+}
+__wrun(__w1);
 const lname = n => LNAME[n] || n;
+function __w2() {
 { const G = IHP ? { li1: "Metal1 + contacts", met1: "Metal2", met2: "Metal3", met3: "Metal4", met4: "Metal5 (alim)", poly: "GatPoly (grilles)" }
     : GF ? { li1: "Contacts", met1: "Metal1", met2: "Metal2", met3: "Metal3", met4: "Metal4 (alim)", poly: "Poly2 (grilles)" } : {};
-  GROUPS.forEach(g => { if (G[g.id]) g.name = G[g.id]; }); }
+  GROUPS.forEach(g => { g.name0 = g.name0 || g.name; g.name = G[g.id] || g.name0; }); }
+}
+__wrun(__w2);
 const grpVis = {}; GROUPS.forEach(g => grpVis[g.id] = true);
 
 // La logique de LEDs Racer occupe la tuile de y = 58 à 222 µm : les 55 premiers microns (remplissage seul)
 // sont coupés pour une carte plus resserrée. Les coordonnées affichées restent celles de la vraie puce.
-const MAP_KEY = MAPSEL, IS_RACER = MAP_KEY === "a580", OY = IS_RACER ? 55 : 0;
-const MAP_SL = M.cda.slice || [0, 0, 1, 1], MAP_TITLE = M.cda.title + (MAP_SL[2] * MAP_SL[3] > 1 ? ` · ${EN ? "tile" : "tuile"} ${MAP_SL[1] * MAP_SL[2] + MAP_SL[0] + 1}/${MAP_SL[2] * MAP_SL[3]}` : ""), MAP_AUTHOR = M.cda.author;
+function __w3() {
+MAP_KEY = MAPSEL;
+IS_RACER = MAP_KEY === "a580";
+OY = IS_RACER ? 55 : 0;
+MAP_SL = M.cda.slice || [0, 0, 1, 1];
+MAP_TITLE = M.cda.title + (MAP_SL[2] * MAP_SL[3] > 1 ? ` · ${EN ? "tile" : "tuile"} ${MAP_SL[1] * MAP_SL[2] + MAP_SL[0] + 1}/${MAP_SL[2] * MAP_SL[3]}` : "");
+MAP_AUTHOR = M.cda.author;
+}
+__wrun(__w3);
 const mapOk = k => !!(window.CDA_INDEX && (window.CDA_INDEX.maps[k === "racer" ? "a580" : k] || (/^[a-z0-9]+\/a\d+$/.test(k) && window.CDA_INDEX.ext === "bin")));
 const mapTitle = (k, t) => { if (t) return t; k = k === "racer" || !k ? "a580" : k; const I = window.CDA_INDEX, p = I && I.byKey && I.byKey[k]; return p ? p.t + (p.k.length > 1 ? " · " + (p.k.indexOf(k) + 1) + "/" + p.k.length : "") : "LEDs Racer"; };
 const PILLAR_THIN = { licon: 0.18, mcon: 0.18, via: 0.2, via2: 0.21, via3: 0.23 };
-const G5 = M.grid, W = M.w, HH = M.h - OY;
-let AR = { x0: 0, y0: 0, x1: W, y1: HH }, AR_ON = false;   // microscope : fenêtre jouable (voir plus loin)
+function __w4() {
+G5 = M.grid;
+W = M.w;
+HH = M.h - OY;
+AR = { x0: 0, y0: 0, x1: W, y1: HH };
+AR_ON = false;
+}
+__wrun(__w4);   // microscope : fenêtre jouable (voir plus loin)
 const inAR = (x, gy, m) => !AR_ON || (x >= AR.x0 + m && x <= AR.x1 - m && gy >= AR.y0 + m && gy <= AR.y1 - m);
-const layerNames = M.layers.map(l => l.name);
-let N = 0;
+function __w5() {
+layerNames = M.layers.map(l => l.name);
+N = 0;
 M.layers.forEach(l => { const a = new Uint32Array(buf, l.offset, l.count * 4); for (let i = 0; i < l.count; i++) if (a[i * 4 + 3] * G5 > OY + 0.01) N++; });
-const X0 = new Float32Array(N), X1 = new Float32Array(N), Y0g = new Float32Array(N), Y1g = new Float32Array(N);
-const Z0 = new Float32Array(N), Z1 = new Float32Array(N), LAY = new Uint8Array(N);
+X0 = new Float32Array(N);
+X1 = new Float32Array(N);
+Y0g = new Float32Array(N);
+Y1g = new Float32Array(N);
+Z0 = new Float32Array(N);
+Z1 = new Float32Array(N);
+LAY = new Uint8Array(N);
 {
   let k = 0;
   M.layers.forEach((l, li) => {
@@ -2093,21 +2161,34 @@ const Z0 = new Float32Array(N), Z1 = new Float32Array(N), LAY = new Uint8Array(N
     }
   });
 }
-const layVis = new Uint8Array(layerNames.length).fill(1);
+layVis = new Uint8Array(layerNames.length).fill(1);
+}
+__wrun(__w5);
 let xrayOn = false;   // vision rayon X : contacts et vias invisibles et traversables
 let climbNoGlass = false;   // pendant la montée d'une échelle, les vias ne gênent jamais
 // dégâts : 0 = intact, 1 = détruit (le rectangle disparaît et ne bloque plus rien)
-const dmgVal = new Float32Array(N), dead = new Uint8Array(N);
-const laySolid = new Uint8Array(layerNames.length);
+function __w6() {
+dmgVal = new Float32Array(N);
+dead = new Uint8Array(N);
+laySolid = new Uint8Array(layerNames.length);
 layerNames.forEach((n, i) => laySolid[i] = LAYERS[n].solid ? 1 : 0);
+}
+__wrun(__w6);
 function syncLayVis() { layerNames.forEach((n, i) => layVis[i] = grpVis[LAYERS[n].grp] ? 1 : 0); }
 
 /* cellules standard */
-const NC = M.cells.count, CA = new Uint32Array(buf, M.cells.offset, NC * 5);
-const C0x = new Float32Array(NC), C0y = new Float32Array(NC), C1x = new Float32Array(NC), C1y = new Float32Array(NC), CT = new Uint16Array(NC);
+function __w7() {
+NC = M.cells.count;
+CA = new Uint32Array(buf, M.cells.offset, NC * 5);
+C0x = new Float32Array(NC);
+C0y = new Float32Array(NC);
+C1x = new Float32Array(NC);
+C1y = new Float32Array(NC);
+CT = new Uint16Array(NC);
 for (let i = 0; i < NC; i++) { C0x[i] = CA[i*5]*G5; C0y[i] = CA[i*5+1]*G5 - OY; C1x[i] = CA[i*5+2]*G5; C1y[i] = CA[i*5+3]*G5 - OY; CT[i] = CA[i*5+4]; }
-// cellules sous la coupe : hors jeu (boîte vide, ne compte pas)
 for (let i = 0; i < NC; i++) if (C1y[i] <= 0) { C0x[i] = C1x[i] = C0y[i] = C1y[i] = -100; }
+}
+__wrun(__w7);
 const short = n => n.replace(/^sky130_(fd|ef)_sc_hd__|^sg13g2_|^gf180mcu_fd_sc_mcu[79]t5v0__/, "");
 const isDff = t => /^(dfxtp|dfrtp|dfstp|dfbbp|edfxtp|sdf|dfrbp|dffq|dffrnq|dffsnq|dffrsnq|dffn)/.test(short(M.types[t]));
 const isFiller = t => /^(decap|fill|tapvpwrvgnd|endcap)/.test(short(M.types[t]));
@@ -2126,11 +2207,14 @@ function buildGrid(n, gs, x0, y0, x1, y1, filter) {
   for (let i = 0; i < n; i++) if (!filter || filter(i)) span(i, c => idx[fill[c]++] = i);
   return { gs, gw, gh, start: cnt, idx };
 }
-const SG = buildGrid(N, 0.5, X0, Y0g, X1, Y1g, i => laySolid[LAY[i]]);
-const CG = buildGrid(NC, 2, C0x, C0y, C1x, C1y, null);
-
-const stamp = new Uint32Array(N); let st = 1;
-const hits = [];
+function __w8() {
+SG = buildGrid(N, 0.5, X0, Y0g, X1, Y1g, i => laySolid[LAY[i]]);
+CG = buildGrid(NC, 2, C0x, C0y, C1x, C1y, null);
+stamp = new Uint32Array(N);
+st = 1;
+hits = [];
+}
+__wrun(__w8);
 function collide(px, py, pz) {
   hits.length = 0; st++;
   const gy = -pz, g = SG;
@@ -2170,8 +2254,10 @@ camera.rotation.order = "YXZ";
 const sun = new THREE.DirectionalLight("#ffffff", 0.75); sun.position.set(0.4, 1, 0.25); scene.add(sun);
 const lamp = new THREE.PointLight("#ffe6c0", 0.7, 5, 1.5); scene.add(lamp);
 
-let floorCv = null, floorTex = null, outMat = null;
-/* sol : substrat avec la grille des rangées de cellules (2,72 µm) */
+function __w9() {
+floorCv = null;
+floorTex = null;
+outMat = null;
 {
   const c = document.createElement("canvas"); c.width = c.height = 256;
   const g = c.getContext("2d");
@@ -2186,13 +2272,19 @@ let floorCv = null, floorTex = null, outMat = null;
   const out = new THREE.Mesh(new THREE.PlaneGeometry(W + 400, HH + 400), new THREE.MeshBasicMaterial({ color: "#07090c" })); outMat = out.material;
   out.rotation.x = -Math.PI / 2; out.position.set(W / 2, -0.03, -HH / 2); scene.add(out);
 }
+}
+__wrun(__w9);
 
 const boxGeo = new THREE.BoxGeometry(1, 1, 1);
 const mat = new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0.15 });
 // uPower : 0 = repos, 0..1 = alerte (lueur jaune), >1 = sous tension (arcs bleus)
 const powerU = { uPower: { value: 0 }, uTime: { value: 0 }, uSoft: { value: 0 } };
 const METAL = new Set(["mcon", "met1", "via", "met2", "via2", "met3", "via3", "met4"]);
-const isMetal = new Uint8Array(layerNames.length); layerNames.forEach((n, i) => isMetal[i] = METAL.has(n) ? 1 : 0);
+function __w10() {
+isMetal = new Uint8Array(layerNames.length);
+layerNames.forEach((n, i) => isMetal[i] = METAL.has(n) ? 1 : 0);
+}
+__wrun(__w10);
 mat.onBeforeCompile = sh => {
   sh.uniforms.uPower = powerU.uPower; sh.uniforms.uTime = powerU.uTime; sh.uniforms.uSoft = powerU.uSoft;
   sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vLoc; varying vec3 vScl; attribute float aMetal; varying float vMetal; attribute float aDmg; varying float vDmg;")
@@ -2239,28 +2331,45 @@ mat.onBeforeCompile = sh => {
       }`);
 };
 
-const CH = 16, ncx = Math.ceil(W / CH), ncy = Math.ceil(HH / CH);
-const chunkOf = new Uint16Array(N);
+function __w11() {
+CH = 16;
+ncx = Math.ceil(W / CH);
+ncy = Math.ceil(HH / CH);
+chunkOf = new Uint16Array(N);
 for (let i = 0; i < N; i++) {
   const cx = Math.min(ncx - 1, Math.floor((X0[i] + X1[i]) / 2 / CH)), cy = Math.min(ncy - 1, Math.floor((Y0g[i] + Y1g[i]) / 2 / CH));
   chunkOf[i] = cy * ncx + cx;
 }
-const layCol = layerNames.map(n => new THREE.Color(LAYERS[n].col));
+layCol = layerNames.map(n => new THREE.Color(LAYERS[n].col));
+}
+__wrun(__w11);
 const PALETTES = {
   tech: { nwell: "#1c3a2a", diff: "#2e7d4a", tap: "#237f77", poly: "#d0453d", licon: "#a49fb6", li1: "#8b62c8", mcon: "#bbb5cc", met1: "#3a74d0", via: "#c7cfdc", met2: "#c9529f", via2: "#d9d3e6", met3: "#2fb3c6", via3: "#e6dcc8", met4: "#d99a32" },
   dark: { nwell: "#17301f", diff: "#2f8a52", tap: "#24857c", poly: "#e0574b", licon: "#a7b2c6", li1: "#9a72dc", mcon: "#b6c0d2", met1: "#4687ea", via: "#c4cede", met2: "#d65fb0", via2: "#e4dcf0", met3: "#35c3d4", via3: "#efe4cc", met4: "#eaa83c" },
   soft: { nwell: "#cdeedd", diff: "#8fe0ab", tap: "#7fd9cf", poly: "#ff8f87", licon: "#c4b9f0", li1: "#b59cff", mcon: "#d6cdf5", met1: "#76a9ff", via: "#dbe4f7", met2: "#ff9fd6", via2: "#fff0fa", met3: "#6fe3ea", via3: "#fff6e0", met4: "#ffcf6b" },
 };
 const hemi = new THREE.HemisphereLight("#b8c8e8", "#3a2e22", 0.85); scene.add(hemi);
-let chunks = [], meshByChunk = [];
+function __w12() {
+chunks = [];
+meshByChunk = [];
+}
+__wrun(__w12);
 // les piliers (contacts et vias) : fins tubes métalliques, comme l'ossature d'un bâtiment en construction
 const GLASS = new Set(["licon", "mcon", "via", "via2", "via3"]);
-const isGlass = new Uint8Array(layerNames.length); layerNames.forEach((n, i) => isGlass[i] = GLASS.has(n) ? 1 : 0);
+function __w13() {
+isGlass = new Uint8Array(layerNames.length);
+layerNames.forEach((n, i) => isGlass[i] = GLASS.has(n) ? 1 : 0);
+}
+__wrun(__w13);
 const glassMat = new THREE.MeshStandardMaterial({ roughness: 0.32, metalness: 0.55, transparent: true, opacity: 1 });
 glassMat.onBeforeCompile = sh => { mat.onBeforeCompile(sh); sh.fragmentShader = "#define PILLAR\n" + sh.fragmentShader; };
 glassMat.customProgramCacheKey = () => "pillar";
 const tubeGeo = new THREE.CylinderGeometry(0.5, 0.5, 1, 12, 1);
-const instMesh = new Int32Array(N).fill(-1), instJ = new Uint32Array(N);
+function __w14() {
+instMesh = new Int32Array(N).fill(-1);
+instJ = new Uint32Array(N);
+}
+__wrun(__w14);
 function writeBoxMatrix(i, A, o) {
   if (dead[i]) { A[o] = A[o + 5] = A[o + 10] = 0; return; }
   A[o] = X1[i] - X0[i]; A[o + 5] = Z1[i] - Z0[i]; A[o + 10] = Y1g[i] - Y0g[i];
@@ -2335,8 +2444,9 @@ function applyStyle(name) {
   if (outMat) outMat.color.set(soft ? "#a9c9f2" : "#07090c");
   document.body.classList.toggle("soft", soft);
 }
+function __w15() {
 applyStyle(UI.OPTS.style || "dark");
-let SOLO_AR = null;
+SOLO_AR = null;
 if (N > 900000) {   // même calcul que arenaFor() plus bas, centré sur la logique
   let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna|endcap)/.test(t)) continue; sx += C0x[i] + C1x[i]; sy += C0y[i] + C1y[i]; n += 2; }
   const cx = n ? sx / n : W / 2, cy = n ? sy / n - OY : HH / 2, A = 900000 / N * W * HH;
@@ -2344,7 +2454,10 @@ if (N > 900000) {   // même calcul que arenaFor() plus bas, centré sur la logi
   const x0 = Math.max(0, Math.min(W - w, cx - w / 2)), y0 = Math.max(0, Math.min(HH - h, cy - h / 2)), r1 = v => Math.round(v * 10) / 10;
   SOLO_AR = [r1(x0), r1(y0), r1(x0 + w), r1(y0 + h)]; AR = { x0: SOLO_AR[0], y0: SOLO_AR[1], x1: SOLO_AR[2], y1: SOLO_AR[3] }; AR_ON = true;
 }
-syncLayVis(); buildMeshes();
+syncLayVis();
+buildMeshes();
+}
+__wrun(__w15);
 
 /* étiquettes des broches */
 function textSprite(txt, color) {
@@ -2355,16 +2468,21 @@ function textSprite(txt, color) {
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthWrite: false }));
   s.scale.set(w / 60 * 0.9, 0.9, 1); return s;
 }
+function __w16() {
 M.labels.forEach(l => { if (l.layer !== 71) return; const s = textSprite(l.text, "#e2a83a"); s.position.set(l.x, 4.866 * VZ + 1.2, -(l.y - OY)); scene.add(s); });
-
-/* marqueurs des bascules */
-const dffs = []; for (let i = 0; i < NC; i++) if (isDff(CT[i])) dffs.push(i);
+dffs = [];
+for (let i = 0; i < NC; i++) if (isDff(CT[i])) dffs.push(i);
+}
+__wrun(__w16);
 const visited = new Set();
 try { JSON.parse(localStorage.getItem("ledsracer-dff") || "[]").forEach(i => visited.add(i)); } catch (e) {}
 const markGeo = new THREE.OctahedronGeometry(0.16);
 const markMat = new THREE.MeshStandardMaterial({ emissive: new THREE.Color("#ffb52e"), emissiveIntensity: 1, roughness: 0.4 });
-const marks = new THREE.InstancedMesh(markGeo, markMat, dffs.length);
+function __w17() {
+marks = new THREE.InstancedMesh(markGeo, markMat, dffs.length);
 marks.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(dffs.length * 3), 3);
+}
+__wrun(__w17);
 const tmpM = new THREE.Matrix4(), cGold = new THREE.Color("#ffcf5a"), cDone = new THREE.Color("#3b4a5c");
 function paintMark(k) {
   const i = dffs[k], done = visited.has(i);
@@ -2372,22 +2490,33 @@ function paintMark(k) {
   marks.setMatrixAt(k, tmpM); marks.setColorAt(k, done ? cDone : cGold);
   marks.instanceMatrix.needsUpdate = true; marks.instanceColor.needsUpdate = true;
 }
+function __w18() {
 dffs.forEach((_, k) => paintMark(k));
 scene.add(marks);
+}
+__wrun(__w18);
 markMat.onBeforeCompile = sh => { sh.fragmentShader = sh.fragmentShader.replace("#include <emissivemap_fragment>", "#include <emissivemap_fragment>\ntotalEmissiveRadiance *= vColor.r > 0.5 ? 1.0 : 0.0;"); };
-$("qt").textContent = dffs.length; $("sDff").textContent = dffs.length;
-let logic = 0; for (let i = 0; i < NC; i++) if (!isFiller(CT[i])) logic++;
+function __w19() {
+$("qt").textContent = dffs.length;
+$("sDff").textContent = dffs.length;
+logic = 0;
+for (let i = 0; i < NC; i++) if (!isFiller(CT[i])) logic++;
 $("sCells").textContent = logic.toLocaleString((EN ? "en-US" : "fr-FR"));
 document.querySelectorAll("[data-chipname]").forEach(e => e.textContent = MAP_TITLE);
-window.cdaEdition && window.cdaEdition(MAP_TITLE); try { localStorage.setItem("cda-map-title", MAP_TITLE); } catch (e) {}
+window.cdaEdition && window.cdaEdition(MAP_TITLE);
+try { localStorage.setItem("cda-map-title", MAP_TITLE); } catch (e) {}
 document.querySelectorAll(".lp-edition").forEach(e => e.textContent = EN ? MAP_TITLE + " Edition" : "Édition " + MAP_TITLE);
 document.querySelectorAll("[data-chipauthor]").forEach(e => e.textContent = MAP_AUTHOR);
 { let sh = null; try { sh = MAP_KEY.includes("/") ? localStorage.getItem("cda-map-sh") : null; } catch (e) {} if (sh) document.querySelectorAll("[data-chipsh]").forEach(e => e.textContent = sh); }
 document.querySelectorAll("[data-chipdim]").forEach(e => e.textContent = `${Math.round(W)} × ${Math.round(HH)}`);
+}
+__wrun(__w19);
 
 /* ---------- carte ---------- */
 const MS = 3; // px par µm
-const mapBase = document.createElement("canvas"); mapBase.width = Math.ceil(W * MS); mapBase.height = Math.ceil(HH * MS);
+const mapBase = document.createElement("canvas"); function __w20() {
+mapBase.width = Math.ceil(W * MS);
+mapBase.height = Math.ceil(HH * MS);
 {
   const g = mapBase.getContext("2d");
   g.fillStyle = "#0d1117"; g.fillRect(0, 0, mapBase.width, mapBase.height);
@@ -2404,6 +2533,8 @@ const mapBase = document.createElement("canvas"); mapBase.width = Math.ceil(W * 
   };
   drawL("met2", "#c9529f", 0.35); drawL("met3", "#2fb3c6", 0.45); drawL("met4", "#d99a32", 0.55);
 }
+}
+__wrun(__w20);
 function drawMap(ctx, scale, showAll) {
   const cw = ctx.canvas.width, chh = ctx.canvas.height;
   ctx.drawImage(mapBase, 0, 0, cw, chh);
@@ -2451,6 +2582,7 @@ function clearRun(x, gy, a) {
   while (d < 8 && !collide(x + dx * (d + 0.1), 0, -(gy + dy * (d + 0.1))).length) d += 0.1;
   return d;
 }
+function __w21() {
 {
   // départ : un endroit dégagé à côté d'une bascule, près du centre, regard dans l'allée la plus longue
   const cand = dffs.slice().sort((a, b) => Math.hypot((C0x[a] + C1x[a]) / 2 - W / 2, (C0y[a] + C1y[a]) / 2 - HH / 2) - Math.hypot((C0x[b] + C1x[b]) / 2 - W / 2, (C0y[b] + C1y[b]) / 2 - HH / 2)).slice(0, 25);
@@ -2469,6 +2601,8 @@ function clearRun(x, gy, a) {
   P.x = best.x; P.z = -best.y; P.y = 0; camY = EYE;
   yaw = Math.atan2(-Math.cos(best.a), Math.sin(best.a));
 }
+}
+__wrun(__w21);
 
 /* ---------- entrées ---------- */
 const keys = {};
@@ -2734,9 +2868,15 @@ mapC.addEventListener("pointerdown", e => {
   });
 }
 if (isTouch) { $("keysDesk").hidden = true; $("keysTouch").hidden = false; }
-$("go").disabled = false; $("goSub").textContent = (EN ? `Explore the chip, find the ${dffs.length} flip-flops` : `Explorer la puce, trouver les ${dffs.length} bascules`); UI.ready = true;
+$("go").disabled = false; function __w22() {
+$("goSub").textContent = (EN ? `Explore the chip, find the ${dffs.length} flip-flops` : `Explorer la puce, trouver les ${dffs.length} bascules`);
+}
+__wrun(__w22); UI.ready = true;
 UI.isMP = () => MP.on;
+function __w23() {
 $("credWorld").textContent = (EN ? `The real chip layout: ${N.toLocaleString((EN ? "en-US" : "fr-FR"))} rectangles on ${IHP ? "13 layers, from silicon to Metal5 (IHP SG13G2 process)" : GF ? "11 layers, from silicon to Metal4 (GF180MCU process)" : "14 layers, from silicon to met4"}, over the ${Math.round(M.w)} × ${Math.round(HH)} µm area where the logic lives` : `Le layout réel de la puce : ${N.toLocaleString((EN ? "en-US" : "fr-FR"))} rectangles sur ${IHP ? "13 couches, du silicium au Metal5 (procédé IHP SG13G2)" : GF ? "11 couches, du silicium au Metal4 (procédé GF180MCU)" : "14 couches, du silicium au met4"}, sur la zone de ${Math.round(M.w)} × ${Math.round(HH)} µm où vit la logique`);
+}
+__wrun(__w23);
 UI.onResume = () => { goFullscreen(); UI.closeMenu(); if (isTouch) $("touch").hidden = false; else canvas.requestPointerLock?.()?.catch?.(() => {}); canvas.focus(); };
 function applyQuality() {
   const q = UI.OPTS.q;
@@ -2754,7 +2894,8 @@ function goFullscreen() {
   try { const pr = rq.call(el, { navigationUI: "hide" }); if (pr && pr.catch) pr.catch(() => {}); } catch (e) {}
 }
 UI.onStyle = () => { applyStyle(UI.OPTS.style); buildMeshes(); };
-$("go").onclick = () => {
+$("go").onclick = async () => {
+  if (!MP.gid && !MP.on && mapPref() !== MAPSEL) { UI.click && UI.click(); if (!(await ensureMap(mapPref()))) return; }
   goFullscreen();
   audio(); UI.click();
   if (!UI.inGame) xrayCycle();
@@ -2816,10 +2957,13 @@ function describe(name) {
    pair parmi les joueurs) publie en plus l'état de la manche. Chaque page en
    déduit le même jeu. Ainsi tout invité peut jouer, même en simple lecture. */
 const SITE_NM = { "Racine d'horloge": () => (EN ? "Clock root" : "Racine d'horloge"), "Pilote de puissance": () => (EN ? "Power driver" : "Pilote de puissance"), "Tampon d'horloge": () => (EN ? "Clock buffer" : "Tampon d'horloge"), "Inverseur de puissance": () => (EN ? "Power inverter" : "Inverseur de puissance"), "Cellule de puissance": () => (EN ? "Power cell" : "Cellule de puissance"), "Porte logique": () => (EN ? "Logic gate" : "Porte logique"), "Zone A": () => (EN ? "Zone A" : "Zone A"), "Zone B": () => (EN ? "Zone B" : "Zone B") };
-const SITES = !IS_RACER ? M.cda.sites.map(c => { const [x, y] = freeSpotNear(c.x, c.y - OY); return { id: c.id, name: (SITE_NM[c.name] || (() => c.name))(), sub: c.sub, x, y }; }) : [
+function __w24() {
+SITES = !IS_RACER ? M.cda.sites.map(c => { const [x, y] = freeSpotNear(c.x, c.y - OY); return { id: c.id, name: (SITE_NM[c.name] || (() => c.name))(), sub: c.sub, x, y }; }) : [
   { id: "A", name: (EN ? "Clock root" : "Racine d'horloge"), sub: "clkbuf_16", x: 84.6, y: 118.3 - OY },
   { id: "B", name: (EN ? "Power driver" : "Pilote de puissance"), sub: "bufinv_16", x: 33.6, y: 96.6 - OY },
 ];
+}
+__wrun(__w24);
 const SITE_R = 3.2, PLANT_T = 6, DEFUSE_T = 5, FREEZE = 6, LIVE = 105, FUSE = 40, ENDT = 7, RACE_END = 16, RACE_GRACE = 40;
 const endDur = () => MP.G && MP.G.mode === "race" ? RACE_END : ENDT;   // en course : le temps du podium
 const DMG = 34, FIRE_CD = 0.28, RANGE = 18, PLANT_MAXY = 2.5;
@@ -2829,14 +2973,18 @@ const RANGE_T = { M: 2.5, D: 18 }, WALL_MULT = { M: 0.6, D: 1 };
 const LOSE_OPTS = [0.01, 0.02, 0.05, 0.1, 0.2], LOSE_DEF = 0.02;
 // mise sous tension : toutes les 5 à 10 min, 15 s d'alerte puis 20 s de courant dans tout le métal
 const PW_MIN = 300, PW_MAX = 600, PW_WARN = 15, PW_ON = 20, PW_DPS = 30;
-const SPAWN = IS_RACER ? { M: [80, 62 - OY], D: [72, 150 - OY] } : { M: freeSpotNear(W * 0.5, HH * 0.05), D: freeSpotNear(W * 0.45, HH * 0.86) };
+function __w25() {
+SPAWN = IS_RACER ? { M: [80, 62 - OY], D: [72, 150 - OY] } : { M: freeSpotNear(W * 0.5, HH * 0.05), D: freeSpotNear(W * 0.45, HH * 0.86) };
+}
+__wrun(__w25);
 const TEAMHEX = { M: "#8fdc3a", D: "#38c6f0" };
 const TEAMN = { get M() { return (EN ? "Microbes" : "Microbes"); }, get D() { return (EN ? "Defenders" : "Défenseurs"); } };
 const RUST = "#e0662b";
 /* ---- mode Capture de broche : chaque équipe garde une vraie broche d'E/S de la puce (info.yaml de LEDs Racer) ---- */
 const CTF_CAPS = 3, CTF_LIVE = 480, CTF_RESPAWN = 5, CTF_RET = 20, FLAG_R = 0.9, CAP_R = 1.6;
 const pinLab = t => M.labels.find(l => l.text === t);
-const PINS = IS_RACER ? {
+function __w26() {
+PINS = IS_RACER ? {
   M: { pin: "VPWR", kind: (EN ? "Input" : "Entrée"), sub: (EN ? "chip power supply" : "alimentation de la puce"), x: 19.08, y: 112.88 - OY },
   D: { pin: "uo_out[0]", kind: (EN ? "Output" : "Sortie"), sub: (EN ? "LEDS_LINE · LED data" : "LEDS_LINE · données des LEDs"), x: 94.3, y: 225.26 - OY - 1.2 },
 } : {
@@ -2844,7 +2992,9 @@ const PINS = IS_RACER ? {
   D: pinLab("uo_out[0]") ? { pin: "uo_out[0]", kind: (EN ? "Output" : "Sortie"), sub: (EN ? "chip output 0" : "sortie 0 de la puce"), x: pinLab("uo_out[0]").x, y: Math.min(HH - 1.2, pinLab("uo_out[0]").y - 1.2) } : { pin: "uo_out[0]", kind: (EN ? "Output" : "Sortie"), sub: (EN ? "output bus" : "bus de sortie"), x: W * 0.586, y: HH - 1.2 },
 };
 for (const t in PINS) { const [x, y] = freeSpotNear(PINS[t].x, PINS[t].y); PINS[t].x = x; PINS[t].y = y; }
-const SPAWN_CTF = IS_RACER ? { M: [PINS.M.x + 6, PINS.M.y], D: [PINS.D.x, PINS.D.y - 6] } : { M: freeSpotNear(PINS.M.x + (PINS.M.x < W / 2 ? 6 : -6), PINS.M.y), D: freeSpotNear(PINS.D.x, PINS.D.y - 6) };
+SPAWN_CTF = IS_RACER ? { M: [PINS.M.x + 6, PINS.M.y], D: [PINS.D.x, PINS.D.y - 6] } : { M: freeSpotNear(PINS.M.x + (PINS.M.x < W / 2 ? 6 : -6), PINS.M.y), D: freeSpotNear(PINS.D.x, PINS.D.y - 6) };
+}
+__wrun(__w26);
 const ENEMY = { M: "D", D: "M" };
 const MODES = ["bomb", "ctf", "tdm", "dom", "inf", "race"];
 const vMode = m => MODES.includes(m) ? m : "bomb";
@@ -2858,19 +3008,28 @@ const TDM_GOAL = 16;
 const DOM_GOAL = 150, DOM_R = 2.2, DOM_EDGES = 3;
 // Contamination : un patient zéro, chaque défenseur éliminé devient microbe ; les microbes vont plus vite et encaissent mieux
 const INF_SPEED = 1.2, INF_ARMOR = 0.5;
-const SPAWN_ALT = IS_RACER ? { M: [80, 62 - OY], D: [94.3, 160] } : { M: SPAWN.M, D: freeSpotNear(W * 0.585, HH * 0.94) };
-const DOMS = (IS_RACER ? [["A", 38, 62], ["B", 80, 88], ["C", 122, 112]] : [["A", W * 0.236, HH * 0.363], ["B", W * 0.497, HH * 0.515], ["C", W * 0.758, HH * 0.656]]).map(([id, tx, ty]) => {
+function __w27() {
+SPAWN_ALT = IS_RACER ? { M: [80, 62 - OY], D: [94.3, 160] } : { M: SPAWN.M, D: freeSpotNear(W * 0.585, HH * 0.94) };
+DOMS = (IS_RACER ? [["A", 38, 62], ["B", 80, 88], ["C", 122, 112]] : [["A", W * 0.236, HH * 0.363], ["B", W * 0.497, HH * 0.515], ["C", W * 0.758, HH * 0.656]]).map(([id, tx, ty]) => {
   if (!dffs.length) { const [x, y] = freeSpotNear(tx, ty); return { id, x, y, cell: "zone " + id }; }   // puce analogique : pas de bascule, une zone à tenir
   let best = dffs[0], bd = 1e9;
   for (const i of dffs) { const d = Math.hypot((C0x[i] + C1x[i]) / 2 - tx, (C0y[i] + C1y[i]) / 2 - ty); if (d < bd) { bd = d; best = i; } }
   const [x, y] = freeSpotNear((C0x[best] + C1x[best]) / 2, (C0y[best] + C1y[best]) / 2);
   return { id, x, y, cell: short(M.types[CT[best]]) };
 });
+}
+__wrun(__w27);
 const freshPts = () => DOMS.map(() => ({ q: "", c: "", n: 0 }));
 /* ---- fortifications : des « anneaux de garde » (structure réelle des puces : un anneau de diffusion qui protège
    un bloc sensible) autour des zones disputées. Quatre murets de 0,62 µm, plus hauts qu'un joueur, avec des
    ouvertures aux coins : on s'y abrite, on les contourne, on les survole au jetpack. Actifs en ligne seulement. ---- */
-const FORTS = [], FORT_H = 0.62, FORT_T = 0.2, FORT_ZONES = [];
+function __w28() {
+FORTS = [];
+FORT_H = 0.62;
+FORT_T = 0.2;
+FORT_ZONES = [];
+}
+__wrun(__w28);
 function buildForts() {
   FORTS.length = 0; FORT_ZONES.length = 0;
   const ring = (cx, gy, r) => {
@@ -2887,13 +3046,21 @@ function buildForts() {
   for (const t of ["M", "D"]) ring(PINS[t].x, PINS[t].y, CAP_R + 1.1);
   for (const d of DOMS) ring(d.x, d.y, 2.6);
 }
+function __w29() {
 buildForts();
+}
+__wrun(__w29);
 var FORT_ON = false;   // var : lu par collide() avant cette ligne, pendant le chargement
 // hauteurs d'un obstacle renvoyé par collide() : rectangle de la puce, ou fortification (indice N + k)
 const zT = i => i < N ? Z1[i] : FORTS[i - N].z1, zB = i => i < N ? Z0[i] : FORTS[i - N].z0;
 const fortIn = (x, y, gy) => { for (let k = 0; k < FORTS.length; k++) { const f = FORTS[k]; if (x >= f.x0 && x <= f.x1 && gy >= f.y0 && gy <= f.y1 && y >= f.z0 && y <= f.z1) return k; } return -1; };
 const fortNear = (x, gy, m) => FORT_ZONES.some(z => x > z.x0 - m && x < z.x1 + m && gy > z.y0 - m && gy < z.y1 + m);
-const fortGroup = new THREE.Group(); fortGroup.visible = false; scene.add(fortGroup);
+function __w30() {
+fortGroup = new THREE.Group();
+fortGroup.visible = false;
+scene.add(fortGroup);
+}
+__wrun(__w30);
 function buildFortMeshes() {
   for (const c of fortGroup.children.slice()) { fortGroup.remove(c); c.geometry.dispose(); }
   const body = new THREE.MeshStandardMaterial({ color: "#3a3f55", roughness: 0.55, metalness: 0.25 }), edge = new THREE.MeshStandardMaterial({ color: "#ffd24a", emissive: "#e2a83a", emissiveIntensity: 0.9, roughness: 0.3 });
@@ -2903,7 +3070,10 @@ function buildFortMeshes() {
     const e = new THREE.Mesh(new THREE.BoxGeometry(w + 0.02, 0.035, d + 0.02), edge); e.position.set((f.x0 + f.x1) / 2, h + 0.017, -(f.y0 + f.y1) / 2); fortGroup.add(e);
   }
 }
+function __w31() {
 buildFortMeshes();
+}
+__wrun(__w31);
 
 const b4 = n => n >= 16 ? "1 0000" : n.toString(2).padStart(4, "0");
 const freshFlags = () => ({ M: { s: "home", by: "", x: 0, y: 0, z: 0, t: 0 }, D: { s: "home", by: "", x: 0, y: 0, z: 0, t: 0 } });
@@ -2988,7 +3158,10 @@ const distVol = (x, y, z, base) => base / (1 + Math.hypot(x - P.x, y - P.y, z - 
 /* ---- panneaux des sites : toujours visibles, à travers les piliers ----
    Taille réelle (1,3 µm de haut) : ils rapetissent avec la distance comme un vrai objet,
    avec un plancher pour rester lisibles de l'autre bout de la puce. */
-const siteLabels = [];
+function __w32() {
+siteLabels = [];
+}
+__wrun(__w32);
 function siteLabel(s) {
   const c = document.createElement("canvas"), g = c.getContext("2d");
   c.width = 512; c.height = 256;
@@ -3013,7 +3186,12 @@ function scaleSiteLabels() {
 }
 
 /* ---- décor des sites ---- */
-const siteGroup = new THREE.Group(); siteGroup.visible = false; scene.add(siteGroup);
+function __w33() {
+siteGroup = new THREE.Group();
+siteGroup.visible = false;
+scene.add(siteGroup);
+}
+__wrun(__w33);
 function buildSiteDecor() { if (typeof clearGroup === "function") clearGroup(siteGroup); SITES.forEach(s => {
   const ring = new THREE.Mesh(new THREE.RingGeometry(SITE_R - 0.18, SITE_R, 64), new THREE.MeshBasicMaterial({ color: RUST, transparent: true, opacity: 0.8, side: THREE.DoubleSide }));
   ring.rotation.x = -Math.PI / 2; ring.position.set(s.x, 0.04, -s.y); siteGroup.add(ring);
@@ -3023,7 +3201,10 @@ function buildSiteDecor() { if (typeof clearGroup === "function") clearGroup(sit
   beam.position.set(s.x, 7, -s.y); siteGroup.add(beam);
   siteGroup.add(siteLabel(s));
 }); }
+function __w34() {
 buildSiteDecor();
+}
+__wrun(__w34);
 
 /* ---- broches de la capture : plot doré, anneau d'équipe, signal lumineux et faisceau ---- */
 function pinLabel(t) {
@@ -3044,8 +3225,13 @@ function pinLabel(t) {
   sp.renderOrder = 20; sp.position.set(s.x, 2.6, -s.y);
   siteLabels.push(sp); return sp;
 }
-const ctfGroup = new THREE.Group(); ctfGroup.visible = false; scene.add(ctfGroup);
-const CTF3D = {};
+function __w35() {
+ctfGroup = new THREE.Group();
+ctfGroup.visible = false;
+scene.add(ctfGroup);
+CTF3D = {};
+}
+__wrun(__w35);
 function buildCtfDecor() { if (typeof clearGroup === "function") clearGroup(ctfGroup); for (const t of ["M", "D"]) {
   const s = PINS[t], col = new THREE.Color(TEAMHEX[t]);
   const pad = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.05, 1.5), new THREE.MeshStandardMaterial({ color: "#d9a640", metalness: 0.6, roughness: 0.35, emissive: "#3a2a08" }));
@@ -3062,9 +3248,14 @@ function buildCtfDecor() { if (typeof clearGroup === "function") clearGroup(ctfG
   sig.add(new THREE.PointLight(col, 1, 4, 1.5));
   CTF3D[t] = { sig, core, orb, beam, ring };
 } }
+function __w36() {
 buildCtfDecor();
-const domGroup = new THREE.Group(); domGroup.visible = false; scene.add(domGroup);
-let DOM3D = [];
+domGroup = new THREE.Group();
+domGroup.visible = false;
+scene.add(domGroup);
+DOM3D = [];
+}
+__wrun(__w36);
 function buildDomDecor() { if (typeof clearGroup === "function") clearGroup(domGroup); DOM3D = DOMS.map(d => {
   const c = document.createElement("canvas"), g = c.getContext("2d"); c.width = 512; c.height = 256;
   g.fillStyle = "rgba(10,13,18,.8)"; g.fillRect(0, 0, 512, 256); g.strokeStyle = "#c9d3e2"; g.lineWidth = 8; g.strokeRect(4, 4, 504, 248);
@@ -3083,7 +3274,10 @@ function buildDomDecor() { if (typeof clearGroup === "function") clearGroup(domG
   beam.position.set(d.x, 7, -d.y); domGroup.add(beam);
   return { ring, disc, beam };
 }); }
+function __w37() {
 buildDomDecor();
+}
+__wrun(__w37);
 function domTick() {
   const on = MP.on && gMode() === "dom"; domGroup.visible = on; if (!on) return;
   const tt = performance.now() / 1000;
@@ -3952,10 +4146,13 @@ function joinTeam(t) {
   if (MP.G.ph === "wait") toast((EN ? "Waiting for at least one player on each team" : "En attente d'au moins un joueur dans chaque équipe"));
 }
 function initLoseSelect() {
-  const sel = $("lose");
+  const sel = $("lose"), keep = sel.value;
+  sel.innerHTML = "";
   LOSE_OPTS.forEach(v => { const o = document.createElement("option"); o.value = v; const u = SOLID_W * v / 100; o.textContent = (EN ? `${fmtPct(v, 2)} of its strength (≈ ${Math.round(u / 4)} contacts or ${Math.max(1, Math.round(u / 42))} met4 straps)` : `${fmtPct(v, 2)} de sa solidité (≈ ${Math.round(u / 4)} contacts ou ${Math.max(1, Math.round(u / 42))} bandes met4)`); sel.appendChild(o); });
   sel.value = LOSE_DEF;
   try { const sv = localStorage.getItem("cda-lose"); if (sv && LOSE_OPTS.includes(+sv)) sel.value = sv; } catch (e) {}
+  if (keep) sel.value = keep;
+  if (sel.dataset.init) return; sel.dataset.init = "1";
   sel.addEventListener("change", () => {
     MP.cfg = curCfg(Date.now());
     try { localStorage.setItem("cda-lose", sel.value); } catch (e) {}
@@ -4705,7 +4902,11 @@ function mpDrawMap(ctx, k) {
    Les Défenseurs réparent au clic droit, à courte portée. */
 const REP_RANGE = 4, REP_TICK = 0.25, DMG_CAP = 450;
 // toutes les parois du jeu : chaque rectangle solide de la puce compte pour une part égale
-let SOLID_N = 0; for (let i = 0; i < N; i++) if (laySolid[LAY[i]]) SOLID_N++;
+function __w38() {
+SOLID_N = 0;
+for (let i = 0; i < N; i++) if (laySolid[LAY[i]]) SOLID_N++;
+}
+__wrun(__w38);
 // encodage compact pour tenir dans l'état partagé : 4 car. d'indice + 2 car. de dégâts (base 36)
 const encD = map => { let t = ""; for (const [k, x] of map) t += k.toString(36).padStart(4, "0") + Math.round(x * 1295).toString(36).padStart(2, "0"); return t; };
 function decD(t) { const m = new Map(); for (let j = 0; j + 6 <= t.length; j += 6) { const i = parseInt(t.slice(j, j + 4), 36), v = parseInt(t.slice(j + 4, j + 6), 36) / 1295; if (i >= 0 && i < N && v > 0) m.set(i, Math.min(1, v)); } return m; }
@@ -4714,7 +4915,11 @@ function decD(t) { const m = new Map(); for (let j = 0; j + 6 <= t.length; j += 
 function hitsOf(i) { const area = (X1[i] - X0[i]) * (Y1g[i] - Y0g[i]); return Math.max(4, Math.min(45, Math.round(4 * Math.pow(area / 0.03, 0.25)))); }
 function shotDmg(i) { return 1 / hitsOf(i); }
 // la solidité totale de la puce : chaque élément pèse autant de « tirs » qu'il en faut pour le casser
-let SOLID_W = 0; for (let i = 0; i < N; i++) if (laySolid[LAY[i]]) SOLID_W += hitsOf(i);
+function __w39() {
+SOLID_W = 0;
+for (let i = 0; i < N; i++) if (laySolid[LAY[i]]) SOLID_W += hitsOf(i);
+}
+__wrun(__w39);
 const hostDmg = new Map();
 const hostRepairs = new Map();   // pair -> éléments reconstitués cette manche
 function hostDamage(i, amount, byPeer) {
@@ -4834,8 +5039,13 @@ const repAmount = i => shotDmg(i) * 1.5;
 let aimT = 0, aimMsgT = 0;
 function aimMsg(t) { $("aim").textContent = t; $("aim").hidden = false; aimMsgT = 1.2; }
 const LAYFR = { poly: (EN ? "poly gate" : "grille poly"), licon: (EN ? "licon contact" : "contact licon"), li1: "li1", mcon: (EN ? "mcon contact" : "contact mcon"), met1: "met1", via: "via 1", met2: "met2", via2: "via 2", met3: "met3", via3: "via 3", met4: "met4" };
+const LAYFR_0 = Object.assign({}, LAYFR);
+function __w40() {
+Object.assign(LAYFR, LAYFR_0);
 if (IHP) Object.assign(LAYFR, { poly: "grille GatPoly", licon: "contact Cont", li1: "Metal1", mcon: "Via1", met1: "Metal2", via: "Via2", met2: "Metal3", via2: "Via3", met3: "Metal4", via3: "Via4", met4: "Metal5" });
 if (GF) Object.assign(LAYFR, { poly: "grille Poly2", licon: "contact", mcon: "contact", met1: "Metal1", via: "Via1", met2: "Metal2", via2: "Via2", met3: "Metal3", via3: "Via3", met4: "Metal4" });
+}
+__wrun(__w40);
 function aimTick(dt) {
   aimMsgT -= dt; aimT -= dt;
   if (aimMsgT > 0 || aimT > 0) return;
@@ -5356,8 +5566,13 @@ const SLAB_NAME = [(EN ? "above the transistors" : "au-dessus des transistors"),
 const PASS_R = 0.2, LEVEL_T = 0.75;
 const SLAB_COL = ["#d0453d", "#8b62c8", "#3a74d0", "#c9529f", "#2fb3c6", "#e2a83a"];
 const SLAB_SHORT = [(EN ? "ground" : "sol"), "li1", "met1", "met2", "met3", "met4"];
+const SLAB_SHORT_0 = SLAB_SHORT.slice(), SLAB_NAME_0 = SLAB_NAME.slice();
+function __w41() {
+SLAB_SHORT.splice(0, SLAB_SHORT.length, ...SLAB_SHORT_0); SLAB_NAME.splice(0, SLAB_NAME.length, ...SLAB_NAME_0);
 if (IHP || GF) { ["li1", "met1", "met2", "met3", "met4"].forEach((n, i) => { SLAB_SHORT[i + 1] = lname(n); SLAB_NAME[i + 1] = (EN ? "above " : "au-dessus de ") + lname(n); }); }
 if (GF) { SLAB_SHORT[1] = EN ? "contacts" : "contacts"; SLAB_NAME[1] = EN ? "above the contacts" : "au-dessus des contacts"; }
+}
+__wrun(__w41);
 // vraie hauteur de chaque modèle (tourelle, antenne, canon compris), mesurée une fois
 const VEH_SIZE = 0.7, VEH_MARGIN = 0.07, VHT = {};
 function vehBox(kind) {
@@ -5391,10 +5606,13 @@ function findShaft(x, gy, maxR, pred) {
   }
   return null;
 }
-const SHAFTS = [];
+function __w42() {
+SHAFTS = [];
 for (let gx = 18; gx < W - 5; gx += 31) for (let gy = 14; gy < HH - 5; gy += 31) {
   const s = findShaft(gx, gy, 7); if (s && !SHAFTS.some(q => Math.hypot(q.x - s.x, q.gy - s.gy) < 6)) SHAFTS.push(s);
 }
+}
+__wrun(__w42);
 function nearShaft(x, z) { let best = null, bd = 1e9; for (const s of SHAFTS) { const d = Math.hypot(s.x - x, s.gy + z); if (d < bd) { bd = d; best = s; } } return best ? { s: best, d: bd } : null; }
 // un véhicule est-il au-dessus de la couche métallique de son étage ? (le premier étage repose toujours sur le silicium)
 const supportedAt = (x, z, k) => k <= 0 || vehHits(x, SLAB[k][0] - 0.06, z, 0.22, 0.05).block;
@@ -5552,14 +5770,17 @@ function genTrack0(seed) {
   }
   return null;
 }
-const BASE_TRACK = buildTrack() || [
+function __w43() {
+BASE_TRACK = buildTrack() || [
   { kind: "start", x: 131, gy: 161, lv: 0 }, { kind: "arch", x: 128, gy: 136, lv: 0 }, { kind: "arch", x: 110, gy: 110, lv: 0 }, { kind: "arch", x: 85, gy: 92, lv: 0 },
   { kind: "arch", x: 60, gy: 100, lv: 0 }, { kind: "arch", x: 58, gy: 140, lv: 0 }, { kind: "arch", x: 80, gy: 159, lv: 0 }, { kind: "finish", x: 94.3, gy: 166.6, lv: 0 }].map(n => IS_RACER ? n : Object.assign({}, n, { x: n.x / 161 * W, gy: n.gy / 170.76 * HH }));
-let TRACK = BASE_TRACK, ARCHES = TRACK.filter(n => n.kind === "arch" || n.kind === "finish"), trackSeed = 0;
+TRACK = BASE_TRACK;
+ARCHES = TRACK.filter(n => n.kind === "arch" || n.kind === "finish");
+trackSeed = 0;
 console.log(`course : ${ARCHES.length} arches, ${TRACK.filter(n => n.kind === "shaft").length} puits sur le tracé, ${SHAFTS.length} puits sur la carte`);
-
-/* ---- décor : colonnes des puits, arches du circuit ---- */
-const shaftGroup = new THREE.Group(); shaftGroup.visible = false; scene.add(shaftGroup);
+shaftGroup = new THREE.Group();
+shaftGroup.visible = false;
+scene.add(shaftGroup);
 {
   const colMat = new THREE.MeshBasicMaterial({ color: "#7dff9a", transparent: true, opacity: 0.1, depthWrite: false, side: THREE.DoubleSide });
   const ringMat = new THREE.MeshBasicMaterial({ color: "#7dff9a", transparent: true, opacity: 0.75, depthWrite: false });
@@ -5569,7 +5790,11 @@ const shaftGroup = new THREE.Group(); shaftGroup.visible = false; scene.add(shaf
     for (let k = 0; k < SLAB.length; k++) { const r = new THREE.Mesh(ringGeo, ringMat); r.rotation.x = Math.PI / 2; r.position.set(s.x, SLAB[k][0] + 0.03, -s.gy); shaftGroup.add(r); }
   }
 }
-const raceGroup = new THREE.Group(); raceGroup.visible = false; scene.add(raceGroup);
+raceGroup = new THREE.Group();
+raceGroup.visible = false;
+scene.add(raceGroup);
+}
+__wrun(__w43);
 function makeArch(a, i) {
   const k = TRACK.indexOf(a), prev = TRACK[k - 1] || a;
   const h = SLAB[a.lv][1] - SLAB[a.lv][0], rad = Math.max(0.22, Math.min(0.85, (Math.min(h, 2) - 0.1) / 2));
@@ -5582,7 +5807,10 @@ function makeArch(a, i) {
   raceGroup.add(g);
   return { g, mat, rad };
 }
-let ARCH3D = ARCHES.map(makeArch);
+function __w44() {
+ARCH3D = ARCHES.map(makeArch);
+}
+__wrun(__w44);
 // nouvelle graine : nouveau parcours, reconstruit à l'identique sur chaque page
 function setTrack(seed) {
   const T = (seed && genTrack(seed)) || (AR_ON ? genTrack(1) : BASE_TRACK);
@@ -5591,8 +5819,11 @@ function setTrack(seed) {
   ARCH3D = ARCHES.map(makeArch);
   if (typeof startLabel !== "undefined" && startLabel) startLabel.position.set(T[0].x, 1.75, -T[0].gy - 1.2);
 }
-let startLabel = null;
+function __w45() {
+startLabel = null;
 { const st = TRACK[0], lab = textSprite((EN ? "START · ui_in INPUTS" : "DÉPART · ENTRÉES ui_in"), "#7dff9a"); startLabel = lab; lab.scale.multiplyScalar(0.28); lab.position.set(st.x, 1.75, -st.gy - 1.2); lab.material.depthTest = false; lab.renderOrder = 12; raceGroup.add(lab); }
+}
+__wrun(__w45);
 function raceTick() {
   const on = MP.on && gMode() === "race"; raceGroup.visible = on; shaftGroup.visible = MP.on && vehOn();
   if (gMode() === "race" && (MP.G.seed || 0) !== trackSeed) setTrack(MP.G.seed || 0);
@@ -6024,7 +6255,10 @@ function vehTickClient(dt) {
    condensateur toutes les 20 s, partagée entre tous les joueurs : il faut s'y rendre, et parfois se les disputer. ---- */
 const EN_CFG = { D: { mag: 10, res: 40, rel: 1.8 }, M: { mag: 8, res: 32, rel: 2.0 } };
 const PK_GIVE = 20, PK_CD = 20, PK_R = 0.9;
-const NRG = { mag: 10, res: 40, relT: 0, team: null, emptyT: 0 };
+function __w46() {
+NRG = { mag: 10, res: 40, relT: 0, team: null, emptyT: 0 };
+}
+__wrun(__w46);
 const nrgCfg = () => EN_CFG[MP.team] || EN_CFG.D;
 function nrgFull() { const c = nrgCfg(); NRG.mag = c.mag; NRG.res = c.res; NRG.relT = 0; NRG.team = MP.team; }
 function nrgReload() {
@@ -6042,15 +6276,19 @@ function nrgTick() {
     const c = nrgCfg(), n = Math.min(c.mag - NRG.mag, NRG.res); NRG.mag += n; NRG.res -= n; NRG.relT = 0; SFX.play("relay", { v: 0.3 });
   }
 }
-const DECAPS = []; for (let i = 0; i < NC; i++) if (/^decap/.test(short(M.types[CT[i]]))) DECAPS.push(i);
-const PADS = [[0.18, 0.2], [0.78, 0.16], [0.48, 0.46], [0.16, 0.72], [0.82, 0.64], [0.5, 0.9]].map(([fx, fy], k) => {
+function __w47() {
+DECAPS = [];
+for (let i = 0; i < NC; i++) if (/^decap/.test(short(M.types[CT[i]]))) DECAPS.push(i);
+PADS = [[0.18, 0.2], [0.78, 0.16], [0.48, 0.46], [0.16, 0.72], [0.82, 0.64], [0.5, 0.9]].map(([fx, fy], k) => {
   const tx = fx * W, ty = fy * HH; let best = -1, bd = 1e9;
   for (const i of DECAPS) { const d = Math.hypot((C0x[i] + C1x[i]) / 2 - tx, (C0y[i] + C1y[i]) / 2 - ty); if (d < bd) { bd = d; best = i; } }
   const [x, y] = best >= 0 ? freeSpotNear((C0x[best] + C1x[best]) / 2, (C0y[best] + C1y[best]) / 2) : freeSpotNear(tx, ty);
   return { k, x, y, cell: best >= 0 ? short(M.types[CT[best]]) : "decap" };
 });
-const padGroup = new THREE.Group(); padGroup.visible = false; scene.add(padGroup);
-const PAD3D = PADS.map(d => {
+padGroup = new THREE.Group();
+padGroup.visible = false;
+scene.add(padGroup);
+PAD3D = PADS.map(d => {
   const g = new THREE.Group(); g.position.set(d.x, 0, -d.y);
   const gold = new THREE.MeshStandardMaterial({ color: "#ffd24a", emissive: "#e2a83a", emissiveIntensity: 0.8, roughness: 0.35, metalness: 0.4 });
   const base = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.46, 0.06, 32), gold); base.position.y = 0.03; g.add(base);
@@ -6065,6 +6303,8 @@ const PAD3D = PADS.map(d => {
   padGroup.add(g);
   return { g, col, cap, gold, lab, diel };
 });
+}
+__wrun(__w47);
 // hôte : attribue la recharge au premier qui la demande, puis le condensateur se recharge 20 s
 function padHost(pl) {
   const G = MP.G; if (!Array.isArray(G.pk) || G.pk.length !== PADS.length) G.pk = PADS.map(() => ({ t: 0, by: "", n: 0 }));
@@ -6392,6 +6632,7 @@ $("gmicC").addEventListener("pointerdown", e => {
 ["gbots"].forEach(id => $(id).addEventListener("change", () => micPreview(MP.gdOwn ? MP.gd : curGd())));
 function createGame(mode, pv) {
   if (!mode) return;
+  if (mapPref() !== MAPSEL) { ensureMap(mapPref()).then(ok => { if (ok) createGame(mode, pv); }); return; }
   if (MP.gid) leaveGame(true);
   const nick = cleanNick($("nick").value) || "joueur";
   MP.gid = Math.random().toString(36).slice(2, 8).replace(/[^a-z0-9]/g, "x").padEnd(6, "7"); MP.gj = Date.now(); MP.gdOwn = true; MP.wait = false; MP.rd = false; MP.lt = null;
@@ -6404,15 +6645,32 @@ function createGame(mode, pv) {
   lobbyPublish(); lobbyRender(true);
 }
 function mapSwitch(k, after, t) {
-  try { localStorage.setItem("cda-map", k); localStorage.setItem("cda-map-title", mapTitle(k, t)); sessionStorage.setItem("cda-quick", JSON.stringify({ fs: !!document.fullscreenElement })); if (after) sessionStorage.setItem("cda-after", JSON.stringify(after)); } catch (e) {}
-  banner(EN ? "Loading the chip" : "Chargement de la puce", mapTitle(k, t), 3);
-  setTimeout(() => location.reload(), 120);
+  k = mapValid(k); const title = mapTitle(k, t);
+  try { localStorage.setItem("cda-map", k); localStorage.setItem("cda-map-title", title); } catch (e) {}
+  document.querySelectorAll("[data-chipname]").forEach(e => e.textContent = title);
+  // hôte d'une partie pas encore lancée : la partie se jouera sur cette tuile
+  if (MP.gdOwn && MP.gd && MP.gd.st !== "play") { MP.gd = Object.assign({}, MP.gd, { map: k, mapt: title }); lobbyPublish(); lobbyRender(true); }
+  toast(EN ? `Chip chosen: ${title} · it loads when the game starts` : `Puce choisie : ${title} · elle se charge au lancement de la partie`);
+}
+/* chargement d'une tuile avec écran d'attente (lancement d'une partie, partie rejointe sur une autre tuile) */
+async function ensureMap(key) {
+  key = mapValid(key || "a580"); if (key === MAPSEL) return true;
+  let el = $("mapLoad");
+  if (!el) { el = document.createElement("div"); el.id = "mapLoad"; el.setAttribute("role", "status"); el.innerHTML = `<div><span class="ml-k"></span><b class="ml-t"></b><i class="ml-bar"><i></i></i><span class="ml-s"></span></div>`; document.body.appendChild(el); }
+  el.querySelector(".ml-k").textContent = EN ? "Loading the chip" : "Chargement de la puce";
+  el.querySelector(".ml-t").textContent = mapTitle(key);
+  const say = t => el.querySelector(".ml-s").textContent = t;
+  el.hidden = false; el.className = "dl"; say(EN ? "Downloading the layout…" : "Téléchargement du layout…");
+  const ok = await chargerCarte(key, step => { if (step === "build") { el.className = "build"; say(EN ? "Building the chip…" : "Construction de la puce…"); } });
+  el.hidden = true;
+  if (!ok) toast(EN ? "This chip could not be loaded" : "Impossible de charger cette puce");
+  return ok;
 }
 function joinGame(id, byCode) {
   const g = gameList(true).find(x => x.gd.id === id); if (!g) { toast(byCode ? (EN ? "No game with this code" : "Aucune partie avec ce code") : (EN ? "This game no longer exists" : "Cette partie n'existe plus")); return false; }
   if ((g.gd.pr || 1) !== CDA_PROTO) { toast((g.gd.pr || 1) > CDA_PROTO ? (EN ? "This game runs a newer version: reload the page" : "Cette partie tourne sur une version plus récente : recharge la page") : (EN ? "This game runs an older version of the game" : "Cette partie tourne sur une ancienne version du jeu")); return false; }
   const gm = !g.gd.map || g.gd.map === "racer" ? "a580" : g.gd.map;
-  if (gm !== MAP_KEY) { if (mapOk(gm)) { mapSwitch(gm, { join: id }, g.gd.mapt); return true; } toast(EN ? "This game runs on a chip that is not available here" : "Cette partie se joue sur une puce indisponible ici"); return false; }
+  if (gm !== MAP_KEY) { if (mapOk(gm)) { ensureMap(gm).then(ok => { if (ok) joinGame(id, byCode); }); return true; } toast(EN ? "This game runs on a chip that is not available here" : "Cette partie se joue sur une puce indisponible ici"); return false; }
   if (g.n >= gameCap(g.gd)) { toast((EN ? "Game full" : "Partie complète")); return; }
   MP.gid = id; MP.gj = Date.now(); MP.gdOwn = false; MP.gdLast = g.gd; MP.rd = false; MP.lt = null; MP.wait = g.gd.st === "play"; MP.waitR = null; MP.cfg = null;
   MP.G = freshLobbyG(); setFromGd(g.gd);
@@ -6437,7 +6695,12 @@ function stopPlay() {
   UI.inGame = false; UI.refresh && UI.refresh();
 }
 // lancement : le créateur lance, chacun rejoint son camp
+let startMapWait = false;
 function startPlay() {
+  const gdc = curGd() || MP.gdLast || MP.gd;   // partie telle que l'hôte la publie (il a pu changer de puce dans le salon)
+  const gdm = gdc && gdc.map ? mapValid(gdc.map === "racer" ? "a580" : gdc.map) : null;
+  if (gdm && gdm !== MAPSEL) { if (!startMapWait) { startMapWait = true; ensureMap(gdm).then(ok => { startMapWait = false; if (ok) startPlay(); else leaveGame(); }); } return; }
+  if (startMapWait) return;
   MP.wait = false;
   const t = MP.lt === "race" ? null : MP.lt;
   if (MP.lt === "race") { const ps = MP.room.peers().filter(isPlayer); const nM = ps.filter(p => p.presence.team === "M").length, nD = ps.filter(p => p.presence.team === "D").length; joinTeam(nM < nD ? "M" : "D"); }
@@ -6946,6 +7209,8 @@ async function sessCreate(mode, pv) {
   const pol = anonPolicy(), anon = pol === "on" || (pol === "auto" && !pv);
   $("gCreate").disabled = $("gCreatePv").disabled = true;
   try {
+    // la puce choisie se charge avant d'ouvrir la partie (l'annonce dans le salon doit trouver la partie prête)
+    if (mapPref() !== MAPSEL && !(await ensureMap(mapPref()))) return;
     if (!(await sessStart({ r: rid(10), key: rkey(), anon, own: true, pv: !!pv }))) { toast(EN ? "Could not open the game" : "Impossible d'ouvrir la partie"); sessEnd(); return; }
     createGame(mode, pv); salHere();
   } finally { $("gCreate").disabled = $("gCreatePv").disabled = false; }
@@ -7332,7 +7597,11 @@ function wpnSpots(seed) {
   }
   return out;
 }
-let WSPOTS = [], wpSeed = -1;
+function __w48() {
+WSPOTS = [];
+wpSeed = -1;
+}
+__wrun(__w48);
 const wpGroup = new THREE.Group(); wpGroup.visible = false; scene.add(wpGroup);
 let WP3D = [];
 let wpTeam = "";
@@ -7389,7 +7658,10 @@ function wpDrop(msg) { if (msg && MP.wpn) toast((EN ? `${wName(MP.wpn.k, MP.team
    centrée où il veut). Au-delà, un bouclier infranchissable : on ne le traverse pas, les tirs s'y arrêtent, et
    la puce n'est pas dessinée derrière. Objectifs, apparitions, armes et stations sont replacés dans la fenêtre. */
 const AR_CAP = 900000;   // au-delà, les très grands projets ne sont jamais affichés en entier
-const LOGIC_C = (() => { let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna|endcap)/.test(t)) continue; sx += C0x[i] + C1x[i]; sy += C0y[i] + C1y[i]; n += 2; } return n ? [sx / n, sy / n] : [W / 2, HH / 2]; })();
+function __w49() {
+LOGIC_C = (() => { let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna|endcap)/.test(t)) continue; sx += C0x[i] + C1x[i]; sy += C0y[i] + C1y[i]; n += 2; } return n ? [sx / n, sy / n] : [W / 2, HH / 2]; })();
+}
+__wrun(__w49);
 const vMic = m => { m = m && typeof m === "object" ? m : {}; const z = m.m === "auto" || m.m === undefined ? "auto" : Math.max(0.05, Math.min(1, +m.m || 1)); const f = v => typeof v === "number" && v >= 0 && v <= 1 ? Math.round(v * 1000) / 1000 : null; return { m: z, cx: f(m.cx), cy: f(m.cy) }; };
 // fenêtre (en coordonnées de jeu) pour un réglage, un nombre de joueurs et un mode ; null = toute la puce
 function arenaFor(spec, n, mode) {
@@ -7421,7 +7693,10 @@ function sitesIn(a) {
   if (A && B && nm(A.t) === nm(B.t) && nm(A.t) === (EN ? "Clock root" : "Racine d'horloge")) L[1][2] = (EN ? "Clock buffer" : "Tampon d'horloge");
   return L.map(([x, y, n, sub], k) => { const [fx, fy] = freeSpotNear(x, y); return { id: "AB"[k], name: (SITE_NM[n] || (() => n))(), sub, x: fx, y: fy }; });
 }
-const AR_ORIG = { sites: SITES.map(s => Object.assign({}, s)), pins: { M: Object.assign({}, PINS.M), D: Object.assign({}, PINS.D) }, spawn: JSON.parse(JSON.stringify(SPAWN)), alt: JSON.parse(JSON.stringify(SPAWN_ALT)), ctf: JSON.parse(JSON.stringify(SPAWN_CTF)), doms: DOMS.map(d => Object.assign({}, d)), pads: PADS.map(d => Object.assign({}, d)) };
+function __w50() {
+AR_ORIG = { sites: SITES.map(s => Object.assign({}, s)), pins: { M: Object.assign({}, PINS.M), D: Object.assign({}, PINS.D) }, spawn: JSON.parse(JSON.stringify(SPAWN)), alt: JSON.parse(JSON.stringify(SPAWN_ALT)), ctf: JSON.parse(JSON.stringify(SPAWN_CTF)), doms: DOMS.map(d => Object.assign({}, d)), pads: PADS.map(d => Object.assign({}, d)) };
+}
+__wrun(__w50);
 function arenaLayout() {
   if (!AR_ON) {   // toute la puce : le placement d'origine
     SITES.splice(0, SITES.length, ...AR_ORIG.sites.map(s => Object.assign({}, s)));
@@ -7455,7 +7730,12 @@ function arenaLayout() {
   });
 }
 // bouclier : quatre parois lumineuses sur les bords de la fenêtre
-const shieldGroup = new THREE.Group(); shieldGroup.visible = false; scene.add(shieldGroup);
+function __w51() {
+shieldGroup = new THREE.Group();
+shieldGroup.visible = false;
+scene.add(shieldGroup);
+}
+__wrun(__w51);
 const shieldTex = (() => {
   const c = document.createElement("canvas"); c.width = 128; c.height = 128; const g = c.getContext("2d");
   g.strokeStyle = "rgba(127,230,255,.9)"; g.lineWidth = 3;
@@ -7483,7 +7763,10 @@ function clearGroup(g) {
     c.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material && o.material !== shieldBase) { if (o.material.map && o.material.map !== shieldTex) o.material.map.dispose(); o.material.dispose(); } });
   }
 }
-let arCur = "init";
+function __w52() {
+arCur = "init";
+}
+__wrun(__w52);
 // applique une fenêtre (tableau [x0, y0, x1, y1] ou null pour toute la puce)
 function applyArena(ar) {
   const k = arKey(ar); if (k === arCur) return false; arCur = k;
@@ -7496,10 +7779,17 @@ function applyArena(ar) {
   else if (!MP.on && !inAR(P.x, -P.z, 0.2)) { const [x, y] = freeSpotNear(...ARC()); P.x = x; P.z = -y; P.y = 0; P.vy = 0; }
   return true;
 }
+function __w53() {
 if (AR_ON) { arCur = "init"; applyArena(SOLO_AR); }
+}
+__wrun(__w53);
 // la fenêtre suivie : celle de la manche en ligne, sinon celle du solo
-{ let v = "1"; try { v = localStorage.getItem("cda-mic-solo") || "1"; } catch (e) {} $("optMic").value = v; if (v !== "1") SOLO_AR = arenaFor({ m: +v }, 1, "race");
-  $("optMic").addEventListener("change", () => { const v2 = $("optMic").value; try { localStorage.setItem("cda-mic-solo", v2); } catch (e) {} SOLO_AR = arenaFor({ m: +v2 }, 1, "race") || (N > AR_CAP ? SOLO_AR : null); }); }
+{ let v = "1"; try { v = localStorage.getItem("cda-mic-solo") || "1"; } catch (e) {} $("optMic").value = v; }
+function __w54() {
+if ($("optMic").value !== "1") SOLO_AR = arenaFor({ m: +$("optMic").value }, 1, "race");
+}
+__wrun(__w54);
+{ $("optMic").addEventListener("change", () => { const v2 = $("optMic").value; try { localStorage.setItem("cda-mic-solo", v2); } catch (e) {} SOLO_AR = arenaFor({ m: +v2 }, 1, "race") || (N > AR_CAP ? SOLO_AR : null); }); }
 function arenaSync() { applyArena(MP.on ? (MP.G.ar || null) : SOLO_AR); }
 
 /* ---- boucle multijoueur ---- */
@@ -7763,18 +8053,18 @@ const MUX = (() => {
     const a = p ? p.a : null;
     bitsEl.innerHTML = bits(a === null ? 0 : a).split("").map(b => `<i class="${a !== null && b === "1" ? "on" : ""}"></i>`).join("");
     $("muxAddr").textContent = a === null ? "—" : a;
-    if (!p) { c.innerHTML = `<p class="mx-hint">${EN ? "Hover a tile to read its project, click to select it, double-click to play it. Large projects load whole: in a game, the microscope frames the part you play in." : "Survole une tuile pour lire son projet, clique pour la sélectionner, double-clique pour y jouer. Les grands projets se chargent en entier : en partie, le microscope cadre la zone où l'on joue."}</p>`; return; }
-    const k = fullKey(p.k[n]), d = p.d[n] || [0, 0, 0], isCur = k === MAP_KEY;
+    if (!p) { c.innerHTML = `<p class="mx-hint">${EN ? "Hover a tile to read its project, click to select it, double-click to choose it: it loads when the game starts. Large projects load whole: in a game, the microscope frames the part you play in." : "Survole une tuile pour lire son projet, clique pour la sélectionner, double-clique pour la choisir : elle se chargera au lancement de la partie. Les grands projets se chargent en entier : en partie, le microscope cadre la zone où l'on joue."}</p>`; return; }
+    const k = fullKey(p.k[n]), d = p.d[n] || [0, 0, 0], isCur = k === mapPref();
     const sl = p.k.length > 1 ? `<span class="mx-tag">${EN ? "arena" : "arène"} ${n + 1}/${p.k.length}</span>` : "";
     c.innerHTML = `<span class="mx-kind ${p.an ? "an" : ""}">${p.an ? (EN ? "Analog" : "Analogique") : (EN ? "Digital" : "Numérique")} · ${p.ti}</span>${sl}
       <h3>${esc(p.t)}</h3><p class="mx-au">${esc(p.au)}</p><code>${esc(p.m)}</code>${p.sub && p.sub.length ? `<p class="mx-sub"><b>${EN ? "Projects on this shared tile" : "Projets sur cette tuile partagée"} :</b> ${p.sub.map(esc).join(" · ")}</p>` : ""}
       ${p.k.length ? `<dl><dt>${EN ? "Logic cells" : "Cellules logiques"}</dt><dd>${d[2].toLocaleString(EN ? "en-US" : "fr-FR")}</dd><dt>${EN ? "Rectangles" : "Rectangles"}</dt><dd>${d[1].toLocaleString(EN ? "en-US" : "fr-FR")}</dd><dt>${EN ? "Download" : "Téléchargement"}</dt><dd>${isCur ? (EN ? "loaded" : "chargée") : kb(d[0])}</dd></dl>
-      ${preview ? "" : `<button class="btn-main" id="muxGo" ${isCur ? "disabled" : ""}>${isCur ? (EN ? "You are on this tile" : "Tu es sur cette tuile") : (EN ? "Load this tile" : "Charger cette tuile")}</button>`}` : `<p class="mx-hint">${EN ? "No layout could be extracted for this project." : "Aucun layout exploitable pour ce projet."}</p>`}`;
+      ${preview ? "" : `<button class="btn-main" id="muxGo" ${isCur ? "disabled" : ""}>${isCur ? (EN ? "This is your chip" : "C'est ta puce") : (EN ? "Choose this tile" : "Choisir cette tuile")}</button>`}` : `<p class="mx-hint">${EN ? "No layout could be extracted for this project." : "Aucun layout exploitable pour ce projet."}</p>`}`;
     const go = $("muxGo"); if (go) go.onclick = () => loadTile(p, n);
   }
   function loadTile(p, n) {
     if (!p || !p.k.length) return;
-    const k = fullKey(p.k[n] || p.k[0]); if (k === MAP_KEY) { toast(EN ? "You are already on this tile" : "Tu es déjà sur cette tuile"); return; }
+    const k = fullKey(p.k[n] || p.k[0]); if (k === MAP_KEY && mapPref() === k) { close(); toast(EN ? "This tile is already your chip" : "C'est déjà ta puce"); return; }
     close(); try { localStorage.setItem("cda-map-sh", I.name || SID); } catch (e) {} mapSwitch(k, after, p.t);
   }
   async function setShuttle(id) {
@@ -8095,7 +8385,8 @@ function boxesIn(x0, y0, x1, y1, fn) {   // rectangles (non-vias) qui chevauchen
     }
   }
 }
-const anchors = [];
+function __w55() {
+anchors = [];
 (function buildAnchors() {
   const t0 = performance.now(), r = R + 0.03, cand = new Map();
   const hash = n => { n = (n ^ 61) ^ (n >>> 16); n = Math.imul(n, 9); n ^= n >>> 4; n = Math.imul(n, 0x27d4eb2d); return ((n ^ (n >>> 15)) >>> 0) / 4294967296; };
@@ -8161,9 +8452,10 @@ const anchors = [];
   anchors.sort((a, b) => a.x - b.x || a.z - b.z);
   console.info((EN ? `ladders: ${anchors.length} spots computed in ${Math.round(performance.now() - t0)} ms` : `échelles : ${anchors.length} emplacements calculés en ${Math.round(performance.now() - t0)} ms`));
 })();
-// recherche rapide des emplacements proches
-const anchGrid = new Map();
+anchGrid = new Map();
 anchors.forEach((a, k) => { const key = Math.floor(a.x / 2) + "," + Math.floor(-a.z / 2); if (!anchGrid.has(key)) anchGrid.set(key, []); anchGrid.get(key).push(k); });
+}
+__wrun(__w55);
 function anchorsNear(x, gy, f) { const cx = Math.floor(x / 2), cy = Math.floor(gy / 2); for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const l = anchGrid.get((cx + a) + "," + (cy + b)); if (l) l.forEach(f); } }
 
 /* marques au sol */
@@ -8177,18 +8469,28 @@ const markTex = (() => {
   const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
 })();
 const markMatL = new THREE.MeshBasicMaterial({ map: markTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, polygonOffset: true, polygonOffsetFactor: -2 });
-const anchMarks = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.34, 0.5), markMatL, Math.max(1, anchors.length));
+function __w56() {
+anchMarks = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.34, 0.5), markMatL, Math.max(1, anchors.length));
 anchMarks.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(Math.max(1, anchors.length) * 3), 3);
-anchMarks.frustumCulled = false; anchMarks.renderOrder = 3;
-const dum = new THREE.Object3D(); dum.rotation.order = "YXZ";
+anchMarks.frustumCulled = false;
+anchMarks.renderOrder = 3;
+dum = new THREE.Object3D();
+dum.rotation.order = "YXZ";
+}
+__wrun(__w56);
 function placeMark(k, show) {
   const a = anchors[k];
   dum.position.set(a.x, a.y0 + 0.016, a.z); dum.rotation.set(-Math.PI / 2, a.ang, 0); dum.scale.setScalar(show ? 1 : 0.0001); dum.updateMatrix();
   anchMarks.setMatrixAt(k, dum.matrix);
 }
+function __w57() {
 anchors.forEach((a, k) => { placeMark(k, true); const c = layCol[LAY[a.i]].clone().multiplyScalar(0.85); anchMarks.setColorAt(k, c); });
-anchMarks.count = anchors.length; anchMarks.instanceMatrix.needsUpdate = true; if (anchMarks.instanceColor) anchMarks.instanceColor.needsUpdate = true;
+anchMarks.count = anchors.length;
+anchMarks.instanceMatrix.needsUpdate = true;
+if (anchMarks.instanceColor) anchMarks.instanceColor.needsUpdate = true;
 scene.add(anchMarks);
+}
+__wrun(__w57);
 const candRing = new THREE.Mesh(new THREE.RingGeometry(0.2, 0.26, 32), new THREE.MeshBasicMaterial({ color: "#ffd84a", transparent: true, depthWrite: false, side: THREE.DoubleSide }));
 candRing.rotation.x = -Math.PI / 2; candRing.visible = false; scene.add(candRing);
 
@@ -8411,10 +8713,53 @@ function frame(now) {
   }
 }
 $("qn").textContent = visited.size;
+function __w58() {
 initLoseSelect();
+}
+__wrun(__w58);
 applyQuality();
 requestAnimationFrame(frame);
+/* ---------- chargerCarte : change de tuile sans recharger la page ----------
+   Télécharge la tuile, défait le monde actuel (murs, repères des modes, échelles, dégâts…), rejoue sa construction
+   (fonctions __wN) avec la nouvelle carte, puis remet à zéro ce que le jeu accumule en partie sur la tuile. */
+let mapBusy = null;
+async function chargerCarte(key, onStep) {
+  key = mapValid(key);
+  if (key === MAPSEL) return true;
+  if (mapBusy) return mapBusy;
+  return mapBusy = (async () => {
+    const t0 = performance.now();
+    onStep && onStep("dl");
+    let d;
+    try { d = await loadMapData(key); } catch (e) { console.log("carte", key, e); return false; }
+    onStep && onStep("build");
+    await new Promise(r => setTimeout(r, 30));   // laisse l'écran de chargement s'afficher
+    // ce que la partie a posé sur l'ancienne tuile
+    chunks.forEach(c => { scene.remove(c.mesh); c.mesh.geometry.dispose(); c.mesh.dispose(); }); chunks = [];
+    ladders.forEach(l => { if (l.g) { scene.remove(l.g); __wDispose(l.g); } }); ladders.clear(); myLadders.length = 0;
+    onLadder = null; ladCand = null; climbD = 0; ladSeq = 0; myStepD = 0;
+    hostDmg.clear(); hostRepairs.clear(); appliedD = null; lastDmgSeen.clear();
+    brokenList.length = 0; wornList.length = 0; ghosts.count = 0; pings.length = 0;
+    FORT_ON = false;
+    // nouvelle carte, puis reconstruction du monde dans le même ordre qu'au démarrage
+    MAPSEL = key; M = d.meta; buf = d.buf;
+    __wRebuild();
+    visited.clear(); if (IS_RACER) try { JSON.parse(localStorage.getItem("ledsracer-dff") || "[]").forEach(i => visited.add(i)); } catch (e) {}
+    dffs.forEach((_, k) => paintMark(k));
+    mapC.width = mapBase.width; mapC.height = mapBase.height;
+    GROUPS.forEach(g => { const l = document.querySelector(`#ly_${g.id} ~ span:not(.z)`); if (l) l.textContent = g.name; });
+    try { localStorage.setItem("cda-map", key); } catch (e) {}
+    console.log("carte chargée à la volée :", key, Math.round(performance.now() - t0), "ms");
+    onStep && onStep("done");
+    return true;
+  })().finally(() => { mapBusy = null; });
+}
+window.chargerCarte = chargerCarte;
+window.__map = { pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, pref: () => mapPref() };
 window.__game = { die: b => die(b), me: () => ({ x: P.x, z: P.z, yaw, fly: P.fly }), arena: () => ({ AR, AR_ON, sites: SITES.map(x => [x.x, x.y]), pins: [PINS.M.x, PINS.M.y, PINS.D.x, PINS.D.y], doms: DOMS.map(d => [d.x, d.y]), pads: PADS.map(d => [d.x, d.y]), spawn: SPAWN, wsp: WSPOTS.map(w => [w.x, w.y]) }), vm: () => VM.state(), wpn: { get spots() { return WSPOTS; }, get forts() { return FORTS; }, get on() { return FORT_ON; }, give: k => wpGive(k), state: () => MP.wpn, swap: () => wpSwap() }, sup: (x, gy, k) => supportedAt(x, -gy, k), srun: (a, b, c, d, k) => supportedRun(a, b, c, d, k), genTrack: sd => { const t0 = performance.now(), T = genTrack(sd); return T ? { ms: Math.round(performance.now() - t0), n: T.length, arches: T.filter(n => n.kind === "arch").map(n => n.lv).join(""), T } : { ms: Math.round(performance.now() - t0), fail: true }; }, splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, get TRACK() { return TRACK; }, get ARCHES() { return ARCHES; }, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
+// données de la carte : relues à chaque accès (elles changent avec chargerCarte)
+{ const live = { DOMS: () => DOMS, PINS: () => PINS, anchors: () => anchors, dmgVal: () => dmgVal, dead: () => dead, chunks: () => chunks, pads: () => PADS, nrg: () => NRG, SHAFTS: () => SHAFTS };
+  for (const k in live) Object.defineProperty(window.__game, k, { get: live[k], configurable: true }); }
 })();
 </script>
 
