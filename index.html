@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-aAv0lkHuqkZ7LwyxIHByGRBtDWRl+xjnV5/SQQ4T0cM=' 'sha256-bjp2NwNbssgrQKkwmuXnHgnsMG6kUqURnNjvYH839wc=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-l7P8iqiVRKi4NhzT1Hxr3g//xVF11YG7ovCERee2MDA=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-tkgHLs1rii7UvxKPWX2B64z7pjPshfwJaj3XLQ/U8dI=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-GLKcwMjOR/xFG58zvf2ZCXN1n6C/6d2+SHXIxf41/z0=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-aAv0lkHuqkZ7LwyxIHByGRBtDWRl+xjnV5/SQQ4T0cM=' 'sha256-b1W8mcyS2Qw7jZZHAl4Hl/UMmjup/zjGqzGywQSQBkI=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-l7P8iqiVRKi4NhzT1Hxr3g//xVF11YG7ovCERee2MDA=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-yyCpgJOKXTVwSvZVyDGSzxuppyOSGcZTITgeqRx9XAA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="d5ae9505d40a";</script>
+<script>window.CDA_BUILD="18eff2c74354";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -1896,6 +1896,7 @@ const $ = id => document.getElementById(id);
    d'entiers variables (écart en y, écart en x, largeur, hauteur) des rectangles triés, et de même pour les cellules. */
 async function cdaUnpack(gz) {
   const raw = new Uint8Array(await new Response(new Blob([gz]).stream().pipeThrough(new DecompressionStream("gzip"))).arrayBuffer());
+  if (raw[0] === 67 && raw[1] === 68 && raw[2] === 65 && raw[3] === 51) return cda3Unpack(raw);
   if (raw[0] !== 67 || raw[1] !== 68 || raw[2] !== 65 || raw[3] !== 50) throw new Error("format de carte inconnu");
   const ml = raw[4] | raw[5] << 8 | raw[6] << 16 | raw[7] << 24;
   const meta = JSON.parse(new TextDecoder().decode(raw.subarray(8, 8 + ml)));
@@ -1914,6 +1915,86 @@ async function cdaUnpack(gz) {
   let o = 0;
   for (const l of meta.layers) { l.offset = o * 4; rects(l.count, l.len, 4, o, false); o += l.count * 4; }
   meta.cells.offset = o * 4; rects(meta.cells.count, meta.cells.len, 5, o, true);
+  return { meta, buf: out.buffer };
+}
+/* Format CDA3 : chaque type de cellule standard est stocké une fois (bibliothèque), les instances le replacent
+   (position + orientation GDS), le routage reste en rectangles. On reconstruit ici exactement la structure CDA2 :
+   rectangles par couche triés (y, x), puis les cellules (boîte englobante + type). */
+function cda3Unpack(raw) {
+  const ml = raw[4] | raw[5] << 8 | raw[6] << 16 | raw[7] << 24;
+  const meta = JSON.parse(new TextDecoder().decode(raw.subarray(8, 8 + ml)));
+  let p = 8 + ml;
+  const vint = (n, len) => { const a = new Int32Array(n); let q = p; for (let i = 0; i < n; i++) { let v = 0, s = 0, b; do { b = raw[q++]; v += (b & 127) * 2 ** s; s += 7; } while (b & 128); a[i] = v; } p += len; return a; };
+  const unzz = v => (v >>> 1) ^ -(v & 1);
+  // rectangles (même codage que CDA2) -> [x0, y0, x1, y1] * n
+  const rects = (n, ln) => {
+    const r = new Int32Array(n * 4); if (!n) { p += ln.reduce((a, b) => a + b, 0); return r; }
+    const dy = vint(n, ln[0]), dx = vint(n, ln[1]), w = vint(n, ln[2]), h = vint(n, ln[3]);
+    let x = 0, y = 0;
+    for (let i = 0; i < n; i++) { y += dy[i]; const z = unzz(dx[i]); x = i === 0 || dy[i] !== 0 ? z : x + z; r[i * 4] = x; r[i * 4 + 1] = y; r[i * 4 + 2] = x + w[i]; r[i * 4 + 3] = y + h[i]; }
+    return r;
+  };
+  const NL = meta.names.length, route = new Array(NL).fill(null);
+  for (const l of meta.layers) route[meta.names.indexOf(l.name)] = rects(l.count, l.len);
+  const lib = meta.lib.map(c => { const L = []; for (const [li, n, ln] of c.l) L.push([li, rects(n, ln)]); return L; });
+  const I = meta.inst, n = I.count;
+  const idy = vint(n, I.len[0]), idx = vint(n, I.len[1]), ior = vint(n, I.len[2]), ity = vint(n, I.len[3]);
+  // orientation GDS : réflexion (y -> -y) puis k quarts de tour (x, y) -> (-y, x)
+  const tf = (x0, y0, x1, y1, o, out, k) => {
+    if (o & 4) { const t = y0; y0 = -y1; y1 = -t; }
+    for (let q = o & 3; q > 0; q--) { const a = x0, b = x1; x0 = -y1; x1 = -y0; y0 = a; y1 = b; }
+    out[k] = x0; out[k + 1] = y0; out[k + 2] = x1; out[k + 3] = y1;
+  };
+  const cnt = new Int32Array(NL); route.forEach((r, i) => cnt[i] += r ? r.length / 4 : 0);
+  for (let i = 0; i < n; i++) for (const [li, r] of lib[ity[i]]) cnt[li] += r.length / 4;
+  const L = Array.from({ length: NL }, (_, i) => ({ r: new Int32Array(cnt[i] * 4), k: 0 }));
+  route.forEach((r, i) => { if (r) { L[i].r.set(r); L[i].k = r.length; } });
+  const cells = new Int32Array(n * 5), tmp = new Int32Array(4);
+  let x = 0, y = 0;
+  for (let i = 0; i < n; i++) {
+    y += unzz(idy[i]); const z = unzz(idx[i]); x = i === 0 || idy[i] !== 0 ? z : x + z;
+    const o = ior[i], t = ity[i], c = meta.lib[t], [lx, ly] = c.o;
+    for (const [li, r] of lib[t]) {
+      const D = L[li];
+      for (let j = 0; j < r.length; j += 4) { tf(r[j] + lx, r[j + 1] + ly, r[j + 2] + lx, r[j + 3] + ly, o, D.r, D.k); D.r[D.k] += x; D.r[D.k + 1] += y; D.r[D.k + 2] += x; D.r[D.k + 3] += y; D.k += 4; }
+    }
+    const b = c.b; tf(b[0], b[1], b[2], b[3], o, tmp, 0);
+    cells[i * 5] = Math.max(0, tmp[0] + x); cells[i * 5 + 1] = Math.max(0, tmp[1] + y); cells[i * 5 + 2] = Math.max(0, tmp[2] + x); cells[i * 5 + 3] = Math.max(0, tmp[3] + y); cells[i * 5 + 4] = t;
+  }
+  // assemblage au format CDA2 : couches non vides, rectangles triés par y0 ; les rectangles de même hauteur qui se
+  // touchent ou se recouvrent sur une même ligne (rails partagés entre cellules voisines, doublons) sont fusionnés
+  const layers = [];
+  for (let i = 0; i < NL; i++) {
+    if (!cnt[i]) continue;
+    const r = L[i].r, m = cnt[i], ord = new Uint32Array(m);
+    // tri par y0 (comptage, linéaire), puis chaque ligne par (y1, x0) : rapide même sur les très grandes tuiles
+    let my = 0; for (let j = 0; j < m; j++) { const y = Math.max(0, r[j * 4 + 1]); if (y > my) my = y; }
+    const st = new Uint32Array(my + 2);
+    for (let j = 0; j < m; j++) st[Math.max(0, r[j * 4 + 1]) + 1]++;
+    for (let y = 1; y < st.length; y++) st[y] += st[y - 1];
+    const pos = st.slice();
+    for (let j = 0; j < m; j++) ord[pos[Math.max(0, r[j * 4 + 1])]++] = j;
+    const cmp = (a, b) => r[a * 4 + 3] - r[b * 4 + 3] || r[a * 4] - r[b * 4];
+    for (let y = 0; y <= my; y++) if (st[y + 1] - st[y] > 1) ord.subarray(st[y], st[y + 1]).sort(cmp);
+    const v = new Int32Array(m * 4); let k = -4;
+    for (let j = 0; j < m; j++) {
+      const s = ord[j] * 4, x0 = r[s], y0 = r[s + 1], x1 = r[s + 2], y1 = r[s + 3];
+      if (k >= 0 && v[k + 1] === y0 && v[k + 3] === y1 && x0 <= v[k + 2]) { if (x1 > v[k + 2]) v[k + 2] = x1; continue; }
+      k += 4; v[k] = x0; v[k + 1] = y0; v[k + 2] = x1; v[k + 3] = y1;
+    }
+    layers.push({ name: meta.names[i], count: (k + 4) / 4, src: v });
+  }
+  const total = layers.reduce((a, l) => a + l.count, 0), out = new Uint32Array(total * 4 + n * 5);
+  let o = 0;
+  for (const l of layers) {
+    const v = l.src, m = l.count;
+    l.offset = o * 4;   // en octets, comme en CDA2 (o compte les entiers de 32 bits)
+    for (let j = 0; j < m * 4; j++) out[o + j] = Math.max(0, v[j]);
+    o += m * 4; delete l.src;
+  }
+  out.set(cells, o);
+  meta.layers = layers; meta.cells = { count: n, offset: o * 4 };
+  delete meta.lib; delete meta.inst;
   return { meta, buf: out.buffer };
 }
 const MAPSEL = (() => {
