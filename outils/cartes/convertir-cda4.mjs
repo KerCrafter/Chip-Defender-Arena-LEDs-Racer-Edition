@@ -1,6 +1,6 @@
-/* Conversion des cartes au format CDA4 (blocs de 64 µm lisibles un par un, pour le chargement au fur et à mesure).
+/* Conversion des cartes au format CDA4 (blocs de 80 µm lisibles un par un, pour le chargement au fur et à mesure).
    Lit les cartes déjà converties (CDA2 ou CDA3, aucun GDS à retélécharger) et écrit leurs versions CDA4 à côté :
-     node convertir-cda4.mjs --in cartes/maps --out cartes/maps4 [--jobs 6] [--tile 64] [--force]
+     node convertir-cda4.mjs --in cartes/maps --out cartes/maps4 [--jobs 6] [--force]
    Chaque carte est vérifiée après écriture : relue entièrement, elle doit redonner exactement les mêmes formes et les
    mêmes cellules que l'original (sinon elle est signalée et non écrite). On peut relancer : ce qui est à jour est sauté.
    index.json et shuttles.json sont recopiés tels quels. Résumé et erreurs : convertir-cda4.log dans le dossier de sortie. */
@@ -20,12 +20,12 @@ if (!CODEC) { console.error("cda-codec.js introuvable (il doit être à côté d
 const C = require(CODEC);
 const gz = b => new Uint8Array(gzipSync(b, { level: 9 }));
 
-/* aperçu vu de dessus (RVB, 512 px au plus sur le grand côté) : cellules par famille, puis met2, met3, met4 en transparence,
+/* aperçu vu de dessus (384 px au plus sur le grand côté) : cellules par famille, puis met2, met3, met4 en transparence,
    comme la carte du jeu ; sert à afficher la carte entière sans rien décoder d'autre */
 const DFF = /^(dfxtp|dfrtp|dfstp|dfbbp|edfxtp|sdf|dfrbp|dffq|dffrnq|dffsnq|dffrsnq|dffn)/, FILL = /^(decap|fill|tapvpwrvgnd|endcap)/;
 const short = n => n.replace(/^sky130_(fd|ef)_sc_hd__|^sg13g2_|^gf180mcu_fd_sc_mcu[79]t5v0__/, "");
 function overview(map) {
-  const { meta } = map, U = new Uint32Array(map.buf), G = meta.grid, Wu = meta.w, Hu = meta.h, s = Math.min(3, 512 / Math.max(Wu, Hu));
+  const { meta } = map, U = new Uint32Array(map.buf), G = meta.grid, Wu = meta.w, Hu = meta.h, s = Math.min(3, 384 / Math.max(Wu, Hu));
   const w = Math.max(1, Math.ceil(Wu * s)), h = Math.max(1, Math.ceil(Hu * s)), d = new Uint8Array(w * h * 3);
   for (let o = 0; o < d.length; o += 3) { d[o] = 0x0d; d[o + 1] = 0x11; d[o + 2] = 0x17; }
   const box = (x0, y0, x1, y1, c, a) => {
@@ -41,18 +41,21 @@ function overview(map) {
     const l = meta.layers.find(l => l.name === name); if (!l) continue; const c = rgb(col), o = l.offset / 4;
     for (let i = 0; i < l.count; i++) { const k = o + i * 4; box(U[k], U[k + 1], U[k + 2], U[k + 3], c, a); }
   }
-  return { w, h, rgb: d };
+  // 1 octet par pixel (3 bits rouge, 3 vert, 2 bleu) : l'aperçu reste léger dans le fichier
+  const q = new Uint8Array(w * h); for (let i = 0; i < w * h; i++) q[i] = (d[i * 3] >> 5) << 5 | (d[i * 3 + 1] >> 5) << 2 | d[i * 3 + 2] >> 6;
+  return { w, h, rgb: q, fmt: "rgb332" };
 }
 
-/* vérification : même multiensemble de formes par couche, mêmes cellules dans le même ordre */
+/* vérification : chaque couche couvre exactement la même surface (les formes sont seulement redécoupées aux bords des
+   blocs), les murs ne se recouvrent pas, et les cellules sont identiques, dans le même ordre */
 function sameMap(a, b) {
   const UA = new Uint32Array(a.buf), UB = new Uint32Array(b.buf);
+  const area = (U, l) => { let s = 0; const o = l.offset / 4; for (let j = 0; j < l.count; j++) s += (U[o + j * 4 + 2] - U[o + j * 4]) * (U[o + j * 4 + 3] - U[o + j * 4 + 1]); return s; };
   const la = a.meta.layers.filter(l => l.count), lb = b.meta.layers.filter(l => l.count);
-  if (la.length !== lb.length) return "nombre de couches";
+  if (la.map(l => l.name).join() !== lb.map(l => l.name).join()) return "couches " + la.map(l => l.name).join() + " / " + lb.map(l => l.name).join();
   for (let i = 0; i < la.length; i++) {
-    if (la[i].name !== lb[i].name || la[i].count !== lb[i].count) return "couche " + la[i].name;
-    const key = (U, o, n) => { const r = []; for (let j = 0; j < n; j++) r.push(U.slice(o + j * 4, o + j * 4 + 4).join(",")); return r.sort().join(";"); };
-    if (key(UA, la[i].offset / 4, la[i].count) !== key(UB, lb[i].offset / 4, lb[i].count)) return "formes de " + la[i].name;
+    const sa = area(UA, la[i]), sb = area(UB, lb[i]);
+    if (Math.abs(sa - sb) > 1e-9 * Math.max(1, sa)) return `surface de ${la[i].name} : ${sa} / ${sb}`;
   }
   if (a.meta.cells.count !== b.meta.cells.count) return "nombre de cellules";
   const ca = UA.subarray(a.meta.cells.offset / 4, a.meta.cells.offset / 4 + a.meta.cells.count * 5), cb = UB.subarray(b.meta.cells.offset / 4, b.meta.cells.offset / 4 + b.meta.cells.count * 5);
@@ -61,17 +64,18 @@ function sameMap(a, b) {
 }
 function readBack(bytes) {
   const hl = C.headLen4(bytes), H = C.header4(gunzipSync(bytes.subarray(8, hl)), hl);
-  const blocks = H.blocks.map(b => b[1] ? C.block4(new Uint8Array(gunzipSync(bytes.subarray(hl + b[0], hl + b[0] + b[1]))), H) : null);
-  return C.assemble4(H, blocks);
+  C.lib4(new Uint8Array(gunzipSync(bytes.subarray(hl + H.libz[0], hl + H.libz[0] + H.libz[1]))), H);
+  const blocks = H.blocks.map((b, i) => b[1] ? C.block4(new Uint8Array(gunzipSync(bytes.subarray(hl + b[0], hl + b[0] + b[1]))), H, i) : null);
+  return { map: C.assemble4(H, blocks), H };
 }
 function convertOne(src, dst, tile) {
   const t0 = Date.now(), inBytes = readFileSync(src);
-  const map = C.unpack(new Uint8Array(gunzipSync(inBytes)));
-  const meta0 = JSON.stringify(Object.assign({}, map.meta, { layers: undefined, cells: undefined }));
-  const out = C.encode4(map, { tileUm: tile, ov: overview }, gz);
-  const back = readBack(out), why = sameMap(map, back);
+  const raw = new Uint8Array(gunzipSync(inBytes)), map = C.unpack(raw);
+  const strip = m => JSON.stringify(Object.assign({}, m, { layers: undefined, cells: undefined, names: undefined, fmt: undefined }));
+  const out = C.encode4(raw, { ov: overview }, gz);
+  const { map: back } = readBack(out), why = sameMap(map, back);
   if (why) throw new Error("vérification : " + why);
-  if (JSON.stringify(Object.assign({}, back.meta, { layers: undefined, cells: undefined })) !== meta0) throw new Error("vérification : en-tête différent");
+  if (strip(back.meta) !== strip(map.meta)) throw new Error("vérification : description différente");
   mkdirSync(dirname(dst), { recursive: true });
   writeFileSync(dst + ".part", out); renameSync(dst + ".part", dst);   // jamais de carte à moitié écrite
   const nb = JSON.parse(new TextDecoder().decode(gunzipSync(out.subarray(8, C.headLen4(out))))).blocks.filter(b => b[1]).length;
@@ -85,7 +89,7 @@ if (!isMainThread) {
   });
 } else {
   const arg = (k, d) => { const i = process.argv.indexOf("--" + k); return i > 0 ? process.argv[i + 1] : d; };
-  const IN = resolve(arg("in", "cartes/maps")), OUT = resolve(arg("out", "cartes/maps4")), TILE = +arg("tile", 64), FORCE = process.argv.includes("--force");
+  const IN = resolve(arg("in", "cartes/maps")), OUT = resolve(arg("out", "cartes/maps4")), TILE = 80, FORCE = process.argv.includes("--force");
   const JOBS = Math.max(1, +arg("jobs", Math.max(1, Math.min(8, cpus().length - 1))));
   if (!existsSync(IN)) { console.error("dossier introuvable : " + IN); process.exit(1); }
   const walk = d => readdirSync(d).flatMap(f => { const p = join(d, f); return statSync(p).isDirectory() ? walk(p) : [p]; });

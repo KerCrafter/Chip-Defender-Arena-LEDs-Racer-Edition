@@ -3,9 +3,11 @@
    La décompression gzip reste à l'appelant (DecompressionStream dans le navigateur, zlib dans Node) : ici, que des octets.
 
    CDA2 / CDA3 : un seul flux gzip pour toute la tuile (voir plus bas).
-   CDA4 : la tuile est découpée en carrés (« blocs ») compressés séparément, lisibles un par un (requêtes HTTP Range) :
-     "CDA4" · u32 longueur de l'en-tête · en-tête (JSON gzip) · blocs (gzip chacun) · aperçu vu de dessus (RVB gzip)
-   L'en-tête porte tout ce qui n'est pas géométrique (nom, types de cellules, étiquettes, sites...) et l'index des blocs :
+   CDA4 : la tuile est découpée en carrés de 80 µm (« blocs ») compressés séparément, lisibles un par un (requêtes HTTP Range) :
+     "CDA4" · u32 longueur de l'en-tête · en-tête (JSON gzip) · bibliothèque des cellules (gzip) · blocs (gzip chacun)
+     · aperçu vu de dessus (gzip, 1 octet par pixel RVB 3-3-2). Chaque bloc ne contient que ce qui est dans son carré (formes découpées au bord) :
+     aucun recouvrement entre blocs, et un bloc se décode seul (plus la bibliothèque, chargée une fois).
+   L'en-tête porte la description d'origine de la tuile (m : nom, types de cellules, étiquettes, sites...) et l'index des blocs :
      tile : côté d'un bloc (unités de grille) · nx, ny · blocks : [début, longueur, formes, cellules, x0, y0, x1, y1]
      (début relatif à la fin de l'en-tête ; x0..y1 : boîte de tout ce que contient le bloc, débords compris).
    Une forme ou une cellule appartient au bloc qui contient son centre. Identifiant stable d'une forme : rang du bloc,
@@ -191,94 +193,164 @@ function unpack(raw) {
 }
 
 /* ---------------- CDA4 ---------------- */
-function W() { let a = new Uint8Array(1 << 16), n = 0; const need = k => { if (n + k > a.length) { const b = new Uint8Array(Math.max(a.length * 2, n + k)); b.set(a.subarray(0, n)); a = b; } };
-  return { v(x) { need(10); x = Math.floor(x); while (x >= 128) { a[n++] = (x % 128) | 128; x = Math.floor(x / 128); } a[n++] = x; }, bytes(b) { need(b.length); a.set(b, n); n += b.length; }, out: () => a.slice(0, n), get n() { return n; } }; }
+const GLASS = new Set(["licon", "mcon", "via", "via2", "via3"]);
+const TB = 16000;   // côté d'un bloc en pas de grille (80 µm à 5 nm) : multiple des carrés de rectUnion (8000), d'où des
+                    // découpes identiques à celles d'une union de toute la tuile, et aucun recouvrement entre blocs
+function Wr() { let a = new Uint8Array(1 << 16), n = 0; const need = k => { if (n + k > a.length) { const b = new Uint8Array(Math.max(a.length * 2, n + k)); b.set(a.subarray(0, n)); a = b; } };
+  return { v(x) { need(10); x = Math.floor(x); while (x >= 128) { a[n++] = (x % 128) | 128; x = Math.floor(x / 128); } a[n++] = x; }, out: () => a.slice(0, n) }; }
 const zz = v => v >= 0 ? v * 2 : -v * 2 - 1, unzz = v => (v % 2 ? -(v + 1) / 2 : v / 2);
-function R(raw, p) { return { p, v() { let v = 0, s = 1, b; do { b = raw[this.p++]; v += (b & 127) * s; s *= 128; } while (b & 128); return v; } }; }
-// flux CDA2 pour une liste [x0,y0,x1,y1(,t)] déjà triée par (y0, x0)
-function putRects(w, r, n, stride, typed) {
-  let py = 0, px = 0;
-  const dy = [], dx = [], ww = [], hh = [], tt = [];
-  for (let i = 0; i < n; i++) { const o = i * stride, x = r[o], y = r[o + 1]; dy.push(y - py); dx.push(zz(i === 0 || y !== py ? x : x - px)); ww.push(r[o + 2] - x); hh.push(r[o + 3] - y); if (typed) tt.push(r[o + 4]); py = y; px = x; }
-  for (const s of typed ? [dy, dx, ww, hh, tt] : [dy, dx, ww, hh]) for (const v of s) w.v(v);
+function Rd(raw, p) { return { p, v() { let v = 0, s = 1, b; do { b = raw[this.p++]; v += (b & 127) * s; s *= 128; } while (b & 128); return v; } }; }
+// rectangles triés (y0, x0) : écart y, x (zigzag, remis à zéro à chaque ligne), largeur, hauteur — en flux séparés
+function putR(w, r) { const n = r.length / 4; let py = 0, px = 0; const S = [[], [], [], []];
+  for (let i = 0; i < n; i++) { const x = r[i * 4], y = r[i * 4 + 1]; S[0].push(y - py); S[1].push(zz(i === 0 || y !== py ? x : x - px)); S[2].push(r[i * 4 + 2] - x); S[3].push(r[i * 4 + 3] - y); py = y; px = x; }
+  for (const c of S) for (const v of c) w.v(v); }
+function getR(rd, n) { const c = [0, 1, 2, 3].map(() => { const a = new Float64Array(n); for (let i = 0; i < n; i++) a[i] = rd.v(); return a; }), r = new Int32Array(n * 4); let x = 0, y = 0;
+  for (let i = 0; i < n; i++) { const dy = c[0][i]; y += dy; const z = unzz(c[1][i]); x = i === 0 || dy !== 0 ? z : x + z; r[i * 4] = x; r[i * 4 + 1] = y; r[i * 4 + 2] = x + c[2][i]; r[i * 4 + 3] = y + c[3][i]; } return r; }
+const sortR = r => { const n = r.length / 4, o = Array.from({ length: n }, (_, i) => i); o.sort((a, b) => r[a * 4 + 1] - r[b * 4 + 1] || r[a * 4] - r[b * 4] || r[a * 4 + 3] - r[b * 4 + 3] || r[a * 4 + 2] - r[b * 4 + 2]); const s = new Int32Array(n * 4); o.forEach((j, i) => s.set(r.subarray(j * 4, j * 4 + 4), i * 4)); return s; };
+// orientation GDS des instances (comme CDA3) : réflexion (y -> -y) puis k quarts de tour
+function tf(x0, y0, x1, y1, o, out, k) { if (o & 4) { const t = y0; y0 = -y1; y1 = -t; } for (let q = o & 3; q > 0; q--) { const a = x0, b = x1; x0 = -y1; x1 = -y0; y0 = a; y1 = b; } out[k] = x0; out[k + 1] = y0; out[k + 2] = x1; out[k + 3] = y1; }
+/* lecture structurée d'une carte CDA3 (routage, bibliothèque, instances) ou CDA2 (routage + cellules sans bibliothèque) */
+function parseSrc(raw) {
+  const ml = raw[4] | raw[5] << 8 | raw[6] << 16 | raw[7] << 24, meta = JSON.parse(new TextDecoder().decode(raw.subarray(8, 8 + ml)));
+  const rd = Rd(raw, 8 + ml);
+  const seq = (n, k) => { const c = []; for (let s = 0; s < k; s++) { const a = new Float64Array(n); for (let i = 0; i < n; i++) a[i] = rd.v(); c.push(a); } return c; };
+  const rects = n => { if (!n) return new Int32Array(0); const [dy, dx, w, h] = seq(n, 4), r = new Int32Array(n * 4); let x = 0, y = 0; for (let i = 0; i < n; i++) { y += dy[i]; const z = unzz(dx[i]); x = i === 0 || dy[i] !== 0 ? z : x + z; r[i * 4] = x; r[i * 4 + 1] = y; r[i * 4 + 2] = x + w[i]; r[i * 4 + 3] = y + h[i]; } return r; };
+  if (is(raw, "CDA3")) {
+    const names = meta.names, route = names.map(() => new Int32Array(0));
+    for (const l of meta.layers) route[names.indexOf(l.name)] = rects(l.count);
+    const lib = meta.lib.map(c => c.l.map(([li, n]) => [li, rects(n)]));
+    const n = meta.inst.count, [idy, idx, ior, ity] = seq(n, 4), inst = new Int32Array(n * 4); let x = 0, y = 0;
+    for (let i = 0; i < n; i++) { y += unzz(idy[i]); const z = unzz(idx[i]); x = i === 0 || idy[i] !== 0 ? z : x + z; inst[i * 4] = x; inst[i * 4 + 1] = y; inst[i * 4 + 2] = ior[i]; inst[i * 4 + 3] = ity[i]; }
+    const m = Object.assign({}, meta); delete m.layers; delete m.lib; delete m.inst; delete m.names; delete m.fmt;
+    return { m, names, route, lib, libMeta: meta.lib.map(c => ({ o: c.o, b: c.b })), inst, cells: null };
+  }
+  if (!is(raw, "CDA2")) throw new Error("format de carte inconnu");
+  const names = meta.layers.map(l => l.name), route = meta.layers.map(l => rects(l.count));
+  const nc = meta.cells.count, cells = new Int32Array(nc * 5);
+  if (nc) { const [dy, dx, w, h, t] = seq(nc, 5); let x = 0, y = 0; for (let i = 0; i < nc; i++) { y += dy[i]; const z = (dx[i] % 2 ? -(dx[i] + 1) / 2 : dx[i] / 2); x = i === 0 || dy[i] !== 0 ? z : x + z; cells.set([x, y, x + w[i], y + h[i], t[i]], i * 5); } }
+  const m = Object.assign({}, meta); delete m.layers; delete m.cells;
+  return { m, names, route, lib: [], libMeta: [], inst: new Int32Array(0), cells };
 }
-function getRects(rd, n, stride, typed, out, off) {
-  const S = (typed ? 5 : 4), cols = []; for (let k = 0; k < S; k++) { const c = new Float64Array(n); for (let i = 0; i < n; i++) c[i] = rd.v(); cols.push(c); }
-  let x = 0, y = 0;
-  for (let i = 0; i < n; i++) { const dy = cols[0][i]; y += dy; const z = unzz(cols[1][i]); x = i === 0 || dy !== 0 ? z : x + z; const o = off + i * stride; out[o] = x; out[o + 1] = y; out[o + 2] = x + cols[2][i]; out[o + 3] = y + cols[3][i]; if (typed) out[o + 4] = cols[4][i]; }
+// boîte d'une instance (cellule) dans la tuile
+function instBox(S, i, out) { const t = S.inst[i * 4 + 3], c = S.libMeta[t], b = c.b; tf(b[0], b[1], b[2], b[3], S.inst[i * 4 + 2], out, 0); out[0] += S.inst[i * 4]; out[1] += S.inst[i * 4 + 1]; out[2] += S.inst[i * 4]; out[3] += S.inst[i * 4 + 1]; }
+/* les formes finales d'un bloc : routage + géométrie des instances, découpées au carré du bloc, union exacte des murs,
+   tri (y0, y1, x0) et fusion des voisines sur une même ligne (comme CDA3) ; identique à l'encodage et au décodage */
+function finish(NL, names, per, sq) {
+  return per.map((list, li) => {
+    let n = 0; for (const r of list) n += r.length / 4; if (!n) return new Int32Array(0);
+    const c = new Int32Array(n * 4); let k = 0;
+    for (const r of list) for (let j = 0; j < r.length; j += 4) {
+      const x0 = Math.max(sq[0], r[j]), y0 = Math.max(sq[1], r[j + 1]), x1 = Math.min(sq[2], r[j + 2]), y1 = Math.min(sq[3], r[j + 3]);
+      if (x1 > x0 && y1 > y0) { c[k++] = x0; c[k++] = y0; c[k++] = x1; c[k++] = y1; }
+    }
+    let r = c.subarray(0, k); if (!GLASS.has(names[li]) && k) r = rectUnion(r, k / 4);
+    const m = r.length / 4, ord = Array.from({ length: m }, (_, i) => i);
+    ord.sort((a, b) => r[a * 4 + 1] - r[b * 4 + 1] || r[a * 4 + 3] - r[b * 4 + 3] || r[a * 4] - r[b * 4] || r[a * 4 + 2] - r[b * 4 + 2]);
+    const v = new Int32Array(m * 4); let q = -4;
+    for (const j of ord) { const x0 = r[j * 4], y0 = r[j * 4 + 1], x1 = r[j * 4 + 2], y1 = r[j * 4 + 3];
+      if (q >= 0 && v[q + 1] === y0 && v[q + 3] === y1 && x0 <= v[q + 2]) { if (x1 > v[q + 2]) v[q + 2] = x1; continue; }
+      q += 4; v[q] = x0; v[q + 1] = y0; v[q + 2] = x1; v[q + 3] = y1; }
+    return v.slice(0, q + 4);
+  });
 }
-const sortYX = (r, n, stride) => { const ord = Array.from({ length: n }, (_, i) => i); ord.sort((a, b) => r[a * stride + 1] - r[b * stride + 1] || r[a * stride] - r[b * stride] || r[a * stride + 3] - r[b * stride + 3] || r[a * stride + 2] - r[b * stride + 2]); return ord; };
-/* encode4(carte décompressée {meta, buf}, { tileUm, ovMax, ov }, gzip) -> Uint8Array
-   ov(meta, buf) : aperçu facultatif { w, h, rgb } (calculé par l'appelant) */
-function encode4(map, opt, gzip) {
-  const meta = map.meta, U = new Uint32Array(map.buf), G = meta.grid, TG = Math.max(1, Math.round((opt.tileUm || 64) / G));
-  const Wg = Math.ceil(meta.w / G) + 1, Hg = Math.ceil(meta.h / G) + 1, nx = Math.max(1, Math.ceil(Wg / TG)), ny = Math.max(1, Math.ceil(Hg / TG)), NB = nx * ny;
-  const tileOf = (x0, y0, x1, y1) => { const tx = Math.min(nx - 1, Math.max(0, Math.floor((x0 + x1) / 2 / TG))), ty = Math.min(ny - 1, Math.max(0, Math.floor((y0 + y1) / 2 / TG))); return ty * nx + tx; };
-  const names = meta.layers.map(l => l.name), NL = names.length;
-  const B = Array.from({ length: NB }, () => ({ L: Array.from({ length: NL }, () => []), C: [], box: [Infinity, Infinity, -Infinity, -Infinity] }));
-  const grow = (b, x0, y0, x1, y1) => { if (x0 < b.box[0]) b.box[0] = x0; if (y0 < b.box[1]) b.box[1] = y0; if (x1 > b.box[2]) b.box[2] = x1; if (y1 > b.box[3]) b.box[3] = y1; };
-  meta.layers.forEach((l, li) => { const o = l.offset / 4; for (let i = 0; i < l.count; i++) { const k = o + i * 4, x0 = U[k], y0 = U[k + 1], x1 = U[k + 2], y1 = U[k + 3], b = B[tileOf(x0, y0, x1, y1)]; b.L[li].push(x0, y0, x1, y1); grow(b, x0, y0, x1, y1); } });
-  { const o = meta.cells.offset / 4; for (let i = 0; i < meta.cells.count; i++) { const k = o + i * 5, x0 = U[k], y0 = U[k + 1], x1 = U[k + 2], y1 = U[k + 3], b = B[tileOf(x0, y0, x1, y1)]; b.C.push(i, x0, y0, x1, y1, U[k + 4]); grow(b, x0, y0, x1, y1); } }
-  const parts = [], index = []; let off = 0;
-  for (const b of B) {
-    const w = W(); let nr = 0;
-    for (let li = 0; li < NL; li++) w.v(b.L[li].length / 4);
-    for (let li = 0; li < NL; li++) {
-      const r = b.L[li], n = r.length / 4; if (!n) continue; nr += n;
-      const ord = sortYX(r, n, 4), s = new Float64Array(n * 4); ord.forEach((j, i) => { s[i * 4] = r[j * 4]; s[i * 4 + 1] = r[j * 4 + 1]; s[i * 4 + 2] = r[j * 4 + 2]; s[i * 4 + 3] = r[j * 4 + 3]; });
-      putRects(w, s, n, 4, false);
-    }
-    const nc = b.C.length / 6; w.v(nc);
-    if (nc) {
-      let prev = -1; for (let i = 0; i < nc; i++) { w.v(b.C[i * 6] - prev - 1); prev = b.C[i * 6]; }   // indices d'origine, croissants
-      const c = new Float64Array(nc * 5); for (let i = 0; i < nc; i++) for (let k = 0; k < 5; k++) c[i * 5 + k] = b.C[i * 6 + 1 + k];
-      // les flux supposent un tri (y0, x0) : on encode dans cet ordre et on garde la permutation vers l'ordre d'origine
-      const ord = sortYX(c, nc, 5), s = new Float64Array(nc * 5); ord.forEach((j, i) => { for (let k = 0; k < 5; k++) s[i * 5 + k] = c[j * 5 + k]; });
-      for (const j of ord) w.v(j);
-      putRects(w, s, nc, 5, true);
-    }
-    const z = nr || nc ? gzip(w.out()) : new Uint8Array(0);
-    parts.push(z);
-    index.push(nr || nc ? [off, z.length, nr, nc, b.box[0], b.box[1], b.box[2], b.box[3]] : [off, 0, 0, 0, 0, 0, 0, 0]);
-    off += z.length;
+/* encode4(octets décompressés d'une carte CDA2/CDA3, { ov }, gzip) -> Uint8Array
+   bloc : [routage découpé par couche] [instances qui touchent le bloc : indice, x, y, orientation, type, « à moi »]
+          [cellules sans bibliothèque (CDA2) : indice + boîte + type]
+   ov(carte décompressée) : aperçu facultatif { w, h, rgb } */
+function encode4(raw, opt, gzip) {
+  const S = parseSrc(raw), NL = S.names.length, m = S.m, G = m.grid;
+  const Wg = Math.ceil(m.w / G) + 1, Hg = Math.ceil(m.h / G) + 1, nx = Math.max(1, Math.ceil(Wg / TB)), ny = Math.max(1, Math.ceil(Hg / TB)), NB = nx * ny;
+  const B = Array.from({ length: NB }, () => ({ R: Array.from({ length: NL }, () => []), I: [], C: [] }));
+  const span = (x0, y0, x1, y1, f) => { const a = Math.max(0, Math.floor(x0 / TB)), b = Math.min(nx - 1, Math.floor((x1 - 1) / TB)), c = Math.max(0, Math.floor(y0 / TB)), d = Math.min(ny - 1, Math.floor((y1 - 1) / TB)); for (let ty = c; ty <= d; ty++) for (let tx = a; tx <= b; tx++) f(ty * nx + tx); };
+  const own = (x0, y0, x1, y1) => Math.min(ny - 1, Math.max(0, Math.floor((y0 + y1) / 2 / TB))) * nx + Math.min(nx - 1, Math.max(0, Math.floor((x0 + x1) / 2 / TB)));
+  S.route.forEach((r, li) => { for (let j = 0; j < r.length; j += 4) { if (r[j + 2] <= r[j] || r[j + 3] <= r[j + 1]) continue; span(r[j], r[j + 1], r[j + 2], r[j + 3], t => B[t].R[li].push(r[j], r[j + 1], r[j + 2], r[j + 3])); } });
+  // instances : leur géométrie va dans chaque bloc qu'elle touche ; la cellule appartient au bloc de son centre
+  const box = new Int32Array(4), libBox = S.lib.map(L => { let a = [Infinity, Infinity, -Infinity, -Infinity]; for (const [, r] of L) for (let j = 0; j < r.length; j += 4) { a[0] = Math.min(a[0], r[j]); a[1] = Math.min(a[1], r[j + 1]); a[2] = Math.max(a[2], r[j + 2]); a[3] = Math.max(a[3], r[j + 3]); } return a; });
+  const NI = S.inst.length / 4;
+  for (let i = 0; i < NI; i++) {
+    instBox(S, i, box); const mine = own(Math.max(0, box[0]), Math.max(0, box[1]), Math.max(0, box[2]), Math.max(0, box[3]));
+    const t = S.inst[i * 4 + 3], lb = libBox[t], c = S.libMeta[t], g = new Int32Array(4);
+    if (lb[0] < Infinity) { tf(lb[0] + c.o[0], lb[1] + c.o[1], lb[2] + c.o[0], lb[3] + c.o[1], S.inst[i * 4 + 2], g, 0); g[0] += S.inst[i * 4]; g[1] += S.inst[i * 4 + 1]; g[2] += S.inst[i * 4]; g[3] += S.inst[i * 4 + 1]; }
+    const seen = new Set([mine]); B[mine].I.push(i, 1);
+    if (lb[0] < Infinity) span(g[0], g[1], g[2], g[3], tb => { if (!seen.has(tb)) { seen.add(tb); B[tb].I.push(i, 0); } });
+  }
+  if (S.cells) for (let i = 0; i < S.cells.length / 5; i++) { const k = i * 5; B[own(S.cells[k], S.cells[k + 1], S.cells[k + 2], S.cells[k + 3])].C.push(i); }
+  // l'en-tête porte la bibliothèque (petite) : les blocs n'ont que des références
+  const libW = Wr(); S.lib.forEach(L => { libW.v(L.length); for (const [li, r] of L) { libW.v(li); libW.v(r.length / 4); putR(libW, sortR(r)); } });
+  const libZ = gzip(libW.out());
+  const parts = [libZ], index = []; let off = libZ.length;
+  const H0 = { names: S.names, lib: S.libMeta };
+  for (let b = 0; b < NB; b++) {
+    const bl = B[b], w = Wr();
+    for (let li = 0; li < NL; li++) w.v(bl.R[li].length / 4);
+    for (let li = 0; li < NL; li++) if (bl.R[li].length) putR(w, sortR(Int32Array.from(bl.R[li])));
+    const ni = bl.I.length / 2; w.v(ni);
+    { let prev = -1; for (let k = 0; k < ni; k++) { const i = bl.I[k * 2]; w.v(i - prev - 1); prev = i; } }   // indices croissants
+    for (let k = 0; k < ni; k++) { const i = bl.I[k * 2]; w.v(zz(S.inst[i * 4])); }
+    for (let k = 0; k < ni; k++) { const i = bl.I[k * 2]; w.v(zz(S.inst[i * 4 + 1])); }
+    for (let k = 0; k < ni; k++) { const i = bl.I[k * 2]; w.v(S.inst[i * 4 + 2] * 2 + bl.I[k * 2 + 1]); }   // orientation et « cellule à moi »
+    for (let k = 0; k < ni; k++) w.v(S.inst[bl.I[k * 2] * 4 + 3]);
+    const nc = bl.C.length; w.v(nc);
+    if (nc) { let prev = -1; for (const i of bl.C) { w.v(i - prev - 1); prev = i; } for (const i of bl.C) for (let q = 0; q < 5; q++) w.v(zz(S.cells[i * 5 + q])); }
+    const rawB = w.out(), empty = !NL || (bl.R.every(r => !r.length) && !ni && !nc);
+    const z = empty ? new Uint8Array(0) : gzip(rawB);
+    // compte final des formes du bloc (identifiant stable = base du bloc + rang) : on décode exactement comme le jeu
+    let nr = 0, own_ = 0;
+    if (!empty) { const d = decodeBlock(rawB, { names: S.names, lib: S.libMeta, libR: S.lib.map(L => L.map(([li, r]) => [li, sortR(r)])) }, b, nx); nr = d.L.reduce((s, r) => s + r.length / 4, 0); own_ = d.idx.length; }
+    const tx = b % nx, ty = Math.floor(b / nx);
+    index.push([off, z.length, nr, own_, tx * TB, ty * TB, (tx + 1) * TB, (ty + 1) * TB]);
+    parts.push(z); off += z.length;
   }
   let ovInfo = null;
-  if (opt.ov) { const o = opt.ov(map); if (o) { const z = gzip(o.rgb); ovInfo = { w: o.w, h: o.h, off, len: z.length }; parts.push(z); off += z.length; } }
-  const H = Object.assign({}, meta); delete H.layers; delete H.cells;
-  Object.assign(H, { fmt: 4, names, counts: meta.layers.map(l => l.count), ncells: meta.cells.count, tile: TG, nx, ny, blocks: index, ov: ovInfo });
+  if (opt && opt.ov) { const o = opt.ov(unpack(raw)); if (o) { const z = gzip(o.rgb); ovInfo = { w: o.w, h: o.h, fmt: o.fmt || "rgb", off, len: z.length }; parts.push(z); off += z.length; } }
+  const ncells = S.cells ? S.cells.length / 5 : NI;
+  const H = { fmt: 4, m, names: S.names, lib: S.libMeta, libz: [0, libZ.length], ncells, tile: TB, nx, ny, blocks: index, ov: ovInfo };
   const hz = gzip(new TextEncoder().encode(JSON.stringify(H)));
   const out = new Uint8Array(8 + hz.length + off);
   out.set(MAGIC("CDA4"), 0); new DataView(out.buffer).setUint32(4, hz.length, true); out.set(hz, 8);
   let p = 8 + hz.length; for (const z of parts) { out.set(z, p); p += z.length; }
   return out;
 }
-/* lecture : l'en-tête d'abord (bytes : au moins les 8 + longueur premiers octets) */
+/* lecture : en-tête, puis bibliothèque (une fois), puis les blocs voulus */
 const isCda4 = bytes => is(bytes, "CDA4");
 function headLen4(bytes) { return 8 + new DataView(bytes.buffer, bytes.byteOffset).getUint32(4, true); }
-function header4(hdrJsonBytes, hlen) {   // hdrJsonBytes : JSON décompressé ; hlen : headLen4(...)
+function header4(hdrJsonBytes, hlen) {
   const H = JSON.parse(new TextDecoder().decode(hdrJsonBytes));
   H.dataStart = hlen; H.base = []; let s = 0; for (const b of H.blocks) { H.base.push(s); s += b[2]; } H.nrects = s;
   return H;
 }
-// un bloc décompressé -> { L: [Float64Array formes de chaque couche, [x0,y0,x1,y1]*n], cells: [{ i, r: [x0,y0,x1,y1,t] }] }
-function block4(raw, H) {
-  const rd = R(raw, 0), NL = H.names.length, cnt = []; for (let li = 0; li < NL; li++) cnt.push(rd.v());
-  const L = cnt.map(n => { const r = new Float64Array(n * 4); if (n) getRects(rd, n, 4, false, r, 0); return r; });
-  const nc = rd.v(), idx = [], cells = new Float64Array(nc * 5);
-  if (nc) { let prev = -1; for (let i = 0; i < nc; i++) { prev += rd.v() + 1; idx.push(prev); } const ord = []; for (let i = 0; i < nc; i++) ord.push(rd.v()); const s = new Float64Array(nc * 5); getRects(rd, nc, 5, true, s, 0); ord.forEach((j, i) => { for (let k = 0; k < 5; k++) cells[j * 5 + k] = s[i * 5 + k]; }); }
-  return { L, cells, idx };
+function lib4(rawLib, H) { const rd = Rd(rawLib, 0); H.libR = H.lib.map(() => { const n = rd.v(), L = []; for (let k = 0; k < n; k++) { const li = rd.v(), c = rd.v(); L.push([li, getR(rd, c)]); } return L; }); return H; }
+function decodeBlock(raw, H, b, nx) {
+  const rd = Rd(raw, 0), NL = H.names.length, cnt = []; for (let li = 0; li < NL; li++) cnt.push(rd.v());
+  const per = Array.from({ length: NL }, () => []);
+  for (let li = 0; li < NL; li++) if (cnt[li]) per[li].push(getR(rd, cnt[li]));
+  const ni = rd.v(), ii = new Float64Array(ni), xs = new Float64Array(ni), ys = new Float64Array(ni), os = new Float64Array(ni), ts = new Float64Array(ni);
+  { let prev = -1; for (let k = 0; k < ni; k++) { prev += rd.v() + 1; ii[k] = prev; } }
+  for (let k = 0; k < ni; k++) xs[k] = unzz(rd.v()); for (let k = 0; k < ni; k++) ys[k] = unzz(rd.v());
+  for (let k = 0; k < ni; k++) os[k] = rd.v(); for (let k = 0; k < ni; k++) ts[k] = rd.v();
+  const idx = [], cells = [], tmp = new Int32Array(4);
+  for (let k = 0; k < ni; k++) {
+    const t = ts[k], o = os[k] >> 1, c = H.lib[t], [lx, ly] = c.o, x = xs[k], y = ys[k];
+    for (const [li, r] of H.libR[t]) { const g = new Int32Array(r.length); for (let j = 0; j < r.length; j += 4) { tf(r[j] + lx, r[j + 1] + ly, r[j + 2] + lx, r[j + 3] + ly, o, g, j); g[j] += x; g[j + 1] += y; g[j + 2] += x; g[j + 3] += y; } per[li].push(g); }
+    if (os[k] & 1) { const bb = c.b; tf(bb[0], bb[1], bb[2], bb[3], o, tmp, 0); idx.push(ii[k]); cells.push(Math.max(0, tmp[0] + x), Math.max(0, tmp[1] + y), Math.max(0, tmp[2] + x), Math.max(0, tmp[3] + y), t); }
+  }
+  const nc = rd.v();
+  if (nc) { const ci = []; let prev = -1; for (let k = 0; k < nc; k++) { prev += rd.v() + 1; ci.push(prev); } for (let k = 0; k < nc; k++) { idx.push(ci[k]); for (let q = 0; q < 5; q++) cells.push(unzz(rd.v())); } }
+  const tx = b % nx, ty = Math.floor(b / nx), sq = [tx * TB, ty * TB, (tx + 1) * TB, (ty + 1) * TB];
+  return { L: finish(NL, H.names, per, sq), idx, cells: Float64Array.from(cells) };
 }
-/* toute la tuile, au format décompressé historique {meta, buf} (couches triées par y0 comme CDA2/CDA3) */
+// un bloc décompressé -> { L: formes finales de chaque couche (Int32Array [x0,y0,x1,y1]*n), idx: indices des cellules, cells }
+function block4(raw, H, b) { return decodeBlock(raw, H, b, H.nx); }
+/* toute la tuile, au format décompressé historique {meta, buf} (couches triées (y0, y1, x0) comme CDA2/CDA3) */
 function assemble4(H, blocks) {
   const NL = H.names.length, per = Array.from({ length: NL }, () => []);
   blocks.forEach(b => { if (b) b.L.forEach((r, li) => { if (r.length) per[li].push(r); }); });
-  const meta = Object.assign({}, H); for (const k of ["fmt", "names", "counts", "ncells", "tile", "nx", "ny", "blocks", "ov", "dataStart", "base", "nrects"]) delete meta[k];
-  const layers = [], total = per.reduce((a, l) => a + l.reduce((s, r) => s + r.length / 4, 0), 0), out = new Uint32Array(total * 4 + H.ncells * 5);
+  const meta = Object.assign({}, H.m);
+  const total = per.reduce((a, l) => a + l.reduce((s, r) => s + r.length / 4, 0), 0), out = new Uint32Array(total * 4 + H.ncells * 5), layers = [];
   let o = 0;
   for (let li = 0; li < NL; li++) {
     const n = per[li].reduce((s, r) => s + r.length / 4, 0); if (!n) continue;
-    const all = new Float64Array(n * 4); let k = 0; for (const r of per[li]) { all.set(r, k); k += r.length; }
-    // même ordre que le décodeur CDA3 : y0 (tri par comptage, linéaire), puis dans chaque ligne y1, x0, x1
+    const all = new Int32Array(n * 4); let k = 0; for (const r of per[li]) { all.set(r, k); k += r.length; }
     let my = 0; for (let j = 0; j < n; j++) { const y = all[j * 4 + 1]; if (y > my) my = y; }
     const st = new Uint32Array(my + 2); for (let j = 0; j < n; j++) st[all[j * 4 + 1] + 1]++;
     for (let y = 1; y < st.length; y++) st[y] += st[y - 1];
@@ -292,9 +364,9 @@ function assemble4(H, blocks) {
   meta.layers = layers; meta.cells = { count: H.ncells, offset: co * 4 };
   return { meta, buf: out.buffer };
 }
-// blocs à charger pour couvrir une zone (unités de grille) : ceux dont le contenu touche la zone
+// blocs à charger pour couvrir une zone (unités de grille)
 function blocksIn4(H, x0, y0, x1, y1) { const out = []; H.blocks.forEach((b, i) => { if (b[1] && b[4] < x1 && b[6] > x0 && b[5] < y1 && b[7] > y0) out.push(i); }); return out; }
 
-const api = { unpack, unpack2, unpack3, rectUnion, encode4, isCda4, headLen4, header4, block4, assemble4, blocksIn4 };
+const api = { unpack, unpack2, unpack3, rectUnion, encode4, isCda4, headLen4, header4, lib4, block4, assemble4, blocksIn4, parseSrc };
 if (typeof module !== "undefined" && module.exports) module.exports = api; else root.CDA_CODEC = api;
 })(typeof self !== "undefined" ? self : this);
