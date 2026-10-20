@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-V+YDyvvtuK6zsCBPfEpKnv95CdaISN66zrjEk1eDX4c=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlanKARlj/ouxMWY4sgRenUoNPuBudaIJx+226mL+bI=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-ba45gzFeYgQVVN9R3UxCp2JYH0wemIF+mMZydRXZN0Q=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-zFwwyFseGVEAFn9lAOkYJ8JCJzEIWMXWgnfo+Oi4U/0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";window.CDA_MAPDIR="maps4/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="55b93f247c3b";</script>
+<script>window.CDA_BUILD="0f18410b8238";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -2459,10 +2459,15 @@ async function open4(key, u8) {
 // région : toute la tuile si elle est petite, sinon la fenêtre (+ marge) : blocs à décoder et rectangle gardé (grille)
 function region4(ar) {
   const H = MAP4.H, all = H.blocks.map((b, i) => b[1] ? i : -1).filter(i => i >= 0);
-  if (!MAP4.big) return { sel: all, clip: null, key: "all" };
+  if (!MAP4.big) return { sel: all, clip: null, key: "all", rect: null };
   ar = ar || MAP4.solo; const G = H.m.grid, c = [Math.floor((ar[0] - REG_M) / G), Math.floor((ar[1] - REG_M) / G), Math.ceil((ar[2] + REG_M) / G), Math.ceil((ar[3] + REG_M) / G)];
-  return { sel: window.CDA_CODEC.blocksIn4(H, ...c), clip: c, key: c.join(",") };
+  return { sel: window.CDA_CODEC.blocksIn4(H, ...c), clip: c, key: c.join(","), rect: ar.slice() };
 }
+/* solo sur une grande tuile avec « toute la puce » : aucune fenêtre, la région chargée suit le joueur (240 µm de côté,
+   recentrée quand il arrive à 40 µm de son bord) ; le reste de la puce n'est pas en mémoire */
+const STREAM_H = 120, STREAM_EDGE = 40;
+function soloStream() { let v = "1"; try { v = document.getElementById("optMic").value || "1"; } catch (e) {} return !!(MAP4 && MAP4.big && MAP4.key === MAPSEL && v === "1"); }
+function streamRect(x, y) { const s = 40, cx = Math.round(x / s) * s, cy = Math.round(y / s) * s; return [cx - STREAM_H, cy - STREAM_H, cx + STREAM_H, cy + STREAM_H]; }
 async function build4(R) {
   const sel = R.sel, clip = R.clip;
   const C = window.CDA_CODEC, { u8, H } = MAP4, hl = H.dataStart, want = new Set(sel);
@@ -2477,7 +2482,7 @@ async function build4(R) {
     return MAP4.cellsB ? MAP4.cellsB[i] : C.block4(await gunzipB(u8.subarray(hl + b[0], hl + b[0] + b[1])), H, i, true);
   }));
   const d = C.assemble4(H, blocks);
-  d.meta.ntot = H.nrects; d.meta.region = R.key; d.meta.ovImg = MAP4.ov;
+  d.meta.ntot = H.nrects; d.meta.region = R.key; d.meta.regRect = R.rect; d.meta.ovImg = MAP4.ov;
   return d;
 }
 async function cdaUnpack(bytes, key) {
@@ -2943,7 +2948,7 @@ function applyStyle(name) {
 function __w15() {
 applyStyle(UI.OPTS.style || "dark");
 SOLO_AR = null;
-if (NTOT > 900000) {   // même calcul que arenaFor() plus bas, centré sur la logique
+if (NTOT > 900000 && !soloStream()) {   // même calcul que arenaFor() plus bas, centré sur la logique
   let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna|endcap)/.test(t)) continue; sx += C0x[i] + C1x[i]; sy += C0y[i] + C1y[i]; n += 2; }
   const cx = n ? sx / n : W / 2, cy = n ? sy / n - OY : HH / 2, A = 900000 / NTOT * W * HH;
   let w = Math.min(W, Math.sqrt(A)), h = Math.min(HH, A / w); w = Math.min(W, A / h);
@@ -8586,9 +8591,15 @@ function __w54() {
 if ($("optMic").value !== "1") SOLO_AR = arenaFor({ m: +$("optMic").value }, 1, "race");
 }
 __wrun(__w54);
-{ $("optMic").addEventListener("change", () => { const v2 = $("optMic").value; try { localStorage.setItem("cda-mic-solo", v2); } catch (e) {} SOLO_AR = arenaFor({ m: +v2 }, 1, "race") || (NTOT > AR_CAP ? SOLO_AR : null); }); }
+{ $("optMic").addEventListener("change", () => { const v2 = $("optMic").value; try { localStorage.setItem("cda-mic-solo", v2); } catch (e) {} SOLO_AR = v2 === "1" && soloStream() ? null : arenaFor({ m: +v2 }, 1, "race") || (NTOT > AR_CAP ? SOLO_AR : null); }); }
 function arenaSync() {
   const ar = MP.on ? (MP.G.ar || null) : SOLO_AR;
+  if (!MP.on && !SOLO_AR && soloStream()) {   // solo, toute la puce : la région suit le joueur
+    if (mapBusy) return;
+    const r = M.regRect, x = P.x, y = -P.z;
+    if (!r || x < r[0] + STREAM_EDGE || x > r[2] - STREAM_EDGE || y < r[1] + STREAM_EDGE || y > r[3] - STREAM_EDGE) { ensureRegion(streamRect(x, y)); return; }
+    applyArena(null); return;
+  }
   // grande tuile CDA4 : la fenêtre doit être dans la région en mémoire, sinon on charge la bonne région d'abord
   if (MAP4 && MAP4.big && MAP4.key === MAPSEL && !mapBusy) { if (region4(ar).key !== M.region) { ensureRegion(ar); return; } }
   if (mapBusy) return;
@@ -9595,7 +9606,9 @@ async function chargerCarte(key, onStep, opt) {   // opt.region : autre région 
     FORT_ON = false;
     // nouvelle carte, puis reconstruction du monde dans le même ordre qu'au démarrage
     MAPSEL = key; M = d.meta; buf = d.buf;
-    __wRebuild(); arCur = "";   // la fenêtre en cours sera réappliquée sur le monde reconstruit
+    const keep = reg && !MP.on ? { x: P.x, y: P.y, z: P.z, yaw, fly: P.fly } : null;   // solo : on reste où on est
+    __wRebuild(); arCur = "";
+    if (keep) { P.x = keep.x; P.y = keep.y; P.z = keep.z; yaw = keep.yaw; if (keep.fly !== P.fly) setFly(keep.fly); P.vy = 0; }   // la fenêtre en cours sera réappliquée sur le monde reconstruit
     if (reg) regSpawn = true;    // nouvelle région en partie : on réapparaît à sa base, une fois la fenêtre posée
     // en partie en ligne : le monde reconstruit reste celui du multijoueur (pas de losanges des bascules du solo, sites du mode)
     if (MP.on) { marks.visible = false; siteGroup.visible = gMode() === "bomb"; try { refreshAlerts(); } catch (e) {} }
@@ -9610,7 +9623,7 @@ async function chargerCarte(key, onStep, opt) {   // opt.region : autre région 
   })().finally(() => { mapBusy = null; });
 }
 window.chargerCarte = chargerCarte;
-window.__map = { geo: () => { let s = 0; for (let i = 0; i < N; i += 97) s = (s * 31 + X0[i] * 7 + Y0g[i] * 13 + LAY[i]) % 1e9; return [N, M.region || "", Math.round(s)]; }, stats: () => { let inst = 0, vis = 0, vc = 0; for (const c of chunks) { inst += c.mesh.count; if (c.mesh.visible) { vis += c.mesh.count; vc++; } } return { N, W, HH, chunks: chunks.length, inst, vis, vc, mem: renderer.info.memory, calls: renderer.info.render.calls, tris: renderer.info.render.triangles, heap: performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1e6) : null }; }, marks: () => marks.visible, track: s => { setTrack(s); return TRACK.map(n => [n.kind[0], Math.round(n.x), Math.round(n.gy), n.lv]); }, su: () => ({ setup: L.setup, step: L.step, view: L.view, steps: SU_STEPS() }), pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
+window.__map = { tp: (x, y) => teleport(x, y), geo: () => { let s = 0; for (let i = 0; i < N; i += 97) s = (s * 31 + X0[i] * 7 + Y0g[i] * 13 + LAY[i]) % 1e9; return [N, M.region || "", Math.round(s)]; }, stats: () => { let inst = 0, vis = 0, vc = 0; for (const c of chunks) { inst += c.mesh.count; if (c.mesh.visible) { vis += c.mesh.count; vc++; } } return { N, W, HH, chunks: chunks.length, inst, vis, vc, mem: renderer.info.memory, calls: renderer.info.render.calls, tris: renderer.info.render.triangles, heap: performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1e6) : null }; }, marks: () => marks.visible, track: s => { setTrack(s); return TRACK.map(n => [n.kind[0], Math.round(n.x), Math.round(n.gy), n.lv]); }, su: () => ({ setup: L.setup, step: L.step, view: L.view, steps: SU_STEPS() }), pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
 window.__game = { vote: { prep: r => prepVote(r), cast: i => castVote(i), counts: () => MP.G && MP.G.mv ? voteCounts(MP.G) : null }, die: b => die(b), me: () => ({ x: P.x, z: P.z, yaw, fly: P.fly }), arena: () => ({ AR, AR_ON, sites: SITES.map(x => [x.x, x.y]), pins: [PINS.M.x, PINS.M.y, PINS.D.x, PINS.D.y], doms: DOMS.map(d => [d.x, d.y]), pads: PADS.map(d => [d.x, d.y]), spawn: SPAWN, wsp: WSPOTS.map(w => [w.x, w.y]) }), vm: () => VM.state(), wpn: { get spots() { return WSPOTS; }, get forts() { return FORTS; }, get on() { return FORT_ON; }, give: k => wpGive(k), state: () => MP.wpn, swap: () => wpSwap() }, sup: (x, gy, k) => supportedAt(x, -gy, k), srun: (a, b, c, d, k) => supportedRun(a, b, c, d, k), genTrack: sd => { const t0 = performance.now(), T = genTrack(sd); return T ? { ms: Math.round(performance.now() - t0), n: T.length, arches: T.filter(n => n.kind === "arch").map(n => n.lv).join(""), T } : { ms: Math.round(performance.now() - t0), fail: true }; }, splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, get TRACK() { return TRACK; }, get ARCHES() { return ARCHES; }, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
 // données de la carte : relues à chaque accès (elles changent avec chargerCarte)
 { const live = { DOMS: () => DOMS, PINS: () => PINS, anchors: () => anchors, dmgVal: () => dmgVal, dead: () => dead, chunks: () => chunks, pads: () => PADS, nrg: () => NRG, SHAFTS: () => SHAFTS };
