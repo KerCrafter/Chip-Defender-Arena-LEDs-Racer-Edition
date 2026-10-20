@@ -104,7 +104,7 @@ async function setup(S) {
 }
 
 /* ---------- envoi ---------- */
-function walk(d, acc = []) { for (const n of readdirSync(d)) { const p = join(d, n); if (statSync(p).isDirectory()) walk(p, acc); else if (/\.(bin|json)$/.test(n)) acc.push(p); } return acc; }
+function walk(d, acc = []) { for (const n of readdirSync(d)) { const p = join(d, n); if (statSync(p).isDirectory()) walk(p, acc); else if (/\.(bin|json|png)$/.test(n)) acc.push(p); } return acc; }
 const md5 = p => createHash("md5").update(readFileSync(p)).digest("hex");
 async function upload(S) {
   title("Envoi des cartes");
