@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-LmdStGhOtojHTeV5vTzZNfPV+AcmwgvYcrRjj5cFhIY=' 'sha256-PGbu2MuXrIBtWBFUXbyVKdiaAaXRjdexkgzDkymnJ0U=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-ZZcmv/max9kwATdJLTCMOiPUIoOgvYL8+ANTbv6EIEE=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-CgVzKZ8G6JXMWbsomfO3+rDV3G1OL3vOso/7GLMq8GY=' 'sha256-DAFvCtutSdfFCkA33FD1/TEsafxEBqXrsa6X2iIyZKs=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-ZZcmv/max9kwATdJLTCMOiPUIoOgvYL8+ANTbv6EIEE=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="c299f858262d";</script>
+<script>window.CDA_BUILD="8c2c39520941";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -1788,8 +1788,11 @@ document.documentElement.lang = LANG;
   if (touch) $("press").textContent = (EN ? "Tap the screen to start" : "Touche l'écran pour commencer");
   const advance = (e) => {
     if (UI.stage === "intro") { UI.showTitle(true); return; }
-    if (UI.stage === "title") { SFX.ctx(); UI.sting(); UI.showMenu(); }
+    if (UI.stage === "title") { SFX.ctx(); UI.sting(); UI.showMenu(); if (e && e.type === "pointerdown") UI.tapGuard = performance.now(); }
   };
+  // écran tactile : le menu apparaît au toucher (pointerdown) ; le « click » du même toucher, qui arrive juste après,
+  // tomberait sur le bouton apparu sous le doigt (souvent « Personnages ») : on l'ignore pendant un court instant
+  addEventListener("click", e => { if (UI.tapGuard && performance.now() - UI.tapGuard < 900) { UI.tapGuard = 0; e.preventDefault(); e.stopPropagation(); } }, true);
   $("intro").addEventListener("pointerdown", e => { if (e.target.id !== "skipBtn") advance(e); });
   $("skipBtn").addEventListener("click", e => { e.stopPropagation(); UI.showTitle(true); });
   addEventListener("keydown", e => {
