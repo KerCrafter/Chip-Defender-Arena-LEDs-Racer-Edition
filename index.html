@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-DAFvCtutSdfFCkA33FD1/TEsafxEBqXrsa6X2iIyZKs=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Jyx97n5LhVzOuaYnuTQLGrmTQn7gnCeex/XwZ2dG9Bs=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-y1z2KN0idWgMJyERS9jaoe+TBsAVSimszrRnS1JhLM0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0oPhlUG5LqxlvD7l5ylNl5X1XhbYz0e6deuhjVNLirA=' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-DAFvCtutSdfFCkA33FD1/TEsafxEBqXrsa6X2iIyZKs=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-tOq1Sl5foitp1IqCiu+xfgzYh6KnKj8kdm2NJ1/Xcp4=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="b0205b6699b5";</script>
+<script>window.CDA_BUILD="16394fbd1528";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -841,6 +841,14 @@ body.race #myTeam{visibility:hidden}
 @media (max-width:640px){.gm-cols{grid-template-columns:1fr}.pnl .modes.two{grid-template-columns:1fr 1fr}.gm-head{grid-template-columns:80px minmax(0,1fr)}.gm-head .btn-sub{grid-column:1 / -1}.gm-head img{width:80px}.glist .gi{grid-template-columns:64px minmax(0,1fr)}.glist .gi img{width:64px}.glist .gi .btn-main{grid-column:1 / -1}}
 
 .gcreate{display:flex;gap:12px;flex-wrap:wrap}
+.home-new{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;background:#000;padding:14px}
+.home-new .btn-main{font-size:18px;padding:14px 22px}
+.home-new small{font:500 12px var(--f-kmono);color:var(--k-sky);flex:1;min-width:180px}
+.su-step{margin:6px 0 -4px;font:900 15px var(--f-brand);text-transform:uppercase;background:#000;justify-self:start;padding:3px 10px}
+#lvCreate #gmodeLbl{display:none}
+#lvCreate .modes.two{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}#lvCreate .mcard img{aspect-ratio:16/9}#lvCreate .modes.two .mcard b{font-size:15px}
+.su-go{display:flex;gap:12px;flex-wrap:wrap;align-items:center;position:sticky;bottom:0;background:var(--k-blue2);padding:10px 0;z-index:2}
+.gm-sum h4{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.gm-sum h4 .btn-sub{margin-left:auto}
 .lv .hint{margin:0;font:500 12px/1.5 var(--f-kmono);color:var(--k-sky)}
 .gcode{display:grid;gap:6px}.gcode label{font:700 12px var(--f-kmono);color:var(--k-sky);text-transform:uppercase;letter-spacing:.06em}
 .gcode .row{display:flex;gap:8px}.gcode input{width:9em;font:700 16px var(--f-kmono);letter-spacing:.15em;text-transform:uppercase;border:3px solid #000;padding:7px 9px}
@@ -913,6 +921,7 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
 @media (min-width:861px){#lvGame .team .tav{width:52px;height:52px}.pnl #lvGame .team b{font-size:17px}.pnl #lvGame .team{padding:12px}}
 .gm-side .gm-go{position:static;padding:0}
 #lvGame.guest .chatlog{height:240px}
+#lvGame .teams,#gmPick,#raceJoin{display:none!important}
 .gm-sum{background:rgba(0,0,0,.45);padding:10px 12px;display:grid;gap:8px}
 .gm-sum h4{margin:0;font:900 14px var(--f-brand);text-transform:uppercase}
 .gm-sum dl{margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px 14px}
@@ -1250,7 +1259,7 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
         </div>
         <!-- 1. liste des parties -->
         <div class="lv" id="lvList" hidden>
-          <div class="lv-h"><button class="btn-sub" id="lBack">← Modes</button><h3 id="lTitle">Parties publiques</h3></div>
+          <div class="lv-h"><h3 id="lTitle">Parties publiques</h3></div>
           <div class="gmap" id="gMapF" hidden><span class="gm-l">Puce</span><b data-chipname>LEDs Racer</b><button class="btn-sub" id="gMapBtn">Choisis ta puce</button><small>Les parties sur une autre tuile rechargent la page avant d'entrer.</small></div>
           <div id="gList" class="glist"></div>
           <div class="gcreate">
@@ -1261,8 +1270,12 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
           <div class="gcode" id="gcodeBox"><label for="codeIn">Rejoindre une partie privée</label><div class="row"><input id="codeIn" maxlength="8" autocomplete="off" placeholder="code" spellcheck="false"><button class="btn-sub" id="codeGo">Rejoindre</button></div></div>
         </div>
         <!-- 2. création : le mode de jeu -->
+        <div class="lv" id="lvHome" hidden>
+          <div class="home-new"><button class="btn-main" id="gNew">Créer une partie</button><small>Tu choisis le mode et les réglages, puis tes amis te rejoignent depuis le salon.</small></div>
+        </div>
         <div class="lv" id="lvCreate" hidden>
-          <div class="lv-h"><h3>Choisis le mode de jeu</h3></div>
+          <div class="lv-h"><h3 id="suTitle">Nouvelle partie</h3><button class="btn-sub" id="suCancel">Annuler</button></div>
+          <h4 class="su-step">1 · Mode de jeu</h4>
         <div class="field"><span id="gmodeLbl">Mode de jeu</span><select id="gmode" hidden><option value="bomb">Corrosion · sites A et B</option><option value="ctf">Capture de broche · vole le signal adverse</option><option value="tdm">Débordement · compteur 4 bits d'éliminations</option><option value="dom">Bascules D · tiens les registres</option><option value="inf">Contamination · un patient zéro</option><option value="race">Course · des entrées à la sortie</option></select>
           <div class="modes two" role="radiogroup" aria-labelledby="gmodeLbl">
             <button class="mcard" data-mode="bomb" role="radio" aria-checked="true"><img src="data:image/jpeg;base64,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" alt=""><span class="mk">Recherche et destruction</span><b>Corrosion</b></button>
@@ -4331,7 +4344,10 @@ function cfgTick() {
   }
 }
 document.querySelectorAll(".mcard").forEach(c => c.addEventListener("click", () => {
-  L.mode = vMode(c.dataset.mode); $("gmode").value = L.mode; applyModeUI(L.mode); lobbyRender(true);
+  const m = vMode(c.dataset.mode); L.mode = m; UI.click && UI.click();
+  if ($("gmode").value !== m) { $("gmode").value = m; $("gmode").dispatchEvent(new Event("change")); } else applyModeUI(m);
+  if (MP.gdOwn) ownerSync();
+  lobbyRender(true);
 }));
 // niveau des bots, de 1 (débutant) à 5 (expert) : cadence, précision, réflexes et vitesse
 const BD_NAMES = { get 1() { return (EN ? "Beginner" : "Débutant"); }, get 2() { return (EN ? "Easy" : "Facile"); }, get 3() { return "Normal"; }, get 4() { return (EN ? "Hard" : "Difficile"); }, get 5() { return "Expert"; } };
@@ -6855,6 +6871,7 @@ function createGame(mode, pv) {
   if (mapPref() !== MAPSEL) { ensureMap(mapPref()).then(ok => { if (ok) createGame(mode, pv); }); return; }
   if (MP.gid) leaveGame(true);
   const nick = cleanNick($("nick").value) || "joueur";
+  L.setup = false;
   MP.gid = Math.random().toString(36).slice(2, 8).replace(/[^a-z0-9]/g, "x").padEnd(6, "7"); MP.gj = Date.now(); MP.gdOwn = true; MP.wait = false; MP.rd = false; MP.lt = null;
   $("gmode").value = vMode(mode); applyModeUI(mode);
   try { localStorage.setItem("cda-mode", vMode(mode)); } catch (e) {}
@@ -6926,7 +6943,9 @@ function startPlay() {
   if (MP.lt === "race") { const ps = MP.room.peers().filter(isPlayer); const nM = ps.filter(p => p.presence.team === "M").length, nD = ps.filter(p => p.presence.team === "D").length; joinTeam(nM < nD ? "M" : "D"); }
   else joinTeam(t);
   if (!UI.inGame) return;
-  if (!document.pointerLockElement && !isTouch) banner((EN ? "The game is starting" : "La partie commence"), (EN ? "Click in the chip to take control" : "Clique dans la puce pour prendre les commandes"), 2.6);
+  const side = MP.team === "M" ? (EN ? "You are a Microbe" : "Tu es dans les Microbes") : MP.team === "D" ? (EN ? "You are a Defender" : "Tu es dans les Défenseurs") : "";
+  if (gMode() === "race" || gMode() === "inf" || !side) { if (!document.pointerLockElement && !isTouch) banner((EN ? "The game is starting" : "La partie commence"), (EN ? "Click in the chip to take control" : "Clique dans la puce pour prendre les commandes"), 2.6); }
+  else banner(side, EN ? "Teams are formed: good luck!" : "Les équipes sont formées : bonne partie !", 3);
 }
 function teamClick(t) {
   if (MP.on && t !== "race") { joinTeam(t); return; }
@@ -6936,9 +6955,39 @@ function teamClick(t) {
   if (t !== "race" && cap) { const n = members().filter(q => !q.sameTab && (q.presence.lt === t || q.presence.team === t)).length; if (n >= cap) { toast((EN ? "This side is full" : "Ce camp est complet")); return; } }
   MP.lt = t; UI.click && UI.click(); lobbyPublish(); lobbyRender(true);
 }
-$("gCreate").onclick = () => sessCreate(L.mode, false);
-$("gCreatePv").onclick = () => sessCreate(L.mode, true);
-$("lBack").onclick = () => { L.mode = null; lobbyRender(true); };
+$("gCreate").onclick = () => sessCreate(vMode($("gmode").value), false);
+$("gCreatePv").onclick = () => sessCreate(vMode($("gmode").value), true);
+/* créer une partie : 1. le mode, 2. les réglages, puis la salle de la partie (le créateur y revient par « Modifier ») */
+{
+  const cr = $("lvCreate"), st = document.createElement("h4"); st.className = "su-step"; st.textContent = EN ? "2 · Settings" : "2 · Réglages";
+  const gc = document.querySelector(".gcreate"), go = document.createElement("div"); go.className = "su-go"; go.id = "suGo";
+  const sv = document.createElement("button"); sv.className = "btn-main"; sv.id = "gSave"; sv.textContent = EN ? "Done" : "Valider les réglages";
+  go.append($("gCreate"), $("gCreatePv"), sv);
+  cr.append(st, $("gMapF"), document.querySelector(".gm-cols"), go); if (gc) gc.remove();
+  $("gMapF").querySelector("small").textContent = EN ? "The game is played on this tile." : "La partie se jouera sur cette tuile.";
+  $("gNew").onclick = () => { UI.click && UI.click(); L.setup = true; L.mode = vMode($("gmode").value); lobbyRender(true); $("menu").scrollTo && $("menu").scrollTo(0, 0); };
+  $("suCancel").onclick = () => { L.setup = false; lobbyRender(true); };
+  sv.onclick = () => { if (MP.gdOwn) ownerSync(); L.setup = false; lobbyRender(true); };
+}
+/* équipes formées au lancement : le créateur répartit les joueurs prêts (au hasard, camps équilibrés ; en course, une couleur chacun) */
+function formTeams(gd) {
+  const mode = vMode(gd.mode), ps = members().filter(p => p.sameTab || (p.presence && p.presence.rd && !p.presence.wt));
+  const ids = ps.map(p => p.peer).filter(x => typeof x === "string");
+  for (let i = ids.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
+  const tm = {}, first = Math.random() < 0.5 ? "M" : "D", other = first === "M" ? "D" : "M";
+  ids.forEach((id, i) => { tm[id] = mode === "race" ? i % RACE_COLS.length : mode === "inf" ? "D" : i % 2 ? other : first; });
+  return tm;
+}
+function balancedTeam() {
+  if (gMode() === "inf") return "D";
+  const ps = MP.room ? MP.room.peers().filter(isPlayer) : [], nM = ps.filter(p => p.presence.team === "M").length, nD = ps.filter(p => p.presence.team === "D").length;
+  return nM < nD ? "M" : nD < nM ? "D" : Math.random() < 0.5 ? "M" : "D";
+}
+function takeTeam(gd) {
+  const me = (MP.raw ? MP.raw.peers().find(p => p.sameTab) : null) || MP.me, v = gd && gd.tm && me ? gd.tm[me.peer] : undefined;
+  if (vMode((gd && gd.mode) || gMode()) === "race") { MP.lt = "race"; if (Number.isInteger(v) && v >= 0 && v < RACE_COLS.length) MP.rcol = v; return; }
+  MP.lt = v === "M" || v === "D" ? v : balancedTeam();
+}
 $("codeGo").onclick = () => { const c = ($("codeIn").value || "").toLowerCase().replace(/[^a-z0-9]/g, ""); if (c) joinGame(c, true); };
 $("codeIn").addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Enter") $("codeGo").click(); });
 const inviteUrl = code => AUTH && AUTH.on && window.CDA_SESS ? location.origin + location.pathname + "#s=" + [window.CDA_SESS.r, window.CDA_SESS.key, code, window.CDA_SESS.anon ? 1 : 0].join(".") : (typeof cdaRoomUrl === "function" && SELF_HOST ? cdaRoomUrl(cdaRoom()) : location.href.split("#")[0]) + "#p" + code;
@@ -6954,15 +7003,13 @@ $("gmLinkCopy").onclick = () => { const u = inviteUrl(MP.gid || ""); (navigator.
 
 $("gLeave").onclick = () => { leaveGame(); };
 $("gReady").onclick = () => {
-  if (!MP.lt) { toast(gMode() === "race" ? (EN ? "Pick your colour first" : "Choisis d'abord ta couleur") : (EN ? "Pick your side first" : "Choisis d'abord ton camp")); return; }
   MP.rd = !MP.rd; UI.click && UI.click(); lobbyPublish(); lobbyRender(true);
 };
 $("gStart").onclick = () => {
   if (!MP.gdOwn) return;
-  if (!MP.lt) { toast(gMode() === "race" ? (EN ? "Pick your colour first" : "Choisis d'abord ta couleur") : (EN ? "Pick your side first" : "Choisis d'abord ton camp")); return; }
   MP.rd = true; MP.cfg = curCfg(Date.now());
-  MP.gd = Object.assign({}, MP.gd, { st: "play", t2: Date.now() });
-  lobbyPublish(); startPlay();
+  MP.gd = Object.assign({}, MP.gd, { st: "play", t2: Date.now(), tm: formTeams(MP.gd) });
+  takeTeam(MP.gd); lobbyPublish(); startPlay();
 };
 $("chatForm").addEventListener("submit", e => {
   e.preventDefault();
@@ -7010,20 +7057,32 @@ function avatarShots() {
 window.lobbyRender = f => lobbyRender(f);
 function lobbyRender(force) {
   if ($("pMulti").hidden && !force) return;
-  const view = AUTH && AUTH.on && (!AUTH.user || AUTH.dup) ? "auth" : !nickOk() ? "nick" : MP.gid ? "game" : L.mode ? "list" : "create";
+  if (MP.gid && !MP.gdOwn) L.setup = false;
+  const view = AUTH && AUTH.on && (!AUTH.user || AUTH.dup) ? "auth" : !nickOk() ? "nick" : L.setup ? "setup" : MP.gid ? "game" : "home";
   if (AUTH && AUTH.on) {
-    $("salon").hidden = !AUTH.user || !!AUTH.dup || !(view === "create" || view === "list");
+    $("salon").hidden = !AUTH.user || !!AUTH.dup || view !== "home";
     if (view === "auth") authRender(); else { salHeadRender(); if (view === "game") salGameRender(); else salRender(force); }
     if (AUTH.dup) $("mpStatus").textContent = EN ? "Already playing elsewhere" : "Déjà en jeu ailleurs";
     else if (!MP.raw && AUTH.user) $("mpStatus").textContent = SAL.open ? (EN ? `Lobby · ${SAL.online.size + 1} online` : `Salon · ${SAL.online.size + 1} en ligne`) : (EN ? "Connecting to the lobby…" : "Connexion au salon…");
     else if (!AUTH.user) $("mpStatus").textContent = AUTH.ready ? (EN ? "Sign in to play online" : "Connecte-toi pour jouer en ligne") : (EN ? "Sign-in…" : "Connexion…");
   }
-  if (view !== L.view) { L.view = view; for (const [v, id] of [["auth", "lvAuth"], ["nick", "lvNick"], ["list", "lvList"], ["create", "lvCreate"], ["game", "lvGame"]]) $(id).hidden = v !== view; if (view === "game") { avatarShots(); chatRender(true); } if (view === "create") document.querySelectorAll("#lvCreate .mcard").forEach(c => c.setAttribute("aria-checked", "false")); }
+  if (view !== L.view) {
+    L.view = view; for (const [v, id] of [["auth", "lvAuth"], ["nick", "lvNick"], ["home", "lvHome"], ["setup", "lvCreate"], ["game", "lvGame"]]) $(id).hidden = v !== view;
+    $("lvList").hidden = view !== "home" || !!(AUTH && AUTH.on);
+    if (view === "game") { avatarShots(); chatRender(true); }
+    if (view === "setup") {
+      const ed = !!MP.gid; applyModeUI($("gmode").value);
+      $("suTitle").textContent = ed ? (EN ? "Game settings" : "Réglages de la partie") : (EN ? "New game" : "Nouvelle partie");
+      $("suCancel").textContent = ed ? (EN ? "← Back to the game" : "← Retour à la partie") : (EN ? "Cancel" : "Annuler");
+      $("gCreate").hidden = $("gCreatePv").hidden = ed; $("gSave").hidden = !ed;
+      document.querySelector("#lvCreate .gm-set").classList.remove("ro"); ["gbots", "gbd", "lose", "gmic"].forEach(id => $(id).disabled = false);
+      try { micPreview(ed ? MP.gd : null); } catch (e) {}
+    }
+  }
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  if (view === "list" && AUTH && AUTH.on) { salListRender(force); return; }
-  if (view === "list") {
-    const gl = gameList().filter(g => vMode(g.gd.mode) === L.mode);
-    $("lTitle").textContent = `${EN ? "Public games" : "Parties publiques"} · ${MODE_NAME[L.mode]}`;
+  if (view === "home" && !(AUTH && AUTH.on)) {
+    const gl = gameList();
+    $("lTitle").textContent = EN ? "Public games" : "Parties publiques";
     const sig = "l" + JSON.stringify(gl.map(g => [g.gd.id, g.gd.mode, g.gd.st, g.n, g.gd.name, g.gd.map]));
     if (sig !== L.sig || force) {
       L.sig = sig;
@@ -7047,19 +7106,17 @@ function lobbyRender(force) {
   $("gmCode").hidden = !gd.pv; if (gd.pv) $("gmCodeV").textContent = String(gd.id).toUpperCase();
   $("gmPick").textContent = race ? (EN ? "Choose your colour" : "Choisis ta couleur") : (EN ? "Choose your side" : "Choisis ton camp");
   if (!own) setFromGd(gd);
-  document.querySelector(".gm-set").classList.toggle("ro", !own);
-  // invité : les réglages de l'hôte en résumé compact (lecture seule), la place va à la discussion
-  document.querySelector(".gm-cols").hidden = !own; $("gmSum").hidden = own; $("lvGame").classList.toggle("guest", !own);
-  if (!own) {
+  // réglages de la partie en résumé compact, pour tous ; le créateur les change par « Modifier »
+  $("gmSum").hidden = false; $("lvGame").classList.toggle("guest", !own);
+  {
     const opt = id => { const e = $(id); return e && e.selectedOptions && e.selectedOptions[0] ? e.selectedOptions[0].textContent.replace(/\s*\(.*$/, "") : ""; };
     const it = [[EN ? "Chip" : "Puce", mapTitle(gd.map || "a580", gd.mapt) + " · " + chipOfKey(gd.map || "a580")],
       [EN ? "Players per team" : "Joueurs par équipe", opt("gbots")], [EN ? "Bots" : "Bots", $("gbdOut").textContent],
       ...($("loseField").hidden ? [] : [[EN ? "Microbes win at" : (EN ? "Microbes win" : "Victoire des Microbes"), opt("lose")]]), [EN ? "Arena" : "Arène", opt("gmic")]];
-    const h = `<h4>${EN ? "Game settings" : "Réglages de la partie"}</h4><dl>` + it.filter(x => x[1]).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("") + "</dl>";
-    if ($("gmSum").dataset.sig !== h) { $("gmSum").dataset.sig = h; $("gmSum").innerHTML = h; }
+    const h = `<h4>${EN ? "Game settings" : "Réglages de la partie"}${own ? `<button class="btn-sub" data-edit>${EN ? "Edit" : "Modifier"}</button>` : ""}</h4><dl>` + it.filter(x => x[1]).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("") + "</dl>";
+    if ($("gmSum").dataset.sig !== h) { $("gmSum").dataset.sig = h; $("gmSum").innerHTML = h; const b = $("gmSum").querySelector("[data-edit]"); if (b) b.onclick = () => { UI.click && UI.click(); L.setup = true; lobbyRender(true); $("menu").scrollTo && $("menu").scrollTo(0, 0); }; }
   }
-  ["gbots", "gbd", "lose", "gmic"].forEach(id => $(id).disabled = !own);
-  if (own) micPreview(gd);
+
   $("tM").classList.toggle("pick", !MP.on && MP.lt === "M"); $("tD").classList.toggle("pick", !MP.on && MP.lt === "D");
   // joueurs, prêts, bots
   const cap = vBots(gd.n), humans = mem.length, botsN = cap ? Math.max(0, (race || mode === "inf" ? cap * 2 : cap * 2) - humans) : 0;
@@ -7067,7 +7124,7 @@ function lobbyRender(force) {
     const me = p.sameTab, pr = p.presence || {}, lt = me ? MP.lt : (pr.team || pr.lt), rd = me ? MP.rd : pr.rd, wt = me ? MP.wait : pr.wt, onp = me ? MP.on : !!pr.team;
     const col = race ? (RACE_COLS[me ? MP.rcol : pr.col] || "#c9d3e2") : lt === "M" ? TEAMHEX.M : lt === "D" ? TEAMHEX.D : "#5a6272";
     const isOwn = me ? own : !!pr.gd;
-    const st = onp ? `<span class="ok">${EN ? "playing" : "en jeu"}</span>` : wt ? `<span class="no">${EN ? "next round" : "manche suivante"}</span>` : rd ? `<span class="ok">${EN ? "ready" : "prêt"}</span>` : `<span class="no">${EN ? "not ready" : "pas prêt"}</span>`;
+    const st = onp ? `<span class="ok">${EN ? "playing" : "en jeu"}</span>` : isOwn ? `<span class="ok">${EN ? "host" : "créateur"}</span>` : wt ? `<span class="no">${EN ? "next round" : "manche suivante"}</span>` : rd ? `<span class="ok">${EN ? "ready" : "prêt"}</span>` : `<span class="no">${EN ? "not ready" : "pas prêt"}</span>`;
     return `<li><i style="background:${col}"></i><span>${esc(me ? (MP.nick || "toi") : nameOf(p))}${me ? (EN ? " (you)" : (EN ? " (you)" : " (toi)")) : ""}${isOwn ? " ★" : ""}</span>${st}</li>`;
   });
   if (botsN) rows.push(`<li class="bots"><i></i><span>+ ${botsN} bot${botsN > 1 ? "s" : ""} · ${BD_NAMES[vBd(gd.bd)]}</span><span></span></li>`);
@@ -7075,13 +7132,13 @@ function lobbyRender(force) {
   if ($("gmPlayers").dataset.sig !== pl) { $("gmPlayers").dataset.sig = pl; $("gmPlayers").innerHTML = pl; }
   // prêt / lancer
   const others = mem.filter(p => !p.sameTab && !p.presence.wt);
-  const allReady = others.every(p => p.presence.rd && (p.presence.lt || p.presence.team));
+  const allReady = others.every(p => p.presence.rd);
   $("gReady").hidden = own || MP.on || MP.wait; $("gReady").classList.toggle("on", !!MP.rd);
   $("gReady").textContent = MP.rd ? (EN ? "Ready ✔ (click to cancel)" : "Prêt ✔ (clique pour annuler)") : (EN ? "I'm ready" : "Je suis prêt");
-  $("gStart").hidden = !own || MP.on || gd.st === "play"; $("gStart").disabled = !MP.lt || !allReady;
+  $("gStart").hidden = !own || MP.on || gd.st === "play"; $("gStart").disabled = !allReady;
   $("gmGoNote").textContent = MP.on ? (EN ? "Game in progress" : "Partie en cours")
-    : own ? (!MP.lt ? (race ? (EN ? "Pick your colour first" : (EN ? "Pick your colour first" : "Choisis d'abord ta couleur")) : (EN ? "Pick your side first" : (EN ? "Pick your side first" : "Choisis d'abord ton camp"))) : allReady ? (EN ? "Everyone is ready" : "Tout le monde est prêt") : (EN ? "Waiting for every player to be ready" : "En attente que tous les joueurs soient prêts"))
-    : MP.wait ? (EN ? "You will join at the next round" : "Tu entreras à la prochaine manche") : MP.rd ? (EN ? "Waiting for the creator to start" : "En attente du lancement par le créateur") : (EN ? "Pick your side, then say you're ready" : "Choisis ton camp, puis déclare-toi prêt");
+    : own ? (others.length === 0 ? (EN ? "You can start alone, bots fill the teams" : "Tu peux lancer seul : les bots complètent les équipes") : allReady ? (EN ? "Everyone is ready" : "Tout le monde est prêt") : (EN ? "Waiting for every player to be ready" : "En attente que tous les joueurs soient prêts"))
+    : MP.wait ? (EN ? "You will join at the next round" : "Tu entreras à la prochaine manche") : MP.rd ? (EN ? "Waiting for the creator to start" : "En attente du lancement par le créateur") : (EN ? "Say you're ready: teams are formed at launch" : "Déclare-toi prêt : les équipes se forment au lancement");
   chatRender(false);
 }
 // chaque image : suivre la partie (lancement, fermeture, reprise par un autre créateur)
@@ -7112,8 +7169,8 @@ function lobbyTick() {
     } else if (!MP.on && gd.st === "play") {
       if (MP.wait) {
         if (MP.waitR === null || MP.waitR === undefined) MP.waitR = MP.G.r || 0;
-        if (MP.lt && MP.G.r > MP.waitR && MP.G.ph === "freeze") startPlay();
-      } else if (MP.rd && MP.lt) startPlay();
+        if (MP.G.r > MP.waitR && MP.G.ph === "freeze") { if (!MP.lt) takeTeam(null); startPlay(); }
+      } else if (MP.rd) { if (!MP.lt) takeTeam(gd); startPlay(); }
       else if (!MP.rd) { MP.wait = true; MP.waitR = null; lobbyPublish(); }
     }
   }
