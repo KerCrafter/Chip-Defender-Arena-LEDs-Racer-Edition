@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-CgVzKZ8G6JXMWbsomfO3+rDV3G1OL3vOso/7GLMq8GY=' 'sha256-DAFvCtutSdfFCkA33FD1/TEsafxEBqXrsa6X2iIyZKs=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-ZZcmv/max9kwATdJLTCMOiPUIoOgvYL8+ANTbv6EIEE=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-DAFvCtutSdfFCkA33FD1/TEsafxEBqXrsa6X2iIyZKs=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Jyx97n5LhVzOuaYnuTQLGrmTQn7gnCeex/XwZ2dG9Bs=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-y1z2KN0idWgMJyERS9jaoe+TBsAVSimszrRnS1JhLM0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="8c2c39520941";</script>
+<script>window.CDA_BUILD="b0205b6699b5";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -187,7 +187,9 @@ body.in-menu #raceBoard{visibility:hidden}
 #feed{position:fixed;top:calc(env(safe-area-inset-top,0px) + 76px);right:calc(env(safe-area-inset-right,0px) + 10px);display:grid;gap:4px;justify-items:end;pointer-events:none}
 #feed{gap:5px;width:min(430px,calc(100vw - 24px))}
 #feed .ev{display:flex;align-items:center;gap:7px;padding:5px 10px;font-size:13px;background:rgba(10,14,20,.78);border:1px solid #2a3443;border-radius:4px;transition:opacity .6s;max-width:100%}
-#feed .ev span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#feed .ev span{white-space:normal;overflow-wrap:anywhere}
+/* un événement long (fin de manche et sa raison) passe à la ligne au lieu d'être coupé à droite */
+#feed .ev{display:block;line-height:1.4;text-align:left}#feed .ev i{vertical-align:-3px;margin:0 3px}
 #feed .ev i{display:inline-flex;flex:none}
 #feed .ev.me{border-color:#e2a83a;background:rgba(40,28,8,.82)}
 #feed .ev.big{font-size:14px;border-left:3px solid #e0662b}
@@ -884,6 +886,61 @@ i.prov{display:inline-block;width:12px;height:12px;border-radius:3px;margin-righ
 i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.discord{background:#5865f2}i.prov.google{background:conic-gradient(#ea4335 0 25%,#fbbc05 0 50%,#34a853 0 75%,#4285f4 0)}i.prov.dev{background:#7dff9a}
 .auth-b i.prov{width:16px;height:16px;margin:0}
 @media (max-width:640px){.sal-cols{grid-template-columns:1fr}.sal-log{height:150px}}
+/* ===== menu avec panneau ouvert : tout l'espace de l'écran ===== */
+@media (min-width:861px){
+  #menu.has-panel{grid-template-columns:minmax(260px,360px) minmax(0,1fr);gap:28px}
+  #menu.has-panel .mpanels{grid-column:2 / -1;max-width:1400px;width:100%;align-self:stretch}
+  #menu.has-panel .menu-logo{max-width:320px}
+  #menu.has-panel .mi b{font-size:21px}
+  #menu.has-panel .mver{display:none}
+  .mpanels .pnl{min-height:calc(100vh - 56px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));align-content:start}
+  .pnl-h{position:sticky;top:0;z-index:4}
+  .sal-cols{grid-template-columns:minmax(0,2fr) minmax(240px,1fr)}
+  .sal-log{height:clamp(190px,36vh,460px)}
+  .sal-on{max-height:36vh}
+  .pnl .modes.two{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+}
+@media (min-width:1180px){
+  #lvGame{grid-template-columns:minmax(0,1.25fr) minmax(320px,1fr);align-items:start;gap:20px}
+  .gm-side{position:sticky;top:96px}
+  .gm-side .chatlog{height:clamp(220px,calc(100vh - 470px),640px)}
+  #lvGame.guest .gm-side .chatlog{height:clamp(260px,calc(100vh - 400px),720px)}
+  .gm-cols{grid-template-columns:minmax(0,1fr)}
+  .gm-set{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));align-items:start}
+}
+.gm-main,.gm-side{display:grid;gap:14px;align-content:start;min-width:0}
+.gm-t b{overflow-wrap:anywhere}
+@media (min-width:861px){#lvGame .team .tav{width:52px;height:52px}.pnl #lvGame .team b{font-size:17px}.pnl #lvGame .team{padding:12px}}
+.gm-side .gm-go{position:static;padding:0}
+#lvGame.guest .chatlog{height:240px}
+.gm-sum{background:rgba(0,0,0,.45);padding:10px 12px;display:grid;gap:8px}
+.gm-sum h4{margin:0;font:900 14px var(--f-brand);text-transform:uppercase}
+.gm-sum dl{margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px 14px}
+.gm-sum dl div{display:grid;gap:1px;min-width:0}
+.gm-sum dt{font:700 10px var(--f-kmono);color:var(--k-sky);text-transform:uppercase;letter-spacing:.06em}
+.gm-sum dd{margin:0;font:700 13px var(--f-kmono);overflow-wrap:anywhere}
+/* mobile : panneau plein écran, sans cadre ; dans une partie, la discussion remonte sous le choix du camp */
+@media (max-width:860px){
+  #menu.has-panel{padding:0;gap:0}
+  #menu.has-panel .mver{display:none}
+  .mpanels .pnl{border:0;padding:0 14px calc(env(safe-area-inset-bottom,0px) + 16px);min-height:100%;gap:14px}
+  .mpanels .pnl-h{margin:0 -14px;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 10px;position:sticky;top:0;z-index:4}
+  .pnl-h h2{font-size:22px}
+  .pnl-h .status{margin-left:0;flex-basis:100%}
+  .sal-me{padding:8px}
+  .sal-me span{flex:1 1 140px}
+  .sal-anon{flex-wrap:wrap}
+  .gm-main,.gm-side{display:contents}
+  .gm-head,.gm-code,.sreqs,.ginv,.gm-wait{order:0}
+  #gmPick,#lvGame .teams,#gLook,#raceJoin{order:1}
+  .gm-side .gm-players{order:2}
+  .gm-chat{order:3}
+  .gm-sum,.gm-cols{order:4}
+  #lvGame .rules{order:5}
+  .gm-side .gm-go{order:6;position:sticky;bottom:0;padding:8px 0 calc(env(safe-area-inset-bottom,0px) + 8px);background:var(--k-blue2)}
+  .pnl .team{padding:10px 12px}
+  .pnl .team .tav{width:48px;height:48px}
+}
 /* salle privée, dans le panneau « Jouer en ligne » */
 .roomrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#000;padding:10px 12px;font:500 13px var(--f-kmono);color:var(--k-sky)}
 .roomrow b{color:#fff;font-weight:700}
@@ -1218,6 +1275,7 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
         </div>
         <!-- 3. salon de la partie -->
         <div class="lv" id="lvGame" hidden>
+          <div class="gm-main">
           <div class="gm-head"><img id="gmImg" alt=""><div class="gm-t"><span class="mk" id="gmKind"></span><b id="gmName"></b><small id="gmOwner"></small></div><button class="btn-sub" id="gLeave">Quitter la partie</button></div>
           <div class="gm-code" id="gmCode" hidden><span>Partie privée · code</span><b id="gmCodeV"></b><button class="btn-sub" id="gmCodeCopy">Copier le code</button><button class="btn-sub" id="gmLinkCopy">Copier le lien d'invitation</button></div>
           <div class="sreqs" id="gmReqs" hidden></div>
@@ -1230,6 +1288,7 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
         </div>
         <button class="btn-sub" id="gLook">Personnaliser mon personnage</button>
         <div class="raceJoin" id="raceJoin" hidden><span class="rj-l">Ta couleur</span><div class="swatches" id="swatches" role="radiogroup" aria-label="Couleur de ton Électron"></div><button class="team r" id="tR" disabled><b>Rejoindre la course</b><small>Un Électron chacun, pas d'équipes</small></button></div>
+          <div class="gm-sum" id="gmSum" hidden></div>
           <div class="gm-cols">
             <div class="gm-set">
         <div class="field" id="botField"><label for="gbots">Joueurs par équipe (les places libres sont prises par des bots)</label><div class="row"><select id="gbots"><option value="0">sans bots, places illimitées</option><option value="1">1 joueur</option><option value="2">2 joueurs</option><option value="3" selected>3 joueurs</option><option value="4">4 joueurs</option><option value="5">5 joueurs</option></select></div></div>
@@ -1238,10 +1297,7 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
         <div class="field" id="micField"><label for="gmic">Microscope : taille de l'arène</label><div class="row"><select id="gmic"><option value="auto">Automatique (selon les joueurs et le mode)</option><option value="1">Toute la puce</option><option value="0.75">75 % de la puce</option><option value="0.5">50 % de la puce</option><option value="0.35">35 % de la puce</option><option value="0.2">20 % de la puce</option></select></div>
           <div class="mic-row"><canvas id="gmicC" width="240" height="160" aria-label="Aperçu de la zone couverte par le microscope"></canvas><small id="gmicNote"></small></div></div>
             </div>
-            <div class="gm-players"><h4>Joueurs</h4><ul id="gmPlayers"></ul></div>
           </div>
-          <div class="gm-chat"><h4>Discussion</h4><div id="chatLog" class="chatlog" aria-live="polite"></div><form id="chatForm" class="chatform"><input id="chatIn" maxlength="140" autocomplete="off" placeholder="Écrire un message…" aria-label="Message"><button class="btn-sub" type="submit">Envoyer</button></form></div>
-          <div class="gm-go"><button class="btn-main" id="gReady">Je suis prêt</button><button class="btn-main" id="gStart" hidden>Lancer la partie</button><span id="gmGoNote"></span></div>
         <ul class="rules" id="rulesCtf" hidden>
           <li><b class="cM">Microbes</b> : gardent l'<b>entrée VPWR</b>, l'alimentation, sur le flanc gauche de la puce.</li>
           <li><b class="cD">Défenseurs</b> : gardent la <b>sortie uo_out[0]</b>, LEDS_LINE, qui pilote les LEDs, sur le bord haut.</li>
@@ -1273,6 +1329,12 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
           <li><b class="cD">Défenseurs</b> : les éliminer, neutraliser la corrosion en 5 s, réparer la puce au clic droit.</li>
           <li>Toutes les 5 à 10 min, la puce est mise sous tension : 15 s d'alerte, puis le métal électrocute pendant 20 s.</li>
         </ul>
+          </div>
+          <aside class="gm-side">
+            <div class="gm-players"><h4>Joueurs</h4><ul id="gmPlayers"></ul></div>
+          <div class="gm-chat"><h4>Discussion</h4><div id="chatLog" class="chatlog" aria-live="polite"></div><form id="chatForm" class="chatform"><input id="chatIn" maxlength="140" autocomplete="off" placeholder="Écrire un message…" aria-label="Message"><button class="btn-sub" type="submit">Envoyer</button></form></div>
+          <div class="gm-go"><button class="btn-main" id="gReady">Je suis prêt</button><button class="btn-main" id="gStart" hidden>Lancer la partie</button><span id="gmGoNote"></span></div>
+          </aside>
         </div>
         <p class="note">Pour jouer à plusieurs, invite tes amis depuis le menu Partager de la page : ils doivent être connectés à claude.ai.</p>
       </section>
@@ -6986,6 +7048,16 @@ function lobbyRender(force) {
   $("gmPick").textContent = race ? (EN ? "Choose your colour" : "Choisis ta couleur") : (EN ? "Choose your side" : "Choisis ton camp");
   if (!own) setFromGd(gd);
   document.querySelector(".gm-set").classList.toggle("ro", !own);
+  // invité : les réglages de l'hôte en résumé compact (lecture seule), la place va à la discussion
+  document.querySelector(".gm-cols").hidden = !own; $("gmSum").hidden = own; $("lvGame").classList.toggle("guest", !own);
+  if (!own) {
+    const opt = id => { const e = $(id); return e && e.selectedOptions && e.selectedOptions[0] ? e.selectedOptions[0].textContent.replace(/\s*\(.*$/, "") : ""; };
+    const it = [[EN ? "Chip" : "Puce", mapTitle(gd.map || "a580", gd.mapt) + " · " + chipOfKey(gd.map || "a580")],
+      [EN ? "Players per team" : "Joueurs par équipe", opt("gbots")], [EN ? "Bots" : "Bots", $("gbdOut").textContent],
+      ...($("loseField").hidden ? [] : [[EN ? "Microbes win at" : (EN ? "Microbes win" : "Victoire des Microbes"), opt("lose")]]), [EN ? "Arena" : "Arène", opt("gmic")]];
+    const h = `<h4>${EN ? "Game settings" : "Réglages de la partie"}</h4><dl>` + it.filter(x => x[1]).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("") + "</dl>";
+    if ($("gmSum").dataset.sig !== h) { $("gmSum").dataset.sig = h; $("gmSum").innerHTML = h; }
+  }
   ["gbots", "gbd", "lose", "gmic"].forEach(id => $(id).disabled = !own);
   if (own) micPreview(gd);
   $("tM").classList.toggle("pick", !MP.on && MP.lt === "M"); $("tD").classList.toggle("pick", !MP.on && MP.lt === "D");
