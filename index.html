@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-DChzs80x2fam5Yt8IQwLL3dzVJMK+uyNf7s8iGWrIFU=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-PTqMu2HLhP6FSoZnCGcEGXty3uXtE3yzKWOMa6Mu62Q=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0O7eT1y07tNrg3sRaq4bZ4Ev7mU/w1TffzR+1bCZwFc=' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-jJmcjiO+uJFkBgZePSFatDIn6fHld9SPvcUCnNT28YU=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";window.CDA_MAPDIR="maps4/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="857930ff950f";</script>
+<script>window.CDA_BUILD="6a36f58b6005";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -2520,6 +2520,13 @@ async function loadMapData(key) {
 }
 let MAPSEL = mapPref();
 let M, buf;
+// la page d'accueil ne charge pas la puce : le jeu attend qu'elle se ferme (bouton « Jouer », lien d'invitation…)
+// (localStorage cda-land = "0" : pas d'attente, pour les tests automatiques)
+await new Promise(res => {
+  const L = $("landing"); let skip = false; try { skip = localStorage.getItem("cda-land") === "0"; } catch (e) {}
+  if (!L || L.hidden || skip) return res();
+  const mo = new MutationObserver(() => { if (L.hidden) { mo.disconnect(); res(); } }); mo.observe(L, { attributes: true, attributeFilter: ["hidden"] });
+});
 try {
   if (MAPSEL !== "a580") $("goSub") && ($("goSub").textContent = (EN ? "Loading the tile…" : "Chargement de la tuile…"));
   ({ meta: M, buf } = await loadMapData(MAPSEL));
