@@ -1,0 +1,35 @@
+Annonces vocales — Chip Defender Arena — v2 (timbre "IA de bord")
+==================================================================
+voix/fr/   Siwis (Piper, CC-BY 4.0)
+voix/en/   Lessac (Piper, en-US, licence Blizzard 2013 : libre, attribution)
+Chaque dossier : ogg/ (pour le jeu) et wav/ (48 kHz mono, montage). Même traitement "IA de bord" dans les deux langues.
+Même nom de fichier en FR et EN -> choix par la langue : `voix/${EN ? "en" : "fr"}/${nom}.ogg`.
+
+Fichier                          | FR                         | EN                     | Où le jouer (hook existant)
+---------------------------------|----------------------------|------------------------|-----------------------------
+mode_corrosion                   | Corrosion                  | Corrosion              | lancement de partie, selon G.mode (bomb)
+mode_capture_de_broche           | Capture de broche          | Pin capture            | idem (ctf)
+mode_debordement                 | Débordement                | Overflow               | idem (tdm)
+mode_bascules_d                  | Bascules D                 | D flip-flops           | idem (dom)
+mode_contamination               | Contamination              | Contamination          | idem (inf)
+mode_course_de_capsules          | Course de capsules         | Capsule race           | idem (race)
+manche_sous_tension              | Sous tension               | Powered                | SFX "relay" de début de manche
+manche_gagnee                    | Manche gagnée              | Round won              | SFX "win"
+manche_perdue                    | Manche perdue              | Round lost             | SFX "lose"
+partie_terminee                  | Partie terminée            | Game over              | banner "Partie terminée"
+corrosion_posee                  | Corrosion posée            | Corrosion planted      | SFX "plant" (quand la pose aboutit)
+corrosion_neutralisee            | Corrosion neutralisée      | Corrosion neutralized  | SFX "defuse" / endR "D"
+corrosion_site_ronge             | Site rongé                 | Site corroded          | endR "M" (la corrosion a rongé le site)
+broche_signal_vole               | Signal volé                | Signal stolen          | toast "a volé le signal"
+broche_capture                   | Capture                    | Capture                | toast "Capture !"
+broche_signal_recupere           | Signal récupéré            | Signal recovered       | toast "est revenu sur sa broche"
+debordement_imminent             | Débordement imminent       | Overflow imminent      | compteur 4 bits à 15
+bascules_toutes_tenues           | Toutes les bascules tenues | All flip-flops held    | toast "Toutes les bascules trouvées !"
+contamination_patient_zero       | Patient zéro               | Patient zero           | tirage du patient zéro
+contamination_dernier_defenseur  | Dernier défenseur          | Last defender          | toast "Dernier de ton équipe encore en jeu"
+course_derniere_arche            | Dernière arche             | Final arch             | avant-dernière arche franchie
+course_arrivee                   | Arrivée                    | Finish                 | ligne d'arrivée
+
+Conseil de mixage : les fichiers sont normalisés à -14 LUFS ; dans le jeu, les passer dans le
+même compresseur maître que SFX (master -> comp) à ~0,7 de gain, et ne jamais en jouer deux à la fois
+(file d'attente, ou le dernier gagne).
