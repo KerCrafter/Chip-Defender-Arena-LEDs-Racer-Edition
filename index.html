@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-DgaypWs5MQMhG/DhkUgTzfo5Lo/AfebDZos+o9+8u4I=' 'sha256-EZNu9znTh/ok0iwk/vaxEvDYSVKzAkpSdeRVUREEjv4=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-gkkxLRgdmcZSu6lgwAJrYGGV8BO9zNY+8GzRHfzclW8=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-V+YDyvvtuK6zsCBPfEpKnv95CdaISN66zrjEk1eDX4c=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlanKARlj/ouxMWY4sgRenUoNPuBudaIJx+226mL+bI=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";window.CDA_MAPDIR="maps4/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="2a7ae6991abe";</script>
+<script>window.CDA_BUILD="55b93f247c3b";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -2362,7 +2362,7 @@ function header4(hdrJsonBytes, hlen) {
   return H;
 }
 function lib4(rawLib, H) { const rd = Rd(rawLib, 0); H.libR = H.lib.map(() => { const n = rd.v(), L = []; for (let k = 0; k < n; k++) { const li = rd.v(), c = rd.v(); L.push([li, getR(rd, c)]); } return L; }); return H; }
-function decodeBlock(raw, H, b, nx) {
+function decodeBlock(raw, H, b, nx, cellsOnly) {
   const rd = Rd(raw, 0), NL = H.names.length, cnt = []; for (let li = 0; li < NL; li++) cnt.push(rd.v());
   const per = Array.from({ length: NL }, () => []);
   for (let li = 0; li < NL; li++) if (cnt[li]) per[li].push(getR(rd, cnt[li]));
@@ -2373,16 +2373,16 @@ function decodeBlock(raw, H, b, nx) {
   const idx = [], cells = [], tmp = new Int32Array(4);
   for (let k = 0; k < ni; k++) {
     const t = ts[k], o = os[k] >> 1, c = H.lib[t], [lx, ly] = c.o, x = xs[k], y = ys[k];
-    for (const [li, r] of H.libR[t]) { const g = new Int32Array(r.length); for (let j = 0; j < r.length; j += 4) { tf(r[j] + lx, r[j + 1] + ly, r[j + 2] + lx, r[j + 3] + ly, o, g, j); g[j] += x; g[j + 1] += y; g[j + 2] += x; g[j + 3] += y; } per[li].push(g); }
+    if (!cellsOnly) for (const [li, r] of H.libR[t]) { const g = new Int32Array(r.length); for (let j = 0; j < r.length; j += 4) { tf(r[j] + lx, r[j + 1] + ly, r[j + 2] + lx, r[j + 3] + ly, o, g, j); g[j] += x; g[j + 1] += y; g[j + 2] += x; g[j + 3] += y; } per[li].push(g); }
     if (os[k] & 1) { const bb = c.b; tf(bb[0], bb[1], bb[2], bb[3], o, tmp, 0); idx.push(ii[k]); cells.push(Math.max(0, tmp[0] + x), Math.max(0, tmp[1] + y), Math.max(0, tmp[2] + x), Math.max(0, tmp[3] + y), t); }
   }
   const nc = rd.v();
   if (nc) { const ci = []; let prev = -1; for (let k = 0; k < nc; k++) { prev += rd.v() + 1; ci.push(prev); } for (let k = 0; k < nc; k++) { idx.push(ci[k]); for (let q = 0; q < 5; q++) cells.push(unzz(rd.v())); } }
   const tx = b % nx, ty = Math.floor(b / nx), sq = [tx * TB, ty * TB, (tx + 1) * TB, (ty + 1) * TB];
-  return { L: finish(NL, H.names, per, sq), idx, cells: Float64Array.from(cells) };
+  return { L: cellsOnly ? per.map(() => new Int32Array(0)) : finish(NL, H.names, per, sq), idx, cells: Float64Array.from(cells) };
 }
 // un bloc décompressé -> { L: formes finales de chaque couche (Int32Array [x0,y0,x1,y1]*n), idx: indices des cellules, cells }
-function block4(raw, H, b) { return decodeBlock(raw, H, b, H.nx); }
+function block4(raw, H, b, cellsOnly) { return decodeBlock(raw, H, b, H.nx, !!cellsOnly); }   // cellsOnly : seulement les cellules (rapide)
 /* toute la tuile, au format décompressé historique {meta, buf} (couches triées (y0, y1, x0) comme CDA2/CDA3) */
 function assemble4(H, blocks) {
   const NL = H.names.length, per = Array.from({ length: NL }, () => []);
@@ -2426,8 +2426,63 @@ const $ = id => document.getElementById(id);
    d'entiers variables (écart en y, écart en x, largeur, hauteur) des rectangles triés, et de même pour les cellules. */
 // formats de carte : module partagé src/cda-codec.js (inclus par build.py juste avant ce script, window.CDA_CODEC)
 const gunzipB = async b => new Uint8Array(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream("gzip"))).arrayBuffer());
-async function cdaUnpack(bytes) {
+/* CDA4 sur les grandes tuiles (plus de 900 000 formes) : en mémoire, seulement les blocs de la fenêtre du microscope
+   (+ 10 µm de marge). Les cellules, petites, restent connues sur toute la tuile (fenêtre par défaut, carte, bascules).
+   La région ne dépend que de la fenêtre : tous les joueurs d'une partie ont exactement les mêmes formes, dans le même ordre. */
+let MAP4 = null;   // { key, u8, H, cellsB : cellules de chaque bloc, ov : aperçu, solo : fenêtre par défaut (µm) }
+const REG_BIG = 900000, REG_M = 10;
+async function open4(key, u8) {
+  const C = window.CDA_CODEC, hl = C.headLen4(u8), H = C.header4(await gunzipB(u8.subarray(8, hl)), hl);
+  C.lib4(await gunzipB(u8.subarray(hl + H.libz[0], hl + H.libz[0] + H.libz[1])), H);
+  const big = H.nrects > REG_BIG;
+  let cellsB = null, solo = null, ov = null;
+  if (big) {
+    const raws = await Promise.all(H.blocks.map(b => b[1] ? gunzipB(u8.subarray(hl + b[0], hl + b[0] + b[1])) : null));
+    cellsB = raws.map((r, i) => r ? C.block4(r, H, i, true) : null);
+    // fenêtre par défaut (même calcul que le jeu) : centrée sur la logique, 900 000 formes environ
+    const G = H.m.grid, W0 = H.m.w, H0 = H.m.h, skip = /^(decap|fill|tap|conb|tie|antenna|endcap)/, sh = n => n.replace(/^sky130_(fd|ef)_sc_hd__|^sg13g2_|^gf180mcu_fd_sc_mcu[79]t5v0__/, "");
+    let sx = 0, sy = 0, n = 0;
+    for (const b of cellsB) if (b) for (let i = 0; i < b.idx.length; i++) { const c = b.cells.subarray(i * 5, i * 5 + 5); if (skip.test(sh(H.m.types[c[4]] || ""))) continue; sx += (c[0] + c[2]) * G; sy += (c[1] + c[3]) * G; n += 2; }
+    const cx = n ? sx / n : W0 / 2, cy = n ? sy / n : H0 / 2, A = REG_BIG / H.nrects * W0 * H0;
+    let w = Math.min(W0, Math.sqrt(A)), h = Math.min(H0, A / w); w = Math.min(W0, A / h);
+    const x0 = Math.max(0, Math.min(W0 - w, cx - w / 2)), y0 = Math.max(0, Math.min(H0 - h, cy - h / 2)), r1 = v => Math.round(v * 10) / 10;
+    solo = [r1(x0), r1(y0), r1(x0 + w), r1(y0 + h)];
+    if (H.ov && H.ov.len) {   // aperçu de toute la tuile (1 octet par pixel, RVB 3-3-2) pour la carte
+      const q = await gunzipB(u8.subarray(hl + H.ov.off, hl + H.ov.off + H.ov.len)), px = new Uint8Array(H.ov.w * H.ov.h * 3);
+      for (let i = 0; i < q.length; i++) { const v = q[i]; px[i * 3] = (v >> 5) * 255 / 7; px[i * 3 + 1] = (v >> 2 & 7) * 255 / 7; px[i * 3 + 2] = (v & 3) * 255 / 3; }
+      ov = { w: H.ov.w, h: H.ov.h, px };
+    }
+  }
+  MAP4 = { key, u8, H, big, cellsB, solo, ov };
+  return MAP4;
+}
+// région : toute la tuile si elle est petite, sinon la fenêtre (+ marge) : blocs à décoder et rectangle gardé (grille)
+function region4(ar) {
+  const H = MAP4.H, all = H.blocks.map((b, i) => b[1] ? i : -1).filter(i => i >= 0);
+  if (!MAP4.big) return { sel: all, clip: null, key: "all" };
+  ar = ar || MAP4.solo; const G = H.m.grid, c = [Math.floor((ar[0] - REG_M) / G), Math.floor((ar[1] - REG_M) / G), Math.ceil((ar[2] + REG_M) / G), Math.ceil((ar[3] + REG_M) / G)];
+  return { sel: window.CDA_CODEC.blocksIn4(H, ...c), clip: c, key: c.join(",") };
+}
+async function build4(R) {
+  const sel = R.sel, clip = R.clip;
+  const C = window.CDA_CODEC, { u8, H } = MAP4, hl = H.dataStart, want = new Set(sel);
+  const blocks = await Promise.all(H.blocks.map(async (b, i) => {
+    if (!b[1]) return null;
+    if (want.has(i)) {
+      const bl = C.block4(await gunzipB(u8.subarray(hl + b[0], hl + b[0] + b[1])), H, i);
+      // on ne garde que les formes qui touchent la région (les blocs de 80 µm débordent de la fenêtre)
+      if (clip) bl.L = bl.L.map(r => { const o = new Int32Array(r.length); let k = 0; for (let j = 0; j < r.length; j += 4) if (r[j + 2] > clip[0] && r[j] < clip[2] && r[j + 3] > clip[1] && r[j + 1] < clip[3]) { o[k++] = r[j]; o[k++] = r[j + 1]; o[k++] = r[j + 2]; o[k++] = r[j + 3]; } return o.slice(0, k); });
+      return bl;
+    }
+    return MAP4.cellsB ? MAP4.cellsB[i] : C.block4(await gunzipB(u8.subarray(hl + b[0], hl + b[0] + b[1])), H, i, true);
+  }));
+  const d = C.assemble4(H, blocks);
+  d.meta.ntot = H.nrects; d.meta.region = R.key; d.meta.ovImg = MAP4.ov;
+  return d;
+}
+async function cdaUnpack(bytes, key) {
   const C = window.CDA_CODEC, u8 = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  if (C.isCda4(u8) && key) { await open4(key, u8); return build4(region4(null)); }
   if (!C.isCda4(u8)) return C.unpack(await gunzipB(u8));
   // CDA4 : en-tête, puis chaque bloc (pour l'instant toute la tuile ; le chargement au fur et à mesure viendra ensuite)
   const hl = C.headLen4(u8), H = C.header4(await gunzipB(u8.subarray(8, hl)), hl);
@@ -2456,7 +2511,7 @@ async function loadMapData(key) {
     const r = await fetch(path + (bin ? ".bin" : ".txt")); if (!r.ok) throw new Error("HTTP " + r.status);
     gz = bin ? await r.arrayBuffer() : Uint8Array.from(atob((await r.text()).trim()), c => c.charCodeAt(0));
   } else gz = Uint8Array.from(atob(window.CHIP_RACER), c => c.charCodeAt(0));
-  return cdaUnpack(gz);
+  return cdaUnpack(gz, key);
 }
 let MAPSEL = mapPref();
 let M, buf;
@@ -2571,6 +2626,8 @@ AR_ON = false;
 }
 __wrun(__w4);   // microscope : fenêtre jouable (voir plus loin)
 const inAR = (x, gy, m) => !AR_ON || (x >= AR.x0 + m && x <= AR.x1 - m && gy >= AR.y0 + m && gy <= AR.y1 - m);
+let mapBusy = null;   // chargement de tuile ou de région en cours
+let NTOT = 0;   // formes de toute la tuile (CDA4 : seule une région peut être en mémoire, N ne compte que celle-ci)
 function __w5() {
 layerNames = M.layers.map(l => l.name);
 N = 0;
@@ -2579,6 +2636,7 @@ X0 = new Float32Array(N);
 X1 = new Float32Array(N);
 Y0g = new Float32Array(N);
 Y1g = new Float32Array(N);
+NTOT = M.ntot || N;
 Z0 = new Float32Array(layerNames.length);   // hauteurs par couche (toutes les formes d'une couche ont les mêmes)
 Z1 = new Float32Array(layerNames.length);
 LAY = new Uint8Array(N);
@@ -2885,9 +2943,9 @@ function applyStyle(name) {
 function __w15() {
 applyStyle(UI.OPTS.style || "dark");
 SOLO_AR = null;
-if (N > 900000) {   // même calcul que arenaFor() plus bas, centré sur la logique
+if (NTOT > 900000) {   // même calcul que arenaFor() plus bas, centré sur la logique
   let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { const t = short(M.types[CT[i]]); if (/^(decap|fill|tap|conb|tie|antenna|endcap)/.test(t)) continue; sx += C0x[i] + C1x[i]; sy += C0y[i] + C1y[i]; n += 2; }
-  const cx = n ? sx / n : W / 2, cy = n ? sy / n - OY : HH / 2, A = 900000 / N * W * HH;
+  const cx = n ? sx / n : W / 2, cy = n ? sy / n - OY : HH / 2, A = 900000 / NTOT * W * HH;
   let w = Math.min(W, Math.sqrt(A)), h = Math.min(HH, A / w); w = Math.min(W, A / h);
   const x0 = Math.max(0, Math.min(W - w, cx - w / 2)), y0 = Math.max(0, Math.min(HH - h, cy - h / 2)), r1 = v => Math.round(v * 10) / 10;
   SOLO_AR = [r1(x0), r1(y0), r1(x0 + w), r1(y0 + h)]; AR = { x0: SOLO_AR[0], y0: SOLO_AR[1], x1: SOLO_AR[2], y1: SOLO_AR[3] }; AR_ON = true;
@@ -2962,6 +3020,9 @@ mapBase.height = Math.max(1, Math.ceil(HH * ms));
 {
   const w = mapBase.width, h = mapBase.height, img = new ImageData(w, h), d = img.data;
   for (let o = 0; o < d.length; o += 4) { d[o] = 0x0d; d[o + 1] = 0x11; d[o + 2] = 0x17; d[o + 3] = 255; }
+  // grande tuile chargée par région : l'aperçu de toute la tuile sert de fond, la région est redessinée en détail par-dessus
+  const ov = M.ovImg;
+  if (ov) for (let y = 0; y < h; y++) { const sy = Math.min(ov.h - 1, Math.floor(y * ov.h / h)); for (let x = 0; x < w; x++) { const sx = Math.min(ov.w - 1, Math.floor(x * ov.w / w)), o = (y * w + x) * 4, q = (sy * ov.w + sx) * 3; d[o] = ov.px[q]; d[o + 1] = ov.px[q + 1]; d[o + 2] = ov.px[q + 2]; } }
   const rgb = c => [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)];
   const box = (x0, y0, x1, y1, c, a) => {
     let px0 = Math.floor(x0 * ms), px1 = Math.max(px0 + 1, Math.ceil(x1 * ms)), py0 = Math.floor((HH - y1) * ms), py1 = Math.max(py0 + 1, Math.ceil((HH - y0) * ms));
@@ -8403,7 +8464,7 @@ const vMic = m => { m = m && typeof m === "object" ? m : {}; const z = m.m === "
 function arenaFor(spec, n, mode) {
   spec = vMic(spec);
   let f = spec.m === "auto" ? Math.min(1, Math.max(2, n || 2) * (mode === "tdm" || mode === "inf" ? 1500 : mode === "race" ? 1e9 : 2800) / (W * HH)) : spec.m;
-  f = Math.min(f, AR_CAP / N);
+  f = Math.min(f, AR_CAP / NTOT);
   if (f >= 0.97) return null;
   const A = f * W * HH; let w = Math.min(W, Math.sqrt(A)), h = Math.min(HH, A / w); w = Math.min(W, A / h);
   w = Math.max(Math.min(W, 46), w); h = Math.max(Math.min(HH, 46), h);
@@ -8525,8 +8586,26 @@ function __w54() {
 if ($("optMic").value !== "1") SOLO_AR = arenaFor({ m: +$("optMic").value }, 1, "race");
 }
 __wrun(__w54);
-{ $("optMic").addEventListener("change", () => { const v2 = $("optMic").value; try { localStorage.setItem("cda-mic-solo", v2); } catch (e) {} SOLO_AR = arenaFor({ m: +v2 }, 1, "race") || (N > AR_CAP ? SOLO_AR : null); }); }
-function arenaSync() { applyArena(MP.on ? (MP.G.ar || null) : SOLO_AR); }
+{ $("optMic").addEventListener("change", () => { const v2 = $("optMic").value; try { localStorage.setItem("cda-mic-solo", v2); } catch (e) {} SOLO_AR = arenaFor({ m: +v2 }, 1, "race") || (NTOT > AR_CAP ? SOLO_AR : null); }); }
+function arenaSync() {
+  const ar = MP.on ? (MP.G.ar || null) : SOLO_AR;
+  // grande tuile CDA4 : la fenêtre doit être dans la région en mémoire, sinon on charge la bonne région d'abord
+  if (MAP4 && MAP4.big && MAP4.key === MAPSEL && !mapBusy) { if (region4(ar).key !== M.region) { ensureRegion(ar); return; } }
+  if (mapBusy) return;
+  applyArena(ar);
+  if (regSpawn) { regSpawn = false; if (MP.on && MP.team && MP.alive && !MP.veh) { respawn(); publish(true); } }
+}
+let regBusy = false, regSpawn = false;
+function ensureRegion(ar) {
+  if (regBusy) return; regBusy = true;
+  let el = $("mapLoad");
+  if (!el) { el = document.createElement("div"); el.id = "mapLoad"; el.setAttribute("role", "status"); el.innerHTML = `<div><span class="ml-k"></span><b class="ml-t"></b><i class="ml-bar"><i></i></i><span class="ml-s"></span></div>`; document.body.appendChild(el); }
+  el.querySelector(".ml-k").textContent = EN ? "Loading the area" : "Chargement de la zone";
+  el.querySelector(".ml-t").textContent = mapTitle(MAPSEL) + " · " + chipOfKey(MAPSEL);
+  el.querySelector(".ml-s").textContent = EN ? "Building the microscope window…" : "Construction de la fenêtre du microscope…";
+  el.hidden = false; el.className = "build";
+  chargerCarte(MAPSEL, null, { region: region4(ar) }).finally(() => { el.hidden = true; regBusy = false; });
+}
 
 /* ---- boucle multijoueur ---- */
 function mpTick(dt) {
@@ -9495,16 +9574,16 @@ requestAnimationFrame(frame);
 /* ---------- chargerCarte : change de tuile sans recharger la page ----------
    Télécharge la tuile, défait le monde actuel (murs, repères des modes, échelles, dégâts…), rejoue sa construction
    (fonctions __wN) avec la nouvelle carte, puis remet à zéro ce que le jeu accumule en partie sur la tuile. */
-let mapBusy = null;
-async function chargerCarte(key, onStep) {
+async function chargerCarte(key, onStep, opt) {   // opt.region : autre région de la même tuile CDA4 (blocs)
   key = mapValid(key);
-  if (key === MAPSEL) return true;
+  const reg = opt && opt.region && MAP4 && MAP4.key === key ? opt.region : null;
+  if (key === MAPSEL && !reg) return true;
   if (mapBusy) return mapBusy;
   return mapBusy = (async () => {
     const t0 = performance.now();
     onStep && onStep("dl");
     let d;
-    try { d = await loadMapData(key); } catch (e) { console.log("carte", key, e); return false; }
+    try { d = reg ? await build4(reg) : await loadMapData(key); } catch (e) { console.log("carte", key, e); return false; }
     onStep && onStep("build");
     await new Promise(r => setTimeout(r, 30));   // laisse l'écran de chargement s'afficher
     // ce que la partie a posé sur l'ancienne tuile
@@ -9516,7 +9595,8 @@ async function chargerCarte(key, onStep) {
     FORT_ON = false;
     // nouvelle carte, puis reconstruction du monde dans le même ordre qu'au démarrage
     MAPSEL = key; M = d.meta; buf = d.buf;
-    __wRebuild();
+    __wRebuild(); arCur = "";   // la fenêtre en cours sera réappliquée sur le monde reconstruit
+    if (reg) regSpawn = true;    // nouvelle région en partie : on réapparaît à sa base, une fois la fenêtre posée
     // en partie en ligne : le monde reconstruit reste celui du multijoueur (pas de losanges des bascules du solo, sites du mode)
     if (MP.on) { marks.visible = false; siteGroup.visible = gMode() === "bomb"; try { refreshAlerts(); } catch (e) {} }
     visited.clear(); if (IS_RACER) try { JSON.parse(localStorage.getItem("ledsracer-dff") || "[]").forEach(i => visited.add(i)); } catch (e) {}
@@ -9524,13 +9604,13 @@ async function chargerCarte(key, onStep) {
     mapC.width = mapBase.width; mapC.height = mapBase.height;
     GROUPS.forEach(g => { const l = document.querySelector(`#ly_${g.id} ~ span:not(.z)`); if (l) l.textContent = g.name; });
     try { localStorage.setItem("cda-map", key); } catch (e) {}
-    console.log("carte chargée à la volée :", key, Math.round(performance.now() - t0), "ms");
+    console.log(reg ? "région chargée :" : "carte chargée à la volée :", key, `${N} formes sur ${NTOT}`, Math.round(performance.now() - t0), "ms");
     onStep && onStep("done");
     return true;
   })().finally(() => { mapBusy = null; });
 }
 window.chargerCarte = chargerCarte;
-window.__map = { stats: () => { let inst = 0, vis = 0, vc = 0; for (const c of chunks) { inst += c.mesh.count; if (c.mesh.visible) { vis += c.mesh.count; vc++; } } return { N, W, HH, chunks: chunks.length, inst, vis, vc, mem: renderer.info.memory, calls: renderer.info.render.calls, tris: renderer.info.render.triangles, heap: performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1e6) : null }; }, marks: () => marks.visible, track: s => { setTrack(s); return TRACK.map(n => [n.kind[0], Math.round(n.x), Math.round(n.gy), n.lv]); }, su: () => ({ setup: L.setup, step: L.step, view: L.view, steps: SU_STEPS() }), pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
+window.__map = { geo: () => { let s = 0; for (let i = 0; i < N; i += 97) s = (s * 31 + X0[i] * 7 + Y0g[i] * 13 + LAY[i]) % 1e9; return [N, M.region || "", Math.round(s)]; }, stats: () => { let inst = 0, vis = 0, vc = 0; for (const c of chunks) { inst += c.mesh.count; if (c.mesh.visible) { vis += c.mesh.count; vc++; } } return { N, W, HH, chunks: chunks.length, inst, vis, vc, mem: renderer.info.memory, calls: renderer.info.render.calls, tris: renderer.info.render.triangles, heap: performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1e6) : null }; }, marks: () => marks.visible, track: s => { setTrack(s); return TRACK.map(n => [n.kind[0], Math.round(n.x), Math.round(n.gy), n.lv]); }, su: () => ({ setup: L.setup, step: L.step, view: L.view, steps: SU_STEPS() }), pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
 window.__game = { vote: { prep: r => prepVote(r), cast: i => castVote(i), counts: () => MP.G && MP.G.mv ? voteCounts(MP.G) : null }, die: b => die(b), me: () => ({ x: P.x, z: P.z, yaw, fly: P.fly }), arena: () => ({ AR, AR_ON, sites: SITES.map(x => [x.x, x.y]), pins: [PINS.M.x, PINS.M.y, PINS.D.x, PINS.D.y], doms: DOMS.map(d => [d.x, d.y]), pads: PADS.map(d => [d.x, d.y]), spawn: SPAWN, wsp: WSPOTS.map(w => [w.x, w.y]) }), vm: () => VM.state(), wpn: { get spots() { return WSPOTS; }, get forts() { return FORTS; }, get on() { return FORT_ON; }, give: k => wpGive(k), state: () => MP.wpn, swap: () => wpSwap() }, sup: (x, gy, k) => supportedAt(x, -gy, k), srun: (a, b, c, d, k) => supportedRun(a, b, c, d, k), genTrack: sd => { const t0 = performance.now(), T = genTrack(sd); return T ? { ms: Math.round(performance.now() - t0), n: T.length, arches: T.filter(n => n.kind === "arch").map(n => n.lv).join(""), T } : { ms: Math.round(performance.now() - t0), fail: true }; }, splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, get TRACK() { return TRACK; }, get ARCHES() { return ARCHES; }, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
 // données de la carte : relues à chaque accès (elles changent avec chargerCarte)
 { const live = { DOMS: () => DOMS, PINS: () => PINS, anchors: () => anchors, dmgVal: () => dmgVal, dead: () => dead, chunks: () => chunks, pads: () => PADS, nrg: () => NRG, SHAFTS: () => SHAFTS };

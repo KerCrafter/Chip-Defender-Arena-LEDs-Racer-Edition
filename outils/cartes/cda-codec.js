@@ -320,7 +320,7 @@ function header4(hdrJsonBytes, hlen) {
   return H;
 }
 function lib4(rawLib, H) { const rd = Rd(rawLib, 0); H.libR = H.lib.map(() => { const n = rd.v(), L = []; for (let k = 0; k < n; k++) { const li = rd.v(), c = rd.v(); L.push([li, getR(rd, c)]); } return L; }); return H; }
-function decodeBlock(raw, H, b, nx) {
+function decodeBlock(raw, H, b, nx, cellsOnly) {
   const rd = Rd(raw, 0), NL = H.names.length, cnt = []; for (let li = 0; li < NL; li++) cnt.push(rd.v());
   const per = Array.from({ length: NL }, () => []);
   for (let li = 0; li < NL; li++) if (cnt[li]) per[li].push(getR(rd, cnt[li]));
@@ -331,16 +331,16 @@ function decodeBlock(raw, H, b, nx) {
   const idx = [], cells = [], tmp = new Int32Array(4);
   for (let k = 0; k < ni; k++) {
     const t = ts[k], o = os[k] >> 1, c = H.lib[t], [lx, ly] = c.o, x = xs[k], y = ys[k];
-    for (const [li, r] of H.libR[t]) { const g = new Int32Array(r.length); for (let j = 0; j < r.length; j += 4) { tf(r[j] + lx, r[j + 1] + ly, r[j + 2] + lx, r[j + 3] + ly, o, g, j); g[j] += x; g[j + 1] += y; g[j + 2] += x; g[j + 3] += y; } per[li].push(g); }
+    if (!cellsOnly) for (const [li, r] of H.libR[t]) { const g = new Int32Array(r.length); for (let j = 0; j < r.length; j += 4) { tf(r[j] + lx, r[j + 1] + ly, r[j + 2] + lx, r[j + 3] + ly, o, g, j); g[j] += x; g[j + 1] += y; g[j + 2] += x; g[j + 3] += y; } per[li].push(g); }
     if (os[k] & 1) { const bb = c.b; tf(bb[0], bb[1], bb[2], bb[3], o, tmp, 0); idx.push(ii[k]); cells.push(Math.max(0, tmp[0] + x), Math.max(0, tmp[1] + y), Math.max(0, tmp[2] + x), Math.max(0, tmp[3] + y), t); }
   }
   const nc = rd.v();
   if (nc) { const ci = []; let prev = -1; for (let k = 0; k < nc; k++) { prev += rd.v() + 1; ci.push(prev); } for (let k = 0; k < nc; k++) { idx.push(ci[k]); for (let q = 0; q < 5; q++) cells.push(unzz(rd.v())); } }
   const tx = b % nx, ty = Math.floor(b / nx), sq = [tx * TB, ty * TB, (tx + 1) * TB, (ty + 1) * TB];
-  return { L: finish(NL, H.names, per, sq), idx, cells: Float64Array.from(cells) };
+  return { L: cellsOnly ? per.map(() => new Int32Array(0)) : finish(NL, H.names, per, sq), idx, cells: Float64Array.from(cells) };
 }
 // un bloc décompressé -> { L: formes finales de chaque couche (Int32Array [x0,y0,x1,y1]*n), idx: indices des cellules, cells }
-function block4(raw, H, b) { return decodeBlock(raw, H, b, H.nx); }
+function block4(raw, H, b, cellsOnly) { return decodeBlock(raw, H, b, H.nx, !!cellsOnly); }   // cellsOnly : seulement les cellules (rapide)
 /* toute la tuile, au format décompressé historique {meta, buf} (couches triées (y0, y1, x0) comme CDA2/CDA3) */
 function assemble4(H, blocks) {
   const NL = H.names.length, per = Array.from({ length: NL }, () => []);
