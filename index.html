@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-A7jd59Uq5k2l1qEUO5R4jaB0Gvvm7Hdpz6iEZYtXIt8=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-SmaFhYpuV1yIIQ/93OWh/6NMTFwt2Ujcy7ZLxd71Z6U=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-jcRi66ITAaxGaSWZBmlDSrJC4nNi63WC+cpknQqdhZE=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-qLN+x19AAbNlO8/qY40dzEkeAG5NVHesVkiE3kDrBI0=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-+dO7ZP0p7uS099lchYoVodPzfB+kAy9568+hE+PObZs=' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-A7jd59Uq5k2l1qEUO5R4jaB0Gvvm7Hdpz6iEZYtXIt8=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-LWMzCuuYuXjJVvmLbrC8LQtV+4/qbYaS0mevqmk3Cqk=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-qLN+x19AAbNlO8/qY40dzEkeAG5NVHesVkiE3kDrBI0=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="0971d0dc3338";</script>
+<script>window.CDA_BUILD="52fac71c72ca";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -877,6 +877,13 @@ body.race #myTeam{visibility:hidden}
 #sidePick .sp-card em{font:700 12px var(--f-kmono);font-style:normal;color:var(--micro)}#sidePick .sp-card.d em{color:var(--def)}
 #sidePick .sp-card:hover:not(:disabled),#sidePick .sp-card:focus-visible{transform:translateY(-4px);background:#fff;color:#000}
 #sidePick .sp-card:disabled{opacity:.4;cursor:not-allowed}
+#sidePick .sp-cols{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;width:min(560px,100%)}
+#sidePick .sp-cols[hidden],#sidePick .sp-cards[hidden]{display:none}
+#sidePick .sp-col{aspect-ratio:1;background:#000;border:0;border-radius:0;padding:10px;cursor:pointer;display:grid;place-items:center;transition:transform .12s}
+#sidePick .sp-col i{width:100%;height:100%;border-radius:50%;background:var(--c);box-shadow:0 0 18px var(--c)}
+#sidePick .sp-col:hover:not(:disabled),#sidePick .sp-col:focus-visible{transform:translateY(-4px);outline:4px solid #fff;outline-offset:-4px}
+#sidePick .sp-col[aria-checked="true"]{outline:3px dashed #fff;outline-offset:-6px}
+#sidePick .sp-col:disabled{cursor:not-allowed}#sidePick .sp-col:disabled i{background:#3a404c;box-shadow:none;opacity:.5}
 #sidePick #spNote{margin:0;font:700 13px var(--f-kmono);color:#000;background:#ffd24a;padding:6px 10px}#sidePick #spNote:empty{display:none}
 @media (max-width:560px){#sidePick .sp-cards{grid-template-columns:1fr 1fr;gap:8px}#sidePick .sp-card{padding:10px 6px 12px}#sidePick .sp-card b{font-size:19px}#sidePick .sp-card img{width:34vw}}
 .home-new{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;background:#000;padding:14px}
@@ -5973,8 +5980,8 @@ function genTrack0(seed) {
   const groundArches = (from, to, n) => {
     const pts = [];
     for (let i = 1; i <= n; i++) {
-      const f = i / (n + 1) + (R() - 0.5) * 0.12, px = from[0] + (to[0] - from[0]) * f, gy = from[1] + (to[1] - from[1]) * f;
-      const L = Math.hypot(to[0] - from[0], to[1] - from[1]) || 1, nx = -(to[1] - from[1]) / L, ny = (to[0] - from[0]) / L, off = (R() - 0.5) * Math.min(14, L * 0.5);
+      const f = i / (n + 1) + (R() - 0.5) * 0.06, px = from[0] + (to[0] - from[0]) * f, gy = from[1] + (to[1] - from[1]) * f;
+      const L = Math.hypot(to[0] - from[0], to[1] - from[1]) || 1, nx = -(to[1] - from[1]) / L, ny = (to[0] - from[0]) / L, off = (i % 2 ? 1 : -1) * (0.5 + R() * 0.5) * Math.min(5, L * 0.15);   // léger slalom régulier
       let ax = px + nx * off, ay = gy + ny * off; ax = Math.max(AR.x0 + 6, Math.min(AR.x1 - 6, ax)); ay = Math.max(AR.y0 + 6, Math.min(AR.y1 - 6, ay));
       pts.push([ax, ay]);
     }
@@ -5985,38 +5992,42 @@ function genTrack0(seed) {
     const offs = []; for (let o = 0; o <= 1.0001; o += 0.1) { offs.push(o); if (o) offs.push(-o); }
     for (let attempt = 0; attempt < 24; attempt++) {
       // départ : un rail qui passe à moins d'1 µm du puits, dans un axe tiré au hasard
-      const ax0 = R() < 0.5, sg0 = R() < 0.5 ? 1 : -1, len0 = 5 + R() * 10; let start = null, first = null;
+      const ax0 = R() < 0.5, sg0 = R() < 0.75 ? (ax0 ? Math.sign(FIN[0] - sh.x) || 1 : Math.sign(FIN[1] - sh.gy) || 1) : (R() < 0.5 ? 1 : -1), len0 = 5 + R() * 10; let start = null, first = null;
       for (const o of offs) {
         const st = ax0 ? [sh.x + sg0 * 1.3, sh.gy + o] : [sh.x + o, sh.gy + sg0 * 1.3];
         const q = ax0 ? [st[0] + sg0 * len0, st[1]] : [st[0], st[1] + sg0 * len0];
         if (inMap(q[0], q[1]) && run(st[0], st[1], q[0], q[1], k)) { start = st; first = q; break; }
       }
       if (!start) continue;
-      const pts = [first]; let p = first, ok = true;
+      const pts = [first]; let p = first, ok = true, axPrev = ax0, sgPrev = sg0;
+      const dirX = Math.sign(FIN[0] - first[0]) || 1, dirY = Math.sign(FIN[1] - first[1]) || 1;
+      // jamais de demi-tour : on ne repart pas en arrière sur l'axe qu'on vient de suivre
+      const notBack = (a, b) => { const d = axPrev ? b[0] - a[0] : b[1] - a[1]; return !(Math.abs(d) > 0.5 && Math.sign(d) === -sgPrev); };
       for (let i = 1; i < n && ok; i++) {
         let found = null;
         for (let tr = 0; tr < 50 && !found; tr++) {
-          const ax = R() < 0.5, sg = R() < 0.5 ? 1 : -1, len = 5 + R() * 12;
+          // d'abord : un quart de tour vers l'arrivée ; sinon tout droit, dans le même sens
+          const turn = tr < 25, ax = turn ? !axPrev : axPrev, sg = turn ? (ax ? dirX : dirY) : sgPrev, len = 6 + R() * 10;
           const q = ax ? [p[0] + sg * len, p[1]] : [p[0], p[1] + sg * len];
           if (!inMap(q[0], q[1]) || SHAFTS.some(s => Math.hypot(s.x - q[0], s.gy - q[1]) < 2.5)) continue;
           if (pts.some(r => Math.hypot(r[0] - q[0], r[1] - q[1]) < 3) || Math.hypot(sh.x - q[0], sh.gy - q[1]) < 3) continue;
           if (run(p[0], p[1], q[0], q[1], k)) found = q;
         }
-        if (!found) ok = false; else { pts.push(found); p = found; }
+        if (!found) ok = false; else { const ax = found[1] === p[1]; sgPrev = Math.sign(ax ? found[0] - p[0] : found[1] - p[1]) || 1; axPrev = ax; pts.push(found); p = found; }
       }
       if (!ok) continue;
       // sortie : un autre puits, en ligne droite ou avec un coude, en arrivant à 1,3 µm de son centre
       const exits = SHAFTS.filter(s => s !== sh && Math.hypot(s.x - p[0], s.gy - p[1]) < 50).sort(() => R() - 0.5);
       for (const s2 of exits) {
         // tout droit : même rangée (ou colonne) à 1 µm près
-        if (Math.abs(s2.gy - p[1]) <= 1.0 && Math.abs(s2.x - p[0]) > 2) { const e = [s2.x - Math.sign(s2.x - p[0]) * 1.3, p[1]]; if (run(p[0], p[1], e[0], e[1], k)) return { start, pts, ways: [e], exit: s2 }; }
-        if (Math.abs(s2.x - p[0]) <= 1.0 && Math.abs(s2.gy - p[1]) > 2) { const e = [p[0], s2.gy - Math.sign(s2.gy - p[1]) * 1.3]; if (run(p[0], p[1], e[0], e[1], k)) return { start, pts, ways: [e], exit: s2 }; }
+        if (Math.abs(s2.gy - p[1]) <= 1.0 && Math.abs(s2.x - p[0]) > 2) { const e = [s2.x - Math.sign(s2.x - p[0]) * 1.3, p[1]]; if (notBack(p, e) && run(p[0], p[1], e[0], e[1], k)) return { start, pts, ways: [e], exit: s2 }; }
+        if (Math.abs(s2.x - p[0]) <= 1.0 && Math.abs(s2.gy - p[1]) > 2) { const e = [p[0], s2.gy - Math.sign(s2.gy - p[1]) * 1.3]; if (notBack(p, e) && run(p[0], p[1], e[0], e[1], k)) return { start, pts, ways: [e], exit: s2 }; }
         // avec un coude : on longe un rail, puis un autre qui passe à 1 µm du puits
         for (const o of offs) {
           const c1 = [s2.x + o, p[1]], e1 = [s2.x + o, s2.gy - Math.sign(s2.gy - p[1]) * 1.3];
-          if (Math.abs(c1[0] - p[0]) > 1 && Math.abs(e1[1] - c1[1]) > 1 && run(p[0], p[1], c1[0], c1[1], k) && run(c1[0], c1[1], e1[0], e1[1], k)) return { start, pts, ways: [c1, e1], exit: s2 };
+          if (Math.abs(c1[0] - p[0]) > 1 && Math.abs(e1[1] - c1[1]) > 1 && notBack(p, c1) && notBack(c1, e1) && run(p[0], p[1], c1[0], c1[1], k) && run(c1[0], c1[1], e1[0], e1[1], k)) return { start, pts, ways: [c1, e1], exit: s2 };
           const c2 = [p[0], s2.gy + o], e2 = [s2.x - Math.sign(s2.x - p[0]) * 1.3, s2.gy + o];
-          if (Math.abs(c2[1] - p[1]) > 1 && Math.abs(e2[0] - c2[0]) > 1 && run(p[0], p[1], c2[0], c2[1], k) && run(c2[0], c2[1], e2[0], e2[1], k)) return { start, pts, ways: [c2, e2], exit: s2 };
+          if (Math.abs(c2[1] - p[1]) > 1 && Math.abs(e2[0] - c2[0]) > 1 && notBack(p, c2) && notBack(c2, e2) && run(p[0], p[1], c2[0], c2[1], k) && run(c2[0], c2[1], e2[0], e2[1], k)) return { start, pts, ways: [c2, e2], exit: s2 };
         }
       }
     }
@@ -6087,14 +6098,51 @@ function makeArch(a, i) {
 }
 function __w44() {
 ARCH3D = ARCHES.map(makeArch);
+TUNNEL = buildTunnel(TRACK);
 }
 __wrun(__w44);
+/* tunnel de course : des anneaux réguliers relient le départ, chaque arche, les puits (montée ou descente d'une couche
+   à l'autre) et l'arrivée ; le tronçon vers la prochaine arche s'allume, le reste reste discret */
+var TUNNEL = null;   // var : construit pendant la construction du monde, plus haut dans le fichier
+function tunH(lv) { const h = SLAB[lv][1] - SLAB[lv][0], rad = Math.max(0.22, Math.min(0.85, (Math.min(h, 2) - 0.1) / 2)); return { y: lv >= SLAB.length - 1 ? SLAB[lv][0] + rad + 0.05 : (SLAB[lv][0] + SLAB[lv][1]) / 2, rad }; }
+function buildTunnel(T) {
+  if (TUNNEL) { raceGroup.remove(TUNNEL.g); TUNNEL.g.traverse(m => { if (m.geometry) m.geometry.dispose(); if (m.material) m.material.dispose(); }); }
+  const g = new THREE.Group(), segs = [], STEP = 1.1;
+  // morceaux droits successifs, en 3D (x, y, z) ; arche = TRACK[k] avec k croissant
+  let cur = null, arch = 0;
+  const pieces = [];
+  for (let k = 0; k < T.length; k++) {
+    const n = T[k], lv = n.lv, here = [n.x, tunH(lv).y, -n.gy, lv];
+    if (cur) pieces.push({ a: cur, b: here, arch });
+    if (n.kind === "arch" || n.kind === "finish") arch++;
+    cur = here;
+    if (n.kind === "shaft" && typeof n.to === "number") { const up = [n.x, tunH(n.to).y, -n.gy, n.to]; pieces.push({ a: here, b: up, arch, v: true }); cur = up; }
+  }
+  const geo = {};
+  for (const pc of pieces) {
+    const [ax, ay, az, la] = pc.a, [bx, by, bz, lb] = pc.b, L = Math.hypot(bx - ax, by - ay, bz - az); if (L < 0.3) continue;
+    const n = Math.max(1, Math.floor(L / STEP)), lv = pc.v ? Math.min(la, lb) : lb, rad = pc.v ? 0.55 : tunH(lb).rad * 0.75;
+    const key = rad.toFixed(2); geo[key] = geo[key] || new THREE.TorusGeometry(rad, 0.022, 6, 28);
+    const mat = new THREE.MeshBasicMaterial({ color: SLAB_COL[pc.v ? Math.max(la, lb) : lb] || "#e2a83a", transparent: true, opacity: 0.25, depthWrite: false });
+    const im = new THREE.InstancedMesh(geo[key], mat, n), M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), E = new THREE.Euler();
+    if (pc.v) E.set(Math.PI / 2, 0, 0); else E.set(0, Math.atan2(bx - ax, bz - az), 0);
+    Q.setFromEuler(E);
+    for (let i = 0; i < n; i++) { const f = (i + 0.5) / n; M4.compose(new THREE.Vector3(ax + (bx - ax) * f, ay + (by - ay) * f, az + (bz - az) * f), Q, new THREE.Vector3(pc.v ? 1 : 1.8, 1, 1)); im.setMatrixAt(i, M4); }
+    im.renderOrder = 5; g.add(im); segs.push({ arch: pc.arch, mat });
+  }
+  raceGroup.add(g);
+  return { g, segs };
+}
+function tunnelTick(idx, t) {
+  if (!TUNNEL) return;
+  for (const s of TUNNEL.segs) s.mat.opacity = s.arch === idx ? 0.55 + 0.25 * Math.sin(t * 5) : s.arch < idx ? 0.05 : s.arch === idx + 1 ? 0.22 : 0.12;
+}
 // nouvelle graine : nouveau parcours, reconstruit à l'identique sur chaque page
 function setTrack(seed) {
   const T = (seed && genTrack(seed)) || (AR_ON ? genTrack(1) : BASE_TRACK);
   trackSeed = seed; TRACK = T; ARCHES = T.filter(n => n.kind === "arch" || n.kind === "finish");
   for (const o of ARCH3D) { raceGroup.remove(o.g); o.g.traverse(m => { if (m.geometry) m.geometry.dispose(); if (m.material) { if (m.material.map) m.material.map.dispose(); m.material.dispose(); } }); }
-  ARCH3D = ARCHES.map(makeArch);
+  ARCH3D = ARCHES.map(makeArch); TUNNEL = buildTunnel(T);
   if (typeof startLabel !== "undefined" && startLabel) startLabel.position.set(T[0].x, 1.75, -T[0].gy - 1.2);
 }
 function __w45() {
@@ -6110,6 +6158,7 @@ function raceTick() {
   if (!on) return;
   const me = MP.me ? MP.me.peer : null, idx = (MP.G.rc && me && MP.G.rc[me]) || 0, t = performance.now() / 1000;
   startLabel.visible = MP.G.ph !== "live";   // le panneau de départ ne gêne plus une fois la course lancée
+  tunnelTick(idx, t);
   ARCH3D.forEach((o, i) => { o.mat.color.set(i < idx ? "#3a4658" : i === idx ? "#7dff9a" : "#e2a83a"); o.mat.opacity = i < idx ? 0.35 : 0.9; o.g.scale.setScalar(i === idx ? 1 + 0.06 * Math.sin(t * 6) : 1); });
   if (me && MP.lastRc !== undefined && idx > MP.lastRc) { SFX.play(idx >= ARCHES.length ? "win" : "relay", { v: 0.7, wet: 0.2 }); if (idx < ARCHES.length) kfx((EN ? `Arch ${idx} / ${ARCHES.length}` : `Arche ${idx} / ${ARCHES.length}`)); }
   MP.lastRc = idx;
@@ -6987,8 +7036,7 @@ function startPlay() {
   if (gdm && gdm !== MAPSEL) { if (!startMapWait) { startMapWait = true; ensureMap(gdm, gdc.mapt).then(ok => { startMapWait = false; if (ok) startPlay(); else leaveGame(); }); } return; }
   if (startMapWait) return;
   MP.wait = false;
-  const mode = gMode();
-  if (mode === "race" && !MP.lt) MP.lt = "race";
+  const mode = pickMode();
   if (mode === "inf" && !MP.lt) MP.lt = "D";
   if (!MP.lt) { showSidePick(); return; }
   const t = MP.lt === "race" ? null : MP.lt;
@@ -7101,20 +7149,46 @@ function showSidePick() {
     el.innerHTML = `<div class="sp-in"><small id="spMode"></small><h2>${EN ? "Choose your side" : "Choisis ton camp"}</h2><div class="sp-cards">
       <button class="sp-card m" data-t="M"><img alt=""><b>${EN ? (EN ? "Microbes" : "Microbes") : (EN ? "Microbes" : "Microbes")}</b><small></small><em></em></button>
       <button class="sp-card d" data-t="D"><img alt=""><b>${EN ? "Defenders" : (EN ? "Defenders" : "Défenseurs")}</b><small></small><em></em></button></div>
+      <div class="sp-cols" id="spCols" role="radiogroup"></div>
       <p id="spNote"></p><button class="btn-sub" id="spQuit">${EN ? "Leave the game" : "Quitter la partie"}</button></div>`;
     document.body.appendChild(el);
     el.querySelectorAll(".sp-card").forEach(b => b.onclick = () => { const t = b.dataset.t; if (!sideOk(t)) { sidePickRender(); return; } UI.click && UI.click(); el.hidden = true; MP.lt = t; joinTeam(t); });
     $("spQuit").onclick = () => { el.hidden = true; leaveGame(true); UI.openMenu && UI.openMenu(); UI.openPanel && UI.openPanel("pMulti"); lobbyRender(true); };
   }
+  const race = pickMode() === "race"; el.dataset.race = race ? "1" : "";
+  el.querySelector("h2").textContent = race ? (EN ? "Choose your colour" : "Choisis ta couleur") : (EN ? "Choose your side" : "Choisis ton camp");
+  el.querySelector(".sp-cards").hidden = race; $("spCols").hidden = !race; el.dataset.sig = "";
+  if (race) { UI.closeMenu && UI.closeMenu(); $("spMode").textContent = MODE_NAME.race + " · " + mapTitle(MAPSEL) + " · " + chipOfKey(MAPSEL); el.hidden = false; sidePickRender(); return; }
   L.avDone = false; avatarShots();
   el.querySelector('[data-t="M"] img').src = $("avM").src; el.querySelector('[data-t="D"] img').src = $("avD").src;
   el.querySelector('[data-t="M"] small').textContent = $("tM").querySelector("small").textContent;
   el.querySelector('[data-t="D"] small').textContent = $("tD").querySelector("small").textContent;
-  $("spMode").textContent = MODE_NAME[gMode()] + " · " + mapTitle(MAPSEL) + " · " + chipOfKey(MAPSEL);
+  $("spMode").textContent = MODE_NAME[pickMode()] + " · " + mapTitle(MAPSEL) + " · " + chipOfKey(MAPSEL);
   UI.closeMenu && UI.closeMenu(); el.hidden = false; sidePickRender();
 }
+// course : les couleurs déjà prises par les autres coureurs de la partie (engagés dans la course)
+function raceTaken() {
+  const t = new Set();
+  for (const p of members()) { if (p.sameTab) continue; const pr = p.presence || {}; if (Number.isInteger(pr.col) && (pr.team === "M" || pr.team === "D" || pr.lt === "race")) t.add(pr.col); }
+  return t;
+}
+// mode de la partie qu'on rejoint (celui de l'annonce : l'état de jeu de l'hôte peut arriver un peu après)
+function pickMode() { const gd = curGd() || MP.gdLast; return vMode(gd && gd.mode ? gd.mode : gMode()); }
 function sidePickRender() {
   const el = $("sidePick"); if (!el || el.hidden) return;
+  if ((pickMode() === "race") !== (el.dataset.race === "1")) { showSidePick(); return; }
+  if (pickMode() === "inf") { el.hidden = true; MP.lt = "D"; startPlay(); return; }
+  if (pickMode() === "race") {
+    const taken = raceTaken(), sig = "r" + [...taken].sort().join(",") + ":" + MP.rcol; if (el.dataset.sig === sig) return; el.dataset.sig = sig;
+    $("spCols").innerHTML = RACE_COLS.map((c, k) => `<button role="radio" class="sp-col" data-c="${k}" style="--c:${c}" ${taken.has(k) ? "disabled" : ""} aria-checked="${k === MP.rcol && !taken.has(k)}" aria-label="${(EN ? "Colour " : "Couleur ") + (k + 1)}${taken.has(k) ? (EN ? " (taken)" : " (prise)") : ""}"><i></i></button>`).join("");
+    $("spCols").querySelectorAll("[data-c]").forEach(b => b.onclick = () => {
+      const k = +b.dataset.c; if (raceTaken().has(k)) { el.dataset.sig = ""; sidePickRender(); return; }
+      MP.rcol = k; try { localStorage.setItem("cda-rcol", String(k)); } catch (e) {}
+      UI.click && UI.click(); el.hidden = true; MP.lt = "race"; startPlay();
+    });
+    $("spNote").textContent = taken.size >= RACE_COLS.length ? (EN ? "Every colour is taken" : "Toutes les couleurs sont prises") : taken.size ? (EN ? "Greyed colours are taken by other racers" : "Les couleurs grisées sont prises par les autres coureurs") : "";
+    return;
+  }
   const n = sideCounts(), ok = { M: sideOk("M"), D: sideOk("D") };
   const sig = JSON.stringify([n, ok]); if (el.dataset.sig === sig) return; el.dataset.sig = sig;
   for (const t of ["M", "D"]) {
@@ -9216,7 +9290,7 @@ async function chargerCarte(key, onStep) {
   })().finally(() => { mapBusy = null; });
 }
 window.chargerCarte = chargerCarte;
-window.__map = { su: () => ({ setup: L.setup, step: L.step, view: L.view, steps: SU_STEPS() }), pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
+window.__map = { track: s => { setTrack(s); return TRACK.map(n => [n.kind[0], Math.round(n.x), Math.round(n.gy), n.lv]); }, su: () => ({ setup: L.setup, step: L.step, view: L.view, steps: SU_STEPS() }), pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
 window.__game = { vote: { prep: r => prepVote(r), cast: i => castVote(i), counts: () => MP.G && MP.G.mv ? voteCounts(MP.G) : null }, die: b => die(b), me: () => ({ x: P.x, z: P.z, yaw, fly: P.fly }), arena: () => ({ AR, AR_ON, sites: SITES.map(x => [x.x, x.y]), pins: [PINS.M.x, PINS.M.y, PINS.D.x, PINS.D.y], doms: DOMS.map(d => [d.x, d.y]), pads: PADS.map(d => [d.x, d.y]), spawn: SPAWN, wsp: WSPOTS.map(w => [w.x, w.y]) }), vm: () => VM.state(), wpn: { get spots() { return WSPOTS; }, get forts() { return FORTS; }, get on() { return FORT_ON; }, give: k => wpGive(k), state: () => MP.wpn, swap: () => wpSwap() }, sup: (x, gy, k) => supportedAt(x, -gy, k), srun: (a, b, c, d, k) => supportedRun(a, b, c, d, k), genTrack: sd => { const t0 = performance.now(), T = genTrack(sd); return T ? { ms: Math.round(performance.now() - t0), n: T.length, arches: T.filter(n => n.kind === "arch").map(n => n.lv).join(""), T } : { ms: Math.round(performance.now() - t0), fail: true }; }, splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, get TRACK() { return TRACK; }, get ARCHES() { return ARCHES; }, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
 // données de la carte : relues à chaque accès (elles changent avec chargerCarte)
 { const live = { DOMS: () => DOMS, PINS: () => PINS, anchors: () => anchors, dmgVal: () => dmgVal, dead: () => dead, chunks: () => chunks, pads: () => PADS, nrg: () => NRG, SHAFTS: () => SHAFTS };
