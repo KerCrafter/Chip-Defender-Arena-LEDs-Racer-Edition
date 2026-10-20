@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-2Wb0+vj9RmBvTlHtumsafOyoK0QTliJ8JPgFrmkwNl8=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-DAFvCtutSdfFCkA33FD1/TEsafxEBqXrsa6X2iIyZKs=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-vz5wFjtSHO6N1Kop3G7iZwAstOrsFWC0DrV0+9hPuNA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-DAFvCtutSdfFCkA33FD1/TEsafxEBqXrsa6X2iIyZKs=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-rXppb7fUsHKXa4wOKAFuGTfVRLDDdbU1dUkFgJon+1Y=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-zq/lOKxoU42g0TSzc+CEMHnxgDNYnJ2ww6Fsi0KL3u8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="92113c379d8d";</script>
+<script>window.CDA_BUILD="50207d9414f6";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -876,6 +876,7 @@ body.race #myTeam{visibility:hidden}
 .home-new small{font:500 12px var(--f-kmono);color:var(--k-sky);flex:1;min-width:180px}
 .su-step{margin:6px 0 -4px;font:900 15px var(--f-brand);text-transform:uppercase;background:#000;justify-self:start;padding:3px 10px}
 #lvCreate #gmodeLbl{display:none}
+#suChipName{font-size:12px;padding:3px 8px;margin-left:0}
 #lvCreate .modes.two{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}#lvCreate .mcard img{aspect-ratio:16/9}#lvCreate .modes.two .mcard b{font-size:15px}
 .su-go{display:flex;gap:12px;flex-wrap:wrap;align-items:center;position:sticky;bottom:0;background:var(--k-blue2);padding:10px 0;z-index:2}
 .gm-sum h4{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.gm-sum h4 .btn-sub{margin-left:auto}
@@ -6916,6 +6917,7 @@ function mapSwitch(k, after, t) {
   k = mapValid(k); const title = mapTitle(k, t); rememberTitle(k, title);
   try { localStorage.setItem("cda-map", k); localStorage.setItem("cda-map-title", title); } catch (e) {}
   document.querySelectorAll("[data-chipname]").forEach(e => e.textContent = title);
+  if (typeof suChipName === "function") suChipName();
   // hôte d'une partie pas encore lancée : la partie se jouera sur cette tuile
   if (MP.gdOwn && MP.gd && MP.gd.st !== "play") { if (MP.G) { MP.G.mk = ""; MP.G.mv = null; } MP.gd = Object.assign({}, MP.gd, { map: k, mapt: title }); lobbyPublish(); lobbyRender(true); }
   toast(EN ? `Chip chosen: ${title} · it loads when the game starts` : `Puce choisie : ${title} · elle se charge au lancement de la partie`);
@@ -7004,6 +7006,7 @@ const SU_STEPS = () => ["mode", ...(!MP.gid && $("gMapF") && !$("gMapF").hidden 
   const gmf = $("gMapF"), cols = document.querySelector(".gm-cols");
   s2.append(mk("h4", "su-step", EN ? "Chip" : "La puce"), gmf);
   const rnd = mk("button", "btn-sub", EN ? "🎲 Random tile" : "🎲 Une tuile au hasard"); rnd.id = "suRnd"; gmf.append(rnd);
+  { const c = mk("span", "gchip"); c.id = "suChipName"; gmf.querySelector("[data-chipname]").after(c); }
   rnd.onclick = () => { UI.click && UI.click(); MUX.randomTiles(1, MAPSEL).then(t => { if (t[0]) mapSwitch(t[0].k, null, t[0].t); }).catch(() => {}); };
   const s3 = mk("div", "su-s"); s3.dataset.s = "set"; s3.append(mk("h4", "su-step", EN ? "Settings" : "Les réglages"), cols);
   const s4 = mk("div", "su-s"); s4.dataset.s = "go";
@@ -7028,6 +7031,8 @@ const SU_STEPS = () => ["mode", ...(!MP.gid && $("gMapF") && !$("gMapF").hidden 
   $("gNew").onclick = () => { UI.click && UI.click(); L.setup = true; L.step = "mode"; L.pv = false; vis.querySelector('[data-pv="0"]').click(); lobbyRender(true); };
   $("suCancel").onclick = () => { L.setup = false; lobbyRender(true); };
 }
+// la puce (navette Tiny Tapeout) de la tuile choisie, à côté de son nom : « TT SKY 25b », « TT IHP 25a », « TT06 »
+function suChipName() { const e = $("suChipName"); if (!e) return; const c = chipOfKey(mapPref()); e.textContent = /^TT/.test(c) ? c : "TT " + c; }
 function suRender() {
   const st = SU_STEPS(); if (!st.includes(L.step)) L.step = st[0];
   const k = st.indexOf(L.step), last = k === st.length - 1, NAMES = { mode: EN ? "Mode" : "Mode", chip: EN ? "Chip" : "Puce", set: EN ? "Settings" : "Réglages", go: EN ? "Start" : "Lancement" };
@@ -7037,6 +7042,7 @@ function suRender() {
   $("suNext").hidden = L.step === "mode" && !MP.gid;   // le mode se choisit d'un clic sur sa carte
   $("suBack").textContent = k === 0 ? (MP.gid ? (EN ? "← Back to the game" : "← Retour à la partie") : (EN ? "Cancel" : "Annuler")) : (EN ? "← Back" : "← Retour");
   if (L.step === "set") { try { micPreview(MP.gid ? MP.gd : null); } catch (e) {} }
+  suChipName();
   $("menu").scrollTo && $("menu").scrollTo(0, 0);
 }
 function balancedTeam() {
