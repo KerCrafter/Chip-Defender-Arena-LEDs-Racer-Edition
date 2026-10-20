@@ -365,8 +365,24 @@ function assemble4(H, blocks) {
   return { meta, buf: out.buffer };
 }
 // blocs à charger pour couvrir une zone (unités de grille)
+/* une région d'une tuile CDA4 : les blocs choisis en entier (formes coupées au rectangle clip, en grille), les autres
+   pour leurs cellules seulement (cellsB : déjà décodées, ou null) ; gunzip : fonction asynchrone de décompression */
+async function region4Build(u8, H, sel, clip, cellsB, gunzip) {
+  const hl = H.dataStart, want = new Set(sel);
+  const blocks = await Promise.all(H.blocks.map(async (b, i) => {
+    if (!b[1]) return null;
+    if (want.has(i)) {
+      const bl = block4(await gunzip(u8.subarray(hl + b[0], hl + b[0] + b[1])), H, i);
+      // on ne garde que les formes qui touchent la région (les blocs de 80 µm débordent de la fenêtre)
+      if (clip) bl.L = bl.L.map(r => { const o = new Int32Array(r.length); let k = 0; for (let j = 0; j < r.length; j += 4) if (r[j + 2] > clip[0] && r[j] < clip[2] && r[j + 3] > clip[1] && r[j + 1] < clip[3]) { o[k++] = r[j]; o[k++] = r[j + 1]; o[k++] = r[j + 2]; o[k++] = r[j + 3]; } return o.subarray(0, k); });
+      return bl;
+    }
+    return cellsB ? cellsB[i] : block4(await gunzip(u8.subarray(hl + b[0], hl + b[0] + b[1])), H, i, true);
+  }));
+  return assemble4(H, blocks);
+}
 function blocksIn4(H, x0, y0, x1, y1) { const out = []; H.blocks.forEach((b, i) => { if (b[1] && b[4] < x1 && b[6] > x0 && b[5] < y1 && b[7] > y0) out.push(i); }); return out; }
 
-const api = { unpack, unpack2, unpack3, rectUnion, encode4, isCda4, headLen4, header4, lib4, block4, assemble4, blocksIn4, parseSrc };
+const api = { unpack, unpack2, unpack3, rectUnion, encode4, isCda4, headLen4, header4, lib4, block4, assemble4, blocksIn4, region4Build, parseSrc };
 if (typeof module !== "undefined" && module.exports) module.exports = api; else root.CDA_CODEC = api;
 })(typeof self !== "undefined" ? self : this);
