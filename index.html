@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0O7eT1y07tNrg3sRaq4bZ4Ev7mU/w1TffzR+1bCZwFc=' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-jJmcjiO+uJFkBgZePSFatDIn6fHld9SPvcUCnNT28YU=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-2uDT1uPYGw4b0stbAwSZdRDRHjZ9ClbBSbUjv77C7+Q=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-Of3e3Rs2RAHsbp0LEleJEPAIwkEy6NVF1Ixf9M09w+k=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";window.CDA_MAPDIR="maps4/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="6a36f58b6005";</script>
+<script>window.CDA_BUILD="36548db31be2";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -2507,8 +2507,51 @@ function mapValid(k) {
   if (/^[a-z0-9]+\/a\d+$/.test(k)) return I.ext === "bin" ? k : "a580";   // autre navette : fichiers du site
   return I.maps[k] ? k : "a580";
 }
+/* monde vide : tant qu'on n'est pas en partie, aucune tuile n'est chargée (accueil, menus, salon, création de partie).
+   Une mini-puce factice (une forme, trois cellules) suffit pour que tout le jeu s'initialise ; l'interface lit les
+   fiches des tuiles (meta.json + image) pour afficher ce qui concerne la puce choisie. */
+const EMPTY_KEY = "vide";
+const curMapKey = () => MAPSEL === EMPTY_KEY ? mapPref() : MAPSEL;   // « ta puce » : la tuile chargée, ou la tuile choisie hors partie
+globalThis.__dimW = () => W; globalThis.__dimH = () => HH; globalThis.__dimN = () => NTOT; globalThis.__dimLC = () => LOGIC_C; globalThis.__dimOY = () => OY;
+/* fiches des tuiles (maps4/<puce>/meta.json + <tuile>.png, faites par outils/cartes/fiches-tuiles.mjs) */
+const TINFO = {}, TIMG = {};
+function tileInfo(key) {
+  key = mapValid(key); const [id, k] = key.includes("/") ? key.split("/") : [(window.CDA_INDEX && window.CDA_INDEX.id) || "ttsky25b", key], base = (window.CDA_MAPS || "") + MAPDIR() + id + "/";
+  if (!TINFO[id]) TINFO[id] = fetch(base + "meta.json").then(r => r.ok ? r.json() : {}).catch(() => ({}));
+  return TINFO[id].then(m => m && m[k] ? Object.assign({ key, png: base + k + ".png" }, m[k]) : null);
+}
+function tileImage(t) {
+  if (!t || !t.png) return Promise.resolve(null);
+  return TIMG[t.png] || (TIMG[t.png] = new Promise(res => { const im = new Image(); im.crossOrigin = "anonymous"; im.onload = () => res(im); im.onerror = () => res(null); im.src = t.png; }));
+}
+const tileDims = (key, t) => { const oy = key === "a580" ? 55 : 0; return { W: t.w, HH: t.h - oy, NTOT: t.n, LC: [t.lc[0], t.lc[1]], OY: oy }; };
+// hors partie (monde vide) : ce que l'interface affiche de la puce choisie vient de sa fiche
+function prefInfoUI() {
+  const key = mapPref(), title = mapTitle(key);
+  document.querySelectorAll("[data-chipname]").forEach(e => e.textContent = title);
+  window.cdaEdition && window.cdaEdition(title);
+  document.querySelectorAll(".lp-edition").forEach(e => e.textContent = EN ? title + " Edition" : "Édition " + title);
+  const I = window.CDA_INDEX, p = !key.includes("/") && I && I.byKey && I.byKey[key]; if (p && p.au) document.querySelectorAll("[data-chipauthor]").forEach(e => e.textContent = p.au);
+  tileInfo(key).then(t => {
+    if (!t || mapPref() !== key) return;
+    $("qt").textContent = t.dff; $("sDff").textContent = t.dff;
+    if (t.lg != null) $("sCells").textContent = t.lg.toLocaleString(EN ? "en-US" : "fr-FR");
+    document.querySelectorAll("[data-chipdim]").forEach(e => e.textContent = `${Math.round(t.w)} × ${Math.round(t.h - (key === "a580" ? 55 : 0))}`);
+    if (MAPSEL === EMPTY_KEY) $("goSub").textContent = EN ? `Explore the chip, find the ${t.dff} flip-flops` : `Explorer la puce, trouver les ${t.dff} bascules`;
+  });
+}
+function emptyMap() {
+  const g = 0.005, u = v => Math.round(v / g);
+  const rect = [u(5), u(5), u(10), u(6)], cells = [[u(20), u(20), u(22), u(23), 2], [u(30), u(30), u(36), u(33), 0], [u(40), u(40), u(42), u(43), 1]];
+  const buf = new Uint32Array(4 + cells.length * 5); buf.set(rect, 0); cells.forEach((c, i) => buf.set(c, 4 + i * 5));
+  return { meta: { name: "vide", pdk: "sky130", grid: g, w: 60, h: 60, layers: [{ name: "met1", count: 1, offset: 0 }], cells: { count: cells.length, offset: 16 },
+    types: ["sky130_fd_sc_hd__dfxtp_1", "sky130_fd_sc_hd__decap_4", "sky130_fd_sc_hd__inv_1"], labels: [],
+    cda: { key: EMPTY_KEY, title: "", author: "", addr: 0, tiles: "1x1", slice: [0, 0, 1, 1], sites: [{ id: "A", name: (EN ? "Zone A" : "Zone A"), sub: "", x: 15, y: 15 }, { id: "B", name: (EN ? "Zone B" : "Zone B"), sub: "", x: 45, y: 45 }], oy: 0 },
+    stats: { rects: 1, logic: 1 } }, buf: buf.buffer };
+}
 // téléchargement et décodage d'une tuile (LEDs Racer : embarquée dans la page)
 async function loadMapData(key) {
+  if (key === EMPTY_KEY) return emptyMap();
   let gz;
   if (key !== "a580" || !window.CHIP_RACER) {   // site hébergé : LEDs Racer se télécharge comme les autres tuiles
     const bin = window.CDA_INDEX.ext === "bin";   // site hébergé : binaire ; artefact : base64 (seul format qu'il sert tel quel)
@@ -2518,7 +2561,7 @@ async function loadMapData(key) {
   } else gz = Uint8Array.from(atob(window.CHIP_RACER), c => c.charCodeAt(0));
   return cdaUnpack(gz, key);
 }
-let MAPSEL = mapPref();
+let MAPSEL = EMPTY_KEY;   // tuile chargée : aucune hors partie (la tuile choisie, elle, est mapPref())
 let M, buf;
 // la page d'accueil ne charge pas la puce : le jeu attend qu'elle se ferme (bouton « Jouer », lien d'invitation…)
 // (localStorage cda-land = "0" : pas d'attente, pour les tests automatiques)
@@ -2528,7 +2571,6 @@ await new Promise(res => {
   const mo = new MutationObserver(() => { if (L.hidden) { mo.disconnect(); res(); } }); mo.observe(L, { attributes: true, attributeFilter: ["hidden"] });
 });
 try {
-  if (MAPSEL !== "a580") $("goSub") && ($("goSub").textContent = (EN ? "Loading the tile…" : "Chargement de la tuile…"));
   ({ meta: M, buf } = await loadMapData(MAPSEL));
 } catch (e) {
   console.log("carte", MAPSEL, e);
@@ -3005,6 +3047,7 @@ scene.add(marks);
 __wrun(__w18);
 markMat.onBeforeCompile = sh => { sh.fragmentShader = sh.fragmentShader.replace("#include <emissivemap_fragment>", "#include <emissivemap_fragment>\ntotalEmissiveRadiance *= vColor.r > 0.5 ? 1.0 : 0.0;"); };
 function __w19() {
+if (MAP_KEY === EMPTY_KEY) { prefInfoUI(); return; }
 $("qt").textContent = dffs.length;
 $("sDff").textContent = dffs.length;
 logic = 0;
@@ -3388,6 +3431,7 @@ mapC.addEventListener("pointerdown", e => {
 }
 if (isTouch) { $("keysDesk").hidden = true; $("keysTouch").hidden = false; }
 $("go").disabled = false; function __w22() {
+if (MAP_KEY === EMPTY_KEY) prefInfoUI(); else
 $("goSub").textContent = (EN ? `Explore the chip, find the ${dffs.length} flip-flops` : `Explorer la puce, trouver les ${dffs.length} bascules`);
 }
 __wrun(__w22); UI.ready = true;
@@ -7234,12 +7278,19 @@ function ownerSync() {   // le créateur publie la partie et la configuration de
 /* ---- microscope dans le salon : réglage du créateur, aperçu pour tous ---- */
 $("gmic").value = String(MIC.m);
 function micPlayers(gd) { const cap = vBots(gd ? gd.n : $("gbots").value), humans = Math.max(1, members().length); return cap ? Math.max(cap * 2, humans) : humans; }
+let micDims = null;   // dimensions de la tuile montrée dans l'aperçu (pour placer la zone au clic)
 function micPreview(gd) {
+  const key = gd ? mapValid(gd.map || "a580") : mapPref();
+  if (key === MAPSEL) return micDraw(gd, null, mapBase);
+  tileInfo(key).then(t => { if (!t) return micDraw(gd, null, mapBase); tileImage(t).then(im => micDraw(gd, tileDims(key, t), im)); });
+}
+function micDraw(gd, D, img) {
+  const W = D ? D.W : globalThis.__dimW(), HH = D ? D.HH : globalThis.__dimH(); micDims = { W, HH };
   const c = $("gmicC"), g = c.getContext("2d"), spec = (gd && gd.mic) || MIC, mode = vMode(gd ? gd.mode : $("gmode").value);
   const k = Math.min(c.width / W, c.height / HH), ox = (c.width - W * k) / 2, oy = (c.height - HH * k) / 2;
   g.fillStyle = "#000"; g.fillRect(0, 0, c.width, c.height);
-  g.drawImage(mapBase, ox, oy, W * k, HH * k);
-  const ar = arenaFor(spec, micPlayers(gd), mode);
+  if (img) g.drawImage(img, ox, oy, W * k, HH * k);
+  const ar = arenaFor(spec, micPlayers(gd), mode, D);
   if (ar) {
     g.fillStyle = "rgba(0,0,0,.62)"; g.beginPath(); g.rect(ox, oy, W * k, HH * k); g.rect(ox + ar[0] * k, oy + (HH - ar[3]) * k, (ar[2] - ar[0]) * k, (ar[3] - ar[1]) * k); g.fill("evenodd");
     g.strokeStyle = "#7fe6ff"; g.lineWidth = 2; g.strokeRect(ox + ar[0] * k, oy + (HH - ar[3]) * k, (ar[2] - ar[0]) * k, (ar[3] - ar[1]) * k);
@@ -7256,8 +7307,8 @@ $("gmic").addEventListener("change", () => {
   let drag = false;
   const at = e => {
     const c = $("gmicC"), b = c.getBoundingClientRect(), sx = c.width / b.width, sy = c.height / b.height, x = (e.clientX - b.left) * sx, y = (e.clientY - b.top) * sy;
-    const k = Math.min(c.width / W, c.height / HH), ox = (c.width - W * k) / 2, oy = (c.height - HH * k) / 2;
-    MIC = { m: MIC.m, cx: Math.max(0, Math.min(1, (x - ox) / (W * k))), cy: Math.max(0, Math.min(1, 1 - (y - oy) / (HH * k))) };
+    const DW = micDims ? micDims.W : W, DH = micDims ? micDims.HH : HH, k = Math.min(c.width / DW, c.height / DH), ox = (c.width - DW * k) / 2, oy = (c.height - DH * k) / 2;
+    MIC = { m: MIC.m, cx: Math.max(0, Math.min(1, (x - ox) / (DW * k))), cy: Math.max(0, Math.min(1, 1 - (y - oy) / (DH * k))) };
     if (MP.gdOwn) ownerSync(); micPreview(MP.gdOwn ? MP.gd : null);
   };
   const can = () => MP.gdOwn || (L.setup && !MP.gid);
@@ -7285,6 +7336,7 @@ function mapSwitch(k, after, t) {
   try { localStorage.setItem("cda-map", k); localStorage.setItem("cda-map-title", title); } catch (e) {}
   document.querySelectorAll("[data-chipname]").forEach(e => e.textContent = title);
   if (typeof suChipName === "function") suChipName();
+  if (MAPSEL === EMPTY_KEY) prefInfoUI();
   // hôte d'une partie pas encore lancée : la partie se jouera sur cette tuile
   if (MP.gdOwn && MP.gd && MP.gd.st !== "play") { if (MP.G) { MP.G.mk = ""; MP.G.mv = null; } MP.gd = Object.assign({}, MP.gd, { map: k, mapt: title }); lobbyPublish(); lobbyRender(true); }
   toast(EN ? `Chip chosen: ${title} · it loads when the game starts` : `Puce choisie : ${title} · elle se charge au lancement de la partie`);
@@ -7380,7 +7432,7 @@ const SU_STEPS = () => ["mode", ...(!MP.gid && $("gMapF") && !$("gMapF").hidden 
   s2.append(mk("h4", "su-step", EN ? "Chip" : "La puce"), gmf);
   const rnd = mk("button", "btn-sub", EN ? "🎲 Random tile" : "🎲 Une tuile au hasard"); rnd.id = "suRnd"; gmf.append(rnd);
   { const c = mk("span", "gchip"); c.id = "suChipName"; gmf.querySelector("[data-chipname]").after(c); }
-  rnd.onclick = () => { UI.click && UI.click(); MUX.randomTiles(1, MAPSEL).then(t => { if (t[0]) mapSwitch(t[0].k, null, t[0].t); }).catch(() => {}); };
+  rnd.onclick = () => { UI.click && UI.click(); MUX.randomTiles(1, curMapKey()).then(t => { if (t[0]) mapSwitch(t[0].k, null, t[0].t); }).catch(() => {}); };
   const s3 = mk("div", "su-s"); s3.dataset.s = "set"; s3.append(mk("h4", "su-step", EN ? "Settings" : "Les réglages"), cols);
   const s4 = mk("div", "su-s"); s4.dataset.s = "go";
   s4.append(mk("h4", "su-step", EN ? "Who can join?" : "Qui peut rejoindre ?"));
@@ -8473,7 +8525,8 @@ LOGIC_C = (() => { let sx = 0, sy = 0, n = 0; for (let i = 0; i < NC; i++) { con
 __wrun(__w49);
 const vMic = m => { m = m && typeof m === "object" ? m : {}; const z = m.m === "auto" || m.m === undefined ? "auto" : Math.max(0.05, Math.min(1, +m.m || 1)); const f = v => typeof v === "number" && v >= 0 && v <= 1 ? Math.round(v * 1000) / 1000 : null; return { m: z, cx: f(m.cx), cy: f(m.cy) }; };
 // fenêtre (en coordonnées de jeu) pour un réglage, un nombre de joueurs et un mode ; null = toute la puce
-function arenaFor(spec, n, mode) {
+function arenaFor(spec, n, mode, D) {   // D : { W, HH, NTOT, LC, OY } d'une tuile non chargée (fiche) ; sinon la tuile chargée
+  const W = D ? D.W : globalThis.__dimW(), HH = D ? D.HH : globalThis.__dimH(), NTOT = D ? D.NTOT : globalThis.__dimN(), LOGIC_C = D ? D.LC : globalThis.__dimLC(), OY = D ? D.OY : globalThis.__dimOY();
   spec = vMic(spec);
   let f = spec.m === "auto" ? Math.min(1, Math.max(2, n || 2) * (mode === "tdm" || mode === "inf" ? 1500 : mode === "race" ? 1e9 : 2800) / (W * HH)) : spec.m;
   f = Math.min(f, AR_CAP / NTOT);
@@ -8766,7 +8819,7 @@ const MUX = (() => {
   const index = X => { if (!X.byKey) { X.byKey = {}; for (const p of X.p) for (const k of p.k) X.byKey[k] = p; } return X; };
   index(I);
   const fullKey = k => SID === HOME ? k : SID + "/" + k;
-  const curOf = () => { const [sh, k] = MAP_KEY.includes("/") ? MAP_KEY.split("/") : [HOME, MAP_KEY]; return sh === SID ? I.byKey[k] : null; };
+  const curOf = () => { const [sh, k] = curMapKey().includes("/") ? curMapKey().split("/") : [HOME, curMapKey()]; return sh === SID ? I.byKey[k] : null; };
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const NS = "http://www.w3.org/2000/svg";
   let root = null, svg = null, vb = null, sel = null, after = null, hov = null;
@@ -8899,7 +8952,7 @@ const MUX = (() => {
   }
   function loadTile(p, n) {
     if (!p || !p.k.length) return;
-    const k = fullKey(p.k[n] || p.k[0]); if (k === MAP_KEY && mapPref() === k) { close(); toast(EN ? "This tile is already your chip" : "C'est déjà ta puce"); return; }
+    const k = fullKey(p.k[n] || p.k[0]); if (k === curMapKey() && mapPref() === k) { close(); toast(EN ? "This tile is already your chip" : "C'est déjà ta puce"); return; }
     close(); try { localStorage.setItem("cda-map-sh", I.name || SID); } catch (e) {} mapSwitch(k, after, p.t);
   }
   // une tuile au hasard de la puce affichée : sélectionnée sur le plan, à confirmer (« Choisir ») ou à retirer
@@ -8943,7 +8996,7 @@ const MUX = (() => {
   async function open(a, keep) {
     if (SHUTTLES === null && HOME_I.ext === "bin") { SHUTTLES = []; try { const r = await fetch((window.CDA_MAPS || "") + MAPDIR() + "shuttles.json"); if (r.ok) SHUTTLES = (await r.json()).filter(x => +x.maps > 0); } catch (e) {} if (SHUTTLES.length > 1 && root) { root.remove(); root = null; } }
     if (!keep && SHUTTLES && SHUTTLES.length > 1) { after = a && (a.mode || a.opts) ? a : null; return gallery(); }
-    if (!keep && !root && MAP_KEY.includes("/") && SHUTTLES.some(x => x.id === MAP_KEY.split("/")[0]) && SID !== MAP_KEY.split("/")[0]) { after = a && (a.mode || a.opts) ? a : null; return setShuttle(MAP_KEY.split("/")[0]); }   // on rouvre sur la navette de la puce chargée
+    if (!keep && !root && curMapKey().includes("/") && SHUTTLES.some(x => x.id === curMapKey().split("/")[0]) && SID !== curMapKey().split("/")[0]) { after = a && (a.mode || a.opts) ? a : null; return setShuttle(curMapKey().split("/")[0]); }   // on rouvre sur la navette de la puce chargée
     if (!root) { build(); const al = $("muxAll"); if (al) al.onclick = () => { close(); gallery(); }; }
     if (!keep) after = a && (a.mode || a.opts) ? a : null;
     root.hidden = false; document.body.classList.add("mux-on");
@@ -8963,7 +9016,7 @@ const MUX = (() => {
   let gal = null, rndNext = false;
   function gallery() {
     if (gal) gal.remove();
-    const curSh = MAP_KEY.includes("/") ? MAP_KEY.split("/")[0] : HOME;
+    const curSh = curMapKey().includes("/") ? curMapKey().split("/")[0] : HOME;
     const L = SHUTTLES.slice().sort((a, b) => ((SH_DATE[a.id] || ["9999"])[0] + a.id).localeCompare((SH_DATE[b.id] || ["9999"])[0] + b.id));
     const fmt = id => { const d = SH_DATE[id]; if (!d) return ""; const [y, m] = d[0].split("-"); return d[1] ? y : new Date(+y, +m - 1, 1).toLocaleDateString(EN ? "en-US" : "fr-FR", { month: "short", year: "numeric" }); };
     const nt = L.reduce((a, x) => a + (+x.maps || 0), 0), nf = new Set(L.map(x => FOUNDRY(x.id).c)).size;

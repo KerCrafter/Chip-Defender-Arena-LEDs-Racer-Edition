@@ -3,7 +3,7 @@
    Pour chaque puce (dossier) :
      <tuile>.png   aperçu vu de dessus (celui du fichier CDA4, 384 px au plus) : microscope, fond du menu, carte hors partie
      meta.json     { "<tuile>": { w, h, g, n, c, dff, lc } } : dimensions (µm), pas de grille, nombre de formes et de cellules,
-                   bascules, centre de la logique (µm) — tout ce que l'interface doit savoir d'une tuile sans la charger
+                   bascules, cellules logiques (lg), centre de la logique (µm) — tout ce que l'interface doit savoir d'une tuile sans la charger
    On peut relancer : une tuile dont l'image est plus récente que la carte est reprise de l'ancien meta.json. */
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync, openSync, readSync, closeSync, renameSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
@@ -21,7 +21,7 @@ const MAPS = resolve(arg("maps", "cartes/maps4")), FORCE = process.argv.includes
 
 // mêmes familles de cellules que le jeu
 const short = n => n.replace(/^sky130_(fd|ef)_sc_hd__|^sg13g2_|^gf180mcu_fd_sc_mcu[79]t5v0__/, "");
-const DFF = /^(dfxtp|dfrtp|dfstp|dfbbp|edfxtp|sdf|dfrbp|dffq|dffrnq|dffsnq|dffrsnq|dffn)/, SKIP = /^(decap|fill|tap|conb|tie|antenna|endcap)/;
+const DFF = /^(dfxtp|dfrtp|dfstp|dfbbp|edfxtp|sdf|dfrbp|dffq|dffrnq|dffsnq|dffrsnq|dffn)/, SKIP = /^(decap|fill|tap|conb|tie|antenna|endcap)/, FILLER = /^(decap|fill|tapvpwrvgnd|endcap)/;
 
 /* PNG RVB minimal (filtre 0, deflate) */
 const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
@@ -39,18 +39,19 @@ function sheet(file) {
   if (!C.isCda4(bytes)) throw new Error("pas une carte CDA4");
   const hl = C.headLen4(bytes), H = C.header4(gunzipSync(bytes.subarray(8, hl)), hl), m = H.m, G = m.grid;
   // cellules de toute la tuile (rapide : sans la géométrie)
-  let dff = 0, sx = 0, sy = 0, n = 0;
+  let dff = 0, lg = 0, sx = 0, sy = 0, n = 0;
   H.blocks.forEach((b, i) => {
     if (!b[1]) return;
     const d = C.block4(new Uint8Array(gunzipSync(bytes.subarray(hl + b[0], hl + b[0] + b[1]))), H, i, true);
     for (let j = 0; j < d.idx.length; j++) {
       const c = d.cells.subarray(j * 5, j * 5 + 5), t = short(m.types[c[4]] || "");
       if (DFF.test(t)) dff++;
+      if (!FILLER.test(t)) lg++;
       if (!SKIP.test(t)) { sx += (c[0] + c[2]) * G; sy += (c[1] + c[3]) * G; n += 2; }
     }
   });
   const r1 = v => Math.round(v * 10) / 10;
-  const info = { w: r1(m.w), h: r1(m.h), g: G, n: H.nrects, c: H.ncells, dff, lc: n ? [r1(sx / n), r1(sy / n)] : [r1(m.w / 2), r1(m.h / 2)] };
+  const info = { w: r1(m.w), h: r1(m.h), g: G, n: H.nrects, c: H.ncells, dff, lg, lc: n ? [r1(sx / n), r1(sy / n)] : [r1(m.w / 2), r1(m.h / 2)] };
   // aperçu : 1 octet par pixel (RVB 3-3-2) dans le fichier, en PNG ici
   let img = null;
   if (H.ov && H.ov.len) {
