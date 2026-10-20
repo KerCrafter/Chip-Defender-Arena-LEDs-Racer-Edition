@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-ba45gzFeYgQVVN9R3UxCp2JYH0wemIF+mMZydRXZN0Q=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-zFwwyFseGVEAFn9lAOkYJ8JCJzEIWMXWgnfo+Oi4U/0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-DChzs80x2fam5Yt8IQwLL3dzVJMK+uyNf7s8iGWrIFU=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Mdt//v8VOu9sFmAXhTC1PtGHvFQJtFbatR4vj4oGd4s=' 'sha256-PTqMu2HLhP6FSoZnCGcEGXty3uXtE3yzKWOMa6Mu62Q=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";window.CDA_MAPDIR="maps4/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="0f18410b8238";</script>
+<script>window.CDA_BUILD="857930ff950f";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -9170,6 +9170,21 @@ const VM = (() => {
 /* ---------- boucle ---------- */
 const frustum = new THREE.Frustum(), pm = new THREE.Matrix4();
 let last = performance.now(), hudT = 0, perfAcc = 0, perfN = 0, farScale = 1, lowQ = 0;
+/* le décor 3D derrière les menus ne doit pas ralentir l'interface : rien quand un écran le cache entièrement (page
+   d'accueil, choix de la puce, panneau plein écran sur mobile), et une image fixe derrière le menu (pas d'animation :
+   sur un téléphone, redessiner toute la puce à chaque image bloquait l'interface) */
+let bgLast = 0;
+function bgFrame(menuBg, now) {
+  const cover = ["landing", "muxScr", "chipScr"].some(id => { const e = $(id); return e && !e.hidden; }) || (!$("start").hidden && $("menu").classList.contains("has-panel") && innerWidth <= 860);
+  if (cover) return false;
+  if (!menuBg) return true;
+  // derrière le menu : une seule image fixe, redessinée seulement si la tuile, la fenêtre, le style ou la taille changent
+  const key = [MAPSEL, M && M.region, arCur, innerWidth, innerHeight, document.body.className.includes("soft")].join("|");
+  if (key === bgKey) return false;
+  bgKey = key; bgLast = now; return true;
+}
+let bgKey = "";
+const ARC2 = () => M && M.regRect && !AR_ON ? [(M.regRect[0] + M.regRect[2]) / 2, (M.regRect[1] + M.regRect[3]) / 2] : [(AR.x0 + AR.x1) / 2, (AR.y0 + AR.y1) / 2];
 addEventListener("fullscreenchange", () => setTimeout(() => resize(), 60));
 function resize() { const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
 addEventListener("resize", resize); resize();
@@ -9526,10 +9541,11 @@ function frame(now) {
   const menuBg = !$("start").hidden && !UI.inGame;
   let far;
   if (menuBg) {
-    const t = now / 1000 * 0.045, cx = W / 2 + 18, cz = -HH / 2;
+    // fond animé du menu : centré sur ce qui est chargé (la fenêtre du microscope sur une grande tuile)
+    const t = 0.6, ac = AR_ON || (M && M.regRect) ? ARC2() : [W / 2, HH / 2], cx = ac[0] + 18, cz = -ac[1];
     camera.position.set(cx + Math.cos(t) * 74, 34 + Math.sin(t * 0.7) * 6, cz + Math.sin(t) * 74);
     camera.lookAt(cx, 2, cz);
-    far = 260; scene.fog.far = far; scene.fog.near = 70;
+    far = 150; scene.fog.far = far; scene.fog.near = 50;
   } else {
     const vc = MP.veh ? vehCamera() : null;
     if (specOn() && specCamera(dt)) { /* vue d'un coéquipier */ }
@@ -9550,7 +9566,7 @@ function frame(now) {
   for (const c of chunks) c.mesh.visible = !(c.glass && glassMat.opacity < 0.02) && c.box.distanceToPoint(camera.position) < far + 4 && frustum.intersectsBox(c.box);
   markMat.emissiveIntensity = 0.7 + 0.3 * Math.sin(now / 300);
   { const zt = MP.zoom && MP.wpnOn && MP.wpn && WPN[MP.wpn.k] ? 72 / (WPN[MP.wpn.k].zoom || 1) : 72; if (Math.abs(camera.fov - zt) > 0.05) { camera.fov += (zt - camera.fov) * Math.min(1, dt * 14); camera.updateProjectionMatrix(); } $("scope").hidden = zt === 72; }
-  if (!window.__noRender) { renderer.render(scene, camera); if (!(MP.zoom && MP.wpnOn)) VM.render(dt, now); }
+  if (!window.__noRender && bgFrame(menuBg, now)) { renderer.render(scene, camera); if (!(MP.zoom && MP.wpnOn)) VM.render(dt, now); }
   SHOW.tick(now);
 
   hudT -= dt;
