@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/V5rYj+M0uNGwyhOvitI31pHkt0XTEFvb4yeuqysTIo=' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-4V05P10Eag8MVAB5u3dFBDZIlr4vMi1GKq5SPViS2SM=' 'sha256-A7jd59Uq5k2l1qEUO5R4jaB0Gvvm7Hdpz6iEZYtXIt8=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-A7jd59Uq5k2l1qEUO5R4jaB0Gvvm7Hdpz6iEZYtXIt8=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-Qb+HeScGtYZq3F/1wxcKox/iUZhRIFclyuJ0TKfwluE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-xlbdKADjRW5KPYURLmeSiSGs6AuK0ENGK4VdU+i8tH4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="718341eecdf8";</script>
+<script>window.CDA_BUILD="d4236b5b8cec";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -2268,7 +2268,9 @@ function __wDispose(o) {
 }
 function __wRebuild() {
   for (const o of __WOBJ.splice(0)) { if (o.parent) o.parent.remove(o); __wDispose(o); }
-  for (const f of __WF.slice()) __wrun(f);
+  const prof = window.__prof ? [] : null;
+  for (const f of __WF.slice()) { const t = prof ? performance.now() : 0; __wrun(f); if (prof) prof.push([f.name, Math.round(performance.now() - t)]); }
+  if (prof) window.__prof = prof.filter(x => x[1] > 50).sort((a, b) => b[1] - a[1]);
 }
 
 const VZ = 2.0;                 // exagération verticale
@@ -2357,13 +2359,14 @@ X0 = new Float32Array(N);
 X1 = new Float32Array(N);
 Y0g = new Float32Array(N);
 Y1g = new Float32Array(N);
-Z0 = new Float32Array(N);
-Z1 = new Float32Array(N);
+Z0 = new Float32Array(layerNames.length);   // hauteurs par couche (toutes les formes d'une couche ont les mêmes)
+Z1 = new Float32Array(layerNames.length);
 LAY = new Uint8Array(N);
 {
   let k = 0;
   M.layers.forEach((l, li) => {
     const a = new Uint32Array(buf, l.offset, l.count * 4), d = LAYERS[l.name];
+    Z0[li] = d.z[0] * VZ; Z1[li] = d.z[1] * VZ;
     for (let i = 0; i < l.count; i++) {
       const y1 = a[i * 4 + 3] * G5 - OY; if (y1 <= 0.01) continue;
       X0[k] = a[i * 4] * G5; Y0g[k] = Math.max(0, a[i * 4 + 1] * G5 - OY); X1[k] = a[i * 4 + 2] * G5; Y1g[k] = y1;
@@ -2371,7 +2374,7 @@ LAY = new Uint8Array(N);
         const f = PILLAR_THIN[l.name], cx = (X0[k] + X1[k]) / 2, cy = (Y0g[k] + Y1g[k]) / 2, hw = (X1[k] - X0[k]) * f / 2, hh = (Y1g[k] - Y0g[k]) * f / 2;
         X0[k] = cx - hw; X1[k] = cx + hw; Y0g[k] = cy - hh; Y1g[k] = cy + hh;
       }
-      Z0[k] = d.z[0] * VZ; Z1[k] = d.z[1] * VZ; LAY[k] = li; k++;
+      LAY[k] = li; k++;
     }
   });
 }
@@ -2401,6 +2404,7 @@ C1y = new Float32Array(NC);
 CT = new Uint16Array(NC);
 for (let i = 0; i < NC; i++) { C0x[i] = CA[i*5]*G5; C0y[i] = CA[i*5+1]*G5 - OY; C1x[i] = CA[i*5+2]*G5; C1y[i] = CA[i*5+3]*G5 - OY; CT[i] = CA[i*5+4]; }
 for (let i = 0; i < NC; i++) if (C1y[i] <= 0) { C0x[i] = C1x[i] = C0y[i] = C1y[i] = -100; }
+CA = null; buf = null;   // tout est recopié : le tampon brut de la carte (16 octets par forme) est libéré
 }
 __wrun(__w7);
 const short = n => n.replace(/^sky130_(fd|ef)_sc_hd__|^sg13g2_|^gf180mcu_fd_sc_mcu[79]t5v0__/, "");
@@ -2440,7 +2444,7 @@ function collide(px, py, pz) {
       const i = g.idx[k];
       if (stamp[i] === st) continue; stamp[i] = st;
       if (!layVis[LAY[i]] || dead[i] || ((xrayOn || climbNoGlass) && isGlass[LAY[i]])) continue;
-      if (X0[i] < px + R && X1[i] > px - R && Y0g[i] < gy + R && Y1g[i] > gy - R && Z0[i] < py + H && Z1[i] > py) hits.push(i);
+      if (X0[i] < px + R && X1[i] > px - R && Y0g[i] < gy + R && Y1g[i] > gy - R && Z0[LAY[i]] < py + H && Z1[LAY[i]] > py) hits.push(i);
     }
   }
   if (FORT_ON && py < FORT_H && fortNear(px, gy, 0.3)) for (let k = 0; k < FORTS.length; k++) { const f = FORTS[k]; if (f.x0 < px + R && f.x1 > px - R && f.y0 < gy + R && f.y1 > gy - R && f.z0 < py + H && f.z1 > py) hits.push(N + k); }
@@ -2586,7 +2590,7 @@ instJ = new Uint32Array(N);
 __wrun(__w14);
 function writeBoxMatrix(i, A, o) {
   if (dead[i]) { A[o] = A[o + 5] = A[o + 10] = 0; return; }
-  A[o] = X1[i] - X0[i]; A[o + 5] = Z1[i] - Z0[i]; A[o + 10] = Y1g[i] - Y0g[i];
+  A[o] = X1[i] - X0[i]; A[o + 5] = Z1[LAY[i]] - Z0[LAY[i]]; A[o + 10] = Y1g[i] - Y0g[i];
 }
 // applique l'état de dégâts d'un rectangle à son instance affichée
 function paintDamage(i) {
@@ -2621,8 +2625,8 @@ function buildMeshes() {
     if (!shown(i)) { instMesh[i] = -1; continue; }
     const c = key(i), m = meshes[c], j = fill[c]++;
     const A = m.instanceMatrix.array, o = j * 16;
-    A[o] = X1[i] - X0[i]; A[o + 5] = Z1[i] - Z0[i]; A[o + 10] = Y1g[i] - Y0g[i]; A[o + 15] = 1;
-    A[o + 12] = (X0[i] + X1[i]) / 2; A[o + 13] = (Z0[i] + Z1[i]) / 2; A[o + 14] = -(Y0g[i] + Y1g[i]) / 2;
+    A[o] = X1[i] - X0[i]; A[o + 5] = Z1[LAY[i]] - Z0[LAY[i]]; A[o + 10] = Y1g[i] - Y0g[i]; A[o + 15] = 1;
+    A[o + 12] = (X0[i] + X1[i]) / 2; A[o + 13] = (Z0[LAY[i]] + Z1[LAY[i]]) / 2; A[o + 14] = -(Y0g[i] + Y1g[i]) / 2;
     const col = layCol[LAY[i]], v = 0.94 + ((i * 2654435761) >>> 0) % 1000 / 1000 * 0.12, C = m.instanceColor.array;
     C[j * 3] = col.r * v; C[j * 3 + 1] = col.g * v; C[j * 3 + 2] = col.b * v;
     m.geometry.attributes.aMetal.array[j] = isMetal[LAY[i]];
@@ -2731,23 +2735,29 @@ __wrun(__w19);
 /* ---------- carte ---------- */
 const MS = 3; // px par µm
 const mapBase = document.createElement("canvas"); function __w20() {
-mapBase.width = Math.ceil(W * MS);
-mapBase.height = Math.ceil(HH * MS);
+// carte vue de dessus : dessinée pixel par pixel (rapide), et plafonnée en taille pour les très grandes tuiles (mémoire, mobiles)
+const ms = Math.min(MS, 2400 / Math.max(W, HH));
+mapBase.width = Math.max(1, Math.ceil(W * ms));
+mapBase.height = Math.max(1, Math.ceil(HH * ms));
 {
-  const g = mapBase.getContext("2d");
-  g.fillStyle = "#0d1117"; g.fillRect(0, 0, mapBase.width, mapBase.height);
-  const fy = y => (HH - y) * MS;
-  for (let i = 0; i < NC; i++) {
-    const t = CT[i];
-    g.fillStyle = isDff(t) ? "#4a3a1c" : isFiller(t) ? "#141a22" : "#1f2a3a";
-    g.fillRect(C0x[i] * MS, fy(C1y[i]), (C1x[i] - C0x[i]) * MS, (C1y[i] - C0y[i]) * MS);
-  }
+  const w = mapBase.width, h = mapBase.height, img = new ImageData(w, h), d = img.data;
+  for (let o = 0; o < d.length; o += 4) { d[o] = 0x0d; d[o + 1] = 0x11; d[o + 2] = 0x17; d[o + 3] = 255; }
+  const rgb = c => [parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16)];
+  const box = (x0, y0, x1, y1, c, a) => {
+    let px0 = Math.floor(x0 * ms), px1 = Math.max(px0 + 1, Math.ceil(x1 * ms)), py0 = Math.floor((HH - y1) * ms), py1 = Math.max(py0 + 1, Math.ceil((HH - y0) * ms));
+    if (px0 < 0) px0 = 0; if (py0 < 0) py0 = 0; if (px1 > w) px1 = w; if (py1 > h) py1 = h;
+    for (let y = py0; y < py1; y++) for (let o = (y * w + px0) * 4, e = (y * w + px1) * 4; o < e; o += 4) {
+      if (a >= 1) { d[o] = c[0]; d[o + 1] = c[1]; d[o + 2] = c[2]; } else { d[o] += (c[0] - d[o]) * a; d[o + 1] += (c[1] - d[o + 1]) * a; d[o + 2] += (c[2] - d[o + 2]) * a; }
+    }
+  };
+  const cD = rgb("#4a3a1c"), cF = rgb("#141a22"), cL = rgb("#1f2a3a");
+  for (let i = 0; i < NC; i++) { const t = CT[i]; if (C1y[i] > -50) box(C0x[i], C0y[i], C1x[i], C1y[i], isDff(t) ? cD : isFiller(t) ? cF : cL, 1); }
   const drawL = (name, col, a) => {
-    const li = layerNames.indexOf(name); if (li < 0) return; g.fillStyle = col; g.globalAlpha = a;
-    for (let i = 0; i < N; i++) if (LAY[i] === li) g.fillRect(X0[i] * MS, fy(Y1g[i]), Math.max(1, (X1[i] - X0[i]) * MS), Math.max(1, (Y1g[i] - Y0g[i]) * MS));
-    g.globalAlpha = 1;
+    const li = layerNames.indexOf(name); if (li < 0) return; const c = rgb(col);
+    for (let i = 0; i < N; i++) if (LAY[i] === li) box(X0[i], Y0g[i], X1[i], Y1g[i], c, a);
   };
   drawL("met2", "#c9529f", 0.35); drawL("met3", "#2fb3c6", 0.45); drawL("met4", "#d99a32", 0.55);
+  mapBase.getContext("2d").putImageData(img, 0, 0);
 }
 }
 __wrun(__w20);
@@ -3270,7 +3280,7 @@ buildForts();
 __wrun(__w29);
 var FORT_ON = false;   // var : lu par collide() avant cette ligne, pendant le chargement
 // hauteurs d'un obstacle renvoyé par collide() : rectangle de la puce, ou fortification (indice N + k)
-const zT = i => i < N ? Z1[i] : FORTS[i - N].z1, zB = i => i < N ? Z0[i] : FORTS[i - N].z0;
+const zT = i => i < N ? Z1[LAY[i]] : FORTS[i - N].z1, zB = i => i < N ? Z0[LAY[i]] : FORTS[i - N].z0;
 const fortIn = (x, y, gy) => { for (let k = 0; k < FORTS.length; k++) { const f = FORTS[k]; if (x >= f.x0 && x <= f.x1 && gy >= f.y0 && gy <= f.y1 && y >= f.z0 && y <= f.z1) return k; } return -1; };
 const fortNear = (x, gy, m) => FORT_ZONES.some(z => x > z.x0 - m && x < z.x1 + m && gy > z.y0 - m && gy < z.y1 + m);
 function __w30() {
@@ -3922,7 +3932,7 @@ function pointBox(x, y, z, withDead) {
   const c = cy * g.gw + cx;
   for (let k = g.start[c]; k < g.start[c + 1]; k++) {
     const i = g.idx[k]; if (!layVis[LAY[i]] || (dead[i] && !withDead) || (xrayOn && isGlass[LAY[i]])) continue;
-    if (x >= X0[i] && x <= X1[i] && gy >= Y0g[i] && gy <= Y1g[i] && y >= Z0[i] && y <= Z1[i]) return i;
+    if (x >= X0[i] && x <= X1[i] && gy >= Y0g[i] && gy <= Y1g[i] && y >= Z0[LAY[i]] && y <= Z1[LAY[i]]) return i;
   }
   return -1;
 }
@@ -4176,7 +4186,7 @@ function acSolid(x, y, z) {
   const c = cy * g.gw + cx;
   for (let k = g.start[c]; k < g.start[c + 1]; k++) {
     const i = g.idx[k]; if (dead[i] || isGlass[LAY[i]]) continue;
-    if (x >= X0[i] && x <= X1[i] && gy >= Y0g[i] && gy <= Y1g[i] && y >= Z0[i] && y <= Z1[i]) return true;
+    if (x >= X0[i] && x <= X1[i] && gy >= Y0g[i] && gy <= Y1g[i] && y >= Z0[LAY[i]] && y <= Z1[LAY[i]]) return true;
   }
   return false;
 }
@@ -5263,14 +5273,14 @@ function alertPoints(hex, size) {
 }
 const alertBroken = alertPoints("#ff5a36", 22), alertWorn = alertPoints("#ffc23a", 14);
 const brokenList = [], wornList = [];
-const boxCenter = i => new THREE.Vector3((X0[i] + X1[i]) / 2, (Z0[i] + Z1[i]) / 2, -(Y0g[i] + Y1g[i]) / 2);
+const boxCenter = i => new THREE.Vector3((X0[i] + X1[i]) / 2, (Z0[LAY[i]] + Z1[LAY[i]]) / 2, -(Y0g[i] + Y1g[i]) / 2);
 function refreshAlerts() {
   brokenList.length = 0; wornList.length = 0;
   for (const [i, v] of lastDmgSeen) { if (v >= 1) brokenList.push(i); else if (v >= 0.5) wornList.push(i); }
   let n = 0;
   for (const i of brokenList) {
     if (n >= DMG_CAP) break;
-    tmpM.makeScale(X1[i] - X0[i], Z1[i] - Z0[i], Y1g[i] - Y0g[i]).setPosition((X0[i] + X1[i]) / 2, (Z0[i] + Z1[i]) / 2, -(Y0g[i] + Y1g[i]) / 2);
+    tmpM.makeScale(X1[i] - X0[i], Z1[LAY[i]] - Z0[LAY[i]], Y1g[i] - Y0g[i]).setPosition((X0[i] + X1[i]) / 2, (Z0[LAY[i]] + Z1[LAY[i]]) / 2, -(Y0g[i] + Y1g[i]) / 2);
     ghosts.setMatrixAt(n++, tmpM);
   }
   ghosts.count = n; ghosts.instanceMatrix.needsUpdate = true;
@@ -5422,7 +5432,7 @@ function touchingPowered() {
     for (let k = g.start[c]; k < g.start[c + 1]; k++) {
       const i = g.idx[k]; if (stamp[i] === st) continue; stamp[i] = st;
       if (!isMetal[LAY[i]] || !layVis[LAY[i]] || dead[i] || (xrayOn && isGlass[LAY[i]])) continue;
-      if (X0[i] < px + R + e && X1[i] > px - R - e && Y0g[i] < gy + R + e && Y1g[i] > gy - R - e && Z0[i] < py + H + e && Z1[i] > py - e) return true;
+      if (X0[i] < px + R + e && X1[i] > px - R - e && Y0g[i] < gy + R + e && Y1g[i] > gy - R - e && Z0[LAY[i]] < py + H + e && Z1[LAY[i]] > py - e) return true;
     }
   }
   return false;
@@ -6252,7 +6262,7 @@ function vehHits(px, py, pz, r, h) {
     for (let k = g.start[c]; k < g.start[c + 1]; k++) {
       const i = g.idx[k]; if (stamp[i] === st) continue; stamp[i] = st;
       if (!layVis[LAY[i]] || dead[i] || isGlass[LAY[i]]) continue;
-      if (X0[i] < px + r && X1[i] > px - r && Y0g[i] < gy + r && Y1g[i] > gy - r && Z0[i] < py + h && Z1[i] > py) { block = true; top = Math.max(top, Z1[i]); if (Z1[i] - py > STEP) return { block: true, top: 99 }; }
+      if (X0[i] < px + r && X1[i] > px - r && Y0g[i] < gy + r && Y1g[i] > gy - r && Z0[LAY[i]] < py + h && Z1[LAY[i]] > py) { block = true; top = Math.max(top, Z1[LAY[i]]); if (Z1[LAY[i]] - py > STEP) return { block: true, top: 99 }; }
     }
   }
   return { block, top };
@@ -8957,33 +8967,33 @@ anchors = [];
   }
   for (const list of cand.values()) {
     // ordre d'essai : mélange déterministe, les montées moyennes d'abord
-    for (const c of list) { const top = Z1[c.i]; c.score = -Math.abs(top - 3.5) * 0.6 + c.h * 1.5; }
+    for (const c of list) { const top = Z1[LAY[c.i]]; c.score = -Math.abs(top - 3.5) * 0.6 + c.h * 1.5; }
     list.sort((a, b) => b.score - a.score);
     let fromGround = false, fromLayer = false;   // au plus un départ du sol et un départ d'une couche par carré
     for (const c of list.slice(0, 60)) {
       if (fromGround && fromLayer) break;
-      const top = Z1[c.i];
+      const top = Z1[LAY[c.i]];
       // sol sous le pied : le dessus le plus haut, en dessous de la couche visée, qui porte vraiment le pied
       const rs = R * 0.6;
       let floor = 0;
-      boxesIn(c.fx - rs, c.fy - rs, c.fx + rs, c.fy + rs, j => { if (j !== c.i && Z1[j] <= top - 0.6 && Z1[j] > floor) floor = Z1[j]; });
+      boxesIn(c.fx - rs, c.fy - rs, c.fx + rs, c.fy + rs, j => { if (j !== c.i && Z1[LAY[j]] <= top - 0.6 && Z1[LAY[j]] > floor) floor = Z1[LAY[j]]; });
       const ground = floor < 0.5;
       if ((ground && fromGround) || (!ground && fromLayer)) continue;
       const rise = top - floor; if (rise < 1.0 || rise > 9.8) continue;
       // colonne de montée dégagée, du sol jusqu'à la tête au-dessus du sommet
       let blocked = false;
-      boxesIn(c.fx - r, c.fy - r, c.fx + r, c.fy + r, j => { if (j !== c.i && Z1[j] > floor + 0.005 && Z0[j] < top + H + 0.05) blocked = true; });
+      boxesIn(c.fx - r, c.fy - r, c.fx + r, c.fy + r, j => { if (j !== c.i && Z1[LAY[j]] > floor + 0.005 && Z0[LAY[j]] < top + H + 0.05) blocked = true; });
       if (blocked) continue;
       // point d'arrivée : porté par la couche, avec la place pour se tenir debout
       let land = null;
       for (let d = 0.15; d <= 0.6 && !land; d += 0.05) {
         const lx = c.fx - c.nx * (R + 0.06 + d), ly = c.fy - c.ny * (R + 0.06 + d);
         let sup = false, roof = false;
-        boxesIn(lx - R, ly - R, lx + R, ly + R, j => { if (Math.abs(Z1[j] - top) < 0.03 && Z0[j] < top) sup = true; else if (Z1[j] > top + 0.005 && Z0[j] < top + H + 0.05) roof = true; });
+        boxesIn(lx - R, ly - R, lx + R, ly + R, j => { if (Math.abs(Z1[LAY[j]] - top) < 0.03 && Z0[LAY[j]] < top) sup = true; else if (Z1[LAY[j]] > top + 0.005 && Z0[LAY[j]] < top + H + 0.05) roof = true; });
         if (sup && !roof) {
           // il faut encore 0,4 µm de couche devant le point d'arrivée
           const ax2 = lx - c.nx * 0.4, ay2 = ly - c.ny * 0.4; let sup2 = false;
-          boxesIn(ax2 - R * 0.5, ay2 - R * 0.5, ax2 + R * 0.5, ay2 + R * 0.5, j => { if (Math.abs(Z1[j] - top) < 0.03) sup2 = true; });
+          boxesIn(ax2 - R * 0.5, ay2 - R * 0.5, ax2 + R * 0.5, ay2 + R * 0.5, j => { if (Math.abs(Z1[LAY[j]] - top) < 0.03) sup2 = true; });
           if (sup2) land = [lx, ly];
         }
       }
@@ -9300,7 +9310,7 @@ async function chargerCarte(key, onStep) {
   })().finally(() => { mapBusy = null; });
 }
 window.chargerCarte = chargerCarte;
-window.__map = { marks: () => marks.visible, track: s => { setTrack(s); return TRACK.map(n => [n.kind[0], Math.round(n.x), Math.round(n.gy), n.lv]); }, su: () => ({ setup: L.setup, step: L.step, view: L.view, steps: SU_STEPS() }), pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
+window.__map = { stats: () => { let inst = 0, vis = 0, vc = 0; for (const c of chunks) { inst += c.mesh.count; if (c.mesh.visible) { vis += c.mesh.count; vc++; } } return { N, W, HH, chunks: chunks.length, inst, vis, vc, mem: renderer.info.memory, calls: renderer.info.render.calls, tris: renderer.info.render.triangles, heap: performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1e6) : null }; }, marks: () => marks.visible, track: s => { setTrack(s); return TRACK.map(n => [n.kind[0], Math.round(n.x), Math.round(n.gy), n.lv]); }, su: () => ({ setup: L.setup, step: L.step, view: L.view, steps: SU_STEPS() }), pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
 window.__game = { vote: { prep: r => prepVote(r), cast: i => castVote(i), counts: () => MP.G && MP.G.mv ? voteCounts(MP.G) : null }, die: b => die(b), me: () => ({ x: P.x, z: P.z, yaw, fly: P.fly }), arena: () => ({ AR, AR_ON, sites: SITES.map(x => [x.x, x.y]), pins: [PINS.M.x, PINS.M.y, PINS.D.x, PINS.D.y], doms: DOMS.map(d => [d.x, d.y]), pads: PADS.map(d => [d.x, d.y]), spawn: SPAWN, wsp: WSPOTS.map(w => [w.x, w.y]) }), vm: () => VM.state(), wpn: { get spots() { return WSPOTS; }, get forts() { return FORTS; }, get on() { return FORT_ON; }, give: k => wpGive(k), state: () => MP.wpn, swap: () => wpSwap() }, sup: (x, gy, k) => supportedAt(x, -gy, k), srun: (a, b, c, d, k) => supportedRun(a, b, c, d, k), genTrack: sd => { const t0 = performance.now(), T = genTrack(sd); return T ? { ms: Math.round(performance.now() - t0), n: T.length, arches: T.filter(n => n.kind === "arch").map(n => n.lv).join(""), T } : { ms: Math.round(performance.now() - t0), fail: true }; }, splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, get TRACK() { return TRACK; }, get ARCHES() { return ARCHES; }, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
 // données de la carte : relues à chaque accès (elles changent avec chargerCarte)
 { const live = { DOMS: () => DOMS, PINS: () => PINS, anchors: () => anchors, dmgVal: () => dmgVal, dead: () => dead, chunks: () => chunks, pads: () => PADS, nrg: () => NRG, SHAFTS: () => SHAFTS };
