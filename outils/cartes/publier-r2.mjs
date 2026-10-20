@@ -8,7 +8,8 @@
    Première fois : création du bucket, règles CORS (seul le site du jeu peut lire les cartes depuis la page),
    domaine maps-cda.kercrafter.live. Ensuite : n'envoie que les fichiers nouveaux ou modifiés.
 
-   node publier-r2.mjs --maps <dossier maps> --state <fichier d'état> [--jobs 8] */
+   node publier-r2.mjs --maps <dossier maps> --state <fichier d'état> [--jobs 8] [--prefix maps]
+   --prefix maps4 : publie les cartes CDA4 (convertir-cda4.mjs) sous https://maps-cda.kercrafter.live/maps4/... */
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync, readdirSync, statSync, appendFileSync } from "node:fs";
 import { join, dirname, relative, sep, resolve } from "node:path";
@@ -22,6 +23,7 @@ const MAPS = resolve(arg("maps", join(HERE, "..", "..", "maps")));   // absolu :
 const STATE_F = resolve(arg("state", join(HERE, ".publier-r2.json")));
 const ERRLOG = join(dirname(STATE_F), "publier-r2-erreurs.log");
 const JOBS = Math.max(1, Math.min(16, +arg("jobs", 8)));
+const PREFIX = String(arg("prefix", "maps")).replace(/[^a-z0-9_-]/gi, "") || "maps";   // dossier dans le bucket : maps (CDA3) ou maps4 (CDA4)
 const BUCKET = "cda-maps", DOMAIN = "maps-cda.kercrafter.live", ZONE = "kercrafter.live";
 const ORIGINS = ["https://chip-defender-arena.kercrafter.live", "https://kercrafter.github.io"];
 const SERVEUR = join(HERE, "..", "..", "serveur");
@@ -108,7 +110,7 @@ async function upload(S) {
   title("Envoi des cartes");
   if (!existsSync(MAPS)) throw new Error("dossier des cartes introuvable : " + MAPS);
   S.files = S.files || {};
-  const files = walk(MAPS).map(p => ({ p, key: "maps/" + relative(MAPS, p).split(sep).join("/") }));
+  const files = walk(MAPS).map(p => ({ p, key: PREFIX + "/" + relative(MAPS, p).split(sep).join("/") }));
   // les cartes d'abord, puis les index (un index ne doit jamais citer une carte pas encore en ligne)
   const rank = k => k.endsWith(".bin") ? 0 : k.endsWith("/index.json") ? 1 : 2;
   files.sort((a, b) => rank(a.key) - rank(b.key) || a.key.localeCompare(b.key));
@@ -183,9 +185,9 @@ async function upload(S) {
 async function verify() {
   title("Vérification");
   try {
-    const r = await fetch(`https://${DOMAIN}/maps/shuttles.json?t=${Date.now()}`, { headers: { origin: ORIGINS[0] } });
+    const r = await fetch(`https://${DOMAIN}/${PREFIX}/shuttles.json?t=${Date.now()}`, { headers: { origin: ORIGINS[0] } });
     const j = r.ok ? await r.json() : null;
-    if (!j) { fail(`https://${DOMAIN}/maps/shuttles.json répond ${r.status} (le domaine peut mettre quelques minutes à être prêt)`); return; }
+    if (!j) { fail(`https://${DOMAIN}/${PREFIX}/shuttles.json répond ${r.status} (le domaine peut mettre quelques minutes à être prêt)`); return; }
     ok(`${j.length} navettes, ${j.reduce((a, s) => a + (+s.maps || 0), 0)} cartes en ligne sur https://${DOMAIN}`);
     if (r.headers.get("access-control-allow-origin")) ok("le site du jeu a le droit de les lire (CORS)"); else warn("en-tête CORS absent pour l'instant (quelques minutes de propagation)");
   } catch (e) {
