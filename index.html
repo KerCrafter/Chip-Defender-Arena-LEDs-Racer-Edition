@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0oPhlUG5LqxlvD7l5ylNl5X1XhbYz0e6deuhjVNLirA=' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-DAFvCtutSdfFCkA33FD1/TEsafxEBqXrsa6X2iIyZKs=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-tOq1Sl5foitp1IqCiu+xfgzYh6KnKj8kdm2NJ1/Xcp4=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-2Wb0+vj9RmBvTlHtumsafOyoK0QTliJ8JPgFrmkwNl8=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-DAFvCtutSdfFCkA33FD1/TEsafxEBqXrsa6X2iIyZKs=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-vz5wFjtSHO6N1Kop3G7iZwAstOrsFWC0DrV0+9hPuNA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="16394fbd1528";</script>
+<script>window.CDA_BUILD="92113c379d8d";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -841,6 +841,36 @@ body.race #myTeam{visibility:hidden}
 @media (max-width:640px){.gm-cols{grid-template-columns:1fr}.pnl .modes.two{grid-template-columns:1fr 1fr}.gm-head{grid-template-columns:80px minmax(0,1fr)}.gm-head .btn-sub{grid-column:1 / -1}.gm-head img{width:80px}.glist .gi{grid-template-columns:64px minmax(0,1fr)}.glist .gi img{width:64px}.glist .gi .btn-main{grid-column:1 / -1}}
 
 .gcreate{display:flex;gap:12px;flex-wrap:wrap}
+.su-prog{display:flex;gap:6px;flex-wrap:wrap}
+.su-prog span{font:700 11px var(--f-kmono);text-transform:uppercase;letter-spacing:.06em;padding:4px 9px;background:rgba(0,0,0,.35);color:var(--k-sky)}
+.su-prog span.done{background:#000;color:#7dff9a}.su-prog span.on{background:#fff;color:#000}
+.su-s{display:grid;gap:14px}
+#lvCreate .su-s[data-s="mode"] .modes.two{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+#lvCreate .su-s[data-s="mode"] .mcard img{aspect-ratio:16/10}
+#lvCreate .su-s[data-s="mode"] .modes.two .mcard b{font-size:18px}
+.su-vis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.su-card{display:grid;gap:4px;text-align:left;background:#000;color:#fff;border:3px solid #000;border-radius:0;padding:16px;cursor:pointer;font-family:var(--f-brand)}
+.su-card b{font:900 22px var(--f-brand);text-transform:uppercase}.su-card small{font:500 12px var(--f-kmono);color:var(--k-sky)}
+.su-card[aria-pressed="true"]{background:#fff;color:#000;border-color:#fff}.su-card[aria-pressed="true"] small{color:var(--k-blue2)}
+#suGo{justify-content:space-between}
+#suNext{font-size:17px;padding:13px 22px}
+#sidePick{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:rgba(0,10,25,.62);padding:16px;overflow:auto}
+#sidePick[hidden]{display:none}
+#sidePick .sp-in{display:grid;justify-items:center;gap:14px;width:min(760px,100%)}
+#sidePick .sp-in>small{font:700 12px var(--f-kmono);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#000;padding:4px 10px;text-align:center}
+#sidePick h2{margin:0;font:900 clamp(30px,6vw,56px)/1 var(--f-brand,Arial);text-transform:uppercase;color:#000;background:#fff;padding:8px 22px 10px;box-shadow:8px 8px 0 #000}
+#sidePick .sp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,320px));justify-content:center;gap:14px;width:100%}
+#sidePick .sp-card{display:grid;justify-items:center;gap:6px;padding:16px 14px 18px;background:#000;color:#fff;border:0;border-bottom:10px solid var(--micro);border-radius:0;cursor:pointer;font-family:var(--f-brand);transition:transform .12s,background-color .12s}
+#sidePick .sp-card.d{border-bottom-color:var(--def)}
+#sidePick .sp-card[hidden]{display:none}
+#sidePick .sp-card img{width:min(190px,40vw);aspect-ratio:1;object-fit:contain}
+#sidePick .sp-card b{font:900 28px var(--f-brand);text-transform:uppercase}
+#sidePick .sp-card small{font:500 12px var(--f-kmono);color:var(--k-sky);text-align:center}
+#sidePick .sp-card em{font:700 12px var(--f-kmono);font-style:normal;color:var(--micro)}#sidePick .sp-card.d em{color:var(--def)}
+#sidePick .sp-card:hover:not(:disabled),#sidePick .sp-card:focus-visible{transform:translateY(-4px);background:#fff;color:#000}
+#sidePick .sp-card:disabled{opacity:.4;cursor:not-allowed}
+#sidePick #spNote{margin:0;font:700 13px var(--f-kmono);color:#000;background:#ffd24a;padding:6px 10px}#sidePick #spNote:empty{display:none}
+@media (max-width:560px){#sidePick .sp-cards{grid-template-columns:1fr 1fr;gap:8px}#sidePick .sp-card{padding:10px 6px 12px}#sidePick .sp-card b{font-size:19px}#sidePick .sp-card img{width:34vw}}
 .home-new{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;background:#000;padding:14px}
 .home-new .btn-main{font-size:18px;padding:14px 22px}
 .home-new small{font:500 12px var(--f-kmono);color:var(--k-sky);flex:1;min-width:180px}
@@ -4347,6 +4377,7 @@ document.querySelectorAll(".mcard").forEach(c => c.addEventListener("click", () 
   const m = vMode(c.dataset.mode); L.mode = m; UI.click && UI.click();
   if ($("gmode").value !== m) { $("gmode").value = m; $("gmode").dispatchEvent(new Event("change")); } else applyModeUI(m);
   if (MP.gdOwn) ownerSync();
+  if (L.setup && L.step === "mode") { const st = SU_STEPS(); L.step = st[1]; suRender(); }
   lobbyRender(true);
 }));
 // niveau des bots, de 1 (débutant) à 5 (expert) : cadence, précision, réflexes et vitesse
@@ -6764,7 +6795,7 @@ function raceFinishFx() {
    les joueurs de sa partie (vue filtrée de la salle) ; la liste des parties lit la salle entière.
    Le créateur règle la partie et la lance quand tout le monde est prêt ; les bots complètent les équipes. */
 const L = { view: "", sig: "", chat: [], chatN: 0, seen: new Map(), log: [], miss: 0, avDone: false, lastPub: 0 };
-MP.gid = null; MP.gj = 0; MP.gdOwn = false; MP.gd = null; MP.gdLast = null; MP.rd = false; MP.lt = null; MP.wait = false; MP.waitR = null;
+MP.gid = null; MP.gj = 0; MP.gdOwn = false; MP.gd = null; MP.gdLast = null; MP.rd = false; MP.lt = null; L.picked = false; MP.wait = false; MP.waitR = null;
 const cleanNick = v => (v || "").trim().replace(/[^\p{L}\p{N} _.-]/gu, "").slice(0, 16);
 function gameView(raw) {
   const keep = p => p.sameTab || (MP.gid && p.presence && p.presence.gid === MP.gid);
@@ -6872,7 +6903,7 @@ function createGame(mode, pv) {
   if (MP.gid) leaveGame(true);
   const nick = cleanNick($("nick").value) || "joueur";
   L.setup = false;
-  MP.gid = Math.random().toString(36).slice(2, 8).replace(/[^a-z0-9]/g, "x").padEnd(6, "7"); MP.gj = Date.now(); MP.gdOwn = true; MP.wait = false; MP.rd = false; MP.lt = null;
+  MP.gid = Math.random().toString(36).slice(2, 8).replace(/[^a-z0-9]/g, "x").padEnd(6, "7"); MP.gj = Date.now(); MP.gdOwn = true; MP.wait = false; MP.rd = false; MP.lt = null; L.picked = false;
   $("gmode").value = vMode(mode); applyModeUI(mode);
   try { localStorage.setItem("cda-mode", vMode(mode)); } catch (e) {}
   MIC.cx = MIC.cy = null;
@@ -6909,14 +6940,15 @@ function joinGame(id, byCode) {
   const gm = !g.gd.map || g.gd.map === "racer" ? "a580" : g.gd.map;
   if (gm !== MAP_KEY) { if (mapOk(gm)) { ensureMap(gm, g.gd.mapt).then(ok => { if (ok) joinGame(id, byCode); }); return true; } toast(EN ? "This game runs on a chip that is not available here" : "Cette partie se joue sur une puce indisponible ici"); return false; }
   if (g.n >= gameCap(g.gd)) { toast((EN ? "Game full" : "Partie complète")); return; }
-  MP.gid = id; MP.gj = Date.now(); MP.gdOwn = false; MP.gdLast = g.gd; MP.rd = false; MP.lt = null; MP.wait = g.gd.st === "play"; MP.waitR = null; MP.cfg = null;
+  MP.gid = id; MP.gj = Date.now(); MP.gdOwn = false; MP.gdLast = g.gd; MP.rd = false; MP.lt = null; L.picked = false; MP.wait = g.gd.st === "play"; MP.waitR = null; MP.cfg = null;
   MP.G = freshLobbyG(); setFromGd(g.gd);
   L.chat = []; L.seen.clear(); L.log = []; sysMsg(MP.wait ? (EN ? "Game in progress: you will join at the next round" : "Partie en cours : tu entreras à la prochaine manche") : (EN ? `Welcome to ${g.gd.name}` : `Bienvenue dans ${g.gd.name}`));
   lobbyPublish(); lobbyRender(true); return true;
 }
 function leaveGame(quiet) {
+  if ($("sidePick")) $("sidePick").hidden = true;
   if (MP.on) stopPlay();
-  MP.gid = null; MP.gdOwn = false; MP.gd = null; MP.gdLast = null; MP.rd = false; MP.lt = null; MP.wait = false; MP.cfg = null;
+  MP.gid = null; MP.gdOwn = false; MP.gd = null; MP.gdLast = null; MP.rd = false; MP.lt = null; L.picked = false; MP.wait = false; MP.cfg = null;
   L.chat = []; L.log = []; L.seen.clear();
   lobbyPublish(); if (!quiet) lobbyRender(true);
   if (AUTH && AUTH.on && window.CDA_SESS) sessEnd();   // une session = une partie : on quitte sa salle
@@ -6939,11 +6971,15 @@ function startPlay() {
   if (gdm && gdm !== MAPSEL) { if (!startMapWait) { startMapWait = true; ensureMap(gdm, gdc.mapt).then(ok => { startMapWait = false; if (ok) startPlay(); else leaveGame(); }); } return; }
   if (startMapWait) return;
   MP.wait = false;
+  const mode = gMode();
+  if (mode === "race" && !MP.lt) MP.lt = "race";
+  if (mode === "inf" && !MP.lt) MP.lt = "D";
+  if (!MP.lt) { showSidePick(); return; }
   const t = MP.lt === "race" ? null : MP.lt;
   if (MP.lt === "race") { const ps = MP.room.peers().filter(isPlayer); const nM = ps.filter(p => p.presence.team === "M").length, nD = ps.filter(p => p.presence.team === "D").length; joinTeam(nM < nD ? "M" : "D"); }
   else joinTeam(t);
   if (!UI.inGame) return;
-  const side = MP.team === "M" ? (EN ? "You are a Microbe" : "Tu es dans les Microbes") : MP.team === "D" ? (EN ? "You are a Defender" : "Tu es dans les Défenseurs") : "";
+  const side = false && MP.team === "M" ? (EN ? "You are a Microbe" : "Tu es dans les Microbes") : MP.team === "D" ? (EN ? "You are a Defender" : "Tu es dans les Défenseurs") : "";
   if (gMode() === "race" || gMode() === "inf" || !side) { if (!document.pointerLockElement && !isTouch) banner((EN ? "The game is starting" : "La partie commence"), (EN ? "Click in the chip to take control" : "Clique dans la puce pour prendre les commandes"), 2.6); }
   else banner(side, EN ? "Teams are formed: good luck!" : "Les équipes sont formées : bonne partie !", 3);
 }
@@ -6957,36 +6993,97 @@ function teamClick(t) {
 }
 $("gCreate").onclick = () => sessCreate(vMode($("gmode").value), false);
 $("gCreatePv").onclick = () => sessCreate(vMode($("gmode").value), true);
-/* créer une partie : 1. le mode, 2. les réglages, puis la salle de la partie (le créateur y revient par « Modifier ») */
+/* créer une partie : un tunnel d'écrans (mode → puce → réglages → lancement) ; le créateur y revient par « Modifier » */
+const SU_STEPS = () => ["mode", ...(!MP.gid && $("gMapF") && !$("gMapF").hidden ? ["chip"] : []), "set", ...(MP.gid ? [] : ["go"])];   // en cours de partie, la puce change par le vote de fin de manche
 {
-  const cr = $("lvCreate"), st = document.createElement("h4"); st.className = "su-step"; st.textContent = EN ? "2 · Settings" : "2 · Réglages";
-  const gc = document.querySelector(".gcreate"), go = document.createElement("div"); go.className = "su-go"; go.id = "suGo";
-  const sv = document.createElement("button"); sv.className = "btn-main"; sv.id = "gSave"; sv.textContent = EN ? "Done" : "Valider les réglages";
-  go.append($("gCreate"), $("gCreatePv"), sv);
-  cr.append(st, $("gMapF"), document.querySelector(".gm-cols"), go); if (gc) gc.remove();
+  const cr = $("lvCreate"), mk = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html) e.innerHTML = html; return e; };
+  const head = cr.querySelector(".lv-h"), st1 = cr.querySelector(".su-step"), modes = cr.querySelector(".field");
+  const prog = mk("div", "su-prog"); prog.id = "suProg"; head.after(prog);
+  const s1 = mk("div", "su-s"); s1.dataset.s = "mode"; s1.append(st1, modes);
+  const s2 = mk("div", "su-s"); s2.dataset.s = "chip"; s2.id = "suChip";
+  const gmf = $("gMapF"), cols = document.querySelector(".gm-cols");
+  s2.append(mk("h4", "su-step", EN ? "Chip" : "La puce"), gmf);
+  const rnd = mk("button", "btn-sub", EN ? "🎲 Random tile" : "🎲 Une tuile au hasard"); rnd.id = "suRnd"; gmf.append(rnd);
+  rnd.onclick = () => { UI.click && UI.click(); MUX.randomTiles(1, MAPSEL).then(t => { if (t[0]) mapSwitch(t[0].k, null, t[0].t); }).catch(() => {}); };
+  const s3 = mk("div", "su-s"); s3.dataset.s = "set"; s3.append(mk("h4", "su-step", EN ? "Settings" : "Les réglages"), cols);
+  const s4 = mk("div", "su-s"); s4.dataset.s = "go";
+  s4.append(mk("h4", "su-step", EN ? "Who can join?" : "Qui peut rejoindre ?"));
+  const vis = mk("div", "su-vis", `<button class="su-card" data-pv="0" aria-pressed="true"><b>${EN ? "Public" : "Publique"}</b><small>${EN ? "Listed in the lobby, open to everyone" : "Visible dans le salon, ouverte à tous"}</small></button><button class="su-card" data-pv="1" aria-pressed="false"><b>${EN ? "Private" : "Privée"}</b><small>${EN ? "Hidden: friends join with the code or the invite link" : "Invisible : on entre avec le code ou le lien d'invitation"}</small></button>`);
+  s4.append(vis);
+  vis.querySelectorAll("[data-pv]").forEach(b => b.onclick = () => { L.pv = b.dataset.pv === "1"; vis.querySelectorAll("[data-pv]").forEach(x => x.setAttribute("aria-pressed", x === b)); UI.click && UI.click(); });
+  const go = mk("div", "su-go"); go.id = "suGo";
+  const back = mk("button", "btn-sub", EN ? "← Back" : "← Retour"); back.id = "suBack";
+  const next = mk("button", "btn-main", EN ? "Next →" : "Suivant →"); next.id = "suNext";
+  go.append(back, next); cr.append(s1, s2, s3, s4, go);
+  const gc = document.querySelector(".gcreate"); if (gc) { gc.hidden = true; cr.append(gc); }
   $("gMapF").querySelector("small").textContent = EN ? "The game is played on this tile." : "La partie se jouera sur cette tuile.";
-  $("gNew").onclick = () => { UI.click && UI.click(); L.setup = true; L.mode = vMode($("gmode").value); lobbyRender(true); $("menu").scrollTo && $("menu").scrollTo(0, 0); };
+  back.onclick = () => { const st = SU_STEPS(), k = st.indexOf(L.step); if (k <= 0) $("suCancel").click(); else { L.step = st[k - 1]; suRender(); } };
+  next.onclick = () => {
+    const st = SU_STEPS(), k = st.indexOf(L.step);
+    if (k < st.length - 1) { L.step = st[k + 1]; suRender(); return; }
+    if (MP.gid) { if (MP.gdOwn) ownerSync(); L.setup = false; lobbyRender(true); return; }   // modification d'une partie en cours
+    if (L.creating) return; L.creating = true; next.disabled = true;                         // dernière étape : la partie démarre
+    Promise.resolve(sessCreate(vMode($("gmode").value), !!L.pv)).finally(() => { L.creating = false; next.disabled = false; });
+  };
+  $("gNew").onclick = () => { UI.click && UI.click(); L.setup = true; L.step = "mode"; L.pv = false; vis.querySelector('[data-pv="0"]').click(); lobbyRender(true); };
   $("suCancel").onclick = () => { L.setup = false; lobbyRender(true); };
-  sv.onclick = () => { if (MP.gdOwn) ownerSync(); L.setup = false; lobbyRender(true); };
 }
-/* équipes formées au lancement : le créateur répartit les joueurs prêts (au hasard, camps équilibrés ; en course, une couleur chacun) */
-function formTeams(gd) {
-  const mode = vMode(gd.mode), ps = members().filter(p => p.sameTab || (p.presence && p.presence.rd && !p.presence.wt));
-  const ids = ps.map(p => p.peer).filter(x => typeof x === "string");
-  for (let i = ids.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
-  const tm = {}, first = Math.random() < 0.5 ? "M" : "D", other = first === "M" ? "D" : "M";
-  ids.forEach((id, i) => { tm[id] = mode === "race" ? i % RACE_COLS.length : mode === "inf" ? "D" : i % 2 ? other : first; });
-  return tm;
+function suRender() {
+  const st = SU_STEPS(); if (!st.includes(L.step)) L.step = st[0];
+  const k = st.indexOf(L.step), last = k === st.length - 1, NAMES = { mode: EN ? "Mode" : "Mode", chip: EN ? "Chip" : "Puce", set: EN ? "Settings" : "Réglages", go: EN ? "Start" : "Lancement" };
+  document.querySelectorAll("#lvCreate .su-s").forEach(e => e.hidden = e.dataset.s !== L.step);
+  $("suProg").innerHTML = st.map((x, i) => `<span class="${i < k ? "done" : i === k ? "on" : ""}">${i + 1} · ${NAMES[x]}</span>`).join("");
+  $("suNext").textContent = !last ? (EN ? "Next →" : "Suivant →") : MP.gid ? (EN ? "Done" : "Valider") : (EN ? "Start the game" : "Démarrer la partie");
+  $("suNext").hidden = L.step === "mode" && !MP.gid;   // le mode se choisit d'un clic sur sa carte
+  $("suBack").textContent = k === 0 ? (MP.gid ? (EN ? "← Back to the game" : "← Retour à la partie") : (EN ? "Cancel" : "Annuler")) : (EN ? "← Back" : "← Retour");
+  if (L.step === "set") { try { micPreview(MP.gid ? MP.gd : null); } catch (e) {} }
+  $("menu").scrollTo && $("menu").scrollTo(0, 0);
 }
 function balancedTeam() {
   if (gMode() === "inf") return "D";
   const ps = MP.room ? MP.room.peers().filter(isPlayer) : [], nM = ps.filter(p => p.presence.team === "M").length, nD = ps.filter(p => p.presence.team === "D").length;
   return nM < nD ? "M" : nD < nM ? "D" : Math.random() < 0.5 ? "M" : "D";
 }
-function takeTeam(gd) {
-  const me = (MP.raw ? MP.raw.peers().find(p => p.sameTab) : null) || MP.me, v = gd && gd.tm && me ? gd.tm[me.peer] : undefined;
-  if (vMode((gd && gd.mode) || gMode()) === "race") { MP.lt = "race"; if (Number.isInteger(v) && v >= 0 && v < RACE_COLS.length) MP.rcol = v; return; }
-  MP.lt = v === "M" || v === "D" ? v : balancedTeam();
+/* choix du camp au lancement, par-dessus la puce : un camp disparaît quand il est complet ou qu'il ferait pencher la balance */
+function sideCounts() {
+  const n = { M: 0, D: 0 };
+  for (const p of members()) { if (p.sameTab) continue; const t = p.presence && (p.presence.team || p.presence.lt); if (t === "M" || t === "D") n[t]++; }
+  return n;
+}
+function sideOk(t) {
+  const gd = curGd() || MP.gdLast || {}, cap = vBots(gd.n), n = sideCounts(), o = t === "M" ? "D" : "M";
+  return (!cap || n[t] < cap) && n[t] <= n[o];
+}
+function showSidePick() {
+  let el = $("sidePick");
+  if (!el) {
+    el = document.createElement("div"); el.id = "sidePick"; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", EN ? "Choose your side" : "Choisis ton camp");
+    el.innerHTML = `<div class="sp-in"><small id="spMode"></small><h2>${EN ? "Choose your side" : "Choisis ton camp"}</h2><div class="sp-cards">
+      <button class="sp-card m" data-t="M"><img alt=""><b>${EN ? (EN ? "Microbes" : "Microbes") : (EN ? "Microbes" : "Microbes")}</b><small></small><em></em></button>
+      <button class="sp-card d" data-t="D"><img alt=""><b>${EN ? "Defenders" : (EN ? "Defenders" : "Défenseurs")}</b><small></small><em></em></button></div>
+      <p id="spNote"></p><button class="btn-sub" id="spQuit">${EN ? "Leave the game" : "Quitter la partie"}</button></div>`;
+    document.body.appendChild(el);
+    el.querySelectorAll(".sp-card").forEach(b => b.onclick = () => { const t = b.dataset.t; if (!sideOk(t)) { sidePickRender(); return; } UI.click && UI.click(); el.hidden = true; MP.lt = t; joinTeam(t); });
+    $("spQuit").onclick = () => { el.hidden = true; leaveGame(true); UI.openMenu && UI.openMenu(); UI.openPanel && UI.openPanel("pMulti"); lobbyRender(true); };
+  }
+  L.avDone = false; avatarShots();
+  el.querySelector('[data-t="M"] img').src = $("avM").src; el.querySelector('[data-t="D"] img').src = $("avD").src;
+  el.querySelector('[data-t="M"] small').textContent = $("tM").querySelector("small").textContent;
+  el.querySelector('[data-t="D"] small').textContent = $("tD").querySelector("small").textContent;
+  $("spMode").textContent = MODE_NAME[gMode()] + " · " + mapTitle(MAPSEL) + " · " + chipOfKey(MAPSEL);
+  UI.closeMenu && UI.closeMenu(); el.hidden = false; sidePickRender();
+}
+function sidePickRender() {
+  const el = $("sidePick"); if (!el || el.hidden) return;
+  const n = sideCounts(), ok = { M: sideOk("M"), D: sideOk("D") };
+  const sig = JSON.stringify([n, ok]); if (el.dataset.sig === sig) return; el.dataset.sig = sig;
+  for (const t of ["M", "D"]) {
+    const b = el.querySelector(`[data-t="${t}"]`); b.hidden = !ok[t] && ok[t === "M" ? "D" : "M"]; b.disabled = !ok[t];
+    b.querySelector("em").textContent = n[t] ? `${n[t]} ${EN ? (n[t] > 1 ? "players" : "player") : (n[t] > 1 ? "joueurs" : "joueur")}` : (EN ? "nobody yet" : "personne pour l'instant");
+  }
+  $("spNote").textContent = !ok.M && !ok.D ? (EN ? "Both sides are full" : "Les deux camps sont complets")
+    : !ok.M ? (EN ? "The Microbes have enough players: join the Defenders" : "Les Microbes sont assez nombreux : rejoins les Défenseurs")
+    : !ok.D ? (EN ? "The Defenders have enough players: join the Microbes" : "Les Défenseurs sont assez nombreux : rejoins les Microbes") : "";
 }
 $("codeGo").onclick = () => { const c = ($("codeIn").value || "").toLowerCase().replace(/[^a-z0-9]/g, ""); if (c) joinGame(c, true); };
 $("codeIn").addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Enter") $("codeGo").click(); });
@@ -7003,14 +7100,15 @@ $("gmLinkCopy").onclick = () => { const u = inviteUrl(MP.gid || ""); (navigator.
 
 $("gLeave").onclick = () => { leaveGame(); };
 $("gReady").onclick = () => {
+  if (MP.on) { MP.lt = null; showSidePick(); return; }
   MP.rd = !MP.rd; UI.click && UI.click(); lobbyPublish(); lobbyRender(true);
 };
-$("gStart").onclick = () => {
-  if (!MP.gdOwn) return;
+$("gStart").onclick = () => { const gd = curGd(); if (MP.gdOwn && MP.gd && MP.gd.st !== "play") beginGame(); else if (gd && gd.st === "play") { L.picked = true; startPlay(); } };
+function beginGame() {   // la partie démarre dès sa création : chacun choisit son camp en arrivant sur la puce
   MP.rd = true; MP.cfg = curCfg(Date.now());
-  MP.gd = Object.assign({}, MP.gd, { st: "play", t2: Date.now(), tm: formTeams(MP.gd) });
-  takeTeam(MP.gd); lobbyPublish(); startPlay();
-};
+  MP.gd = Object.assign({}, MP.gd, { st: "play", t2: Date.now() });
+  lobbyPublish(); startPlay();
+}
 $("chatForm").addEventListener("submit", e => {
   e.preventDefault();
   const t = ($("chatIn").value || "").trim().slice(0, 140); if (!t || !MP.gid) return;
@@ -7073,8 +7171,8 @@ function lobbyRender(force) {
     if (view === "setup") {
       const ed = !!MP.gid; applyModeUI($("gmode").value);
       $("suTitle").textContent = ed ? (EN ? "Game settings" : "Réglages de la partie") : (EN ? "New game" : "Nouvelle partie");
-      $("suCancel").textContent = ed ? (EN ? "← Back to the game" : "← Retour à la partie") : (EN ? "Cancel" : "Annuler");
-      $("gCreate").hidden = $("gCreatePv").hidden = ed; $("gSave").hidden = !ed;
+      $("suCancel").textContent = ed ? (EN ? "Back to the game" : "Retour à la partie") : (EN ? "Cancel" : "Annuler");
+      if (!L.step) L.step = "mode"; suRender();
       document.querySelector("#lvCreate .gm-set").classList.remove("ro"); ["gbots", "gbd", "lose", "gmic"].forEach(id => $(id).disabled = false);
       try { micPreview(ed ? MP.gd : null); } catch (e) {}
     }
@@ -7133,16 +7231,15 @@ function lobbyRender(force) {
   // prêt / lancer
   const others = mem.filter(p => !p.sameTab && !p.presence.wt);
   const allReady = others.every(p => p.presence.rd);
-  $("gReady").hidden = own || MP.on || MP.wait; $("gReady").classList.toggle("on", !!MP.rd);
-  $("gReady").textContent = MP.rd ? (EN ? "Ready ✔ (click to cancel)" : "Prêt ✔ (clique pour annuler)") : (EN ? "I'm ready" : "Je suis prêt");
-  $("gStart").hidden = !own || MP.on || gd.st === "play"; $("gStart").disabled = !allReady;
-  $("gmGoNote").textContent = MP.on ? (EN ? "Game in progress" : "Partie en cours")
-    : own ? (others.length === 0 ? (EN ? "You can start alone, bots fill the teams" : "Tu peux lancer seul : les bots complètent les équipes") : allReady ? (EN ? "Everyone is ready" : "Tout le monde est prêt") : (EN ? "Waiting for every player to be ready" : "En attente que tous les joueurs soient prêts"))
-    : MP.wait ? (EN ? "You will join at the next round" : "Tu entreras à la prochaine manche") : MP.rd ? (EN ? "Waiting for the creator to start" : "En attente du lancement par le créateur") : (EN ? "Say you're ready: teams are formed at launch" : "Déclare-toi prêt : les équipes se forment au lancement");
+  $("gReady").hidden = !MP.on || race || mode === "inf"; $("gReady").classList.remove("on");
+  $("gReady").textContent = EN ? "Change side" : "Changer de camp";
+  $("gStart").hidden = MP.on; $("gStart").disabled = false; $("gStart").textContent = EN ? "Join the game" : "Rejoindre la partie";
+  $("gmGoNote").textContent = MP.on ? (EN ? "Game in progress" : "Partie en cours") : (EN ? "Pick your side to enter the chip" : "Choisis ton camp pour entrer sur la puce");
   chatRender(false);
 }
 // chaque image : suivre la partie (lancement, fermeture, reprise par un autre créateur)
 function afterTick() {
+  sidePickRender();
   if (L.after && UI.openPanel) {
     const a = L.after; L.after = null; $("start").hidden = false; UI.showMenu && UI.stage !== "menu" && UI.showMenu();
     if (a.mode) { UI.openPanel("pMulti"); L.mode = vMode(a.mode); lobbyRender(true); } else if (a.opts) UI.openPanel("pOpts"); else if (a.salon) { UI.openPanel("pMulti"); lobbyRender(true); }
@@ -7169,9 +7266,9 @@ function lobbyTick() {
     } else if (!MP.on && gd.st === "play") {
       if (MP.wait) {
         if (MP.waitR === null || MP.waitR === undefined) MP.waitR = MP.G.r || 0;
-        if (MP.G.r > MP.waitR && MP.G.ph === "freeze") { if (!MP.lt) takeTeam(null); startPlay(); }
-      } else if (MP.rd) { if (!MP.lt) takeTeam(gd); startPlay(); }
-      else if (!MP.rd) { MP.wait = true; MP.waitR = null; lobbyPublish(); }
+        if (MP.lt && MP.G.r > MP.waitR && MP.G.ph === "freeze") startPlay();
+        else if (!MP.lt && !L.picked && !(UPD.resume && UPD.resume.gid === MP.gid)) { L.picked = true; startPlay(); }   // arrivée dans une partie en cours : choix du camp tout de suite (sauf retour après mise à jour : même camp)
+      } else if (!L.picked && !(UPD.resume && UPD.resume.gid === MP.gid)) { L.picked = true; startPlay(); }
     }
   }
   if (L.pending && !MP.gid && nickOk()) {
@@ -7491,7 +7588,7 @@ function sessEnd() {
   salHere(); lobbyRender(true);
 }
 async function sessCreate(mode, pv) {
-  if (!AUTH.on) return createGame(mode, pv);
+  if (!AUTH.on) { createGame(mode, pv); if (MP.gdOwn && MP.gd) beginGame(); return; }
   if (!AUTH.user || !mode) { lobbyRender(true); return; }
   const pol = anonPolicy(), anon = pol === "on" || (pol === "auto" && !pv);
   $("gCreate").disabled = $("gCreatePv").disabled = true;
@@ -7499,7 +7596,7 @@ async function sessCreate(mode, pv) {
     // la puce choisie se charge avant d'ouvrir la partie (l'annonce dans le salon doit trouver la partie prête)
     if (mapPref() !== MAPSEL && !(await ensureMap(mapPref()))) return;
     if (!(await sessStart({ r: rid(10), key: rkey(), anon, own: true, pv: !!pv }))) { toast(EN ? "Could not open the game" : "Impossible d'ouvrir la partie"); sessEnd(); return; }
-    createGame(mode, pv); salHere();
+    createGame(mode, pv); salHere(); beginGame();
   } finally { $("gCreate").disabled = $("gCreatePv").disabled = false; }
 }
 async function sessJoin(k) {
@@ -9079,7 +9176,7 @@ async function chargerCarte(key, onStep) {
   })().finally(() => { mapBusy = null; });
 }
 window.chargerCarte = chargerCarte;
-window.__map = { pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
+window.__map = { su: () => ({ setup: L.setup, step: L.step, view: L.view, steps: SU_STEPS() }), pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
 window.__game = { vote: { prep: r => prepVote(r), cast: i => castVote(i), counts: () => MP.G && MP.G.mv ? voteCounts(MP.G) : null }, die: b => die(b), me: () => ({ x: P.x, z: P.z, yaw, fly: P.fly }), arena: () => ({ AR, AR_ON, sites: SITES.map(x => [x.x, x.y]), pins: [PINS.M.x, PINS.M.y, PINS.D.x, PINS.D.y], doms: DOMS.map(d => [d.x, d.y]), pads: PADS.map(d => [d.x, d.y]), spawn: SPAWN, wsp: WSPOTS.map(w => [w.x, w.y]) }), vm: () => VM.state(), wpn: { get spots() { return WSPOTS; }, get forts() { return FORTS; }, get on() { return FORT_ON; }, give: k => wpGive(k), state: () => MP.wpn, swap: () => wpSwap() }, sup: (x, gy, k) => supportedAt(x, -gy, k), srun: (a, b, c, d, k) => supportedRun(a, b, c, d, k), genTrack: sd => { const t0 = performance.now(), T = genTrack(sd); return T ? { ms: Math.round(performance.now() - t0), n: T.length, arches: T.filter(n => n.kind === "arch").map(n => n.lv).join(""), T } : { ms: Math.round(performance.now() - t0), fail: true }; }, splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, get TRACK() { return TRACK; }, get ARCHES() { return ARCHES; }, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
 // données de la carte : relues à chaque accès (elles changent avec chargerCarte)
 { const live = { DOMS: () => DOMS, PINS: () => PINS, anchors: () => anchors, dmgVal: () => dmgVal, dead: () => dead, chunks: () => chunks, pads: () => PADS, nrg: () => NRG, SHAFTS: () => SHAFTS };
