@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9ieLM2+avE8pND4+11RtpJYaAz7RUDb7srPIty0XbXk=' 'sha256-A7jd59Uq5k2l1qEUO5R4jaB0Gvvm7Hdpz6iEZYtXIt8=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-zbkghjPfonYP1vupioxIJNX5AZUP/u75hisjNxpD7QU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-7YaogX6WjdqrZrv/SK+OPC++wCL+kto3QimIuZr+oDg=' 'sha256-A7jd59Uq5k2l1qEUO5R4jaB0Gvvm7Hdpz6iEZYtXIt8=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-axtrorHyUiMhMmRq9VbDJ9CAXHhkDmxcwxG0cC/zxZI=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="072a488482ec";</script>
+<script>window.CDA_BUILD="0c4eb5009c1f";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -7009,7 +7009,7 @@ function joinGame(id, byCode) {
   MP.gid = id; MP.gj = Date.now(); MP.gdOwn = false; MP.gdLast = g.gd; MP.rd = false; MP.lt = null; L.picked = false; MP.wait = g.gd.st === "play"; MP.waitR = null; MP.cfg = null;
   MP.G = freshLobbyG(); setFromGd(g.gd);
   L.chat = []; L.seen.clear(); L.log = []; sysMsg(MP.wait ? (EN ? "Game in progress: you will join at the next round" : "Partie en cours : tu entreras à la prochaine manche") : (EN ? `Welcome to ${g.gd.name}` : `Bienvenue dans ${g.gd.name}`));
-  lobbyPublish(); lobbyRender(true); return true;
+  lobbyPublish(); lobbyRender(true); if (AUTH && AUTH.on) salHere(); return true;
 }
 function leaveGame(quiet) {
   if ($("sidePick")) $("sidePick").hidden = true;
@@ -7387,7 +7387,11 @@ function lobbyTick() {
     }
   }
   if (L.pending && !MP.gid && nickOk()) {
-    if (now > L.pending.until) { toast((EN ? "Game not found: check the link or the code" : "Partie introuvable : vérifie le lien ou le code")); L.pending = null; }
+    if (now > L.pending.until) {
+      toast((EN ? "Game not found: check the link or the code" : "Partie introuvable : vérifie le lien ou le code")); L.pending = null;
+      // session ouverte pour cette partie (lien, invitation, reprise après rechargement) : on la ferme, on redevient libre dans le salon
+      if (window.CDA_SESS && !MP.gid && typeof sessEnd === "function") sessEnd();
+    }
     else if (gameList(true).some(g => g.gd.id === L.pending.code)) { const c = L.pending.code; L.pending = null; if ($("pMulti").hidden && UI.openPanel) { $("start").hidden = false; UI.showMenu && UI.stage !== "menu" && UI.showMenu(); UI.openPanel("pMulti"); } joinGame(c, true); }
   }
   if (now - L.lastPub > 4000 && !MP.on) { L.lastPub = now; lobbyPublish(); }   // présence tenue à jour
@@ -7666,7 +7670,7 @@ function salHere() {
   const S = window.CDA_SESS, gd = MP.gdOwn ? MP.gd : null;
   let g = null;
   if (S && S.own && gd && !gd.pv && MP.gid) g = { pr: CDA_PROTO, r: S.r, gid: gd.id, mode: gd.mode, map: gd.map, mapt: gd.mapt, name: gd.name, n: members().length, cap: gameCap(gd), st: gd.st, anon: !!S.anon };
-  salSend(24242, { k: "h", g, inG: !!S });
+  salSend(24242, { k: "h", g, inG: !!(S && MP.gid) });   // « en partie » seulement si on est vraiment dans une partie (pas une session restée ouverte)
 }
 setInterval(() => {
   if (!AUTH.user) return;
