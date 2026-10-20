@@ -110,9 +110,9 @@ async function upload(S) {
   title("Envoi des cartes");
   if (!existsSync(MAPS)) throw new Error("dossier des cartes introuvable : " + MAPS);
   S.files = S.files || {};
-  const files = walk(MAPS).map(p => ({ p, key: PREFIX + "/" + relative(MAPS, p).split(sep).join("/") }));
+  const files = walk(MAPS).filter(p => /\.(bin|json|png)$/.test(p)).map(p => ({ p, key: PREFIX + "/" + relative(MAPS, p).split(sep).join("/") }));   // pas les journaux
   // les cartes d'abord, puis les index (un index ne doit jamais citer une carte pas encore en ligne)
-  const rank = k => k.endsWith(".bin") ? 0 : k.endsWith("/index.json") ? 1 : 2;
+  const rank = k => k.endsWith(".bin") || k.endsWith(".png") ? 0 : k.endsWith("/index.json") || k.endsWith("/meta.json") ? 1 : 2;
   files.sort((a, b) => rank(a.key) - rank(b.key) || a.key.localeCompare(b.key));
   say("  Calcul des empreintes de " + files.length + " fichiers…");
   const todo = [];
@@ -147,13 +147,13 @@ async function upload(S) {
       for (let f; !stop && (f = q.shift());) {
         await checkToken();
         busy++;
-        const json = f.key.endsWith(".json");
+        const json = f.key.endsWith(".json"), png = f.key.endsWith(".png");
         let res;
         for (let tr = 0, lim = 0; tr < 3 && !stop; tr++) {
           // limite de débit de Cloudflare (429) : tout le monde fait une pause, puis on réessaie ce fichier
           while (Date.now() < pauseUntil) await new Promise(r => setTimeout(r, 1000));
           res = await wrAsync(["r2", "object", "put", BUCKET + "/" + f.key, "--file", f.p, "--remote",
-            "--content-type", json ? "application/json; charset=utf-8" : "application/octet-stream",
+            "--content-type", json ? "application/json; charset=utf-8" : png ? "image/png" : "application/octet-stream",
             "--cache-control", json ? "public, max-age=300" : "public, max-age=86400"]);
           if (res.code === 0) break;
           if (/429|Too Many Requests|rate limit/i.test(res.out) && lim++ < 20) {
