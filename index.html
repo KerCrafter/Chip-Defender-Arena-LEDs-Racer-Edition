@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1BTwG1yhFKnKlTdjYXSPQCHHyCAaJF6aki+xU0xtcz8=' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-V81ULgNfYmHPnpMr9OqZ+FLoZFSX/M05FqlWNdiZ7CM=' 'sha256-aAv0lkHuqkZ7LwyxIHByGRBtDWRl+xjnV5/SQQ4T0cM=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-LmdStGhOtojHTeV5vTzZNfPV+AcmwgvYcrRjj5cFhIY=' 'sha256-PGbu2MuXrIBtWBFUXbyVKdiaAaXRjdexkgzDkymnJ0U=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-ZZcmv/max9kwATdJLTCMOiPUIoOgvYL8+ANTbv6EIEE=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-iMHaLFWbJzbyjS6JxY6L9OnUt/b+fu4DPPZ7kL8mSXI=' 'sha256-lKN+I14eXQZFv4bUJUOAmgd4NR9PWiEZqNvnKskHjJQ=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="bfa60bd2e49e";</script>
+<script>window.CDA_BUILD="c299f858262d";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -361,6 +361,7 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 .kl-cred{width:min(280px,70%);height:auto}
 #muxScr{position:fixed;inset:0;z-index:80;display:grid;grid-template-rows:auto 1fr;background:#04070d;color:#fff;font:15px/1.45 var(--f-brand)}
 #muxScr[hidden]{display:none}
+#hud .t small{font:700 10px var(--mono,monospace);letter-spacing:.08em;opacity:.7;text-transform:none}
 #mapLoad{position:fixed;inset:0;z-index:90;display:grid;place-items:center;background:#04070dee;color:#fff;font:15px/1.4 var(--f-brand)}
 #mapLoad[hidden]{display:none}
 #mapLoad>div{display:grid;gap:8px;justify-items:center;text-align:center;padding:24px}
@@ -383,6 +384,8 @@ body.in-menu #hud,body.in-menu #quest,body.in-menu #mini,body.in-menu #bar,body.
 .cp-card{position:relative;isolation:isolate;display:grid;justify-items:start;gap:3px;padding:14px;background:#0a0f18;color:#fff;border:2px solid #ffffff2a;border-radius:0;text-align:left;cursor:pointer;font:inherit}
 .cp-card:hover,.cp-card:focus-visible{border-color:var(--cp);background:#0e1626;outline:none;transform:translateY(-2px)}
 .cp-card.cur{border-color:#fff}
+.cp-card.rnd{--cp:#c9d3e2;border-style:dashed}
+.cp-card.rnd .cp-die i{background:repeating-conic-gradient(var(--cp) 0 25%,transparent 0 50%) 0 0/12px 12px;opacity:.5}
 .cp-die{position:relative;width:64px;height:64px;margin:2px 0 8px 6px;background:#05080e;border:3px solid var(--cp);box-shadow:0 0 0 4px #0a0f18,0 0 0 6px var(--cp)}
 .cp-die::before,.cp-die::after{content:"";position:absolute;inset:-12px 8px;background:repeating-linear-gradient(90deg,var(--cp) 0 3px,transparent 3px 9px);z-index:-1}
 .cp-die::after{inset:8px -12px;background:repeating-linear-gradient(0deg,var(--cp) 0 3px,transparent 3px 9px)}
@@ -671,13 +674,25 @@ body.st-dead #cross,body.st-end #cross,body.st-end #banner{display:none!importan
 #deadFx .fx-bar{margin-top:4px;padding:6px 14px;background:repeating-linear-gradient(-45deg,#b3121d 0 18px,#8a0d16 18px 36px);color:#fff;font:700 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;text-align:center}
 #endFx{animation:fxIn .45s ease-out both}
 #endFx .fx-card{display:grid;justify-items:center;gap:10px;text-align:center;padding:0 16px}
-#endFx small{font:700 13px var(--mono);letter-spacing:.3em;text-transform:uppercase;color:#fff;background:#000;padding:4px 10px}
-#endFx b{font:900 clamp(56px,13vw,150px)/.85 var(--f-brand,Arial);text-transform:uppercase;letter-spacing:.02em;padding:8px 28px 14px;box-shadow:10px 10px 0 #000;color:#000;background:#fff}
-#endFx.win b{background:#7dff9a}
-#endFx.lose b{background:#ff4b55;color:#fff}
-#endFx.draw b{background:#c9d3e2}
-#endFx span{font:600 clamp(14px,1.9vw,18px)/1.5 var(--mono);color:#fff;background:rgba(0,0,0,.7);padding:6px 12px;max-width:min(760px,calc(100vw - 32px))}
-#endFx em{font:700 12px var(--mono);font-style:normal;color:#c9d3e2;letter-spacing:.08em}
+#mapVote{pointer-events:auto;display:grid;gap:6px;width:min(460px,92vw);margin-top:8px}
+#mapVote p{margin:0;font:700 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#fff;background:#000;padding:4px 10px;justify-self:center}
+#mapVote p i{font-style:normal;opacity:.65;letter-spacing:.04em;text-transform:none;margin-left:6px}
+#mapVote button{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;text-align:left;background:#000c;color:#fff;border:2px solid #ffffff55;border-radius:0;padding:8px 10px;font:inherit;cursor:pointer}
+#mapVote button:hover,#mapVote button.me{border-color:#7dff9a}
+#mapVote button.won{background:#7dff9a;color:#000;border-color:#7dff9a}
+#mapVote button.lost{opacity:.4}
+#mapVote kbd{font:900 14px var(--mono);background:#fff;color:#000;padding:2px 7px}
+#mapVote span{display:grid;min-width:0}
+#mapVote b{font:800 14px var(--f-brand,Arial);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#mapVote small{font:600 11px var(--mono);opacity:.7}
+#mapVote em{font:900 18px var(--mono);font-style:normal;min-width:1.4em;text-align:right}
+#endFx .fx-card>small{font:700 13px var(--mono);letter-spacing:.3em;text-transform:uppercase;color:#fff;background:#000;padding:4px 10px}
+#endFx .fx-card>b{font:900 clamp(56px,13vw,150px)/.85 var(--f-brand,Arial);text-transform:uppercase;letter-spacing:.02em;padding:8px 28px 14px;box-shadow:10px 10px 0 #000;color:#000;background:#fff}
+#endFx.win .fx-card>b{background:#7dff9a}
+#endFx.lose .fx-card>b{background:#ff4b55;color:#fff}
+#endFx.draw .fx-card>b{background:#c9d3e2}
+#endFx .fx-card>span{font:600 clamp(14px,1.9vw,18px)/1.5 var(--mono);color:#fff;background:rgba(0,0,0,.7);padding:6px 12px;max-width:min(760px,calc(100vw - 32px))}
+#endFx .fx-card>em{font:700 12px var(--mono);font-style:normal;color:#c9d3e2;letter-spacing:.08em}
 @keyframes fxIn{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){#deadFx,#endFx{animation:none}#gl{transition:none}}
 
@@ -881,7 +896,7 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
 <div id="hitm" hidden><i></i><i></i><i></i><i></i></div>
 
 <div id="hud" class="panel">
-  <div class="t">Chip Defender Arena</div>
+  <div class="t"><span id="hudMap">Chip Defender Arena</span> <small id="hudChip"></small></div>
   <div><span class="k">x</span> <span id="px">–</span> <span class="k">y</span> <span id="py">–</span> <span class="k">alt</span> <span id="pz">–</span> <span class="k">µm</span></div>
   <div><span class="k">sol</span> <span id="ground">substrat</span> · <span id="mode">à pied</span></div>
   <div id="cellName">–</div>
@@ -947,7 +962,7 @@ i.prov.github{background:#f0f6fc;box-shadow:inset 0 0 0 3px #24292f}i.prov.disco
 <div id="joinFx" class="jfx" hidden aria-live="polite"><small>Nouveau joueur</small><b id="joinN"></b><span id="joinS"></span></div>
 <div id="podium" hidden aria-live="polite"><canvas id="podCv" aria-label="Podium de la course"></canvas><div class="pod-in"><small id="podK"></small><h2 id="podT">Arrivée</h2><ol id="podRest"></ol><em id="podN"></em></div></div>
 <div id="deadFx" hidden aria-live="polite"><div class="fx-card"><b id="deadT"></b><span id="deadS" hidden></span><em id="deadC"></em><div class="fx-bar" id="deadBar"></div></div><div class="fx-watch" id="watch" hidden><small id="watchK"></small><b id="watchN"></b><span id="watchH"></span></div></div>
-<div id="endFx" hidden aria-live="polite"><div class="fx-card"><small id="endK"></small><b id="endT"></b><span id="endS"></span><em id="endN"></em></div></div>
+<div id="endFx" hidden aria-live="polite"><div class="fx-card"><small id="endK"></small><b id="endT"></b><span id="endS"></span><em id="endN"></em><div id="mapVote" hidden></div></div></div>
 <div id="feed" aria-live="polite"></div>
 <div id="kfx" hidden></div>
 <div id="board" class="panel" hidden></div>
@@ -1648,6 +1663,7 @@ document.documentElement.lang = LANG;
   // édition affichée sous le logo : la puce choisie sur le MUX (mémorisée au changement de tuile)
   const EDITION = (() => { try { const k = localStorage.getItem("cda-map"); if (k && k !== "a580" && k !== "racer") return localStorage.getItem("cda-map-title"); } catch (e) {} return null; })() || "LEDs Racer";
   const edAttrs = t => { const n = t.length + 8; return n > 26 ? ` textLength="800" lengthAdjust="spacingAndGlyphs"` : ""; };
+  window.cdaEditionEarly = () => { try { const t = localStorage.getItem("cda-map-title"); if (t) { window.cdaEdition(t); document.querySelectorAll("[data-chipname]").forEach(e => e.textContent = t); document.querySelectorAll(".lp-edition").forEach(e => e.textContent = EN ? t + " Edition" : "Édition " + t); } } catch (e) {} };
   window.cdaEdition = t => document.querySelectorAll(".lg-ed").forEach(e => { e.textContent = EN ? t.toUpperCase() + " EDITION" : "ÉDITION " + t.toUpperCase(); if (t.length + 8 > 26) { e.setAttribute("textLength", "800"); e.setAttribute("lengthAdjust", "spacingAndGlyphs"); } else e.removeAttribute("textLength"); e.closest("svg") && e.closest("svg").setAttribute("aria-label", "Chip Defender Arena, " + (EN ? "edition " : "édition ") + t); });
   const LOGO = (opts) => {
     const o = opts || {}, led = ["#ff3b3b", "#2fe26b", "#38b6ff", "#ffd23a"];
@@ -1890,6 +1906,7 @@ document.documentElement.lang = LANG;
       L.hidden = true; SFX.ctx(); startIntro();
     }));
   }
+  window.cdaEditionEarly && window.cdaEditionEarly();
 })();
 </script>
 
@@ -2189,7 +2206,12 @@ MAP_AUTHOR = M.cda.author;
 }
 __wrun(__w3);
 const mapOk = k => !!(window.CDA_INDEX && (window.CDA_INDEX.maps[k === "racer" ? "a580" : k] || (/^[a-z0-9]+\/a\d+$/.test(k) && window.CDA_INDEX.ext === "bin")));
-const mapTitle = (k, t) => { if (t) return t; k = k === "racer" || !k ? "a580" : k; const I = window.CDA_INDEX, p = I && I.byKey && I.byKey[k]; return p ? p.t + (p.k.length > 1 ? " · " + (p.k.indexOf(k) + 1) + "/" + p.k.length : "") : "LEDs Racer"; };
+// titres des tuiles déjà vues (MUX, parties rejointes, votes) : l'index embarqué ne connaît que la navette SKY 25b
+const TITLES = (() => { try { return JSON.parse(localStorage.getItem("cda-map-titles") || "{}") || {}; } catch (e) { return {}; } })();
+function rememberTitle(k, t) { if (!k || !t || TITLES[k] === t) return; TITLES[k] = t; try { localStorage.setItem("cda-map-titles", JSON.stringify(TITLES)); } catch (e) {} }
+const mapTitle = (k, t) => { if (t) return t; k = k === "racer" || !k ? "a580" : k; const I = window.CDA_INDEX, p = !k.includes("/") && I && I.byKey && I.byKey[k]; return p ? p.t + (p.k.length > 1 ? " · " + (p.k.indexOf(k) + 1) + "/" + p.k.length : "") : TITLES[k] || (k === "a580" ? "LEDs Racer" : (EN ? "Tile " : "Tuile ") + k.split("/").pop().slice(1)); };
+// puce (navette Tiny Tapeout) d'une tuile : « SKY 25b », « IHP 26a », « GF 0.2 », « TT06 »
+const chipOfKey = k => { const id = k && k.includes("/") ? k.split("/")[0] : (window.CDA_INDEX && window.CDA_INDEX.id) || "ttsky25b"; return id.replace(/^tt(sky|ihp|gf)?/, (m, f) => f ? f.toUpperCase() + " " : "TT").replace(/(\d)p(\d)/, "$1.$2"); };
 const PILLAR_THIN = { licon: 0.18, mcon: 0.18, via: 0.2, via2: 0.21, via3: 0.23 };
 function __w4() {
 G5 = M.grid;
@@ -2568,6 +2590,8 @@ logic = 0;
 for (let i = 0; i < NC; i++) if (!isFiller(CT[i])) logic++;
 $("sCells").textContent = logic.toLocaleString((EN ? "en-US" : "fr-FR"));
 document.querySelectorAll("[data-chipname]").forEach(e => e.textContent = MAP_TITLE);
+$("hudMap").textContent = MAP_TITLE; $("hudChip").textContent = "· " + chipOfKey(MAP_KEY);
+rememberTitle(MAP_KEY, MAP_TITLE);
 window.cdaEdition && window.cdaEdition(MAP_TITLE);
 try { localStorage.setItem("cda-map-title", MAP_TITLE); } catch (e) {}
 document.querySelectorAll(".lp-edition").forEach(e => e.textContent = EN ? MAP_TITLE + " Edition" : "Édition " + MAP_TITLE);
@@ -3030,7 +3054,9 @@ SITES = !IS_RACER ? M.cda.sites.map(c => { const [x, y] = freeSpotNear(c.x, c.y 
 }
 __wrun(__w24);
 const SITE_R = 3.2, PLANT_T = 6, DEFUSE_T = 5, FREEZE = 6, LIVE = 105, FUSE = 40, ENDT = 7, RACE_END = 16, RACE_GRACE = 40;
-const endDur = () => MP.G && MP.G.mode === "race" ? RACE_END : ENDT;   // en course : le temps du podium
+const endDur = () => (MP.G && MP.G.mode === "race" ? RACE_END : ENDT) + (MP.G && MP.G.mv ? VOTE_T : 0);   // en course : le temps du podium ; + le vote de la tuile suivante
+const VOTE_T = 5;
+const mapKeyOk = k => typeof k === "string" && /^(a\d{1,4}|[a-z0-9]{1,12}\/a\d{1,4})$/.test(k);
 const DMG = 34, FIRE_CD = 0.28, RANGE = 18, PLANT_MAXY = 2.5;
 // armes : les Microbes crachent de l'acide à courte portée et abîment moins les parois
 const RANGE_T = { M: 2.5, D: 18 }, WALL_MULT = { M: 0.6, D: 1 };
@@ -4315,7 +4341,7 @@ function publish(force) {
     v: 1, team: MP.team, nick: MP.nick, lk: MP.team ? LOOK[MP.team === "M" ? "M" : "D"] : null, x: r3(P.x), y: r3(P.y), z: r3(P.z), yaw: r3(yaw), pt: r3(pitch),
     ks: [MP.kills, MP.deaths, MP.recon], ld: myLadders.map(l => [l.id, l.a]), cf: MP.cfg, rep: MP.rep, al: MP.alive, hp: Math.max(0, Math.round(MP.hp)), r: MP.myR, act: MP.act, pl: MP.plant, df: MP.defuse, sh: MP.shot, kb: MP.kb, vr: MP.vr || null, pq: MP.pq || null, wq: MP.wq || null, ...lobbyFields(false), col: Number.isInteger(MP.rcol) ? MP.rcol : null,
     vh: MP.veh ? Object.assign({ i: MP.veh.i, s: MP.veh.seat }, MP.veh.seat === 0 && MP.vpose ? { vx: r3(MP.vpose.x), vy: r3(MP.vpose.y), vz: r3(MP.vpose.z), vw: r3(MP.vpose.w) } : {}) : null,
-    now: Date.now(), g: MP.host ? MP.G : null,
+    vo: MP.vote || null, now: Date.now(), g: MP.host ? MP.G : null,
   };
   if (pr.g) {
     const size = () => new TextEncoder().encode(JSON.stringify(pr)).length;
@@ -4365,7 +4391,43 @@ function cleanG(g) {
   const pk = Array.isArray(g.pk) ? g.pk.slice(0, 12).map(q => q && typeof q === "object" ? { t: +q.t || 0, by: typeof q.by === "string" ? q.by.slice(0, 64) : "", n: +q.n || 0 } : { t: 0, by: "", n: 0 }) : [];
   const wp = Array.isArray(g.wp) ? g.wp.slice(0, 20).map(q => q && typeof q === "object" ? { t: +q.t || 0, by: typeof q.by === "string" ? q.by.slice(0, 64) : "", n: +q.n || 0 } : { t: 0, by: "", n: 0 }) : [];
   const ar = Array.isArray(g.ar) && g.ar.length === 4 && g.ar.every(v => Number.isFinite(+v)) ? g.ar.map(Number) : null;
-  return { ar, wp, fin, seed: Number.isInteger(+g.seed) ? +g.seed : 0, pk, ban: Array.isArray(g.ban) ? g.ban.slice(0, 8).filter(x => typeof x === "string").map(x => x.slice(0, 64)) : [], rc, veh, bots, kc, ds, pts, edge: +g.edge || 0, pz: typeof g.pz === "string" ? g.pz.slice(0, 64) : "", pzn: +g.pzn || 0, mode: vMode(g.mode), fl, cap, evs, evn: +g.evn || 0, dfBy: typeof g.dfBy === "string" ? g.dfBy.slice(0, 64) : "", cfg, st, d, pw, r: g.r, ph, t0: g.t0, bomb: b, win: g.win === "M" || g.win === "D" ? g.win : null, why: typeof g.why === "string" ? g.why.slice(0, 80) : "", whyEn: typeof g.whyEn === "string" ? g.whyEn.slice(0, 80) : "", sc };
+  const mv = g.mv && typeof g.mv === "object" && Number.isInteger(+g.mv.r) && Array.isArray(g.mv.o) ? { r: +g.mv.r, o: g.mv.o.slice(0, 3).filter(o => o && mapKeyOk(o.k)).map(o => ({ k: o.k, t: String(o.t || "").slice(0, 80), c: String(o.c || "").slice(0, 16) })), w: Number.isInteger(+g.mv.w) ? +g.mv.w : -1 } : null;
+  const mk = mapKeyOk(g.mk) ? g.mk : "", mkt = typeof g.mkt === "string" ? g.mkt.slice(0, 80) : "";
+  return { mv, mk, mkt, ar, wp, fin, seed: Number.isInteger(+g.seed) ? +g.seed : 0, pk, ban: Array.isArray(g.ban) ? g.ban.slice(0, 8).filter(x => typeof x === "string").map(x => x.slice(0, 64)) : [], rc, veh, bots, kc, ds, pts, edge: +g.edge || 0, pz: typeof g.pz === "string" ? g.pz.slice(0, 64) : "", pzn: +g.pzn || 0, mode: vMode(g.mode), fl, cap, evs, evn: +g.evn || 0, dfBy: typeof g.dfBy === "string" ? g.dfBy.slice(0, 64) : "", cfg, st, d, pw, r: g.r, ph, t0: g.t0, bomb: b, win: g.win === "M" || g.win === "D" ? g.win : null, why: typeof g.why === "string" ? g.why.slice(0, 80) : "", whyEn: typeof g.whyEn === "string" ? g.whyEn.slice(0, 80) : "", sc };
+}
+/* ---- vote de la tuile de la manche suivante (multijoueur) ---- */
+let voteLoad = false;
+function prepVote(r) {
+  if (!MP.G) return;
+  const cur = MAPSEL;
+  MUX.randomTiles(2, cur).then(t => {
+    const G = MP.G; if (!G || G.r !== r || G.ph !== "end" || !MP.host || t.length < 2) return;
+    G.mv = { r, o: [{ k: cur, t: MAP_TITLE, c: chipOfKey(cur) }, ...t], w: -1 };
+    publish(true);
+  }).catch(() => {});
+}
+function voteCounts(G) {
+  const n = [0, 0, 0];
+  for (const p of (MP.room ? MP.room.peers() : []).filter(isPlayer)) {
+    const v = p.sameTab ? MP.vote : p.presence && p.presence.vo;
+    if (Array.isArray(v) && v[0] === G.mv.r && v[1] >= 0 && v[1] < 3) n[v[1]]++;
+  }
+  return n;
+}
+function tallyVote() {
+  const G = MP.G, n = voteCounts(G), best = Math.max(...n);
+  // égalité : on reste sur la tuile actuelle si elle fait partie des premiers, sinon tirage entre les premiers
+  const top = [0, 1, 2].filter(i => n[i] === best && G.mv.o[i]);
+  const w = best === 0 || top.includes(0) ? 0 : top[Math.floor(Math.random() * top.length)];
+  G.mv.w = w;
+  if (w > 0) {
+    const o = G.mv.o[w]; G.mk = o.k; G.mkt = o.t;
+  }
+  publish(true);
+}
+function castVote(i) {
+  const G = MP.G; if (!MP.on || !G || G.ph !== "end" || !G.mv || G.mv.w >= 0 || !G.mv.o[i]) return;
+  MP.vote = [G.mv.r, i]; UI.click && UI.click(); publish(true);
 }
 function hostLogic(pl) {
   const G = MP.G, now = Date.now(), el = (now - G.t0) / 1000;
@@ -4375,8 +4437,8 @@ function hostLogic(pl) {
   const inR = p => p.presence.al === true && p.presence.r === G.r;
   const setPh = ph => { G.ph = ph; G.t0 = now; };
   if (!G.pw || now > G.pw.e) { const s0 = now + (PW_MIN + Math.random() * (PW_MAX - PW_MIN)) * 1000; G.pw = { s: s0, e: s0 + PW_ON * 1000 }; }
-  const endR = (w, whyF) => { const e0 = EN; EN = false; const fr = whyF(); EN = true; const en = whyF(); EN = e0; G.ph = "end"; G.t0 = now; G.win = w || null; G.why = fr; G.whyEn = en; if (w) G.sc[w] = (G.sc[w] || 0) + 1; };
-  const newRound = () => { G.r += 1; G.ph = "freeze"; G.t0 = now; G.bomb = null; G.win = null; G.why = ""; hostDmg.clear(); hostRepairs.clear(); G.d = ""; G.dfBy = ""; G.st = { k: 0, rc: 0, top: "", tn: 0 }; G.fl = freshFlags(); G.cap = { M: 0, D: 0 }; G.rc = {}; G.fin = []; G.seed = 1 + Math.floor(Math.random() * 2e9); G.ar = arenaFor(G.cfg && G.cfg.mic, pl.length, G.mode); applyArena(G.ar); G.wp = []; G.pk = []; G.kc = { M: 0, D: 0 }; G.ds = { M: 0, D: 0 }; G.pts = freshPts(); G.edge = -1;
+  const endR = (w, whyF) => { prepVote(G.r); const e0 = EN; EN = false; const fr = whyF(); EN = true; const en = whyF(); EN = e0; G.ph = "end"; G.t0 = now; G.win = w || null; G.why = fr; G.whyEn = en; if (w) G.sc[w] = (G.sc[w] || 0) + 1; };
+  const newRound = () => { G.r += 1; G.mv = null; G.mk = MAPSEL; G.mkt = MAP_TITLE; G.ph = "freeze"; G.t0 = now; G.bomb = null; G.win = null; G.why = ""; hostDmg.clear(); hostRepairs.clear(); G.d = ""; G.dfBy = ""; G.st = { k: 0, rc: 0, top: "", tn: 0 }; G.fl = freshFlags(); G.cap = { M: 0, D: 0 }; G.rc = {}; G.fin = []; G.seed = 1 + Math.floor(Math.random() * 2e9); G.ar = arenaFor(G.cfg && G.cfg.mic, pl.length, G.mode); applyArena(G.ar); G.wp = []; G.pk = []; G.kc = { M: 0, D: 0 }; G.ds = { M: 0, D: 0 }; G.pts = freshPts(); G.edge = -1;
     if (G.mode === "inf" && pl.length) { G.pz = pl[Math.floor(Math.random() * pl.length)].peer; G.pzn = (G.pzn || 0) + 1; } };
   const enough = G.mode === "inf" ? pl.length >= 2 : Ms.length && Ds.length;
   // changement de mode : on repart d'un score vierge
@@ -4403,7 +4465,13 @@ function hostLogic(pl) {
       else if (el > FUSE) endR("M", () => (EN ? `The corrosion ate through site ${G.bomb ? G.bomb.s : ""}` : `La corrosion a rongé le site ${G.bomb ? G.bomb.s : ""}`));
       else if (!Ds.some(inR)) endR("M", () => (EN ? "No defender left to neutralize the corrosion" : "Plus aucun défenseur pour neutraliser la corrosion"));
       break;
-    case "end": if (el > endDur()) newRound(); break;
+    case "end": if (el > endDur()) {
+      if (G.mv && G.mv.w < 0) tallyVote(pl);
+      // tuile changée : l'hôte la charge AVANT la manche suivante (arène, apparitions et bots se calculent dessus)
+      const want = G.mk && mapValid(G.mk);
+      if (want && want !== MAPSEL) { if (!voteLoad) { voteLoad = true; ensureMap(want, G.mkt).then(ok => { voteLoad = false; if (!ok) { G.mk = MAPSEL; G.mkt = MAP_TITLE; } }); } break; }
+      G.mv = null; newRound();
+    } break;
   }
 }
 
@@ -4529,10 +4597,19 @@ function ctfEvents() {
 /* ---- réactions de chaque page à l'état de la manche ---- */
 function react() {
   const G = MP.G;
+  // propriétaire de la partie (pas forcément l'hôte de la manche) : l'annonce suit la tuile votée, pour ceux qui rejoignent
+  if (G.mk && MP.gdOwn && MP.gd && MP.gd.st === "play" && MP.gd.map !== G.mk) { MP.gd = Object.assign({}, MP.gd, { map: G.mk, mapt: G.mkt }); lobbyPublish(); }
+  if (G.mk && !MP.mapLoad && !MP.host && G.mk !== MP.mapFail) {
+    const want = mapValid(G.mk);
+    if (want !== MAPSEL) MP.mapLoad = ensureMap(want, G.mkt).then(ok => {
+      MP.mapLoad = null; if (!ok) MP.mapFail = G.mk;
+      if (ok && MP.on && MP.team && (MP.G.ph === "freeze" || MP.G.ph === "live")) { MP.myR = MP.G.r; respawn(); clearMyLadders(); xrayCycle(); publish(true); }
+    });
+  }
   if (G.r !== MP.lastR) {
     MP.lastR = G.r;
     if (MP.team && G.mode === "inf" && (G.ph === "freeze" || G.ph === "live")) { MP.team = MP.me && G.pz === MP.me.peer ? "M" : G.ph === "live" ? "M" : "D"; MP.pzSeen = G.pzn; }
-    if (MP.team && (G.ph === "freeze" || G.ph === "live")) { MP.myR = G.r; respawn(); clearMyLadders(); xrayCycle(); publish(true); }
+    if (MP.team && (G.ph === "freeze" || G.ph === "live") && !MP.mapLoad) { MP.myR = G.r; respawn(); clearMyLadders(); xrayCycle(); publish(true); }
   }
   if (G.ph !== MP.lastPh) {
     const prev = MP.lastPh; MP.lastPh = G.ph;
@@ -4756,6 +4833,18 @@ function stateFx() {
     $("endT").textContent = res === "win" ? (EN ? "Victory" : "Victoire") : res === "lose" ? (EN ? "Defeat" : "Défaite") : (EN ? "Draw" : "Égalité");
     $("endS").textContent = endInfo && endInfo.r === G.r ? endInfo.sub : whyTxt();
     $("endN").textContent = (EN ? `Next round in ${left} s` : `Manche suivante dans ${left} s`);
+    const mvEl = $("mapVote");
+    if (G.mv && G.mv.o.length === 3) {
+      const n = voteCounts(G), mine = MP.vote && MP.vote[0] === G.mv.r ? MP.vote[1] : -1, done = G.mv.w >= 0;
+      const sig = JSON.stringify([G.mv.r, n, mine, G.mv.w]);
+      if (mvEl.dataset.sig !== sig) {
+        mvEl.dataset.sig = sig;
+        mvEl.innerHTML = `<p>${done ? (EN ? "Next tile" : "Tuile suivante") : (EN ? "Vote for the next tile" : "Vote pour la tuile suivante")} <i>${isTouch ? (EN ? "tap" : "touche") : (EN ? "keys 1 · 2 · 3" : "touches 1 · 2 · 3")}</i></p>` + G.mv.o.map((o, i) =>
+          `<button data-v="${i}" class="${i === mine ? "me" : ""}${done && i === G.mv.w ? " won" : ""}${done && i !== G.mv.w ? " lost" : ""}"><kbd>${i + 1}</kbd><span><b>${i === 0 ? (EN ? "Stay · " : "Rester · ") : ""}${escH(o.t)}</b><small>${escH(o.c)}</small></span><em>${n[i]}</em></button>`).join("");
+        mvEl.querySelectorAll("button").forEach(b => b.onclick = () => castVote(+b.dataset.v));
+      }
+      mvEl.hidden = false;
+    } else if (!mvEl.hidden) { mvEl.hidden = true; mvEl.dataset.sig = ""; }
     eEl.hidden = false;
   } else eEl.hidden = true;
 }
@@ -5180,6 +5269,7 @@ function renderBoard() {
   const integ = integrity(lastDmgSeen);
   $("board").innerHTML = (EN ? `<div class="bh"><span><span class="cM">Microbes ${G.sc.M}</span> · <span class="cD">${G.sc.D} Defenders</span></span><small>${G.ph === "wait" ? "Waiting for opponents" : `Round ${G.r}`} · ${MODE_NAME[gMode()]} · ${gMode() === "ctf" ? `captures ${(G.cap || {}).M || 0}–${(G.cap || {}).D || 0}` : gMode() === "tdm" ? `counters ${b4(G.kc.M)} · ${b4(G.kc.D)}` : gMode() === "dom" ? `points ${G.ds.M}–${G.ds.D}` : gMode() === "inf" ? `${MP.peers.filter(p => isPlayer(p) && p.presence.team === "D").length} healthy` : `integrity ${fmtPct(integ, 3)}`} · Tab to close</small></div><div class="cols">${col("M")}${col("D")}</div>` : `<div class="bh"><span><span class="cM">Microbes ${G.sc.M}</span> · <span class="cD">${G.sc.D} Défenseurs</span></span><small>${G.ph === "wait" ? "En attente d'adversaires" : `Manche ${G.r}`} · ${MODE_NAME[gMode()]} · ${gMode() === "ctf" ? `captures ${(G.cap || {}).M || 0}–${(G.cap || {}).D || 0}` : gMode() === "tdm" ? `compteurs ${b4(G.kc.M)} · ${b4(G.kc.D)}` : gMode() === "dom" ? `points ${G.ds.M}–${G.ds.D}` : gMode() === "inf" ? `${MP.peers.filter(p => isPlayer(p) && p.presence.team === "D").length} sains` : `intégrité ${fmtPct(integ, 3)}`} · Tab pour fermer</small></div><div class="cols">${col("M")}${col("D")}</div>`);
 }
+addEventListener("keydown", e => { if (MP.on && MP.G && MP.G.ph === "end" && MP.G.mv && /^(Digit|Numpad)[123]$/.test(e.code)) { e.preventDefault(); castVote(+e.code.slice(-1) - 1); } });
 addEventListener("keydown", e => { if (e.key === "Tab" && MP.on && $("start").hidden) { e.preventDefault(); if (!boardOpen) setBoard(true); } });
 addEventListener("keyup", e => { if (e.key === "Tab" && boardOpen) setBoard(false); });
 $("bBoard").onclick = () => setBoard(!boardOpen);
@@ -6710,20 +6800,20 @@ function createGame(mode, pv) {
   lobbyPublish(); lobbyRender(true);
 }
 function mapSwitch(k, after, t) {
-  k = mapValid(k); const title = mapTitle(k, t);
+  k = mapValid(k); const title = mapTitle(k, t); rememberTitle(k, title);
   try { localStorage.setItem("cda-map", k); localStorage.setItem("cda-map-title", title); } catch (e) {}
   document.querySelectorAll("[data-chipname]").forEach(e => e.textContent = title);
   // hôte d'une partie pas encore lancée : la partie se jouera sur cette tuile
-  if (MP.gdOwn && MP.gd && MP.gd.st !== "play") { MP.gd = Object.assign({}, MP.gd, { map: k, mapt: title }); lobbyPublish(); lobbyRender(true); }
+  if (MP.gdOwn && MP.gd && MP.gd.st !== "play") { if (MP.G) { MP.G.mk = ""; MP.G.mv = null; } MP.gd = Object.assign({}, MP.gd, { map: k, mapt: title }); lobbyPublish(); lobbyRender(true); }
   toast(EN ? `Chip chosen: ${title} · it loads when the game starts` : `Puce choisie : ${title} · elle se charge au lancement de la partie`);
 }
 /* chargement d'une tuile avec écran d'attente (lancement d'une partie, partie rejointe sur une autre tuile) */
-async function ensureMap(key) {
-  key = mapValid(key || "a580"); if (key === MAPSEL) return true;
+async function ensureMap(key, title) {
+  key = mapValid(key || "a580"); if (title) rememberTitle(key, title); if (key === MAPSEL) return true;
   let el = $("mapLoad");
   if (!el) { el = document.createElement("div"); el.id = "mapLoad"; el.setAttribute("role", "status"); el.innerHTML = `<div><span class="ml-k"></span><b class="ml-t"></b><i class="ml-bar"><i></i></i><span class="ml-s"></span></div>`; document.body.appendChild(el); }
   el.querySelector(".ml-k").textContent = EN ? "Loading the chip" : "Chargement de la puce";
-  el.querySelector(".ml-t").textContent = mapTitle(key);
+  el.querySelector(".ml-t").textContent = mapTitle(key) + " · " + chipOfKey(key);
   const say = t => el.querySelector(".ml-s").textContent = t;
   el.hidden = false; el.className = "dl"; say(EN ? "Downloading the layout…" : "Téléchargement du layout…");
   const ok = await chargerCarte(key, step => { if (step === "build") { el.className = "build"; say(EN ? "Building the chip…" : "Construction de la puce…"); } });
@@ -6735,7 +6825,7 @@ function joinGame(id, byCode) {
   const g = gameList(true).find(x => x.gd.id === id); if (!g) { toast(byCode ? (EN ? "No game with this code" : "Aucune partie avec ce code") : (EN ? "This game no longer exists" : "Cette partie n'existe plus")); return false; }
   if ((g.gd.pr || 1) !== CDA_PROTO) { toast((g.gd.pr || 1) > CDA_PROTO ? (EN ? "This game runs a newer version: reload the page" : "Cette partie tourne sur une version plus récente : recharge la page") : (EN ? "This game runs an older version of the game" : "Cette partie tourne sur une ancienne version du jeu")); return false; }
   const gm = !g.gd.map || g.gd.map === "racer" ? "a580" : g.gd.map;
-  if (gm !== MAP_KEY) { if (mapOk(gm)) { ensureMap(gm).then(ok => { if (ok) joinGame(id, byCode); }); return true; } toast(EN ? "This game runs on a chip that is not available here" : "Cette partie se joue sur une puce indisponible ici"); return false; }
+  if (gm !== MAP_KEY) { if (mapOk(gm)) { ensureMap(gm, g.gd.mapt).then(ok => { if (ok) joinGame(id, byCode); }); return true; } toast(EN ? "This game runs on a chip that is not available here" : "Cette partie se joue sur une puce indisponible ici"); return false; }
   if (g.n >= gameCap(g.gd)) { toast((EN ? "Game full" : "Partie complète")); return; }
   MP.gid = id; MP.gj = Date.now(); MP.gdOwn = false; MP.gdLast = g.gd; MP.rd = false; MP.lt = null; MP.wait = g.gd.st === "play"; MP.waitR = null; MP.cfg = null;
   MP.G = freshLobbyG(); setFromGd(g.gd);
@@ -6764,7 +6854,7 @@ let startMapWait = false;
 function startPlay() {
   const gdc = curGd() || MP.gdLast || MP.gd;   // partie telle que l'hôte la publie (il a pu changer de puce dans le salon)
   const gdm = gdc && gdc.map ? mapValid(gdc.map === "racer" ? "a580" : gdc.map) : null;
-  if (gdm && gdm !== MAPSEL) { if (!startMapWait) { startMapWait = true; ensureMap(gdm).then(ok => { startMapWait = false; if (ok) startPlay(); else leaveGame(); }); } return; }
+  if (gdm && gdm !== MAPSEL) { if (!startMapWait) { startMapWait = true; ensureMap(gdm, gdc.mapt).then(ok => { startMapWait = false; if (ok) startPlay(); else leaveGame(); }); } return; }
   if (startMapWait) return;
   MP.wait = false;
   const t = MP.lt === "race" ? null : MP.lt;
@@ -8032,6 +8122,7 @@ const MUX = (() => {
     const nMaps = Object.keys(I.maps).length;
     root.innerHTML = `
       <header class="mx-h"><div><span class="mx-k">${esc(I.name || "Tiny Tapeout SKY 25b")} · ${I.p.length} ${EN ? "projects" : "projets"} · ${nMaps} ${EN ? "maps" : "cartes"}${I.official === false ? (EN ? " · schematic floorplan" : " · plan schématique") : ""}</span><h2 id="muxT">${EN ? "The MUX: pick your tile" : "Le MUX : choisis ta tuile"}</h2></div>
+        <button class="btn-sub mx-all" id="muxRnd" title="${EN ? "A random tile of this chip" : "Une tuile au hasard de cette puce"}">🎲 ${EN ? "Random" : "Au hasard"}</button>
         ${SHUTTLES && SHUTTLES.length > 1 ? `<button class="btn-sub mx-all" id="muxAll">← ${EN ? "All chips" : "Toutes les puces"}</button>` : ""}
         <label class="mx-q"><span>${EN ? "Search" : "Chercher"}</span><input id="muxQ" type="search" autocomplete="off" spellcheck="false" placeholder="${EN ? "title, author, address" : "titre, auteur, adresse"}"></label>
         <button class="btn-sub" id="muxX">${EN ? "Close" : "Fermer"}</button></header>
@@ -8093,6 +8184,7 @@ const MUX = (() => {
     $("muxZo").onclick = () => zoom(1.4, vb[0] + vb[2] / 2, vb[1] + vb[3] / 2);
     $("muxZ0").onclick = () => { vb = [0, 0, CW, CH]; setVB(); };
     $("muxX").onclick = close;
+    $("muxRnd").onclick = () => { UI.click && UI.click(); pickRandom(); };
     root.addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Escape") close(); });
     $("muxQ").addEventListener("input", () => {
       const q = $("muxQ").value.trim().toLowerCase(), res = $("muxRes");
@@ -8132,6 +8224,35 @@ const MUX = (() => {
     const k = fullKey(p.k[n] || p.k[0]); if (k === MAP_KEY && mapPref() === k) { close(); toast(EN ? "This tile is already your chip" : "C'est déjà ta puce"); return; }
     close(); try { localStorage.setItem("cda-map-sh", I.name || SID); } catch (e) {} mapSwitch(k, after, p.t);
   }
+  // une tuile au hasard de la puce affichée : sélectionnée sur le plan, à confirmer (« Choisir ») ou à retirer
+  function pickRandom() {
+    const ps = I.p.filter(p => p.k.length); if (!ps.length || !MUX.pick) return;
+    const p = ps[Math.floor(Math.random() * ps.length)];
+    MUX.pick(p, Math.floor(Math.random() * p.k.length));
+  }
+  /* tuiles au hasard sur toutes les puces (vote de fin de manche) : chaque tuile a la même chance */
+  async function ensureShuttles() {
+    if (SHUTTLES === null && HOME_I.ext === "bin") { SHUTTLES = []; try { const r = await fetch((window.CDA_MAPS || "") + "maps/shuttles.json"); if (r.ok) SHUTTLES = (await r.json()).filter(x => +x.maps > 0); } catch (e) {} }
+    return SHUTTLES && SHUTTLES.length ? SHUTTLES : [{ id: HOME, maps: Object.keys(HOME_I.maps || {}).length || 1 }];
+  }
+  async function idxOf(id) {
+    if (id === HOME) return HOME_I;
+    if (!IDX[id]) { const r = await fetch((window.CDA_MAPS || "") + "maps/" + id + "/index.json"); if (!r.ok) throw new Error(r.status); IDX[id] = await r.json(); }
+    return index(IDX[id]);
+  }
+  async function randomTiles(n, exclude) {
+    const sh = await ensureShuttles(), tot = sh.reduce((a, x) => a + (+x.maps || 0), 0), out = [];
+    for (let guard = 0; out.length < n && guard < 12; guard++) {
+      let r = Math.random() * tot, s0 = sh[0]; for (const x of sh) { r -= +x.maps || 0; if (r <= 0) { s0 = x; break; } }
+      let X; try { X = await idxOf(s0.id); } catch (e) { continue; }
+      const ps = X.p.filter(p => p.k.length); if (!ps.length) continue;
+      const p = ps[Math.floor(Math.random() * ps.length)], j = Math.floor(Math.random() * p.k.length), kk = p.k[j];
+      const key = s0.id === HOME ? kk : s0.id + "/" + kk;
+      if (key === exclude || out.some(o => o.k === key)) continue;
+      out.push({ k: key, t: p.t + (p.k.length > 1 ? ` · ${j + 1}/${p.k.length}` : ""), c: chipOfKey(key) });
+    }
+    return out;
+  }
   async function setShuttle(id) {
     if (id === SID) return;
     try {
@@ -8148,7 +8269,8 @@ const MUX = (() => {
     if (!root) { build(); const al = $("muxAll"); if (al) al.onclick = () => { close(); gallery(); }; }
     if (!keep) after = a && (a.mode || a.opts) ? a : null;
     root.hidden = false; document.body.classList.add("mux-on");
-    if (curP && !sel) MUX.pick(curP, 0);
+    if (rndNext) { rndNext = false; pickRandom(); }
+    else if (curP && !sel) MUX.pick(curP, 0);
     setTimeout(() => $("muxQ").focus(), 50);
   }
   function close() { if (root) root.hidden = true; if (gal) gal.hidden = true; document.body.classList.remove("mux-on"); }
@@ -8160,14 +8282,14 @@ const MUX = (() => {
     ttgf26a: ["2026-06-22"], ttgf26b: ["2026-06-22"], ttgf0p3: ["2026-07-07"], ttsky26c: ["2026-09-07"], ttihp26b: ["2026-09-21"] };
   const FOUNDRY = id => id.startsWith("ttihp") ? { c: "ihp", f: "IHP", p: "SG13G2" } : id.startsWith("ttgf") ? { c: "gf", f: "GlobalFoundries", p: "GF180MCU" } : { c: "sky", f: "SkyWater", p: "SKY130" };
   const shortName = id => id.replace(/^tt(sky|ihp|gf)?/, (m, f) => f ? f.toUpperCase() + " " : "TT").replace(/(\d)p(\d)/, "$1.$2");
-  let gal = null;
+  let gal = null, rndNext = false;
   function gallery() {
     if (gal) gal.remove();
     const curSh = MAP_KEY.includes("/") ? MAP_KEY.split("/")[0] : HOME;
     const L = SHUTTLES.slice().sort((a, b) => ((SH_DATE[a.id] || ["9999"])[0] + a.id).localeCompare((SH_DATE[b.id] || ["9999"])[0] + b.id));
     const fmt = id => { const d = SH_DATE[id]; if (!d) return ""; const [y, m] = d[0].split("-"); return d[1] ? y : new Date(+y, +m - 1, 1).toLocaleDateString(EN ? "en-US" : "fr-FR", { month: "short", year: "numeric" }); };
     const nt = L.reduce((a, x) => a + (+x.maps || 0), 0), nf = new Set(L.map(x => FOUNDRY(x.id).c)).size;
-    let year = "", cards = "";
+    let year = "", cards = `<button class="cp-card rnd" data-id="__rnd"><span class="cp-die" aria-hidden="true"><i></i></span><b>🎲 ${EN ? "Random" : "Au hasard"}</b><span class="cp-f">${EN ? "any chip, any tile" : "n'importe quelle puce"}</span><span class="cp-n">${EN ? "a random tile, to confirm" : "une tuile tirée au sort, à confirmer"}</span></button>`;
     for (const x of L) {
       const y = (SH_DATE[x.id] || ["?"])[0].slice(0, 4), F = FOUNDRY(x.id);
       if (y !== year) { year = y; cards += `<h3 class="cp-y">${y === "?" ? (EN ? "Other" : "Autres") : y}</h3>`; }
@@ -8183,14 +8305,19 @@ const MUX = (() => {
     gal.querySelector("#cpX").onclick = close;
     gal.addEventListener("keydown", e => { e.stopPropagation(); if (e.key === "Escape") close(); });
     gal.querySelectorAll(".cp-card").forEach(b => b.onclick = async () => {
-      UI.click && UI.click(); const id = b.dataset.id;
+      UI.click && UI.click(); let id = b.dataset.id;
       gal.hidden = true;
-      if (id === SID) { if (root) { root.hidden = false; if (curP && !sel) MUX.pick(curP, 0); } else open(after, true); }
+      if (id === "__rnd") {   // puce tirée au sort, en proportion de son nombre de tuiles, puis une de ses tuiles
+        const tot = L.reduce((a, x) => a + (+x.maps || 0), 0); let r = Math.random() * tot; id = L[0].id;
+        for (const x of L) { r -= +x.maps || 0; if (r <= 0) { id = x.id; break; } }
+        rndNext = true;
+      }
+      if (id === SID) { if (root) { root.hidden = false; document.body.classList.add("mux-on"); if (rndNext) { rndNext = false; pickRandom(); } else if (curP && !sel) MUX.pick(curP, 0); } else open(after, true); }
       else await setShuttle(id);
     });
     setTimeout(() => { const c = gal.querySelector(".cp-card.cur") || gal.querySelector(".cp-card"); c && c.focus(); c && c.scrollIntoView({ block: "center" }); }, 50);
   }
-  return { open, close };
+  return { open, close, randomTiles };
 })();
 
 
@@ -8820,8 +8947,8 @@ async function chargerCarte(key, onStep) {
   })().finally(() => { mapBusy = null; });
 }
 window.chargerCarte = chargerCarte;
-window.__map = { pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, pref: () => mapPref() };
-window.__game = { die: b => die(b), me: () => ({ x: P.x, z: P.z, yaw, fly: P.fly }), arena: () => ({ AR, AR_ON, sites: SITES.map(x => [x.x, x.y]), pins: [PINS.M.x, PINS.M.y, PINS.D.x, PINS.D.y], doms: DOMS.map(d => [d.x, d.y]), pads: PADS.map(d => [d.x, d.y]), spawn: SPAWN, wsp: WSPOTS.map(w => [w.x, w.y]) }), vm: () => VM.state(), wpn: { get spots() { return WSPOTS; }, get forts() { return FORTS; }, get on() { return FORT_ON; }, give: k => wpGive(k), state: () => MP.wpn, swap: () => wpSwap() }, sup: (x, gy, k) => supportedAt(x, -gy, k), srun: (a, b, c, d, k) => supportedRun(a, b, c, d, k), genTrack: sd => { const t0 = performance.now(), T = genTrack(sd); return T ? { ms: Math.round(performance.now() - t0), n: T.length, arches: T.filter(n => n.kind === "arch").map(n => n.lv).join(""), T } : { ms: Math.round(performance.now() - t0), fail: true }; }, splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, get TRACK() { return TRACK; }, get ARCHES() { return ARCHES; }, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
+window.__map = { pick: (k, t) => mapSwitch(k, null, t), get key() { return MAPSEL; }, get title() { return MAP_TITLE; }, pref: () => mapPref(), rnd: (n, x) => MUX.randomTiles(n, x) };
+window.__game = { vote: { prep: r => prepVote(r), cast: i => castVote(i), counts: () => MP.G && MP.G.mv ? voteCounts(MP.G) : null }, die: b => die(b), me: () => ({ x: P.x, z: P.z, yaw, fly: P.fly }), arena: () => ({ AR, AR_ON, sites: SITES.map(x => [x.x, x.y]), pins: [PINS.M.x, PINS.M.y, PINS.D.x, PINS.D.y], doms: DOMS.map(d => [d.x, d.y]), pads: PADS.map(d => [d.x, d.y]), spawn: SPAWN, wsp: WSPOTS.map(w => [w.x, w.y]) }), vm: () => VM.state(), wpn: { get spots() { return WSPOTS; }, get forts() { return FORTS; }, get on() { return FORT_ON; }, give: k => wpGive(k), state: () => MP.wpn, swap: () => wpSwap() }, sup: (x, gy, k) => supportedAt(x, -gy, k), srun: (a, b, c, d, k) => supportedRun(a, b, c, d, k), genTrack: sd => { const t0 = performance.now(), T = genTrack(sd); return T ? { ms: Math.round(performance.now() - t0), n: T.length, arches: T.filter(n => n.kind === "arch").map(n => n.lv).join(""), T } : { ms: Math.round(performance.now() - t0), fail: true }; }, splash: (b, sp, dm, t) => splashHost(b, sp, dm, t, "test", null, -1), bots: () => MP.bots, nrg: NRG, pads: PADS, fx: (a, b, hex, h, mine, dmg) => tracer(a, b, hex, h, mine, dmg), ac: { shot: (p, sh, tg) => acShot(p, sh, tg), blocked: (a, b) => acBlocked(a, b), state: ACH, publish: () => publish(true) }, net: NET, vbuild: k => VBUILD[k](), SLAB, get TRACK() { return TRACK; }, get ARCHES() { return ARCHES; }, SHAFTS, vehFit: () => Object.keys(VK).filter(k => k !== "lift").map(k => k + ":" + SLAB.map((S, i) => { const b = vehBox(k), sc = vehScale(i, k), y = slabBase(i, k); return [(y + b.lo * sc - S[0]).toFixed(2), (S[1] - (y + b.hi * sc)).toFixed(2), sc.toFixed(2)].join("/"); }).join(" ")), veh: { list: () => vehList(), mine: () => MP.veh, pose: () => MP.vpose, toggle: () => vehToggle(), dmg: (i, a) => vehDamage(vehAt(i), a, "test") }, scene, setGroups: m => { for (const k in m) grpVis[k] = m[k]; syncLayVis(); buildMeshes(); }, xr: () => { setXray(true, true); glassMat.opacity = 0; glassMat.depthWrite = false; }, DOMS, PINS, die: p => die(p), ctf: { iCarry: () => iCarry(), carrierOf: t => carrierOf(t), flagPos: t => flagPos(t) }, anchors, get onLad() { return onLadder; }, logEvent: (a, o) => logEvent(a, o), feedFn: (k, v) => feed(k, v), cam: camera, rayBoxDbg: (o, d, m) => rayBox(o, d, m), lad: { ladders, findLadderSpot: () => findLadderSpot(), buildLadder: () => buildLadder(), get xray() { return xrayOn; }, get my() { return myLadders; } }, stepDbg: () => ({ myStepD, gl: P.groundLayer, gr: P.grounded, ig: UI.inGame }), makeAvatar: t => makeAvatar(t), integrity: () => integrity(lastDmgSeen), SOLID_N: () => SOLID_N, MP, fire, dmgVal, dead, paintDamage, hostDamage: (i, a) => hostDamage(i, a), pings, rayBox, repairTick, syncDamage, forcePower(delay) { const t = Date.now() + (delay || 0) * 1000; MP.G.pw = { s: t, e: t + PW_ON * 1000 }; }, touchingPowered: () => touchingPowered(), get G() { return MP.G; }, P, physics, keys, collide, get yaw() { return yaw; }, set yaw(v) { yaw = v; }, get pitch() { return pitch; }, set pitch(v) { pitch = v; }, teleport, toggleFly, chunks, renderer };
 // données de la carte : relues à chaque accès (elles changent avec chargerCarte)
 { const live = { DOMS: () => DOMS, PINS: () => PINS, anchors: () => anchors, dmgVal: () => dmgVal, dead: () => dead, chunks: () => chunks, pads: () => PADS, nrg: () => NRG, SHAFTS: () => SHAFTS };
   for (const k in live) Object.defineProperty(window.__game, k, { get: live[k], configurable: true }); }
