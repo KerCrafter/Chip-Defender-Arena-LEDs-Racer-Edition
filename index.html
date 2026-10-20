@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-6YE6vyf6b1PEhhF0NmewXxgNPpQAhKQB0XfAcqWhAWk=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-AtdiQYSGHbgcpZionJBnlKqZ8WMnfqWdzNvsGrTun8M=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-xVr1RfJz/LWWpvYMXw7fAF+PbPdcEAWRg950IgZYpP8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1U9LmG/8oYz+pDYO8M+9f+wDBTfPvMstNs/drZ27Uyg=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-9gnqwTJ2IF4JP7CzdH6CECpR7hPZJciouES3a2/b1s4=' 'sha256-AtdiQYSGHbgcpZionJBnlKqZ8WMnfqWdzNvsGrTun8M=' 'sha256-CXj3RitbYvAQSaVzgt3h1BeerhNxsCKQVoljubWE5ic=' 'sha256-IUnxVxka4k5xRKT+6AhLFQ6w31dhqmlLderbKIFokkE=' 'sha256-V0ja0jaH1pn7RrJo8zYzhXf6QYwdzu6KmxTr4PcUs98=' 'sha256-X9oOqgkRVhtDjCDFHyGZgwJz9X/P7Gts4Nd03w5GNA8=' 'sha256-ZlpPucXpGRE2/iwfR74UbGhmPtkE/WIz4E1YxJJehI0=' 'sha256-dnWOiRQV7lzTXP+qLmStJASuXkO1fddKTC+wOxpT6y4=' 'sha256-dpzx5aTKa3sEvGO/pEM8bX+RiMXZV1w0eD5y3vSnwFw=' 'sha256-q8zgs4/TJy/ZXrSlKA4e7UaX2WJ/5Lw+1oR/w2UHkwI=' 'sha256-uKuS5BZlj+Gu77zQ4R6BYdGQq9cp7M1oCK75muCsgdg=' 'sha256-ykxFnqG9ESNxR7TySjxjPtFEHd8QKCRrP9iSwWPisXk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://auth.kercrafter.live wss://auth.kercrafter.live https://cda-serveur.kercrafterlab.workers.dev wss://cda-serveur.kercrafterlab.workers.dev https://maps-cda.kercrafter.live; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <script>window.CDA_MAPS="https://maps-cda.kercrafter.live/";window.CDA_MAPDIR="maps4/";</script>
 <script>if (window.top !== window.self) { document.documentElement.style.display = "none"; try { window.top.location = window.self.location.href; } catch (e) {} }</script>
@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
 <script>window.CDA_LIB_NT = "./lib/nostr-tools-2.17.0.min.js";</script>
-<script>window.CDA_BUILD="72bd68367630";</script>
+<script>window.CDA_BUILD="6b8315434bc8";</script>
 <script id="net-config">
 /*NET_CFG:BEGIN*/
 window.NET_CFG = {
@@ -2891,7 +2891,7 @@ mat.onBeforeCompile = matLite.onBeforeCompile = sh => {
 };
 
 function __w11() {
-CH = 16;
+CH = window.__CH || (isTouch ? 6 : 8);   // blocs d'affichage plus fins : on dessine moins de formes hors champ (−35 à −50 % de triangles)
 ncx = Math.ceil(W / CH);
 ncy = Math.ceil(HH / CH);
 chunkOf = new Uint16Array(N);
@@ -9252,7 +9252,7 @@ let last = performance.now(), hudT = 0, perfAcc = 0, perfN = 0, farScale = 1, lo
 let bgLast = 0;
 /* diagnostic de performance (Options) : images/s, temps par image (moyen et pire), dessin (appels, triangles, formes
    visibles), formes en mémoire, mémoire JS, rechargements de zone ; pour comparer deux tuiles sur un téléphone */
-const PERF = { n: 0, acc: 0, max: 0, t: 0, reg: 0, el: null };
+const PERF = { n: 0, acc: 0, max: 0, t: 0, reg: 0, el: null, js: 0, rd: 0 };
 function perfTick(dt, now) {
   if (!UI.OPTS.perf) { if (PERF.el) PERF.el.hidden = true; return; }
   if (!PERF.el) { PERF.el = document.createElement("div"); PERF.el.id = "perfHud"; document.body.appendChild(PERF.el); }
@@ -9261,8 +9261,8 @@ function perfTick(dt, now) {
   let vis = 0, vc = 0; for (const c of chunks) if (c.mesh.visible) { vis += c.mesh.count; vc++; }
   const ri = { calls: PERF.calls || 0, triangles: PERF.tris || 0 }, hp = performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1e6) + " Mo" : "?";
   PERF.el.hidden = false;
-  PERF.el.textContent = `${Math.round(PERF.n / PERF.acc)} img/s · ${(PERF.acc / PERF.n * 1000).toFixed(0)} ms (pire ${(PERF.max * 1000).toFixed(0)}) · ${ri.calls} appels · ${(ri.triangles / 1e3).toFixed(0)} k tri · ${(vis / 1e3).toFixed(0)} k formes vues (${vc} blocs) · ${(N / 1e6).toFixed(2)} M en mémoire sur ${(NTOT / 1e6).toFixed(2)} M · JS ${hp} · zones ${PERF.reg} · qualité ${lowQ} / ${renderer.getPixelRatio()}${LITE ? " · éclairage simple" : ""}`;
-  PERF.n = 0; PERF.acc = 0; PERF.max = 0; PERF.t = now;
+  PERF.el.textContent = `${Math.round(PERF.n / PERF.acc)} img/s · ${(PERF.acc / PERF.n * 1000).toFixed(0)} ms (pire ${(PERF.max * 1000).toFixed(0)}) · jeu ${(PERF.js / PERF.n).toFixed(1)} ms · envoi 3D ${(PERF.rd / PERF.n).toFixed(1)} ms · ${ri.calls} appels · ${(ri.triangles / 1e3).toFixed(0)} k tri · ${(vis / 1e3).toFixed(0)} k formes vues (${vc} blocs) · ${(N / 1e6).toFixed(2)} M en mémoire sur ${(NTOT / 1e6).toFixed(2)} M · JS ${hp} · zones ${PERF.reg} · qualité ${lowQ} / ${renderer.getPixelRatio()}${LITE ? " · éclairage simple" : ""}`;
+  PERF.n = 0; PERF.acc = 0; PERF.max = 0; PERF.t = now; PERF.js = 0; PERF.rd = 0;
 }
 function bgFrame(menuBg, now) {
   const cover = ["landing", "muxScr", "chipScr"].some(id => { const e = $(id); return e && !e.hidden; }) || (!$("start").hidden && $("menu").classList.contains("has-panel") && innerWidth <= 860);
@@ -9620,7 +9620,7 @@ function physics(dt) {
 
 function frame(now) {
   requestAnimationFrame(frame);   // planifiée d'abord : une erreur dans une image ne fige plus le jeu
-  const rawDt = (now - last) / 1000, dt = Math.min(0.05, rawDt); last = now;
+  const rawDt = (now - last) / 1000, dt = Math.min(0.05, rawDt); last = now; const tF0 = performance.now();
   // qualité adaptative : si l'appareil peine, on réduit la résolution puis la distance de vue
   if ($("start").hidden) { perfAcc += rawDt; perfN++;
     if (perfN === 90) { const ft = perfAcc / perfN; perfAcc = 0; perfN = 0;
@@ -9657,7 +9657,8 @@ function frame(now) {
   markMat.emissiveIntensity = 0.7 + 0.3 * Math.sin(now / 300);
   { const zt = MP.zoom && MP.wpnOn && MP.wpn && WPN[MP.wpn.k] ? 72 / (WPN[MP.wpn.k].zoom || 1) : 72; if (Math.abs(camera.fov - zt) > 0.05) { camera.fov += (zt - camera.fov) * Math.min(1, dt * 14); camera.updateProjectionMatrix(); } $("scope").hidden = zt === 72; }
   perfTick(rawDt, now);
-  if (!window.__noRender && bgFrame(menuBg, now)) { renderer.render(scene, camera); PERF.calls = renderer.info.render.calls; PERF.tris = renderer.info.render.triangles; if (!(MP.zoom && MP.wpnOn)) VM.render(dt, now); }
+  const tR0 = performance.now(); PERF.js += tR0 - tF0;
+  if (!window.__noRender && bgFrame(menuBg, now)) { renderer.render(scene, camera); PERF.rd += performance.now() - tR0; PERF.calls = renderer.info.render.calls; PERF.tris = renderer.info.render.triangles; if (!(MP.zoom && MP.wpnOn)) VM.render(dt, now); }
   SHOW.tick(now);
 
   hudT -= dt;
