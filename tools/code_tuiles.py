@@ -111,7 +111,7 @@ def index_sources(files):
             for im in re.finditer(r"(?:^|[;\n])\s*(\w+)\s*(?:#\s*\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)\s*)?(\w+)\s*(?:\[[^\]]*\]\s*)?\(", body):
                 typ, inst = im.group(1), im.group(2)
                 if typ in KW or inst in KW: continue
-                insts[inst] = (typ, line_at(m.end() + im.start(2)))
+                insts[inst] = (typ, line_at(m.end() + im.start(2)), m.end() + im.end())
             mods[m.group(1)] = {"f": f, "l": line_at(m.start()), "body": (m.end(), end), "insts": insts, "s": s}
     return mods
 
@@ -126,7 +126,7 @@ def resolve_path(mods, top, path):
         hit = M["insts"].get(part) or M["insts"].get(name)
         if not hit:   # bloc generate nommé : on cherche l'instance plus loin dans le chemin
             out.append(("", M["f"], M["l"])); continue
-        typ, ln = hit
+        typ, ln = hit[0], hit[1]
         out.append((typ, M["f"], ln)); cur = typ
     return out
 
@@ -142,6 +142,117 @@ def decl_line(mods, mtype, sig):
     if not m: m = re.search(r"\b" + re.escape(name) + r"\b", body)
     if not m: return None
     return [M["f"], s.count("\n", 0, a + m.start()) + 1]
+
+# ---------- où le code écrit une variable ----------
+def _base(name): return re.sub(r"(\[[^\]]*\])+$", "", name.lstrip("\\").strip())
+
+def writes_in(M, name):
+    """lignes où la variable est affectée dans le corps du module (<=, =, assign), et l'en-tête du bloc always"""
+    s, (a, b) = M["s"], M["body"]
+    body, n = s[a:b], re.escape(_base(name))
+    pat = re.compile(r"(?:^|\bbegin\b|\belse\b|[:;)])[ \t]*(?:assign\s+)?" + n + r"\s*(?:\[[^\]]*\]\s*)*(?:<=|=(?!=))", re.M)
+    lines, first = [], None
+    for m in pat.finditer(body):
+        ls = body.rfind("\n", 0, m.start()) + 1; le = body.find("\n", m.end()); le = len(body) if le < 0 else le
+        if re.match(r"\s*(reg|wire|logic|parameter|localparam|integer|input|output)\b", body[ls:le]): continue
+        ln = s.count("\n", 0, a + m.start()) + 1 + (1 if body[m.start()] == "\n" else 0)
+        if ln not in lines: lines.append(ln)
+        if first is None: first = m.start()
+    blk = None
+    if first is not None:
+        am = None
+        for am in re.finditer(r"\b(always(?:_ff|_comb|_latch)?\b|assign\b)", body[:first + 1]): pass
+        if am: blk = s.count("\n", 0, a + am.start()) + 1
+    return lines, blk
+
+def port_conn(M, inst_pos, port):
+    """dans une instanciation (position juste après « nom ( »), l'expression branchée sur .port(…)"""
+    s, depth, i = M["s"], 1, inst_pos
+    while i < len(s) and depth:
+        if s[i] == "(": depth += 1
+        elif s[i] == ")": depth -= 1
+        i += 1
+    m = re.search(r"\.\s*" + re.escape(port) + r"\s*\(\s*([^()]*?)\s*\)", s[inst_pos:i])
+    return m.group(1) if m else None
+
+def find_writes(mods_src, top_mod, path, name, depth=0):
+    """(chemin du module, fichier, [lignes], ligne du bloc) où la variable est vraiment écrite : dans son module, ou, si c'est
+       un port, en remontant vers le module parent (entrée) ou en descendant vers l'instance qui la produit (sortie)"""
+    if depth > 5: return None
+    chain = resolve_path(mods_src, top_mod, path) if path else []
+    if chain is None: return None
+    mtype = (chain[-1][0] if chain else top_mod) or None
+    M = mods_src.get(mtype) if mtype else None
+    if not M: return None
+    w, blk = writes_in(M, name)
+    if w: return (path, M["f"], w, blk)
+    base = _base(name)
+    # sortie d'une instance de ce module : on descend
+    for inst, (typ, ln, pos) in M["insts"].items():
+        if typ not in mods_src: continue
+        for pm in re.finditer(r"\.\s*(\w+)\s*\(\s*" + re.escape(base) + r"\b[^()]*\)", M["s"][pos:pos + 4000].split(");")[0]):
+            r = find_writes(mods_src, top_mod, (path + "." if path else "") + inst, pm.group(1), depth + 1)
+            if r: return r
+    # entrée du module : on remonte chez le parent
+    if path:
+        parent, inst = path.rsplit(".", 1) if "." in path else ("", path)
+        pch = resolve_path(mods_src, top_mod, parent) if parent else []
+        ptype = (pch[-1][0] if pch else top_mod) if pch is not None else None
+        PM = mods_src.get(ptype) if ptype else None
+        hit = PM and (PM["insts"].get(inst) or PM["insts"].get(re.sub(r"\[\d+\]$", "", inst)))
+        if hit:
+            e = port_conn(PM, hit[2], base)
+            idm = e and re.match(r"\s*([A-Za-z_]\w*)", e)
+            if idm: return find_writes(mods_src, top_mod, parent, idm.group(1), depth + 1)
+    return None
+
+def comb_context(cells, sig):
+    """pour chaque cellule : la variable qu'elle aide à calculer (la bascule ou le fil nommé le plus proche en aval) et les
+       variables qu'elle lit (fils nommés les plus proches en amont)"""
+    drv, readers = {}, collections.defaultdict(list)
+    for c, (t, pins) in cells.items():
+        for p, n in pins.items():
+            if not n or n.startswith("1'b"): continue
+            if p in OUTPINS: drv[n] = c
+            else: readers[n].append(c)
+    isff = lambda c: bool(re.search(r"__(df|dl|sdf|edf)", cells[c][0]))
+    tgt, reads = {}, {}
+    for c, (t, pins) in cells.items():
+        if SKIP.search(t): continue
+        if c not in sig or isff(c):
+            # aval : première bascule (entrée D) ou premier fil nommé
+            seen, fr, found = {c}, [n for p, n in pins.items() if p in OUTPINS], None
+            for _ in range(10):
+                nx = []
+                for n in fr:
+                    for r in readers.get(n, []):
+                        if r in seen: continue
+                        seen.add(r)
+                        if r in sig: found = r; break
+                        if not isff(r): nx += [m for p, m in cells[r][1].items() if p in OUTPINS]
+                    if found: break
+                if found or not nx or len(seen) > 300: break
+                fr = nx
+            if found and not isff(c): tgt[c] = sig[found]
+        # amont : variables lues
+        names, seen, fr = [], {c}, [n for p, n in pins.items() if p not in OUTPINS and p not in ("CLK",)]
+        for _ in range(6):
+            nx = []
+            for n in fr:
+                if n.startswith("\\"):
+                    nm = net_module(n)
+                    if nm and nm[1] not in names: names.append(nm[1])
+                    continue
+                d = drv.get(n)
+                if not d or d in seen: continue
+                seen.add(d)
+                if d in sig:
+                    if sig[d][1] not in names: names.append(sig[d][1])
+                elif not isff(d): nx += [m for p, m in cells[d][1].items() if p not in OUTPINS]
+            if not nx or len(names) >= 8 or len(seen) > 300: break
+            fr = nx
+        if names: reads[c] = names[:8]
+    return tgt, reads
 
 # ---------- un projet ----------
 def analyze(layout_path, gl_text, info, commit, get_src, macro):
@@ -186,22 +297,39 @@ def analyze(layout_path, gl_text, info, commit, get_src, macro):
         elif not p and top_mod in mods_src: m["t"] = top_mod; m["d"] = [mods_src[top_mod]["f"], mods_src[top_mod]["l"]]
         mods.append(m); mid[p] = len(mods) - 1
     # variables mémorisées (bascules) : déclaration dans le module
+    tgt, reads = comb_context(cells, sig)
     sigs, sid = [], {}
-    for c, (path, s) in sig.items():
-        key = (path, s)
-        if key in sid: continue
+    def sig_id(key):
+        if key in sid: return sid[key]
+        path, s = key
         m = mods[mid[path]] if path in mid else None
-        d = decl_line(mods_src, m["t"] if m and m["t"] else (top_mod if not path else ""), s) if mods_src else None
-        sigs.append({"n": s, "m": mid.get(path, -1), **({"d": d} if d else {})}); sid[key] = len(sigs) - 1
-    X, Y, Mi, Si, cnt = [], [], [], [], collections.Counter()
+        e = {"n": s, "m": mid.get(path, -1)}
+        if mods_src:
+            d = decl_line(mods_src, m["t"] if m and m["t"] else (top_mod if not path else ""), s)
+            if d: e["d"] = d
+            fw = find_writes(mods_src, top_mod, path, s)
+            if fw:
+                wp, f, w, blk = fw
+                e["w"] = [[f, l] for l in w[:8]]
+                if blk: e["b"] = [f, blk]
+                if wp != path: e["wp"] = wp or top_mod
+        sigs.append(e); sid[key] = len(sigs) - 1
+        return sid[key]
+    rd, rdi = [], {}
+    X, Y, Mi, Si, Ti, Ri, cnt = [], [], [], [], [], [], collections.Counter()
     for c, p in own.items():
         if c not in pos: continue
-        x, y = pos[c]; X.append(x); Y.append(y); Mi.append(mid[p]); Si.append(sid.get(sig[c], -1) if c in sig else -1); cnt[mid[p]] += 1
+        x, y = pos[c]; X.append(x); Y.append(y); Mi.append(mid[p]); cnt[mid[p]] += 1
+        Si.append(sig_id(sig[c]) if c in sig else -1)
+        Ti.append(sig_id(tgt[c]) if c in tgt else -1)
+        r = tuple(reads.get(c, ()))
+        if r and r not in rdi: rdi[r] = len(rd); rd.append(list(r))
+        Ri.append(rdi[r] if r else -1)
     for k, m in enumerate(mods): m["c"] = cnt[k]
     # on ne garde que les fichiers cités (affichage des extraits)
-    used = {m[k][0] for m in mods for k in ("i", "d") if k in m} | {s["d"][0] for s in sigs if "d" in s}
-    return {"v": 1, "macro": macro, "lang": P.get("language", ""), "repo": commit.get("repo", ""), "commit": commit.get("commit", ""), "top": top_mod,
-            "files": {f: t for f, t in files.items() if f in used}, "urls": {f: u for f, u in urls.items() if f in used}, "mods": mods, "sigs": sigs, "cells": {"x": X, "y": Y, "m": Mi, "s": Si}}
+    used = {m[k][0] for m in mods for k in ("i", "d") if k in m} | {s["d"][0] for s in sigs if "d" in s} | {w[0] for s in sigs for w in s.get("w", [])}
+    return {"v": 2, "macro": macro, "lang": P.get("language", ""), "repo": commit.get("repo", ""), "commit": commit.get("commit", ""), "top": top_mod,
+            "files": {f: t for f, t in files.items() if f in used}, "urls": {f: u for f, u in urls.items() if f in used}, "mods": mods, "sigs": sigs, "rd": rd, "cells": {"x": X, "y": Y, "m": Mi, "s": Si, "t": Ti, "r": Ri}}
 
 # ---------- navettes ----------
 def fetch_json(url):
