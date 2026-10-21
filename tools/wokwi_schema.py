@@ -14,7 +14,7 @@ hors de la puce : seules les broches des blocs Tiny Tapeout (entrées, sorties, 
 Utilisé par code_tuiles.py (fiche <tuile>.code.json des projets Wokwi) ; seul :
   python wokwi_schema.py diagram.json sortie.svg [sortie.json]
 """
-import json, math, re, sys, heapq
+import time, json, math, re, sys, heapq
 from collections import defaultdict, Counter
 
 # ---------- composants Wokwi ----------
@@ -216,12 +216,16 @@ def reading(a, counts, removed, lang="fr"):
     return ph
 
 # ---------- routeur orthogonal ----------
+ROUTE_BUDGET = 40; ROUTE_MAX = 400000  # secondes par schéma, cases explorées par fil
 STEP = 4.8; BEND = 4; CROSS = 6; OVERLAP = 40; NEAR = 1; SOFT = 8
 DIRS = ((1, 0), (-1, 0), (0, 1), (0, -1))
 class Router:
     def __init__(self, x0, y0, x1, y1):
         self.x0, self.y0 = x0, y0; self.w = int((x1 - x0) / STEP) + 2; self.h = int((y1 - y0) / STEP) + 2
         self.block, self.near, self.soft, self.occ, self.pins, self.corridor = set(), set(), set(), {}, {}, set()
+        # budget de temps : un grand schéma (des centaines de fils) ne doit pas bloquer la génération des fiches ;
+        # passé ce délai, les fils restants sont tracés en équerre simple, sans recherche de chemin
+        self.t_end = time.time() + ROUTE_BUDGET
     def cell(self, x, y): return (int(round((x - self.x0) / STEP)), int(round((y - self.y0) / STEP)))
     def xy(self, c): return (self.x0 + c[0] * STEP, self.y0 + c[1] * STEP)
     def add_box(self, x, y, w, h, margin=STEP, soft=False):
@@ -243,6 +247,7 @@ class Router:
             k, dx, dy = best; n = c
             for _ in range(k): n = (n[0] + dx, n[1] + dy); self.block.discard(n); self.corridor.add(n)
     def route(self, p0, p1, net):
+        if time.time() > self.t_end: return None
         s, g = self.cell(*p0), self.cell(*p1); self.block.discard(s); self.block.discard(g)
         best, came, pq, found = {}, {}, [(0, 0, s, None, None)], None
         while pq:
@@ -251,7 +256,7 @@ class Router:
             if key in best: continue
             best[key] = cost; came[key] = prev
             if c == g: found = key; break
-            if len(best) > 400000: return None
+            if len(best) > ROUTE_MAX or (len(best) & 4095 == 0 and time.time() > self.t_end): return None
             for nd in DIRS:
                 n = (c[0] + nd[0], c[1] + nd[1])
                 if not (0 <= n[0] < self.w and 0 <= n[1] < self.h): continue
@@ -391,7 +396,7 @@ def render_svg(d, a):
         col = WIRE_COLORS.get(c[2], c[2] if str(c[2]).startswith("#") else "#3fbf5f")
         before = {cell for cell, o in rt.occ.items() if any(n == root for n, _ in o)}
         pts = rt.route(p0, p1, root)
-        if pts is None: dd = f"M{p0[0]:.1f},{p0[1]:.1f} L{p1[0]:.1f},{p1[1]:.1f}"
+        if pts is None: dd = f"M{p0[0]:.1f},{p0[1]:.1f} L{(p0[0] + p1[0]) / 2:.1f},{p0[1]:.1f} L{(p0[0] + p1[0]) / 2:.1f},{p1[1]:.1f} L{p1[0]:.1f},{p1[1]:.1f}"   # pas de chemin trouvé à temps : équerre simple
         else:
             dd = f"M{p0[0]:.1f},{p0[1]:.1f} " + " ".join(f"L{x:.1f},{y:.1f}" for x, y in pts) + f" L{p1[0]:.1f},{p1[1]:.1f}"
             inner = [cl for cl in [rt.cell(x, y) for x, y in pts][1:-1] if cl in before]
