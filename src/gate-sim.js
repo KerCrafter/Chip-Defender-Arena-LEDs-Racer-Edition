@@ -176,6 +176,10 @@ function createSim(S) {
       }
     },
     clear() { for (const q of ffQ) if (q >= 0) nets[q] = 0; cycle = 0; evalComb(); },
+    // état complet des bascules (pour synchroniser plusieurs joueurs) : une valeur 0/1 par bascule, dans l'ordre de ffs
+    getFF() { const o = new Uint8Array(ffs.length); for (let j = 0; j < ffs.length; j++) o[j] = ffQ[j] >= 0 ? nets[ffQ[j]] : 0; return o; },
+    setFF(v) { for (let j = 0; j < ffs.length && j < v.length; j++) { if (ffQ[j] >= 0) nets[ffQ[j]] = v[j] ? 1 : 0; if (ffQN[j] >= 0) nets[ffQN[j]] = v[j] ? 0 : 1; } evalComb(); },
+    setCycle(c) { cycle = c; },
     outPin: i => { const c = S.cells[i], t = T[c[0]]; return t.outIdx.length ? c[1 + t.outIdx[0]] : -1; },
     cellNets: i => S.cells[i].slice(1),
     isFF: i => T[S.cells[i][0]].ff,
