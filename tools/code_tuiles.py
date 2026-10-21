@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fiches « code » des tuiles : relie chaque cellule logique de la puce à son module et à son code source.
 
-  python code_tuiles.py [--shuttles all|ttsky25b,tt06] [--out cartes/maps4] [--work travail] [--only tt_um_kercrafter_leds_racer] [--force] [--jobs 4] [--wokwi]
+  python code_tuiles.py [--shuttles all|ttsky25b,tt06] [--out cartes/maps4] [--work travail] [--only tt_um_kercrafter_leds_racer] [--force] [--jobs 4]
 
 Pour chaque projet d'une navette Tiny Tapeout, à partir du dépôt de la navette (déjà cloné par cda_maps.py, sinon cloné ici) :
   <macro>.oas      le dessin : nom et position de chaque cellule (propriété 61)
@@ -17,14 +17,10 @@ et des sources du projet, prises au commit fabriqué (clone partiel, seuls les f
               d: [fichier, ligne] de la définition, c: nombre de cellules }
   sigs[j] = { n: nom de la variable (avec [bit]), m: module, d: [fichier, ligne] de la déclaration }
   cells   = positions (unités de grille de la carte, coin bas-gauche) des cellules logiques et leur module (m) / signal (s, -1 sinon)
-Projets Wokwi (tt_um_wokwi_<id>) : pas de code source, la fiche porte « wokwi » (wokwi_schema.py) : le schéma du concepteur redessiné
-en SVG, ses éléments (portes, mux, bascules) reliés aux cellules, la lecture du circuit ; le dessin vient du dépôt de la navette
-(wokwi-diagram.json) ou, à défaut, de wokwi.com (gardé dans <work>/_wokwi/). Le banc de test, la sonde et l'oscilloscope marchent pareil.
-Bibliothèques SKY130, IHP (sg13g2) et GF180MCU ; une ou deux tuiles. Analogique : voir les notes en fin de fichier.
+Bibliothèques SKY130, IHP (sg13g2) et GF180MCU. Seuls les projets en Verilog (une ou deux tuiles) sont traités pour l'instant ; Wokwi et analogique : voir les notes en fin de fichier.
 Dépendances : Python 3.9+, git, et  pip install gdstk pyyaml
 """
 import argparse, collections, json, os, re, subprocess, sys, urllib.request
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # wokwi_schema.py à côté
 
 GRID = 0.005   # µm par unité de grille, comme cda_maps.py
 POWER = {"VGND", "VNB", "VPB", "VPWR", "VDD", "VSS"}
@@ -262,8 +258,7 @@ def comb_context(cells, sig):
         if names: reads[c] = names[:8]
     return tgt, reads
 
-def simulation_netlist(gl_text, cells, code_idx, ids=None):
-    """ids : dictionnaire (facultatif) rempli avec nom de fil (liste des connexions) -> numéro de fil de la simulation"""
+def simulation_netlist(gl_text, cells, code_idx):
     alias = {}
     for a, b in re.findall(r"\n\s*assign\s+(\S+(?:\s*\[\d+\])?)\s*=\s*(\S+?)\s*;", gl_text):
         alias[b.strip()] = a.replace(" ", "").strip()
@@ -285,12 +280,10 @@ def simulation_netlist(gl_text, cells, code_idx, ids=None):
         out.append([tix[key]] + [nid(pins[p]) if pins[p] and not pins[p].startswith("1'b") else (-2 if pins[p] == "1'b1" else -1) for p in T["p"]])
         ci.append(code_idx.get(c, -1))
     for port in ("clk", "rst_n", "ena") + tuple(f"{b}[{i}]" for b in ("ui_in", "uio_in", "uo_out", "uio_out", "uio_oe") for i in range(8)): nid(port)
-    if ids is not None: ids.update({k.lstrip("\\").strip(): v for k, v in net_id.items()})
     return {"types": types, "cells": out, "code": ci, "nets": len(net_id), "names": {str(k): v for k, v in names.items()}}
 
 # ---------- un projet ----------
-def layout_positions(layout_path, macro):
-    """nom de cellule -> (x, y) en unités de grille de la carte (coin bas-gauche), d'après le dessin"""
+def analyze(layout_path, gl_text, info, commit, get_src, macro):
     import gdstk
     lib = gdstk.read_oas(layout_path) if layout_path.endswith(".oas") else gdstk.read_gds(layout_path)
     tops = [c for c in lib.top_level() if c.name == macro] or lib.top_level()
@@ -305,127 +298,6 @@ def layout_positions(layout_path, macro):
         if not nm: continue
         (ax, ay), _ = r.bounding_box()
         pos[nm.strip()] = (max(0, round(ax / GRID) - ox), max(0, round(ay / GRID) - oy))
-    return pos
-
-def cell_pos(pos, c):
-    """position d'une cellule de la liste des connexions dans le dessin : les noms hiérarchiques y sont aplatis
-       (« \\and1/_0_ » devient « and1__0_ » ; « \\u.sub/_12_ » -> « u.sub__12_ » ou « u_sub__12_ »)"""
-    if c in pos: return pos[c]
-    n = c.lstrip("\\").strip()
-    for k in (n, n.replace("/", "_"), n.replace("/", "_").replace(".", "_"), n.replace("/", "."), n.replace(".", "_")):
-        if k in pos: return pos[k]
-    return None
-
-# ---------- projets Wokwi : chaque cellule reliée à l'élément du schéma ----------
-def wokwi_owner(cells, feeds=None):
-    """cellule -> id de l'élément Wokwi (and1, flop3…). Deux styles de liste des connexions : les récentes gardent la
-       hiérarchie dans le nom de la cellule (« \\and1/_0_ »), les anciennes (tt04-tt06) nomment les fils « \\flop3.q » ;
-       le reste (tampons, logique fusionnée) est rattaché par propagation : en amont vers ce qu'il alimente, puis en aval"""
-    own, feeds = {}, feeds or {}
-    for c, (t, pins) in cells.items():
-        if SKIP.search(t): continue
-        m = re.match(r"\\?([A-Za-z][\w-]*)/", c)
-        if m: own[c] = m.group(1); continue
-        for p, n in pins.items():
-            if p in OUTPINS:
-                m = re.match(r"\\([A-Za-z][\w-]*)\.(\w+)\s*$", n)
-                if not m: continue
-                part, pin = m.group(1), m.group(2).lower()
-                # « flop7.d » : fil d'entrée d'un élément ; la cellule qui le pilote est l'élément qui alimente cette broche dans le schéma
-                if (part, pin) in feeds: own[c] = feeds[(part, pin)]
-                else: own[c] = part
-                break
-    drv, readers = {}, collections.defaultdict(list)
-    for c, (t, pins) in cells.items():
-        for p, n in pins.items():
-            if not n or n.startswith("1'b"): continue
-            if p in OUTPINS: drv[n] = c
-            else: readers[n].append(c)
-    q = collections.deque(own)
-    while q:
-        c = q.popleft()
-        for p, n in cells[c][1].items():
-            if p in OUTPINS or p in ("CLK", "CLK_N", "GATE", "GATE_N"): continue
-            d = drv.get(n)
-            if d and d not in own and not SKIP.search(cells[d][0]) and not re.search(r"__(df|dl|sdf|edf)", cells[d][0]): own[d] = own[c]; q.append(d)
-    q = collections.deque(own)
-    while q:
-        c = q.popleft()
-        for p, n in cells[c][1].items():
-            if p not in OUTPINS: continue
-            for r in readers.get(n, []):
-                if r not in own and not SKIP.search(cells[r][0]): own[r] = own[c]; q.append(r)
-    for c, (t, pins) in cells.items():
-        if c in own or SKIP.search(t): continue
-        if re.match(r"(clkbuf|clkinv|clkdlybuf)", t.split("__")[-1]) or any(n.startswith("clknet") for p, n in pins.items() if p in OUTPINS): own[c] = "#horloge"
-        elif re.match(r"(input|output)\d+$", c): own[c] = "#es"
-        else: own[c] = "#autre"
-    return own
-
-def analyze_wokwi(layout_path, gl_text, info, commit, diagram, macro, wokwi_id):
-    import wokwi_schema as WS
-    pos = layout_positions(layout_path, macro)
-    cells = parse_gl(gl_text)
-    W, a = WS.build(diagram)
-    outs = {}
-    for e in W["elems"]:
-        for pn, nm in e["o"].items(): outs[nm] = e["id"]
-    feeds = {(e["id"], pn.lower()): outs[nm] for e in W["elems"] for pn, nm in e["i"].items() if nm in outs}
-    own = wokwi_owner(cells, feeds)
-    P = info.get("project", info)
-    kinds = {e["id"]: e["k"] for e in W["elems"]}
-    # un « module » par élément du schéma, dans l'ordre du schéma ; les cellules d'un élément retiré (ou inconnu du schéma) vont avec « autre »
-    mods, mid = [], {}
-    for e in W["elems"]:
-        mid[e["id"]] = len(mods); mods.append({"p": e["id"], "n": e["id"], "t": e["k"], "c": 0})
-    for p, nm in (("#horloge", "Arbre d'horloge"), ("#es", "Entrées / sorties"), ("#autre", "Logique de liaison")):
-        mid[p] = len(mods); mods.append({"p": p, "t": "", "n": nm, "c": 0})
-    X, Y, Mi = [], [], []
-    order = []
-    for c, p in own.items():
-        xy = cell_pos(pos, c)
-        if xy is None: continue
-        k = mid.get(p, mid["#autre"])
-        x, y = xy; X.append(x); Y.append(y); Mi.append(k); mods[k]["c"] += 1; order.append(c)
-    ids = {}
-    sim = simulation_netlist(gl_text, cells, {c: k for k, c in enumerate(order)}, ids)
-    # fils du schéma -> fils de la simulation : sortie de la cellule qui porte le nom de l'élément, sinon fil nommé « élément.broche »
-    nets = {}
-    for e in W["elems"]:
-        for pn, nm in e["o"].items():
-            if nm in nets: continue
-            cand = []
-            for c, (t, pins) in cells.items():
-                if own.get(c) != e["id"]: continue
-                for p, n in pins.items():
-                    if p not in OUTPINS or not n: continue
-                    n2 = n.lstrip("\\").strip()
-                    if n2 == f"{e['id']}.{pn.lower()}": cand.insert(0, n2)
-                    elif c.lstrip("\\").startswith(e["id"] + "/") and n2 in ids: cand.append(n2)
-            if cand and cand[0] in ids: nets[nm] = ids[cand[0]]
-    for nm in list(W["in"]) + list(W["out"]):
-        if nm in ids: nets[nm] = ids[nm]
-    W.update({"id": str(wokwi_id), "url": f"https://wokwi.com/projects/{wokwi_id}", "nets": nets})
-    return {"v": 2, "macro": macro, "lang": "wokwi", "repo": commit.get("repo", ""), "commit": commit.get("commit", ""), "top": macro,
-            "files": {}, "urls": {}, "mods": mods, "sigs": [], "rd": [], "sim": sim, "wokwi": W,
-            "pinout": {k: v for k, v in (info.get("pinout") or {}).items() if v},
-            "cells": {"x": X, "y": Y, "m": Mi, "s": [-1] * len(X), "t": [-1] * len(X), "r": [-1] * len(X)}}
-
-def wokwi_diagram(work, base, wokwi_id, cache_dir):
-    """le dessin Wokwi : dans le dépôt de la navette (projects/<macro>/wokwi-diagram.json) depuis tt04, sinon téléchargé une
-       fois depuis wokwi.com et gardé dans <work>/_wokwi/<id>.json"""
-    for f in ("wokwi-diagram.json", "wokwi_diagram.json", "src/wokwi_diagram.json"):
-        try: return json.loads(git("cat-file", "-p", f"HEAD:{base}/{f}", cwd=work)), "navette"
-        except Exception: pass
-    os.makedirs(cache_dir, exist_ok=True)
-    cache = os.path.join(cache_dir, f"{wokwi_id}.json")
-    if os.path.exists(cache): return json.load(open(cache, encoding="utf-8")), "cache"
-    d = fetch_json(f"https://wokwi.com/api/projects/{wokwi_id}/diagram.json")
-    json.dump(d, open(cache, "w", encoding="utf-8"))
-    return d, "wokwi.com"
-
-def analyze(layout_path, gl_text, info, commit, get_src, macro):
-    pos = layout_positions(layout_path, macro)
     cells = parse_gl(gl_text)
     own, sig = ownership(cells)
     P = info.get("project", info)
@@ -476,9 +348,8 @@ def analyze(layout_path, gl_text, info, commit, get_src, macro):
     rd, rdi = [], {}
     X, Y, Mi, Si, Ti, Ri, cnt = [], [], [], [], [], [], collections.Counter()
     for c, p in own.items():
-        xy = cell_pos(pos, c)
-        if xy is None: continue
-        x, y = xy; X.append(x); Y.append(y); Mi.append(mid[p]); cnt[mid[p]] += 1
+        if c not in pos: continue
+        x, y = pos[c]; X.append(x); Y.append(y); Mi.append(mid[p]); cnt[mid[p]] += 1
         Si.append(sig_id(sig[c]) if c in sig else -1)
         Ti.append(sig_id(tgt[c]) if c in tgt else -1)
         r = tuple(reads.get(c, ()))
@@ -487,7 +358,7 @@ def analyze(layout_path, gl_text, info, commit, get_src, macro):
     for k, m in enumerate(mods): m["c"] = cnt[k]
     # liste des connexions pour la simulation en jeu (banc de test, oscilloscope) : toutes les cellules actives, y compris
     # les constantes (conb) ; fils numérotés, noms gardés pour les fils nommés et les broches
-    sim = simulation_netlist(gl_text, cells, {c: k for k, c in enumerate(c for c in own if cell_pos(pos, c) is not None)})
+    sim = simulation_netlist(gl_text, cells, {c: k for k, c in enumerate(c for c in own if c in pos)})
 
     used = {m[k][0] for m in mods for k in ("i", "d") if k in m} | {s["d"][0] for s in sigs if "d" in s} | {w[0] for s in sigs for w in s.get("w", [])}
     return {"v": 2, "macro": macro, "lang": P.get("language", ""), "repo": commit.get("repo", ""), "commit": commit.get("commit", ""), "top": top_mod,
@@ -539,27 +410,10 @@ def one_project(job):
         import yaml
         info = yaml.safe_load(git("cat-file", "-p", f"HEAD:{base}/info.yaml", cwd=work)) or {}
         P = info.get("project", {})
-        wid = P.get("wokwi_id") or (re.match(r"tt_um_wokwi_(\d{6,})$", macro) or [None, None])[1]
-        if (str(P.get("language", "")).lower() == "analog" or P.get("analog_pins")) and not wid: return key, macro, "analogique : outils à venir", "skip"
-        if str(wid or "0") in ("0", "None") and str(P.get("language", "")).lower() == "wokwi": return key, macro, "Wokwi sans numéro de projet", "skip"
-        try: commit = json.loads(git("cat-file", "-p", f"HEAD:{base}/commit_id.json", cwd=work))
-        except Exception: commit = {}
+        if P.get("wokwi_id") or str(P.get("language", "")).lower() in ("wokwi", "analog") or P.get("analog_pins"): return key, macro, "Wokwi ou analogique : outils à venir", "skip"
+        commit = json.loads(git("cat-file", "-p", f"HEAD:{base}/commit_id.json", cwd=work))
         gl = git("cat-file", "-p", f"HEAD:{base}/{macro}.v", cwd=work)
         tmp = os.path.join(work, f"_{key}_" + os.path.basename(lay)); open(tmp, "wb").write(git("cat-file", "-p", f"HEAD:{lay}", cwd=work, binary=True))
-        if wid and str(wid) != "0":
-            try:
-                diagram, src = wokwi_diagram(work, base, wid, os.path.join(os.path.dirname(src_work), "_wokwi"))
-                try: res = analyze_wokwi(tmp, gl, info, commit, diagram, macro, wid)
-                finally:
-                    try: os.remove(tmp)
-                    except OSError: pass
-            except Exception as e:
-                try: os.remove(tmp)
-                except OSError: pass
-                return key, macro, f"ERREUR Wokwi {str(e)[:200]}", "err"
-            open(out + ".part", "w", encoding="utf-8").write(json.dumps(res, ensure_ascii=False, separators=(",", ":"))); os.replace(out + ".part", out)
-            W = res["wokwi"]; linked = sum(m["c"] for m in res["mods"] if not m["p"].startswith("#"))
-            return key, macro, f"Wokwi ({src}) : {len(W['elems'])} éléments, {linked}/{len(res['cells']['x'])} cellules reliées au schéma" + (f", {len(W['removed'])} retirés" if W["removed"] else ""), "wokwi"
         try:
             get = repo_files(commit["repo"], commit["commit"], src_work) if commit.get("repo") else (lambda q: None)
         except Exception as e:
@@ -579,7 +433,6 @@ def main():
     ap.add_argument("--out", default="cartes/maps4"); ap.add_argument("--work", default="travail", help="dépôts des navettes (ceux de cda_maps.py sont réutilisés)")
     ap.add_argument("--only", default=""); ap.add_argument("--force", action="store_true"); ap.add_argument("--jobs", type=int, default=max(1, min(6, (os.cpu_count() or 2) - 1)))
     ap.add_argument("--index-dir", default="", help="(test) lire <navette>.json dans ce dossier au lieu de index.tinytapeout.com")
-    ap.add_argument("--wokwi", action="store_true", help="seulement les projets Wokwi (tt_um_wokwi_*) ; avec --force, refait leurs fiches")
     a = ap.parse_args()
     only = set(x for x in a.only.split(",") if x)
     if a.shuttles == "all":
@@ -614,7 +467,6 @@ def main():
         for p in idx["projects"]:
             macro, key = p["macro"], f"a{int(p['address'])}"
             if only and macro not in only: continue
-            if a.wokwi and not re.match(r"tt_um_wokwi_\d{6,}$", macro): continue
             out = os.path.join(outdir, key + ".code.json")
             if os.path.exists(out) and not a.force: n["déjà faites"] += 1; continue
             if (p.get("tiles") or "1x1") not in ("1x1", "1x2"): n["grandes tuiles (plus tard)"] += 1; continue
@@ -626,7 +478,7 @@ def main():
         if jobs:
             with Pool(a.jobs) as pool:
                 for k, (key, macro, msg, st) in enumerate(pool.imap_unordered(one_project, jobs), 1):
-                    n[{"ok": "fiches écrites", "wokwi": "fiches Wokwi", "skip": "analogiques (plus tard)", "err": "erreurs"}[st]] += 1
+                    n[{"ok": "fiches écrites", "skip": "Wokwi / analogiques (plus tard)", "err": "erreurs"}[st]] += 1
                     log(f"   [{k}/{len(jobs)}] {key} {macro} : {msg}")
         log(f"   {sid} : " + ", ".join(f"{v} {k}" for k, v in n.items()))
         tot.update(n)
@@ -635,5 +487,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Notes — projets analogiques : pas de cellules standard ; on reconnaîtra les composants par leurs couches (transistors : poly sur
+# Notes — projets Wokwi : info.yaml donne wokwi_id ; le schéma (diagram.json, sur wokwi.com) nomme chaque porte (and1, xor2…)
+# et la liste des connexions garde ces noms : on reliera chaque cellule à la porte du schéma (lien vers le projet Wokwi).
+# Projets analogiques : pas de cellules standard ; on reconnaîtra les composants par leurs couches (transistors : poly sur
 # diffusion, condensateurs MIM : couche capm, résistances : couches de marquage) et on lira les étiquettes du dessin.
