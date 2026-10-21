@@ -254,6 +254,30 @@ def comb_context(cells, sig):
         if names: reads[c] = names[:8]
     return tgt, reads
 
+def simulation_netlist(gl_text, cells, code_idx):
+    alias = {}
+    for a, b in re.findall(r"\n\s*assign\s+(\S+(?:\s*\[\d+\])?)\s*=\s*(\S+?)\s*;", gl_text):
+        alias[b.strip()] = a.replace(" ", "").strip()
+    net_id, names = {}, {}
+    def nid(n):
+        n = n.strip()
+        if n in alias: n = alias[n]
+        if n not in net_id:
+            net_id[n] = len(net_id)
+            if not re.match(r"^(_\d+_|net\d+|clknet_\w+)$", n): names[net_id[n]] = n.lstrip("\\").strip()
+        return net_id[n]
+    types, tix, out, ci = [], {}, [], []
+    for c, (t, pins) in cells.items():
+        base = t.split("__")[-1]
+        if re.match(r"(decap|fill|tapvpwrvgnd|antenna|diode|endcap)", base): continue
+        key = (base, tuple(sorted(pins)))
+        if key not in tix: tix[key] = len(types); types.append({"t": base, "p": sorted(pins)})
+        T = types[tix[key]]
+        out.append([tix[key]] + [nid(pins[p]) if pins[p] and not pins[p].startswith("1'b") else (-2 if pins[p] == "1'b1" else -1) for p in T["p"]])
+        ci.append(code_idx.get(c, -1))
+    for port in ("clk", "rst_n", "ena") + tuple(f"{b}[{i}]" for b in ("ui_in", "uio_in", "uo_out", "uio_out", "uio_oe") for i in range(8)): nid(port)
+    return {"types": types, "cells": out, "code": ci, "nets": len(net_id), "names": {str(k): v for k, v in names.items()}}
+
 # ---------- un projet ----------
 def analyze(layout_path, gl_text, info, commit, get_src, macro):
     import gdstk
@@ -326,10 +350,13 @@ def analyze(layout_path, gl_text, info, commit, get_src, macro):
         if r and r not in rdi: rdi[r] = len(rd); rd.append(list(r))
         Ri.append(rdi[r] if r else -1)
     for k, m in enumerate(mods): m["c"] = cnt[k]
-    # on ne garde que les fichiers cités (affichage des extraits)
+    # liste des connexions pour la simulation en jeu (banc de test, oscilloscope) : toutes les cellules actives, y compris
+    # les constantes (conb) ; fils numérotés, noms gardés pour les fils nommés et les broches
+    sim = simulation_netlist(gl_text, cells, {c: k for k, c in enumerate(c for c in own if c in pos)})
+
     used = {m[k][0] for m in mods for k in ("i", "d") if k in m} | {s["d"][0] for s in sigs if "d" in s} | {w[0] for s in sigs for w in s.get("w", [])}
     return {"v": 2, "macro": macro, "lang": P.get("language", ""), "repo": commit.get("repo", ""), "commit": commit.get("commit", ""), "top": top_mod,
-            "files": {f: t for f, t in files.items() if f in used}, "urls": {f: u for f, u in urls.items() if f in used}, "mods": mods, "sigs": sigs, "rd": rd, "cells": {"x": X, "y": Y, "m": Mi, "s": Si, "t": Ti, "r": Ri}}
+            "files": {f: t for f, t in files.items() if f in used}, "urls": {f: u for f, u in urls.items() if f in used}, "mods": mods, "sigs": sigs, "rd": rd, "sim": sim, "pinout": {k: v for k, v in (info.get("pinout") or {}).items() if v}, "cells": {"x": X, "y": Y, "m": Mi, "s": Si, "t": Ti, "r": Ri}}
 
 # ---------- navettes ----------
 def fetch_json(url):
