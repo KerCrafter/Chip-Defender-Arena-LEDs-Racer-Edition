@@ -366,7 +366,7 @@ def analyze(layout_path, gl_text, info, commit, get_src, macro):
 
 # ---------- navettes ----------
 def fetch_json(url):
-    with urllib.request.urlopen(url, timeout=60) as r: return json.loads(r.read())
+    with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "cda-code-tuiles"}), timeout=60) as r: return json.loads(r.read())
 
 def gh_https(url):
     url = url.strip()
@@ -443,11 +443,18 @@ def main():
     from multiprocessing import Pool
     for sid in sids:
         log(f"== {sid}")
+        idx, work = None, os.path.join(a.work, sid)
         try: idx = json.load(open(os.path.join(a.index_dir, sid + ".json"), encoding="utf-8")) if a.index_dir else fetch_json(f"https://index.tinytapeout.com/{sid}.json")
-        except Exception as e: log(f"   index introuvable ({e}) : navette ignorée"); continue
-        repo = idx["repo"].rstrip("/"); work = os.path.join(a.work, sid)
+        except Exception as e:
+            # hors ligne ou site fermé : la liste des projets est aussi dans l'index des cartes (cartes/maps4/<navette>/index.json)
+            try:
+                L = json.load(open(os.path.join(a.out, sid, "index.json"), encoding="utf-8"))
+                idx = {"repo": "", "projects": [{"macro": q["m"], "address": q["a"], "tiles": q.get("ti") or "1x1"} for q in L.get("p", []) if q.get("m")]}
+            except Exception as e2: log(f"   liste des projets introuvable ({e} ; {e2}) : navette ignorée"); continue
+        repo = (idx.get("repo") or "").rstrip("/")
         try:
             if not os.path.isdir(os.path.join(work, ".git")):
+                if not repo: raise RuntimeError("dépôt de la navette pas encore téléchargé (lancer-cartes.bat)")
                 os.makedirs(a.work, exist_ok=True); log(f"   clonage de {repo} (sans les fichiers, ils viennent à la demande)")
                 git("clone", "-q", "--filter=blob:none", "--no-checkout", repo + ".git", work)
             files = git("ls-tree", "-r", "--name-only", "HEAD", cwd=work).split("\n")
