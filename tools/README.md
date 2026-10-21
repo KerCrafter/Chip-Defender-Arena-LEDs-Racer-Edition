@@ -62,7 +62,7 @@ reprise là où ça s'est arrêté), puis publier sur R2. Les projets Wokwi, ana
 Les projets Wokwi (`tt_um_wokwi_<id>`) n'ont pas de code source : leur fiche porte le **schéma du concepteur** à la place.
 `code_tuiles.py` lit le dessin Wokwi (`projects/<macro>/wokwi-diagram.json` dans le dépôt de la navette depuis tt04, sinon
 téléchargé une fois sur `wokwi.com` et gardé dans `travail/_wokwi/`), le redessine en SVG propre (symboles normalisés, fils
-routés à l'horizontale et à la verticale, alimentations en symboles), et relie chaque cellule de la puce à son élément du
+tracés comme le concepteur les a posés dans Wokwi, alimentations en symboles), et relie chaque cellule de la puce à son élément du
 schéma (porte, multiplexeur, bascule). En jeu, le scanner montre le schéma, allume l'élément visé et ses fils, et le banc de
 test fait circuler les valeurs dessus. Dépend de `wokwi_schema.py` (à côté de `code_tuiles.py`).
 

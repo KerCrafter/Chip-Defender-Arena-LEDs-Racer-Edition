@@ -3,8 +3,9 @@
 
 À partir du diagram.json de Wokwi (le dessin du concepteur), produit ce que le jeu affiche à la place du code :
   - les éléments logiques du schéma (portes, multiplexeurs, bascules), leurs réseaux, les entrées / sorties de la puce
-  - le schéma redessiné en SVG : symboles normalisés aux positions d'origine, fils routés à l'horizontale et à la
-    verticale (routeur A* sur grille : les boîtiers sont évités, les croisements pénalisés, les bus regroupés),
+  - le schéma redessiné en SVG : symboles normalisés aux positions d'origine, fils tels que le concepteur les a posés
+    (tracé « connections » du diagram.json : instructions h/v depuis chaque broche) ; à défaut de tracé, routeur A*
+    sur grille (boîtiers évités, croisements pénalisés, bus regroupés, 40 s au plus par schéma),
     VCC et masse en symboles d'alimentation posés sur la broche
   - une lecture du circuit en quelques phrases (familles d'éléments, bus, profondeur logique)
 Les éléments sans fil ou dont la sortie ne va nulle part sont retirés, comme Yosys le fait à la synthèse : ils n'ont
@@ -281,6 +282,29 @@ class Router:
         pts = [cells[0]] + [b for a, b, c in zip(cells, cells[1:], cells[2:]) if (b[0] - a[0], b[1] - a[1]) != (c[0] - b[0], c[1] - b[1])] + [cells[-1]]
         return [self.xy(c) for c in pts]
 
+# ---------- le câblage du concepteur ----------
+# Chaque connexion du dessin Wokwi porte son tracé : une liste d'instructions « hN » (horizontal) et « vN » (vertical),
+# appliquées depuis la broche de départ ; celles après « * » partent de la broche d'arrivée. Entre les deux, une équerre.
+# On reproduit donc exactement les fils tels que le concepteur les a posés : fidèle, et instantané (pas de recherche de chemin).
+_MOVE = re.compile(r"^([hv])(-?\d+(?:\.\d+)?)$")
+def designer_path(p0, p1, instr):
+    head, tail, cur = [], [], None
+    for t in instr or []:
+        if t == "*": cur = tail; continue
+        m = _MOVE.match(str(t).strip())
+        if m: (head if cur is None else tail).append((m.group(1), float(m.group(2))))
+    pts, (x, y) = [], p0
+    for k, v in head:
+        x, y = (x + v, y) if k == "h" else (x, y + v); pts.append((x, y))
+    back, (bx, by) = [], p1
+    for k, v in tail:
+        bx, by = (bx + v, by) if k == "h" else (bx, by + v); back.append((bx, by))
+    if abs(x - bx) > 0.01 and abs(y - by) > 0.01:   # équerre entre la fin du départ et le début de l'arrivée
+        last = head[-1][0] if head else None
+        pts.append((x, by) if last == "h" else (bx, y))
+    pts += back[::-1]
+    return pts
+
 # ---------- rendu SVG ----------
 def sym_svg(g):
     s, w, h = g["sym"], g["w"], g["h"]
@@ -394,6 +418,10 @@ def render_svg(d, a):
     junctions = []
     for _, c, p0, p1, root, nm in conns:
         col = WIRE_COLORS.get(c[2], c[2] if str(c[2]).startswith("#") else "#3fbf5f")
+        if len(c) > 3 and isinstance(c[3], list):   # le tracé posé par le concepteur
+            pts = designer_path(p0, p1, c[3])
+            dd = f"M{p0[0]:.1f},{p0[1]:.1f} " + " ".join(f"L{x:.1f},{y:.1f}" for x, y in pts) + f" L{p1[0]:.1f},{p1[1]:.1f}"
+            out.append(f'<path class="wire" data-net="{nm}" stroke="{col}" d="{dd}"/>'); continue
         before = {cell for cell, o in rt.occ.items() if any(n == root for n, _ in o)}
         pts = rt.route(p0, p1, root)
         if pts is None: dd = f"M{p0[0]:.1f},{p0[1]:.1f} L{(p0[0] + p1[0]) / 2:.1f},{p0[1]:.1f} L{(p0[0] + p1[0]) / 2:.1f},{p1[1]:.1f} L{p1[0]:.1f},{p1[1]:.1f}"   # pas de chemin trouvé à temps : équerre simple
