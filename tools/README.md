@@ -55,3 +55,15 @@ sonde de fil, oscilloscope). Sur le PC : double-cliquer `fiches-code.bat` (toute
 reprise là où ça s'est arrêté), puis publier sur R2. Les projets Wokwi, analogiques et les grandes tuiles viendront plus tard.
 
     python code_tuiles.py --shuttles all --out cartes/maps4 --work travail [--jobs 4] [--only <macro>] [--force]
+
+
+### Projets Wokwi
+
+Les projets Wokwi (`tt_um_wokwi_<id>`) n'ont pas de code source : leur fiche porte le **schéma du concepteur** à la place.
+`code_tuiles.py` lit le dessin Wokwi (`projects/<macro>/wokwi-diagram.json` dans le dépôt de la navette depuis tt04, sinon
+téléchargé une fois sur `wokwi.com` et gardé dans `travail/_wokwi/`), le redessine en SVG propre (symboles normalisés, fils
+routés à l'horizontale et à la verticale, alimentations en symboles), et relie chaque cellule de la puce à son élément du
+schéma (porte, multiplexeur, bascule). En jeu, le scanner montre le schéma, allume l'élément visé et ses fils, et le banc de
+test fait circuler les valeurs dessus. Dépend de `wokwi_schema.py` (à côté de `code_tuiles.py`).
+
+Pour ne (re)faire que les projets Wokwi : `python code_tuiles.py --shuttles all --out cartes/maps4 --work travail --wokwi`
