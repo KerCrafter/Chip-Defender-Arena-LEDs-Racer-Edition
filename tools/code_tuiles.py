@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fiches « code » des tuiles : relie chaque cellule logique de la puce à son module et à son code source.
 
-  python code_tuiles.py --shuttles ttsky25b --out cartes/maps4 [--work cartes/_work] [--only tt_um_kercrafter_leds_racer] [--force]
+  python code_tuiles.py [--shuttles all|ttsky25b,tt06] [--out cartes/maps4] [--work travail] [--only tt_um_kercrafter_leds_racer] [--force] [--jobs 4]
 
 Pour chaque projet d'une navette Tiny Tapeout, à partir du dépôt de la navette (déjà cloné par cda_maps.py, sinon cloné ici) :
   <macro>.oas      le dessin : nom et position de chaque cellule (propriété 61)
@@ -17,7 +17,7 @@ et des sources du projet, prises au commit fabriqué (clone partiel, seuls les f
               d: [fichier, ligne] de la définition, c: nombre de cellules }
   sigs[j] = { n: nom de la variable (avec [bit]), m: module, d: [fichier, ligne] de la déclaration }
   cells   = positions (unités de grille de la carte, coin bas-gauche) des cellules logiques et leur module (m) / signal (s, -1 sinon)
-Seuls les projets en Verilog (une tuile) sont traités pour l'instant ; Wokwi et analogique : voir les notes en fin de fichier.
+Bibliothèques SKY130, IHP (sg13g2) et GF180MCU. Seuls les projets en Verilog (une ou deux tuiles) sont traités pour l'instant ; Wokwi et analogique : voir les notes en fin de fichier.
 Dépendances : Python 3.9+, git, et  pip install gdstk pyyaml
 """
 import argparse, collections, json, os, re, subprocess, sys, urllib.request
@@ -31,8 +31,12 @@ KW = {"if", "else", "for", "while", "case", "casez", "casex", "assign", "always"
       "localparam", "generate", "endgenerate", "genvar", "integer", "default", "posedge", "negedge", "or", "and", "not", "assert", "repeat"}
 
 def log(*a): print(*a, flush=True)
-def git(*args, cwd=None, binary=False):
-    r = subprocess.run(["git", *args], cwd=cwd, capture_output=True)
+# nom court d'une cellule, quelle que soit la bibliothèque : sky130_fd_sc_hd__nand2_1, sg13g2_nand2_1 (IHP),
+# gf180mcu_fd_sc_mcu7t5v0__nand2_1 (GlobalFoundries) -> nand2_1
+def cell_base(t): return re.sub(r"^(.*__|sg13g2_)", "", t)
+GIT_ENV = dict(os.environ, GIT_TERMINAL_PROMPT="0", GCM_INTERACTIVE="never", GIT_ASKPASS="echo")   # jamais de fenêtre de connexion (dépôt supprimé ou privé)
+def git(*args, cwd=None, binary=False, timeout=600):
+    r = subprocess.run(["git", *args], cwd=cwd, capture_output=True, env=GIT_ENV, timeout=timeout)
     if r.returncode: raise RuntimeError(r.stderr.decode(errors="replace").strip()[:300])
     return r.stdout if binary else r.stdout.decode(errors="replace")
 
@@ -268,7 +272,7 @@ def simulation_netlist(gl_text, cells, code_idx):
         return net_id[n]
     types, tix, out, ci = [], {}, [], []
     for c, (t, pins) in cells.items():
-        base = t.split("__")[-1]
+        base = cell_base(t)
         if re.match(r"(decap|fill|tapvpwrvgnd|antenna|diode|endcap)", base): continue
         key = (base, tuple(sorted(pins)))
         if key not in tix: tix[key] = len(types); types.append({"t": base, "p": sorted(pins)})
@@ -289,6 +293,8 @@ def analyze(layout_path, gl_text, info, commit, get_src, macro):
     pos = {}
     for r in top.references:
         nm = r.get_gds_property(61)
+        if isinstance(nm, bytes): nm = nm.decode(errors="replace")
+        nm = (nm or "").strip().strip("\x00").strip()   # IHP : le nom finit par un octet nul
         if not nm: continue
         (ax, ay), _ = r.bounding_box()
         pos[nm.strip()] = (max(0, round(ax / GRID) - ox), max(0, round(ay / GRID) - oy))
@@ -396,43 +402,80 @@ def repo_files(repo, commit, work):
         return None
     return get
 
+def one_project(job):
+    """une fiche ; renvoie (clé, macro, texte du journal, statut) — exécuté dans un processus à part"""
+    sid, work, src_work, p, base, lay, out = job
+    macro, key = p["macro"], f"a{int(p['address'])}"
+    try:
+        import yaml
+        info = yaml.safe_load(git("cat-file", "-p", f"HEAD:{base}/info.yaml", cwd=work)) or {}
+        P = info.get("project", {})
+        if P.get("wokwi_id") or str(P.get("language", "")).lower() in ("wokwi", "analog") or P.get("analog_pins"): return key, macro, "Wokwi ou analogique : outils à venir", "skip"
+        commit = json.loads(git("cat-file", "-p", f"HEAD:{base}/commit_id.json", cwd=work))
+        gl = git("cat-file", "-p", f"HEAD:{base}/{macro}.v", cwd=work)
+        tmp = os.path.join(work, f"_{key}_" + os.path.basename(lay)); open(tmp, "wb").write(git("cat-file", "-p", f"HEAD:{lay}", cwd=work, binary=True))
+        try:
+            get = repo_files(commit["repo"], commit["commit"], src_work) if commit.get("repo") else (lambda q: None)
+        except Exception as e:
+            get = lambda q: None   # sources introuvables (dépôt supprimé…) : la fiche garde les modules et la simulation
+        try: res = analyze(tmp, gl, info, commit, get, macro)
+        finally:
+            try: os.remove(tmp)
+            except OSError: pass
+        open(out + ".part", "w", encoding="utf-8").write(json.dumps(res, ensure_ascii=False, separators=(",", ":"))); os.replace(out + ".part", out)
+        return key, macro, f"{len(res['mods'])} modules, {len(res['cells']['x'])} cellules, {len(res['sigs'])} variables" + ("" if res["files"] else " (sans le code source)"), "ok"
+    except Exception as e:
+        return key, macro, f"ERREUR {str(e)[:200]}", "err"
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--shuttles", default="ttsky25b"); ap.add_argument("--out", default="cartes/maps4"); ap.add_argument("--work", default="cartes/_work")
-    ap.add_argument("--only", default=""); ap.add_argument("--force", action="store_true")
+    ap.add_argument("--shuttles", default="all", help="navettes séparées par des virgules, ou all (celles de <out>/shuttles.json)")
+    ap.add_argument("--out", default="cartes/maps4"); ap.add_argument("--work", default="travail", help="dépôts des navettes (ceux de cda_maps.py sont réutilisés)")
+    ap.add_argument("--only", default=""); ap.add_argument("--force", action="store_true"); ap.add_argument("--jobs", type=int, default=max(1, min(6, (os.cpu_count() or 2) - 1)))
+    ap.add_argument("--index-dir", default="", help="(test) lire <navette>.json dans ce dossier au lieu de index.tinytapeout.com")
     a = ap.parse_args()
-    import yaml
     only = set(x for x in a.only.split(",") if x)
-    for sid in a.shuttles.split(","):
-        idx = fetch_json(f"https://index.tinytapeout.com/{sid}.json")
+    if a.shuttles == "all":
+        sids = [x["id"] for x in json.load(open(os.path.join(a.out, "shuttles.json"), encoding="utf-8"))]
+    else: sids = [x for x in a.shuttles.split(",") if x]
+    src_work = os.path.join(a.work, "_src")
+    tot = collections.Counter()
+    from multiprocessing import Pool
+    for sid in sids:
+        log(f"== {sid}")
+        try: idx = json.load(open(os.path.join(a.index_dir, sid + ".json"), encoding="utf-8")) if a.index_dir else fetch_json(f"https://index.tinytapeout.com/{sid}.json")
+        except Exception as e: log(f"   index introuvable ({e}) : navette ignorée"); continue
         repo = idx["repo"].rstrip("/"); work = os.path.join(a.work, sid)
-        if not os.path.isdir(os.path.join(work, ".git")): git("clone", "-q", "--filter=blob:none", "--no-checkout", repo + ".git", work)
-        files = git("ls-tree", "-r", "--name-only", "HEAD", cwd=work).split("\n")
+        try:
+            if not os.path.isdir(os.path.join(work, ".git")):
+                os.makedirs(a.work, exist_ok=True); log(f"   clonage de {repo} (sans les fichiers, ils viennent à la demande)")
+                git("clone", "-q", "--filter=blob:none", "--no-checkout", repo + ".git", work)
+            files = git("ls-tree", "-r", "--name-only", "HEAD", cwd=work).split("\n")
+        except Exception as e: log(f"   dépôt de la navette inaccessible ({e}) : navette ignorée"); continue
         outdir = os.path.join(a.out, sid); os.makedirs(outdir, exist_ok=True)
-        done = skipped = 0
+        jobs, n = [], collections.Counter()
+        vfiles = {}   # macro -> dossier du projet (celui de projects/ d'abord)
+        for f in sorted((f for f in files if f.endswith(".v")), key=lambda f: not f.startswith("projects/")):
+            vfiles.setdefault(f.rsplit("/", 1)[-1][:-2], f.rsplit("/", 1)[0])
         for p in idx["projects"]:
             macro, key = p["macro"], f"a{int(p['address'])}"
             if only and macro not in only: continue
             out = os.path.join(outdir, key + ".code.json")
-            if os.path.exists(out) and not a.force: skipped += 1; continue
-            if (p.get("tiles") or "1x1") not in ("1x1", "1x2"): continue   # grandes tuiles découpées : plus tard
-            base = next((f.rsplit("/", 1)[0] for f in files if f.endswith(f"/{macro}.v")), None)
+            if os.path.exists(out) and not a.force: n["déjà faites"] += 1; continue
+            if (p.get("tiles") or "1x1") not in ("1x1", "1x2"): n["grandes tuiles (plus tard)"] += 1; continue
+            base = vfiles.get(macro)
             lay = next((f for f in files if base and f.startswith(base + "/") and f.endswith((f"{macro}.oas", f"{macro}.gds"))), None)
-            if not base or not lay: continue
-            try:
-                info = yaml.safe_load(git("cat-file", "-p", f"HEAD:{base}/info.yaml", cwd=work)) or {}
-                P = info.get("project", {})
-                if P.get("wokwi_id") or str(P.get("language", "")).lower() in ("wokwi", "analog") or P.get("analog_pins"): continue   # outils à venir
-                commit = json.loads(git("cat-file", "-p", f"HEAD:{base}/commit_id.json", cwd=work))
-                gl = git("cat-file", "-p", f"HEAD:{base}/{macro}.v", cwd=work)
-                tmp = os.path.join(work, os.path.basename(lay)); open(tmp, "wb").write(git("cat-file", "-p", f"HEAD:{lay}", cwd=work, binary=True))
-                get = repo_files(commit["repo"], commit["commit"], a.work) if commit.get("repo") else (lambda q: None)
-                res = analyze(tmp, gl, info, commit, get, macro); os.remove(tmp)
-                open(out + ".part", "w", encoding="utf-8").write(json.dumps(res, ensure_ascii=False, separators=(",", ":"))); os.replace(out + ".part", out)
-                done += 1; log(f"   {key} {macro} : {len(res['mods'])} modules, {len(res['cells']['x'])} cellules, {len(res['sigs'])} variables")
-            except Exception as e:
-                log(f"   {key} {macro} : ERREUR {e}")
-        log(f"{sid} : {done} fiches écrites, {skipped} déjà faites")
+            if not base or not lay: n["sans liste des connexions"] += 1; continue
+            jobs.append((sid, work, src_work, p, base, lay, out))
+        log(f"   {len(idx['projects'])} projets, {len(jobs)} fiches à faire" + "".join(f", {v} {k}" for k, v in n.items()))
+        if jobs:
+            with Pool(a.jobs) as pool:
+                for k, (key, macro, msg, st) in enumerate(pool.imap_unordered(one_project, jobs), 1):
+                    n[{"ok": "fiches écrites", "skip": "Wokwi / analogiques (plus tard)", "err": "erreurs"}[st]] += 1
+                    log(f"   [{k}/{len(jobs)}] {key} {macro} : {msg}")
+        log(f"   {sid} : " + ", ".join(f"{v} {k}" for k, v in n.items()))
+        tot.update(n)
+    log("\nTotal : " + ", ".join(f"{v} {k}" for k, v in tot.items()))
 
 if __name__ == "__main__":
     main()

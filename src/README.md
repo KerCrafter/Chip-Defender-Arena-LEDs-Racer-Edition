@@ -7,7 +7,7 @@ Ces fichiers sont inclus dans la page par `build.py` (`<script>/*@include src/�
 | `cda-codec.js` | Lire et écrire les formats de carte (CDA2, CDA3, CDA4) | Jeu, affichage, réseau |
 | `world-store.js` | **Magasin du monde** : les formes en mémoire, rangées par bloc de 80 µm ; ajout et retrait d'un bloc sans rien reconstruire ; recherches spatiales (`each`, `at`) ; numéro fixe d'une forme (`gid` = bloc × 2¹⁸ + rang) | Affichage, réseau, règles du jeu |
 | `world-worker.js` | **Fil de calcul des blocs** (Web Worker) : décompresse un bloc CDA4 et le prépare (formes en coordonnées de jeu, grille de recherche, ordre par sous-bloc d'affichage) hors de l'écran | Tout ce qui n'est pas la préparation d'un bloc |
-| `gate-sim.js` | **Simulateur porte par porte** (solo) : déduit la fonction de chaque cellule SKY130 depuis son nom, la compile en petit programme (sans `eval`), propage la logique et fait avancer les bascules d'un cycle d'horloge | Affichage, carte, règles du jeu |
+| `gate-sim.js` | **Simulateur porte par porte** (solo) : déduit la fonction de chaque cellule (bibliothèques SKY130, IHP et GF180) depuis son nom, la compile en petit programme (sans `eval`), propage la logique et fait avancer les bascules d'un cycle d'horloge | Affichage, carte, règles du jeu |
 
 Côté page (`game.html`), les autres rôles s'appuient sur ces modules :
 

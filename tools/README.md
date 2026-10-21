@@ -46,3 +46,12 @@ haut de l'écran du MUX ; chaque carte n'est téléchargée que lorsqu'on la cho
 - Quand une navette n'a pas de plan officiel (`docs/images/chip_map.svg`), le MUX montre un plan schématique
   rangé par adresse.
 - Un projet sans layout dans le dépôt de la navette reste grisé.
+
+## code_tuiles.py — fiches « code » des tuiles (outils d'exploration en solo)
+
+Pour chaque projet Verilog d'une ou deux tuiles (SKY130, IHP, GF180) : relie chaque cellule du dessin à son module et à
+la ligne du code source qui la produit, et exporte la liste des connexions pour la simulation en jeu (banc de test,
+sonde de fil, oscilloscope). Sur le PC : double-cliquer `fiches-code.bat` (toutes les navettes de `cartes\maps4`,
+reprise là où ça s'est arrêté), puis publier sur R2. Les projets Wokwi, analogiques et les grandes tuiles viendront plus tard.
+
+    python code_tuiles.py --shuttles all --out cartes/maps4 --work travail [--jobs 4] [--only <macro>] [--force]
