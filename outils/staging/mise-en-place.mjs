@@ -67,11 +67,9 @@ const ghJson = args => JSON.parse(ghOk(args) || "null");
 
 async function githubLogin() {
   title("Connexion à GitHub");
-  if (gh(["auth", "status", "-h", "github.com"]).status === 0) { okM("déjà connecté (gh)"); return; }
-  info("Une page GitHub va s'ouvrir : recopie le code affiché ici, puis « Authorize ».");
-  const r = gh(["auth", "login", "-h", "github.com", "--web", "--git-protocol", "https", "-s", "repo,workflow"], { stdio: "inherit" });
-  if (r.status !== 0) throw new Error("connexion à GitHub interrompue");
-  okM("connecté à GitHub");
+  // la connexion elle-même est faite par mise-en-place-staging.bat (gh a besoin du clavier, que ce script garde)
+  if (gh(["auth", "status", "-h", "github.com"]).status === 0) { okM("connecté (gh)"); return; }
+  throw new Error("pas connecté à GitHub : lance « gh auth login -w -s repo,workflow » ou relance mise-en-place-staging.bat");
 }
 
 function findSshKeygen() {
