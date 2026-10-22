@@ -1,5 +1,4 @@
 # Promotion en production : bouton manuel (onglet Actions -> « Promouvoir en production » -> Run workflow).
-# (dépôt privé chip-defender-arena-dev)
 # Dépôt privé chip-defender-arena-dev : avance la branche production jusqu'au dernier commit validé de staging
 # (avance rapide seulement), puis Cloudflare Pages construit et publie la production.
 # La version publiée est aussi poussée sur le dépôt public (branche production) : rien d'autre n'en sort.
@@ -19,6 +18,8 @@ on:
         default: ""
 permissions:
   contents: write
+  checks: read      # lire le résultat de la CI du commit à publier
+  actions: read
 concurrency: { group: promote, cancel-in-progress: false }
 jobs:
   promote:
@@ -37,7 +38,7 @@ jobs:
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
           git log -1 --format='%h %s' "$SHA"
           # le commit doit avoir passé la CI (statut « CI » réussi)
-          STATE=$(gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --jq '[.check_runs[] | select(.name=="test-build")][0].conclusion' || echo "")
+          STATE=$(gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --jq '[.check_runs[] | select(.name=="test-build")][0].conclusion') || { echo "lecture de la CI impossible"; STATE=""; }
           echo "CI : ${STATE:-inconnue}"
           [ "$STATE" = "success" ] || { echo "La CI de ce commit n'est pas verte : promotion refusée"; exit 1; }
         env: { GH_TOKEN: "${{ github.token }}" }
