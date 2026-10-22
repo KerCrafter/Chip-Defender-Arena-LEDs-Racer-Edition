@@ -1,0 +1,13 @@
+{
+  "name": "chip-defender-arena",
+  "private": true,
+  "description": "Chip Defender Arena · LEDs Racer Edition — source du jeu, build par environnement (production / staging)",
+  "scripts": {
+    "build": "cd i18n && npm ci --silent && cd .. && python3 build/build.py",
+    "build:staging": "cd i18n && npm ci --silent && cd .. && CDA_ENV=staging python3 build/build.py",
+    "build:production": "cd i18n && npm ci --silent && cd .. && CDA_ENV=production python3 build/build.py",
+    "test": "node --test test/unit/*.test.mjs",
+    "e2e:prepare": "sh test/e2e/prepare.sh",
+    "e2e": "sh test/e2e/run.sh"
+  }
+}

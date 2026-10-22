@@ -1,0 +1,10 @@
+{
+ "env": "staging",
+ "url": "https://staging.chip-defender-arena.kercrafter.live/",
+ "csp_servers": [
+  "auth-staging.kercrafter.live",
+  "cda-serveur-staging.kercrafterlab.workers.dev"
+ ],
+ "noindex": true,
+ "badge": "STAGING"
+}

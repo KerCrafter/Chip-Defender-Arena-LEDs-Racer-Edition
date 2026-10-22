@@ -1,0 +1,66 @@
+# Promotion en production : bouton manuel (onglet Actions -> « Promouvoir en production » -> Run workflow).
+# Dépôt privé chip-defender-arena-dev : avance la branche production jusqu'au dernier commit validé de staging
+# (avance rapide seulement), puis Cloudflare Pages construit et publie la production.
+# La version publiée est aussi poussée sur le dépôt public (branche production) : rien d'autre n'en sort.
+# Secret requis pour cette copie : PUBLIC_DEPLOY_KEY (clé SSH « deploy key » avec écriture sur le dépôt public).
+# Une étiquette prod-AAAAMMJJ-HHMM garde la trace
+# (retour arrière : relancer ce bouton avec « ref » = une ancienne étiquette).
+name: Promouvoir en production
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Tape PROD pour confirmer"
+        required: true
+      ref:
+        description: "Commit ou étiquette à publier (vide = dernier staging)"
+        required: false
+        default: ""
+permissions:
+  contents: write
+concurrency: { group: promote, cancel-in-progress: false }
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirmation
+        if: ${{ inputs.confirm != 'PROD' }}
+        run: echo "Confirmation absente (tape PROD)"; exit 1
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Vérifier le commit à publier
+        id: pick
+        run: |
+          REF="${{ inputs.ref }}"; [ -n "$REF" ] || REF=origin/staging
+          SHA=$(git rev-parse --verify "$REF^{commit}")
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          git log -1 --format='%h %s' "$SHA"
+          # le commit doit avoir passé la CI (statut « CI » réussi)
+          STATE=$(gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --jq '[.check_runs[] | select(.name=="test-build")][0].conclusion' || echo "")
+          echo "CI : ${STATE:-inconnue}"
+          [ "$STATE" = "success" ] || { echo "La CI de ce commit n'est pas verte : promotion refusée"; exit 1; }
+        env: { GH_TOKEN: "${{ github.token }}" }
+      - name: Avancer production
+        run: |
+          SHA=${{ steps.pick.outputs.sha }}
+          if git rev-parse --verify -q origin/production >/dev/null && [ -z "${{ inputs.ref }}" ]; then
+            git merge-base --is-ancestor origin/production "$SHA" || { echo "production n'est pas un ancêtre de staging : avance rapide impossible"; exit 1; }
+            git push origin "$SHA:refs/heads/production"
+          else
+            git push --force origin "$SHA:refs/heads/production"   # première fois, ou retour arrière vers une étiquette
+          fi
+          TAG=prod-$(date -u +%Y%m%d-%H%M)
+          git tag "$TAG" "$SHA" && git push origin "$TAG"
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+          echo "Publié : $SHA ($TAG)" >> "$GITHUB_STEP_SUMMARY"
+      - name: Copie vers le dépôt public
+        env: { KEY: "${{ secrets.PUBLIC_DEPLOY_KEY }}" }
+        run: |
+          if [ -z "$KEY" ]; then echo "::warning::secret PUBLIC_DEPLOY_KEY absent : la version n'est pas copiée sur le dépôt public"; exit 0; fi
+          mkdir -p ~/.ssh && printf '%s\n' "$KEY" > ~/.ssh/pub && chmod 600 ~/.ssh/pub
+          ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/pub -o IdentitiesOnly=yes"
+          PUB=git@github.com:KerCrafter/Chip-Defender-Arena-LEDs-Racer-Edition.git
+          git push --force "$PUB" "${{ steps.pick.outputs.sha }}:refs/heads/production"
+          git push "$PUB" "$TAG"
+          echo "Copié sur le dépôt public (branche production, $TAG)" >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,11 @@
+{
+ "_": "sites autorisés à lire les cartes R2 (CORS) : production, ancienne adresse GitHub Pages, staging (domaine perso + adresses Cloudflare Pages)",
+ "origins": [
+  "https://chip-defender-arena.kercrafter.live",
+  "https://kercrafter.github.io",
+  "https://staging.chip-defender-arena.kercrafter.live",
+  "https://chip-defender-arena.pages.dev",
+  "https://staging.chip-defender-arena.pages.dev"
+ ],
+ "version": 2
+}

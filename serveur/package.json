@@ -1,0 +1,9 @@
+{
+  "name": "cda-serveur",
+  "private": true,
+  "type": "module",
+  "description": "Chip Defender Arena : connexion (GitHub, Discord, Google), clé horaire du salon, relais Nostr privé et TURN",
+  "scripts": { "dev": "wrangler dev", "deploy": "wrangler deploy", "setup": "node setup.mjs" },
+  "dependencies": { "@noble/curves": "2.0.1" },
+  "devDependencies": { "wrangler": "4.40.0" }
+}

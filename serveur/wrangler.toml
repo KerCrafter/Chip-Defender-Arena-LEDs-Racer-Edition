@@ -1,0 +1,41 @@
+# Chip Defender Arena · serveur Cloudflare (connexion, clé horaire, relais Nostr, TURN)
+# Les secrets ne sont PAS ici : setup.mjs les pose avec « wrangler secret put ».
+name = "cda-serveur"
+main = "src/worker.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+# adresse personnalisée (zone kercrafter.live gérée par Cloudflare) ; l'adresse workers.dev reste active
+routes = [{ pattern = "auth.kercrafter.live", custom_domain = true }]
+
+[vars]
+# sites autorisés à utiliser la connexion (séparés par des virgules)
+SITE_ORIGINS = "https://chip-defender-arena.kercrafter.live,https://kercrafter.github.io"
+
+[[durable_objects.bindings]]
+name = "RELAY"
+class_name = "Relay"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Relay"]
+
+[observability]
+enabled = true
+
+# ---------------------------------------------------------------------------
+# STAGING : un second Worker, séparé (« wrangler deploy --env staging » -> cda-serveur-staging)
+# Ses propres secrets (MASTER, SIGN_KEY, PUBLIC_KEY) : « node setup-staging.mjs » les pose.
+# Connexion directe seulement (AUTH_DIRECT=1) : aucun fournisseur OAuth n'y est configuré.
+# Garde-fou dans le code : la connexion directe est refusée si SITE_ORIGINS contient la production.
+[env.staging]
+name = "cda-serveur-staging"
+workers_dev = true
+routes = [{ pattern = "auth-staging.kercrafter.live", custom_domain = true }]
+
+[env.staging.vars]
+SITE_ORIGINS = "https://staging.chip-defender-arena.kercrafter.live,https://staging.chip-defender-arena.pages.dev"
+AUTH_DIRECT = "1"
+
+[[env.staging.durable_objects.bindings]]
+name = "RELAY"
+class_name = "Relay"

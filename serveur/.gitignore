@@ -1,0 +1,6 @@
+node_modules/
+.cda-setup.json
+.dev.vars
+.secrets-temp.json
+.wrangler/
+.cda-setup-staging.json

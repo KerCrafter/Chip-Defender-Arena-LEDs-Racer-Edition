@@ -1,0 +1,20 @@
+{
+ "id": "./?app=1",
+ "name": "Chip Defender Arena",
+ "short_name": "Chip Defender",
+ "description": "FPS multijoueur dans le layout réel des puces Tiny Tapeout : Microbes contre Défenseurs.",
+ "lang": "fr",
+ "start_url": "./?app=1",
+ "scope": "./",
+ "display": "fullscreen",
+ "display_override": ["fullscreen", "standalone"],
+ "orientation": "any",
+ "background_color": "#000000",
+ "theme_color": "#006bdf",
+ "categories": ["games", "entertainment"],
+ "icons": [
+  { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+  { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+  { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+ ]
+}

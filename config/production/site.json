@@ -1,0 +1,10 @@
+{
+ "env": "production",
+ "url": "https://chip-defender-arena.kercrafter.live/",
+ "csp_servers": [
+  "auth.kercrafter.live",
+  "cda-serveur.kercrafterlab.workers.dev"
+ ],
+ "noindex": false,
+ "badge": ""
+}

@@ -1,0 +1,29 @@
+# Intégration continue : à chaque envoi sur staging / production (et chaque demande de fusion)
+#   tests unitaires (logique pure) + build des deux environnements + vérification du serveur.
+# Le déploiement lui-même est fait par Cloudflare Pages (branche staging -> staging, branche production -> production).
+name: CI
+on:
+  push: { branches: [staging, production, "test/**"] }
+  pull_request:
+  workflow_dispatch:
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Tests unitaires
+        run: npm test
+      - name: Build staging
+        run: npm run build:staging
+      - name: Build production (garde-fous de configuration compris)
+        run: npm run build:production
+      - name: Serveur (paquet Worker staging et production, sans envoi)
+        working-directory: serveur
+        run: |
+          npm ci --silent
+          npx wrangler deploy --dry-run --outdir /tmp/w-prod
+          npx wrangler deploy --dry-run --env staging --outdir /tmp/w-staging

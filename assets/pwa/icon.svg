@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1" width="512" height="512">
+<rect width="1" height="1" fill="#006bdf"/>
+<svg x="0.177" y="0.0665" width="0.646" height="0.867" viewBox="0 0 380 510" preserveAspectRatio="xMidYMid meet" overflow="hidden">
+  <g><path d="M190 4 L370 66 V232 C370 374 284 454 190 504 C96 454 10 374 10 232 V66 Z" fill="#000"></path>
+    <path d="M190 38 L338 89 V234 C338 352 266 420 190 462 C114 420 42 352 42 234 V89 Z" fill="none" stroke="#fff" stroke-width="6"></path></g>
+  <g><g fill="#fff"><rect x="124" y="104" width="12" height="26"></rect><rect x="124" y="290" width="12" height="26"></rect><rect x="84" y="144" width="26" height="12"></rect><rect x="270" y="144" width="26" height="12"></rect><rect x="164" y="104" width="12" height="26"></rect><rect x="164" y="290" width="12" height="26"></rect><rect x="84" y="184" width="26" height="12"></rect><rect x="270" y="184" width="26" height="12"></rect><rect x="204" y="104" width="12" height="26"></rect><rect x="204" y="290" width="12" height="26"></rect><rect x="84" y="224" width="26" height="12"></rect><rect x="270" y="224" width="26" height="12"></rect><rect x="244" y="104" width="12" height="26"></rect><rect x="244" y="290" width="12" height="26"></rect><rect x="84" y="264" width="26" height="12"></rect><rect x="270" y="264" width="26" height="12"></rect></g><rect x="110" y="130" width="160" height="160" rx="12" fill="#fff"></rect>
+    <rect x="140" y="160" width="100" height="100" rx="6" fill="#006bdf"></rect>
+    <g stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"><circle cx="190" cy="210" r="28"></circle><path d="M190 168V186M190 234V252M148 210H166M214 210H232"></path></g>
+    <circle cx="190" cy="210" r="6" fill="#000"></circle></g>
+  <g><circle cx="130" cy="370" r="13" fill="#ff3b3b"></circle><circle cx="170" cy="370" r="13" fill="#2fe26b"></circle><circle cx="210" cy="370" r="13" fill="#38b6ff"></circle><circle cx="250" cy="370" r="13" fill="#ffd23a"></circle></g>
+  <g font-family="Archivo, 'Arial Black', Arial, Helvetica, sans-serif" font-weight="900">
+    <text x="420" y="162" font-size="172" fill="#000" letter-spacing="-4">CHIP</text>
+    <text x="420" y="320" font-size="150" fill="#000" textLength="800" lengthAdjust="spacingAndGlyphs">DEFENDER</text>
+    <g><rect x="420" y="348" width="800" height="104" fill="#000"></rect>
+      <text x="820" y="431" font-size="86" fill="#fff" text-anchor="middle" textLength="560" lengthAdjust="spacing">ARENA</text></g>
+  </g>
+  <text x="420" y="506" font-family="'JetBrains Mono', Consolas, monospace" font-weight="700" font-size="34" fill="#c8dff7" letter-spacing="10">ÉDITION LEDs RACER</text>
+</svg></svg>
