@@ -1,6 +1,11 @@
 # Mise en place du staging et du déploiement continu
 
-Une fois pour toutes. Tout se fait depuis le tableau de bord Cloudflare et le PC ; aucun secret ne passe par le dépôt.
+Une fois pour toutes, depuis le PC ; aucun secret ne passe par le dépôt.
+
+**Raccourci** : `installer-staging.bat` fait l'étape 1, puis `mise-en-place-staging.bat` (copie de
+`outils/staging/mise-en-place-staging.bat` dans le dossier du PC) fait les étapes 2 à 4 et vérifie le résultat.
+Il demande une connexion GitHub (outil `gh`, installé s'il manque) et un jeton Cloudflare (jamais enregistré).
+Les sections ci-dessous décrivent les mêmes étapes à la main.
 
 ## Vue d'ensemble
 
