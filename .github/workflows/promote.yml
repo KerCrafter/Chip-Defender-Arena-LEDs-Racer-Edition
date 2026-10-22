@@ -1,4 +1,5 @@
 # Promotion en production : bouton manuel (onglet Actions -> « Promouvoir en production » -> Run workflow).
+# (dépôt privé chip-defender-arena-dev)
 # Dépôt privé chip-defender-arena-dev : avance la branche production jusqu'au dernier commit validé de staging
 # (avance rapide seulement), puis Cloudflare Pages construit et publie la production.
 # La version publiée est aussi poussée sur le dépôt public (branche production) : rien d'autre n'en sort.
